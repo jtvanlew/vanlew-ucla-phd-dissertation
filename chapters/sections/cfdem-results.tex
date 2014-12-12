@@ -1,0 +1,76 @@
+\subsection{Pressure Drop}
+Before analyzing thermal results from the CFD-DEM coupling, the system was run at various particle Reynolds numbers and the overall pressure drop of the packed bed was measured. This value was compared against the well-known Kozeny-Carman and Ergun equations. The Kozeny-Carman is known to fit better with experimental data at very small Reynolds numbers. In Fig. 1 we see the CFD-DEM coupling model is providing bed-scale pressure drops that match very well with Kozeny-Carman over the Reynold’s numbers applicable to helium purge flow in fusion reactors.
+The flow is visualized in Fig. 2. The pebble bed is clipped at the centerline to allow viewing of the helium streamlines. Apparent in the figure is temperature profiles in the helium from centerline to wall that qualitatively mirror temperature profiles in the pebble bed.
+
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.75\textwidth}
+                \includegraphics[width=\textwidth]{chapters/figures/pressureDrops-full.png}
+                \caption{Well-packed bed}
+                \label{fig:pressure-drop-full}
+        \end{subfigure}%
+        
+          %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.75\textwidth}
+                \includegraphics[width=\textwidth]{chapters/figures/pressureDrops-evap.png}
+                \caption{Re-settled bed}
+                \label{fig:pressure-drop-evap}
+        \end{subfigure}
+        \caption{Pressure drop calculations across packed beds, solved by CFD-DEM, fit well to the Kozeny-Carman empirical relation.}\label{fig:cfdem-pressure-drop}
+\end{figure}
+
+
+
+\begin{figure}[t]
+	\centering
+	\caption{Cut-away view of the pebble bed with streamlines of helium moving in generally straight paths from inlet to exit.}
+	\includegraphics[width=0.75\textwidth]{chapters/figures/cfd-dem-streamlines2}\label{fig:cfdem-streamlines}
+\end{figure}
+
+
+
+
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.75\textwidth}
+                \includegraphics[width=\textwidth]{chapters/figures/full-x-T-color}
+                \caption{Well-packed bed}
+                \label{fig:x-T-full}
+        \end{subfigure}%
+        
+          %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.75\textwidth}
+                \includegraphics[width=\textwidth]{chapters/figures/evap-x-T-color}
+                \caption{Re-settled bed}
+                \label{fig:x-T-evap}
+        \end{subfigure}
+        \caption{Scatter temperature profiles of pebbles in a bed that is: well-packed (left) and resettled after 10\% of pebbles were removed from crushing (right). The introduction of helium into the simulation contributes to both lower overall temperatures (higher effective conductivity) and the smoothing out of high temperatures of isolated pebbles.}\label{fig:cfdem-x-T}
+\end{figure}
+
+\subsection{Effective thermal conductivity from CFD-DEM}
+
+The well-packed and resettled pebble beds were run to thermal steady-state with nuclear heating and wall cooling in both pure DEM and coupled CFD-DEM simulations for comparison. From steady-state temperature distributions, seen in the pebble scatter plots in Fig. 3, an average profile is calculated and an effective thermal conductivity computed. The values are tabulated in Table I. 
+In the case of pure DEM, energy is transported solely along conduction routes in the ensemble. When the packing of the bed is disturbed, this results in a substantial drop in effective conductivity (a drop of 31\%). The details of the conductivity reduction were studied extensively in Ref. 23. Perhaps more important than the reduction in effective conductivity, is the appearance of isolated pebbles. Because heat deposition is volumetrically applied, pebbles with poor conduction routes become much hotter than their neighbors. This is evident in the high temperatures seen in many of the pebbles in the right figure of Fig. 3. Over-heating of isolated pebbles could induce sintering and impact their tritium release even when the average temperatures measured in the bed are well below sintering values.
+When CFD-DEM beds are analyzed, there is still a large reduction in effective conductivity (22\% drop), but interesting to note is the lack of isolated pebbles with high temperatures. In the CFD-DEM scatter plot of the right image in Fig. 3, there is evidence of the reduced heat transfer in the same region as the isolated pebbles from the DEM bed, but the temperatures are much closer to the average values of neighboring pebbles. The helium purge gas has effectively smoothed out the temperatures and provided heat transport paths for any pebbles that have loose physical contact with neighbors.
+In spite of the 22\% decrease in effective conductivity, the maximum temperature of the pebble bed only increased 6.2\% (from 725 to 751 K) when helium is included in the model. This result is significant for solid breeder designers. They may choose a solid breeder volume such that in the event of extensive pebble cracking, the maximum temperature of the bed would remain within the ideal windows dictate for the lithium ceramics.
+
+\begin {table}[htp] %
+\caption{Pebble bed values from the test matrix of the beds analyzed in this study.}
+\label {tab:cfdem-keff} \centering %
+\begin {tabular}{ rccccc }
+\toprule %
+			& 	\multicolumn{2}{c}{$k_\text{eff}$}	&   \multicolumn{2}{c}{$T_\text{max}$}	&	$\frac{Q_h}{Q_\text{nuc}}$		\\
+			& 	\multicolumn{2}{c}{(W/mK)}			&	\multicolumn{2}{c}{(K)}				&									\\
+			& 	DEM 		& 	CFD-DEM				&	DEM 		& 	CFD-DEM 			& 	CFD-DEM							\\\toprule
+Well-packed	& 	0.96		& 	1.09				& 	745			& 	725					& 	1.15							\\
+Resettled	& 	0.66		& 	0.85				& 	800			& 	751					& 	1.52							\\\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+
+An accompanying result is the increased amount of energy carried out of the system by the helium purge gas. In Table I, the last column provides the ratio of energy carried out of the system to the nuclear energy deposited into the bed. The amount of energy carried out by the helium increased from 1.15\% to 1.52\% from ‘well-packed’ to ‘resettled’.
+evap-x-T-color

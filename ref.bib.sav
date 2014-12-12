@@ -1,0 +1,622 @@
+@MISC{bp12,
+AUTHOR = {BP p.l.c.},
+TITLE = {BP Energy Outlook 2030},
+YEAR = {2012},
+}
+
+@MISC{iea07,
+AUTHOR = {Paris: International Energy Agency.},
+TITLE = {World Energy Outlook 2007},
+YEAR = {2007},
+}
+
+@book{Luque11,
+title = {Handbook of biofuels production: Processes and technologies},
+author = {Luque R, Campelo J, Clark J.},
+publisher = {Woodhead Publishing},
+address = {Cambridge, UK},
+year = {2011}
+}
+
+@article{chisti07,
+Author = {Chisti Y.},
+Title = {{Biodiesel from microalgae}},
+Journal = {{Biotechnology Advances}},
+Year = {{2007}},
+Volume = {{25}},
+Number = {{3}},
+Pages = {{294-306}},
+}
+
+@article{ugwu08,
+Author = {Ugwu CU, Aoyagi H, Uchiyama H.},
+Title = {{Photobioreactors for mass cultivation of algae}},
+Journal = {{Bioresource Technology}},
+Year = {{2008}},
+Volume = {{99}},
+Pages = {{4021-4028}},
+}
+
+@book{burlew53,
+title = {Algal Culture from Laboratory to Pilot Plant},
+author = {Burlew JS.},
+publisher = {Carnegie Institution of Washington},
+address = {Washington, DC},
+year = {1953}
+}
+
+@article{molina03,
+Author = {Molina GE, Belarbi EH, Acién Fernández FG, Robles MA, Chisti Y.},
+Title = {{Recovery of microalgal biomass and metabolites: process options and
+economics}},
+Journal = {{Biotechnology Advances}},
+Year = {{2003}},
+Volume = {{20}},
+Pages = {{491-515}},
+}
+
+@article{demirbas11,
+Author = {Demirbas A, Demirbas MF.},
+Title = {{Importance of algal oil as a source of biodiesel}},
+Journal = {{Energy Conversion and Management}},
+Year = {{2011}},
+Volume = {{52}},
+Pages = {{163–170}},
+}
+
+@article{khoo11,
+Author = {Khoo HH, Sharratt PN, Das P, Balasubramanian RK, Naraharisetti PK, Shaik S.},
+Title = {{Importance of algal oil as a source of biodiesel}},
+Journal = {{Bioresource Technology}},
+Year = {{2011}},
+Volume = {{102}},
+Pages = {{5800–5807}},
+}
+
+@article{yoon02,
+Author = {Yoon JH, Sim SJ, Kim MS, ParkTH.},
+Title = {{High cell density culture of \emph{Anabaena variabilis} using repeated injections of carbon dioxide for
+the production of hydrogen}},
+Journal = {{International Journal of Hydrogen Energy}},
+Year = {{2002}},
+Volume = {{27(11-12)}},
+Pages = {{1265–1270}},
+}
+
+@article{melis99,
+Author = {Melis A, Neidhardt J, Benemann JR.},
+Title = {{\emph{Dunaliella salina} (\emph{Chlorophyta}) with small chlorophyll antenna sizes exhibit higher photosynthetic
+productivities and photon use efficiencies than normally pigmented cells}},
+Journal = {{Journal of Applied Phycology}},
+Year = {{1999}},
+Volume = {{10(6)}},
+Pages = {{515-525}},
+}
+
+@article{pilon11,
+Author = {Pilon L, Berberoglu H, Kandilian R.},
+Title = {{Radiation transfer in photobiological carbon dioxide fixation and fuel production by microalgae}},
+Journal = {{Journal of Quantitative Spectroscopy \& Radiative Transfer}},
+Year = {{2011}},
+Volume = {{112}},
+Pages = {{2639-2660}},
+}
+
+@article{benemann00,
+Author = {Benemann JR.},
+Title = {{Hydrogen production by microalgae}},
+Journal = {{Journal of Applied Phycology}},
+Year = {{2000}},
+Volume = {{12(3-5)}},
+Pages = {{291–300}},
+}
+
+@article{bidigare90,
+  title =    {In vivo absorption properties of algal pigments},
+  author =   {Bidigare R, Ondrusek M, Morrow J and Kiefer D.},
+  journal =  {Ocean Optics X},
+  year =     {1990},
+  volume =   {1302},
+  pages =    {290-301},
+}
+
+@book{ke01,
+author = {Ke B.},
+title = {Photosynthesis, Photobiochemistry and Photobiophysics},
+publisher = {Kluwer Academic Publishers},
+address = {Dordrecht, The Netherlands},
+year = {2001}
+}
+
+@book{harris89,
+author = {Harris EH.},
+title = {The \textit{Chlamydomonas} Sourcebook - Volume 1},
+publisher = {Academic Press},
+address = {San Diego, CA},
+year = {1989},
+}
+
+@article{wang06,
+Author = {Wang LJ and Weller CL.},
+Title = {Recent advances in extraction of nutraceuticals from plants},
+Journal = {Trends in Food Science \& Technology},
+Year = {2006},
+Volume = {17},
+Number = {6},
+Pages = {300-312},
+}
+
+@article {hosikian10,
+author = {Hosikian A, Lim S, Halim R and Danquah MK.},
+title = {Chlorophyll extraction from microalgae: A review on the process engineering aspects},
+journal = {International Journal of Chemical Engineering},
+pages = {11},
+volume = {2010},
+year = {2010},
+}
+
+@article{porra1989,
+author = {Porra RJ, Thompson WA and Kriedemann PE.},
+title = {Determination of accurate extinction coefficients and simultaneous equations for assaying chlorophylls a and b extracted with four different solvents: verification of the concentration of chlorophyll standards by atomic absorption spectroscopy},
+journal = [Biochimica et Biophysica Acta {(BBA)} - Bioenergetics},
+volume = {975},
+number = {3},
+pages = {384 - 394},
+year = {1989},
+}
+
+@article {ritchie2006,
+author = {Ritchie R.},
+title = {Consistent Sets of Spectrophotometric Chlorophyll Equations for Acetone, Methanol and Ethanol Solvents},
+journal = {Photosynthesis Research},
+   pages = {27-41},
+   volume = {89},
+   issue = {1},
+   year = {2006},
+}
+
+@book{modest02,
+title = {Radiative heat transfer},
+author = {Modest MF.},
+publisher = {Academic Press},
+address = {San Diego, CA},
+year = {2002}
+}
+
+@book{chandrasekhar60,
+title = {Radiative transfer},
+author = {Chandrasekhar S.},
+publisher = {Dover Publications},
+address = {New York},
+year = {1960}
+}
+
+@article {cornet00,
+author = {Cornet JF.},
+title = {Modeling photoheterotrophic growth kinetics of \emph{Rhodospirillum rubrum} in rectangular photobioreactors},
+journal = {Biotechnology Progress},
+   pages = {199-207},
+   volume = {16},
+   issue = {2},
+   year = {2000},
+}
+
+@article{daniel79,
+  title =    {Prediction of radiation absorption and scattering in turbid water bodies},
+  author =   {Daniel KJ, Laurendeau NM and Incropera FP.},
+  journal =  {ASME Journal of Heat Transfer},
+  year =     {1979},
+  volume =   {101},
+  pages =    {63-67}
+}
+
+@article{agrawal91,
+  title =    {Forward and inverse analysis of single and multiple scattering of collimated radiation in an axisymmetric system},
+  author =   {Agrawal BM and Meng\"{u}\c{c} MP.},
+  journal =  {International Journal of Heat and Mass Transfer},
+  year =     {1991},
+  volume =   {34},
+  pages =    {633-647},
+
+
+@article{stramski97,
+  title =    {Effect of microbial particles on oceanic optics: a database of single-particle optical properties},
+  author =   {Stramski D and Mobley CD.},
+  journal =  {Limnology and Oceanography},
+  year =     {1997},
+  volume =   {42},
+  pages =    {538-549},
+}
+
+@book{fournier07,
+author = {Jonasz M and Fournier GR.},
+title={Light Sscattering by Particles in Water: {T}heoretical and Experimental Foundations},
+publisher = {Academic Press},
+address = {San Diego, CA},
+year={2007}
+}
+
+@article {bidigare87,
+   author = {Bidigare RR, Smith RC, Baker KS and Marra J.},
+   title = {Oceanic primary production estimates from measurements of spectral irradiance and pigment concentrations},
+   journal = {Global Biogeochemical Cycles},
+   pages = {171-186},
+   volume = {1},
+   year = {1987}
+}
+
+@article{pottier05,
+  title =    {A fully predictive model for one-dimensional light attenuation by {C}{\textit{hlamydomonas reinhardtii}} in a torous photobioreactor},
+  author =   {Pottier L, Pruvost J, Deremetz J,Cornet JF, Legrand J and Dussap CG.},
+  journal =  {Biotechnology and Bioengineering},
+  year =     {2005},
+  volume =   {91},
+  pages =    {569-582},
+}
+
+@article{quirantes04,
+Author = {Quirantes A and Bernard S.},
+Title = {Light scattering by marine algae: two-layer spherical and nonspherical models},
+Journal = {Journal of Quantitative Spectroscopy and Radiative Transfer},
+Year = {2004},
+Volume = {89},
+Number = {1-4},
+Pages = {311-321},
+}
+
+@article{bricaud86,
+Author = {Bricaud A and Morel A.},
+Title = {Light attenuation and scattering by phytoplanktonic cells: A theoretical modeling},
+Journal = {Applied Optics},
+Year = {1986},
+Volume = {25},
+Pages = {571-580},
+}
+
+@article{bernard01,
+Author = {Bernard S, Probyn TA and Barlow RG.},
+Title = {Measured and modelled optical properties of particulate matter in the southern Benguela},
+Journal = {South African Journal of Science},
+Year = {2001},
+Volume = {97},
+Pages = {410-420},
+}
+
+@article{stramski01,
+Author = {Stramski D, Bricaud A and Morel A.},
+Title = {Modeling the inherent optical properties of the ocean based on the detailed composition of planktonic community},
+Journal = {Applied Optics},
+Year = {2001},
+Volume = {40},
+Pages = {2929-2945},
+}
+
+@book{bohrenhuffman98,
+    author = {Bohren CF and Huffman DR.},
+    title={{Absorption and Scattering of Light by Small Particles}},
+    publisher = {John Wiley \& Sons},
+    address = {New York, NY},
+    year={1998},
+}
+
+@book{hulst57,
+    author = {Van De Hulst HC.},
+    title={{Light Scattering by Small Particles}},
+    publisher = {Wiley},
+    address = {New York, NY},
+    year={1957},
+}
+
+@article{bricaud92,
+Author = {Bricaud A, Ronald J, Zaneveld V and Kitchen JC.},
+Title = {Backscattering efficiency of coccolithophorids: use of a three-layered sphere model},
+Journal = {Proceedings of SPIE},
+Year = {1992},
+Volume = {1750},
+Pages = {27-33},
+}
+
+@article{ronald95,
+Author = {Ronald J, Zaneveld V and Kitchen JC.},
+Title = {The variation in the inherent optical properties of phytoplankton near an absorption peak as determined by various models of cell structure},
+Journal = {Proceedings of SPIE},
+Year = {1995},
+Volume = {100},
+Pages = {13309-13320},
+}
+
+@article{quirantes04,
+Author = {Quirantes A and Bernard S.},
+Title = {Light scattering by marine algae: two-layer spherical and nonspherical models},
+Journal = {Journal of Quantitative Spectroscopy and Radiative Transfer},
+Year = {2004},
+Volume = {89},
+Number = {1-4},
+Pages = {311-321},
+}
+
+@book{mishchenko00,
+    author = {Mishchenko MI, Hovenier JW and Travis LD},
+    title={{Light Scattering by Nonspherical Particles}},
+    publisher = {Academic Press},
+    address = {San Diego, CA},
+    year={2000},
+}
+
+@article{mishchenko94,
+Author = {Mishchenko MI and Travis LD.},
+Title = {Light scattering by polydispersions of randomly oriented spheroids with sizes comparable to wavelengths to observation},
+Journal = {Applied Optics},
+Year = {1994},
+Volume = {33},
+Number = {30},
+Pages = {7206-7225},
+}
+
+@article{bricaud88,
+Author = {Bricaud A, B\'{e}dhomme AL and Morel A.},
+Title = {Optical properties of diverse phytoplanktonic species: experimental results and theoretical interpretation},
+Journal = {Journal of Plankton Research},
+Year = {1988},
+Volume = {10},
+Pages = {851-873},
+}
+
+@article{morel91,
+Author = {Morel A and Ahn YH.},
+Title = {Optics of heterotrophic nanoflagellates and ciliates: a tentative assessment of their scattering role in oceanic waters compared to those of bacterial and algal cells},
+Journal = {Journal of Marine Research},
+Year = {1991},
+Volume = {49},
+Pages = {177-202},
+}
+
+@article{stramski88,
+Author = {Stramski D, Morel A and Bricaud A.},
+Title = {Modeling the light attenuation and scattering by spherical phytoplanktonic cells: a retrieval of the bulk refractive index},
+Journal = {Applied Optics},
+Year = {1988},
+Volume = {27},
+Pages = {3954-3957},
+}
+
+@article{berberoglu07d,
+  title =    {Experimental measurement of the radiation characteristics of \textit{{A}nabaena variabilis} {ATCC} 29413-{U} and \textit{{R}hodobacter sphaeroides} {ATCC} 49419},
+  author =   {Berbero\u{g}lu H and Pilon L.},
+  journal =  {International Journal of Hydrogen Energy},
+  volume = {32},
+  number={18},
+  year =     {2007},
+  pages =    {4772-4785},
+}
+
+@article{berberoglu08a,
+  title =    {Radiation Characteristics of \textit{Chlamydomonas reinhardtii} {CC}125 and Its Truncated Chlorophyll Antenna Transformants \textit{tla1}, \textit{tlaX}, and \textit{tla1-CW$^+$}},
+  author =   {Berbero\u{g}lu H, Melis A and Pilon L.},
+  journal =  {International Journal of Hydrogen Energy},
+  Volume={33},
+  number={22},
+  pages={6467-6483},
+  year = {2008},
+}
+
+@article{berberoglu09,
+  title =    {Radiation characteristics of \textit{Botryococcus braunii}, \textit{Chlorococcum littorale}, and \textit{Chlorella sp}. used for {CO$_2$} fixation and biofuel production},
+  author =   {Berbero\u{g}lu H, Gomez PS and Pilon L.},
+  journal =  {Journal of Quantitative Spectroscopy and Radiative Transfer},
+  volume = {110},
+  year =     {2009},
+  pages =    {1879-1893},
+}
+
+@article{bryant69,
+  title =    {Absolute optical cross sections of cells and chloroplasts},
+  author =   {F.D. Bryant and B.A. Seiber and P. Latimer},
+  journal =  {Archives of Biochemistry and Biophysics},
+  year =     {1969},
+  volume =   {135},
+  pages =    {79-108},
+}
+
+@article{green03,
+  title =    {Flow cytometric determination of size and complex refractive index for marine particles: comparison with independent and bulk estimates},
+  author =   {R.E. Green and H.M. Sosik and R.J. Olson and M.D. Durand},
+  journal =  {Applied Optics},
+  year =     {2003},
+  volume =   {42},
+  pages =    {526-541},
+}
+
+@article{spinrad86,
+  title =    {Relative real refractive index of marine microorganisms: a technique for flow cytometric stimation},
+  author =   {R.W. Spinrad and J.F. Brown},
+  journal =  {Applied Optics},
+  year =     {1986},
+  volume =   {25},
+  pages =    {1930-1934},
+}
+
+@article{gerhardt82,
+  title =    {Photometric immersion refractometry of bacterial spores},
+  author =   {P. Gerhardt and T. C. Beaman and T. R. Corner and J. T. Greenamyre and L. S. Tisa},
+  journal =  {Journal of Bacteriology},
+  year =     {1982},
+  volume =   {150},
+  pages =    {643-648},
+}
+
+@article{jonasz97,
+title = {Photometric immersion refractometry: a method for determining the refractive index of marine microbial particles from beam attenuation},
+author = {M. Jonasz and G. Fournier and D. Stramski},
+journal = {Applied Optics},
+volume = {36},
+year = {1997},
+number = {18},
+pages = {4214-4225},
+}
+
+@article{barer54,
+    title =    {Refractometry of living cells. Part {I}: Basic principles},
+    author =   {R. Barer and S. Joseph},
+    journal =  {Quarterly Journal of Microscopical Science},
+    year =     {1954},
+    volume =   {96},
+    pages =    {399-423},
+   }
+
+@article{durand98,
+  title =    {Diel patterns in optical properties of the chlorophyte \textit{{N}annochloris sp.}: {R}elating individual-cell to bulk measurements},
+  author =   {M.D. DuRand and R.J. Olson},
+  journal =  {Limnology and Oceanography },
+  year =     {1998},
+  volume =   {43},
+  pages =    {1107-1118},
+}
+
+@article{cornet92a,
+title = {A structured model for simulation of cultures of the cyanobacterium Spirulina platensis in Photobioreactors: I. {C}oupling between light transfer and growth kinetics},
+author = {J.F. Cornet and C.G. Dussap and G. Dubertret},
+journal = {Biotechnology and Bioengineering},
+volume = {40},
+year = {1992},
+number = {7},
+pages = {817-825}
+}
+
+@article{cornet95,
+title = {A simplified monodimensional approach for modeling coupling between radiant light transfer and growth kinetics in photobioreactors},
+author = {J.F. Cornet and C.G. Dussap and J.B. Gross and C. Binois and C. Lasseur},
+journal = {Chemical Engineering Science},
+volume = {50},
+year = {1995},
+number = {9},
+pages = {1489-1500}
+}
+
+@article{duysens56,
+  title =    {The flattening of the absorption spectra of suspensions as compared to that of solutions},
+  author =   {L.M. Duysens},
+  journal =  {Biochimica et Biophysica Acta},
+  year =     {1956},
+  volume =   {19},
+  pages =    {1-12},
+}
+
+@book{hulst57,
+    author = {H.C. Van De Hulst},
+    title={{Light Scattering by Small Particles}},
+    publisher = {Wiley},
+    address = {New York, NY},
+    year={1957},
+}
+
+@book{bohrenhuffman98,
+    author = {C.F. Bohren and D.R. Huffman},
+    title={{Absorption and Scattering of Light by Small Particles}},
+    publisher = {John Wiley \& Sons},
+    address = {New York, NY},
+    year={1998},
+}
+
+@article{duysens56,
+  title =    {The flattening of the absorption spectra of suspensions as compared to that of solutions},
+  author =   {L.M. Duysens},
+  journal =  {Biochimica et Biophysica Acta},
+  year =     {1956},
+  volume =   {19},
+  pages =    {1-12},
+}
+
+@article{daniel79,
+  title =    {Prediction of radiation absorption and scattering in turbid water bodies},
+  author =   {K.J. Daniel and N.M. Laurendeau and F.P. Incropera},
+  journal =  {ASME Journal of Heat Transfer},
+  year =     {1979},
+  volume =   {101},
+  pages =    {63-67}
+}
+
+@book{guilbault90,
+    author = {Guilbault GG.},
+    title={{Practical Fluorescence, Second Edition}},
+    publisher = {Marcel Dekker Inc},
+    address = {New York, NY},
+    year={1990},
+}
+
+@MISC{wiki07,
+AUTHOR =       {Wikipedia},
+TITLE =        {Laser-induced fluorescene},
+Howpublished = {$http://en.wikipedia.org/wiki/File:Laser-induced_fluorescence.png$}},
+YEAR =         {2007},
+}
+
+@MISC{casey03,
+AUTHOR =       {Casey A.},
+TITLE =        {The Incredible Glowing Algae},
+Howpublished = {$http://earthobservatory.nasa.gov/Features/glowingalgae/$}},
+YEAR =         {2003},
+}
+
+@article{hua05,
+  title =    {Red tide detection and tracing using MODIS fluorescence data: A regional example in SW Florida coastal waters},
+  author =   {Hua C, Muller-Kargera FE, Taylora C, Cardera KL, Kelbleb C, Johnsb E, Heilc CA.},
+  journal =  {Remote Sensing of Environment},
+  year =     {2005},
+  volume =   {97},
+  issue = {3},
+  pages =    {311–321}
+}
+
+@article{xie07,
+  title =    {Silicon-based oxynitride and nitride phosphors for white LEDs—A review},
+  author =   {Xie RJ, Hirosaki N.},
+  journal =  {Science and Technology of Advanced Materials},
+  year =     {2007},
+  volume =   {8},
+  pages =    {588–600}
+}
+
+@MISC{grobe06,
+AUTHOR =       {Grobe H.},
+TITLE =        {Fluorescent minerals},
+Howpublished = {$http://geology.com/articles/fluorescent-minerals/$}},
+YEAR =         {2006},
+}
+
+@book{kedesdy77,
+    author = {Kedesdy H, O'Connell J,DeLhery G, Frowner B.},
+    title={{Synthesis and Luminescence of ZnS:Er, Cu Phosphors}},
+    publisher = {Defense Technical Information Center},
+    year={1977},
+}
+
+@article{yanga08,
+  title =    {Fluorescent magnetic nanohybrids as multimodal imaging agents for human epithelial cancer detection},
+  author =   {Yanga J, Lima E, Leeb HJ, Parka J, Leeb SC, Leec K, Yoond H, Suhe J, Huhe Y, Haama S.},
+  journal =  {Biomaterials},
+  year =     {2008},
+  volume =   {29},
+  issue =   {16},
+  pages =    {2548–2555}
+
+@article{Gratzel03,
+title = "Dye-sensitized solar cells",
+author = "Michael GrÃ¤tzel",
+journal = "Journal of Photochemistry and Photobiology C: Photochemistry Reviews",
+volume = "4",
+number = "2",
+pages = "145-153",
+year = "2003",
+}
+
+@article{stewart75,
+title = "Effects Of L-Methionine-Dl-Sulphoximine On The Assimilation Of Newly Fixed Nh3, Acetylene Reduction And Heterocyst Production In \emph{Anabaena Cylindrica}",
+author = "Stewart WDP and Rowell P.",
+journal = "Biochemical And Biophysical Research Communications",
+volume = "65",
+number = "3",
+pages = "846-856",
+year = "1975",
+}
+

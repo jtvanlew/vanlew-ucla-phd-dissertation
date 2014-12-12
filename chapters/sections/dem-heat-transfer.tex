@@ -1,0 +1,34 @@
+\section{Granular heat conduction}
+
+Implicit in the energy balance equation is the fact that a lumped capacitance method is being assumed for every pebble. Additionally, we are assuming that in a single timestep a pebble is transfering heat only with its immediate neighbors. Vargas and McCarthy\cite{Vargas2001} provide arguments for the validity of Eq.~\ref{thermoFirstLaw} given numeric time steps and contact areas. The conclusion is that any time step that satisfies stability of the particle dynamics will automatically satisfy particle heat transfer.%thus we need not continuously check the validity of those assumptions when we have different input parameters to the heat transfer of our simulation.
+
+Because of the chosen geometry of the pebble beds under analysis here, the heat transfer is essentially one-dimensional through the $x$-direction. The pebble bed has very little variation of forces and temperatures in the $y$-direction due to the periodic boundary condition at the edges of the domain. Gravity effects are minor in the overall heat transfer and induce only a slight $z$-dependency  to the results; negligibly so in nearly all our simulations. With the one-dimensional assumption, we step back into a continuum mechanics formulation and find an effective thermal conductivity of a steady-state pebble bed. A steady state for a material with constant temperature boundary conditions ($T(\pm 10d) = T_s$) and nuclear heating has the following heat equation
+\begin{align}\label{heateqn}
+0 = \frac{\mathrm{d}^2T}{\mathrm{d}x^2} + \frac{q'''}{k_\text{eff}}
+\end{align}
+where in our case the volumetric heating term, $q''' = Q_\text{tot}/V_\text{tot} = \frac{Q_sN}{300Hd^2}$; where $H$ is the average height of the top layer of pebbles. We apply symmetry about the centerline and impose our boundary conditions to solve the differential equation. If we take the temperature of the midplane as $T(0) = T_0$, we back-out an effective thermal conductivity (ETC) as
+\begin{align}\label{eq:etc}
+k_\text{eff} = \frac{Q_sN}{6H(T_0-T_s)}
+\end{align}
+
+
+Owing to the impact thermal expansion has on pebble bed structures undergoing thermal cycling\cite{Tanigawa:2010cr, Vargas2007, Chen2009}, we also included a simple thermal expansion model.  The diameter of the pebbles was updated after a specific number of timesteps according to the following
+\begin{align}
+d_i = d_{0,i}\left[1+\alpha\left(T_i - T_\text{ref}\right)\right]
+\end{align}
+where $\alpha$ is the thermal expansion coefficient, $T_i$ is the temperature of the pebble at the current step, and $d_{0,i}$ is the diameter of the pebble at temperature $T_\text{ref}$.
+
+
+
+%In this continuum mechanics formulation, we are assuming that the nuclear source, $q'''$ term is applied evenly over the entire volume. In our DEM formulation, our source term applies to a single pebble. To find the effective thermal conductivity of our pebble bed, we must reconcile this with the exchange of
+%\begin{align}
+%q''' = \frac{Q_\text{tot}}{V_\text{tot}} = \frac{Q_sN}{300Hd^2}
+%\end{align}
+%where $H$ is the total stack height of the pebble bed. so we find
+%\begin{align}
+%k_\text{eff} = \frac{Q_s}{(T_0-T_s)}\frac{N}{6H}
+%\end{align}
+We will use this formulation to analyze and compare our test-case pebble beds.
+
+
+

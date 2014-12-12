@@ -1,0 +1,147 @@
+%!TEX program = xelatex
+\documentclass [PhD] {uclathes}
+\usepackage[toc,page]{appendix}
+\usepackage[noprefix]{nomencl}
+\usepackage{lscape}
+\makeglossary \makeindex
+\usepackage[table]{xcolor}
+\usepackage{amsmath}
+\usepackage{amsbsy}
+\usepackage{color}
+%\usepackage{cite}
+\usepackage[superscript,biblabel]{cite}
+\usepackage{amssymb}
+\usepackage{longtable}
+\usepackage{verbatim}
+\usepackage{mysects}
+\usepackage{chngpage}
+ \ifx\pdfoutput\undefined
+   \usepackage[dvips]{graphicx}
+   \else
+   \usepackage[pdftex]{graphicx}
+   \pdfcompresslevel=9
+   \fi
+\usepackage{epstopdf}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage[colorlinks,citecolor=red,linkcolor=blue]{hyperref}
+
+
+\usepackage{xltxtra} % Extra customizations for XeLaTeX
+\usepackage{amsmath}
+\usepackage{tabularx, multirow, booktabs}
+\newcommand{\otoprule}{\midrule[\heavyrulewidth]}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{siunitx}
+
+
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{4}
+%\linespread{1.6}%double line (1.6%) spacing, for one & half use {1.3}
+
+
+\input{vanlew-macros}                        % personal LaTeX macros
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Usually things live in separate flies.
+%
+% \input {prelim}                           % preliminary page info
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+%                          PRELIMINARY PAGES                           %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title          {Dissertation Title}
+\author         {Jon Thomas Van Lew}
+\department     {Mechanical Engineering}
+\degreeyear     {2015}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chair{Mohamed Abdou}
+\member{member 1}
+\member{member 2}
+\member{member 3}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\dedication     {\textsl{To My loved ones \ldots without \\
+%                whom I could not find the will\\
+%      and courage to do this}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\acknowledgments {I did it all on my own}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vitaitem {2005} {B.S., Mechanical Engineering, Cum Laude\\ University of Arizona\\ Tucson, AZ}
+
+\vitaitem {2010} {M.S., Mechanical Engineering \\ University of Arizona \\ Tucson, AZ}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\abstract{It's all crap}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\makeintropages
+
+
+
+%\mymaketitlepages              % Thesis Title Page
+%\mymakecopyrightpage           % Copyright Page
+%\pagenumbering{roman}
+%\setcounter{page}{1}
+%\mymakeabstractpage            % Abstract Page
+%\mymakesignaturepage           % Committee Member Signature Page
+%\setcounter{page}{4}
+%\tableofcontents               % Table of Contents
+%\listoffigures                 % List of Figures
+%\listoftables                  % List of Tables
+%\input{nomenclature.tex}
+%\printglossary                 % Nomenclature Page
+%\mymakeacknowledgmentspage     % Acknowledgments Page
+%\mymakevitapages               % Vita Page
+%\mytitlefinish                 % Start a New Page for Chapter 1.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\pagenumbering{arabic}
+%\setcounter{page}{1}
+
+
+% Reference sections
+\input{chapters/intro.tex}
+
+% Pebble interaction analysis
+\input{chapters/pebble-analysis-theory.tex}
+\input{chapters/pebble-analysis-experiment.tex}
+
+
+% Modeling
+\input{chapters/dem.tex}
+\input{chapters/cfdem.tex}
+%\input{chapters/lbm.tex}
+
+\appendix
+%\input{Appendix4.tex}
+%\input{Appendix6.tex}
+
+
+\bibliographystyle{ieee}
+\bibliography{library}
+\end{document}

@@ -1,0 +1,150 @@
+\section{Particle dynamics}\label{sec:particle-dynamics}
+
+
+\subsection{Particle interaction}
+
+If all the forces acting upon particle $i$ are known, we simply integrate Newton's equations of motion for the translation degrees of freedom:
+
+\begin{equation}\label{eq:newtons-first}
+m_i  \ddt{\vec{r}_i} = m_i\vec{g} + \vec{f}_i
+\end{equation}
+
+% and
+
+% \begin{equation}
+% 	I_i\dt{\vec{\omega}_i}=\vec{T}_i
+% \end{equation}
+
+where $m_i$ is the mass of this particle, $\vec{r}_i$ its location in space, $g$ is gravity, and $\vec{f}_i$ represents the sum total of all external forces acting on this particle. %$I_i$ is the particle's moment of inertia, $\vec{\omega}_i$ its angular velocity, and finally $\vec{T}_i$ the sum total of all torques acting on the particle.
+
+
+
+Two spherical particles, with radii $R_i$ and $R_j$, interact when their overlap, $\delta$, defined as:
+
+\begin{equation}
+	\delta_{ij} = (R_i + R_j) - (\vec{r}_i -\vec{r}_j)\cdot \vec{n}_{ij}
+\end{equation}
+
+is positive, with the unit vector $\vec{n}_{ij}$ pointing from particle $j$ to $i$. Not coincidentally, the overlap is the same term as that defined in Hertz theory of \S~\ref{sec:hertz-contact}. When the two particles (or a particle and a boundary) are overlapping, the contact force between them can be calculated. Traditionally, the contact force is decomposed into a normal and tangential component,
+
+\begin{equation}
+	\vec{f}_{ij} = \vec{f}^n_{ij} + \vec{f}^t_{ij}
+\end{equation}
+
+Both the normal and tangential forces will employ a Maxwell material model to capture the viscoelastic properties of the solid. The Maxwell model is commonly represented as being a spring (purely elastic) and dashpot (purely viscous) connected in series. We will first address the normal contact.
+
+
+
+
+
+
+\subsection{Normal forces}
+
+The generic form of the normal force contact between two particles, $i$ and $j$, when expressed in the simplest spring-dashpot model is
+
+\begin{equation}\label{eq:normal-force}
+	\vec{f}^n_{ij} = k^n_{ij} \delta_{ij}\vec{n}_{ij} - \gamma^n_{ij} \vec{u}^n_{ij}
+\end{equation}
+
+where $k^n_{ij}$ is the normal-direction spring coefficient, $\gamma^n_{ij}$ is the normal-direction damping coefficient, and $\vec{u}^n_{ij}$ is the relative normal velocity between the two particles,
+
+\begin{equation}
+	\vec{u}^n_{ij} = (-(\vec{u}_i-\vec{u}_j)\cdot\vec{n}_{ij})\vec{n}_{ij}
+\end{equation}
+
+For the stiffness coefficient of normal contact for spherical pebbles used in solid breeder designs, it is appropriate to use the interaction dynamics defined by Hertzian contact laws, as given in \S~\ref{sec:hertz-contact}. Thus the non-linear spring constant is
+
+\begin{equation}
+	k^n_{ij} = \frac{4}{3}E_{ij}^*\sqrt{R_{ij}^*\delta_{ij}}
+\end{equation}
+
+The damping coefficient arises to account for the energy dissipated from the collision of two particles\cite{DiRenzo2004, Tsuji1992, Tsuji1993} is defined in this work as,
+
+\begin{equation}
+	\gamma^n = \sqrt{5}\beta\sqrt{m^*k^n_{ij}}
+\end{equation}
+% \begin{equation}
+% 	\gamma^n = \beta \gamma_c^n = \beta 2\sqrt{m^*_{ij}k^n_{ij}}
+% \end{equation}
+
+with $\beta$ as the damping ratio, and the pair mass, $m^* = \frac{m_im_j}{m_i + m_j}$. For a stable system with $\beta < 1$, the damping ratio is related to the coefficient of restitution, $e$, in the following form
+
+\begin{equation}
+	\beta = -\frac{\ln{e}}{\sqrt{\ln^2{e}+\pi^2}}
+\end{equation}
+
+
+
+
+
+\subsection{Tangential forces}
+The tangential spring constant from Mindlin modification of Hertz theory, as given in \S~\ref{sec:hertz-mindlin-theory}, 
+
+\begin{equation}\label{eq:tangential-force}
+	\vec{f}^t_{ij} = k^t_{ij} \delta^t_{ij}\vec{t}_{ij} - \gamma^t_{ij} \vec{u}^t_{ij}
+\end{equation}
+
+where the fictive tangential overlap is truncated to so the tangential and normal forces obey Coulomb's Law,
+
+\begin{equation}
+	\vec{f}^t_{ij} \le \mu_i \vec{f}^n_{ij}
+\end{equation}
+
+with $\mu$ as the coefficient of friction of the particle, $i$.  The overlap is integrated from the tangential velocity over the time of contact.
+
+\begin{equation}
+	\delta^t_{ij} = \int_{t_{c,0}}^{t} \vec{u}^t_{ij}\,\mathrm{d}\tau
+\end{equation}
+
+The relative tangential velocity is found similar to the normal velocity,
+
+\begin{equation}
+	\vec{u}^t_{ij} = (-(\vec{u}_i-\vec{u}_j)\cdot\vec{t}_{ij})\vec{t}_{ij}
+\end{equation}
+
+The stiffness coefficient of tangential contact is
+
+\begin{equation}
+	k^t_{ij} = 8 G_{ij}^*\sqrt{R_{ij}^*\delta^t_{ij}}
+\end{equation}
+
+where $G_{ij}^*$ is the pair bulk modulus,
+
+\begin{equation}
+	\frac{1}{G^*_{ij}} = \frac{2(2+\nu_i)}{E_i} + \frac{2(2+\nu_j)}{E_j}
+\end{equation}
+
+The tangential dissipation coefficient is defined as
+
+\begin{equation}
+	\gamma_t = 2\sqrt{\frac{5}{6}}\beta\sqrt{k^t_{ij} m^*}
+\end{equation}
+
+
+It is worthwhile to point out one significant advantage of the format of the elastic and viscous coefficients, namely that they are determine completely from material and geometric properties: Young and bulk modulus, Poisson ratio, coefficient of restition, density, and size (radius) of the particles in our system.
+
+
+
+
+\subsection{Integration}
+velocity-verlet
+
+The force field defined by Eq.~\ref{eq:newtons-first} is instead expressed in terms of the acceleration of the particle. The subscripts of $i$ will be temporarily omitted from all of the per-particle quantities. Instead, time-varying quantities will have a subscript to refer to their timestep. Quantities at the current timestep will have subscript $t$, future timestep (either half step or full step) will have subscript $t+\Delta t$.
+
+\begin{equation}\label{eq:newton-acceleration}
+	\vec{a}_t = \vec{g} + \frac{\vec{f}_t}{m}
+\end{equation}
+
+The first step in the velocity-verlet algorithm is to integrate the position of the particle based on the current timestep's velocity and acceleration.
+
+\begin{equation}
+	\vec{r}_{t+\Delta t} = \vec{r}_t + \vec{v}_t\Delta t + \frac{1}{2}\vec{a}_t\Delta t^2
+\end{equation}
+
+The particles at new positions interact as a function of their overlaps (see Eqs.~\ref{eq:normal-force, eq:tangential-force}). Acceleration at the next timestep is then calculated again from the updated forces in Eq.~\ref{eq:newton-acceleration}. As a last step, the velocity at the next timestep is found from an average of the two accelerations,
+
+\begin{equation}
+	\vec{v}_{t+\Delta t} = \vec{v}_t + \frac{\vec{a}_t + \vec{a}_{t+\Delta t}}{2}\Delta t
+\end{equation}
+
+
