@@ -1,64 +1,108 @@
 \section{Stability study}
-An unavoidable issue with the explicit time integration of the velocity-Verlet algorithm is stability. In this section we find stable DEM timesteps as a function of material properties of ceramic pebbles. With that knowledge in hand, we argue for scaling certain physical properties to allow for faster simulations.
+The velocity-Verlet algorithm is an efficient means of updating the kinematics of all the particles in the ensemble. However, when applied to the models of ceramic breeder pebbles, there are unique issues that we must address. On the one hand, like all explicit, time-dependent finite difference schemes, we must be careful to avoid instabilities and this tends to require very small timesteps. On the other hand, the thermal time-constants in the ceramic breeder zones can be many hundreds of seconds. These two conditions can lead to unacceptably large requirements on the number of timesteps for a thermal DEM simulation.
+
+In this section we will demonstrate the calculation of approximate stable DEM timesteps as a function of material properties of ceramic pebbles. Then with that knowledge in hand, we will argue for scaling certain physical properties to allow for faster simulations without sacrificing fidelity to the real physics of the problem.
 
 \subsection{Critical timestep}
+When a force is applied to the surface of an elastic body, the force propagates along the surface at the wave speed first solved by John William Strutt, 3rd Baron Rayleigh\cite{Rayleigh1885} (when he wasn't discovering the scattering phenomenon explaining why the sky is blue or winning the Nobel prize for discovering Argon),
 
-\begin{align}
-\delta t_c = \eta  \sqrt{\frac{m_0}{k_0}}
-\end{align}
-where $m_0$ is the smallest particle mass, related to the smallest particle radius, $R_0$. The value of $\eta$ is less than unity and depends on the integration algorithm as well as dimensions of freedom [site O'Sullivan].
-\begin{align}
-m_0 = \frac{4}{3} \pi R_0^3 \rho
-\end{align}
-and we assume all pebbles have the same density, $\rho$. $k_0$ is the maximum normal stiffness in the ensemble. The timestep chosen for the DEM must be less than this critical timestep.
-\begin{align}
-\Delta t \le \delta t_c
-\end{align}
+\begin{equation}
+	u_{\Ra} = \alpha\sqrt{\frac{G}{\rho}}
+\end{equation}
 
-From Hertz theory, the maximum normal contact stiffness is
-\begin{align}
-k_0 = \frac{4}{3} E^* \sqrt{R^*_0 \delta_0}
-\end{align}
+where, again, $G$ is the shear modulus and $\rho$ is the density of the elastic material. The $\alpha$ coefficient is a complicated function coming from Rayleigh's solution but can be approximated as\cite{Sheng2004}
 
-To find the maximum contact stiffness (neglecting the influence of $\delta_0$ for the moment), we will express the relative radius in an alternate form,
-\begin{align}
-\frac{1}{R^*_0} = \frac{1}{R_0} + \frac{1}{\gamma R_0}
-\end{align}
-where $\gamma \ge 1$, it is a parameter that indicates our smallest pebble of radius $R_0$ is interacting with another pebble that is either the same size or larger. In the limits, if $\gamma =1$, then $R^*_0 = \frac{R_0}{2}$. If $\gamma \rightarrow \infty$, then $R^*_0 = R_0$. The stiffness is positively proportional to relative radius. Therefore if we desire the maximum contact stiffness, we need the largest value of $R^*_0$ and thus require $\gamma \rightarrow \infty$.
+\begin{equation}
+	\alpha = 0.1631 \nu + 0.876605
+\end{equation}
 
-With $R^*_0 = R_0$, we use this in the formula for pebble mass term of the stability criteria 
-\begin{align}
-\delta t_c &= \eta  \sqrt{\frac{\frac{4}{3} \pi (R^*_0)^3 \rho}{\frac{4}{3} E^* \sqrt{R^*_0 \delta_0}}}\\
-\delta t_c &= \left[ \eta \sqrt{ \pi} \right] \rho^{1/2}\left(\frac{1}{E^*}\right)^{1/2} \left(\frac{1}{\delta_0}\right)^{1/4}(R^*_0)^{5/4}
-\end{align}
+for realistic values of Poisson's ratio of elastic materials. From the inverse of the Rayleigh wave frequency, we can directly find a timestep for Rayleigh waves,
 
-We can relate the maximum pebble overlap $\delta_0$ to the maximum contact force in the ensemble with Eq.~\ref{eq:hertzForce}, after some algebra we find
-\begin{align}
-\delta t_c &= \left[ \eta \sqrt{ \pi} (4/3)^{1/6} \right] \rho^{1/2} \left(\frac{1}{F_\text{max}}\right)^{1/6} \left(\frac{1}{E^*}\right)^{1/3} R^{*5/4}_0
-\end{align}
+\begin{equation}
+	\delta t_{\Ra} = \frac{\pi R}{u_{\Ra}}
+\end{equation}
 
-The term in the bracket is a constant near unity. Neglecting it, we see the timestep is proportional to these terms,
-\begin{align}\label{eq:stability-terms}
-\delta t_c \propto \rho^{1/2} \left(\frac{1}{F_\text{max}}\right)^{1/6} \left(\frac{1}{E^*}\right)^{1/3} R^{*5/4}_0
-\end{align}
+When we write this for any particle, $i$ in the ensemble (exchanging the shear for elastic modulus),
 
-Figure~\ref{fig:stability-curves} provides visual reinforcement of the powers of terms in Eq.~\ref{eq:stability-terms}; it is the impact of different normal-contact parameters on the stable timestep. 
-\begin{figure}[ht!]
-\centering
-\includegraphics[width = 0.75 \textwidth]{chapters/figures/stability_curves}
-\caption{Curves showing the rate of response to timestep on the various normal-contact parameters.}\label{fig:stability-curves}
-\end{figure}
+\begin{equation}\label{eq:rayleigh-timestep}
+	(\delta t_{\Ra})_i = \frac{\pi R_i }{0.1631 \nu_i + 0.876605} \sqrt{\frac{2(1+\nu_i)\rho_i}{E_i}}
+\end{equation}
 
-It is apparent that simulations become less stable primarily as the pebble diameter decreases and then slightly less so for decreasing density and increasing the effective Young's modulus. It takes a rather large increase in the maximum contact force to cause the stable timestep to decrease. This is a fortunate result as it is primarily material properties which dictate stability of a DEM simulation. If external pressures increase and cause increases in the maximum normal contact force in the ensemble, it is unlikely to cause instabilities in the model. The result also provides insight into scaling of physical parameters to allow larger timesteps and thereby shorter overall duration of simulations.
+We allow for the particles in the system to have varying density, elastic modulus, and size. Therefore the critical timestep for the entire systme is governed by the minimum value of any particle's Rayleigh timestep. 
+
+\begin{equation}
+	\delta t_c = \min_{\forall i}\left[(\delta t_{\Ra})_i\right]
+\end{equation}
+
+
+% \begin{align}
+% \delta t_c = \eta  \sqrt{\frac{m_0}{k_0}}
+% \end{align}
+% where $m_0$ is the smallest particle mass, related to the smallest particle radius, $R_0$. The value of $\eta$ is less than unity and depends on the integration algorithm as well as dimensions of freedom [site O'Sullivan].
+% \begin{align}
+% m_0 = \frac{4}{3} \pi R_0^3 \rho
+% \end{align}
+% and we assume all pebbles have the same density, $\rho$. $k_0$ is the maximum normal stiffness in the ensemble. The timestep chosen for the DEM must be less than this critical timestep.
+% \begin{align}
+% \Delta t \le \delta t_c
+% \end{align}
+
+% From Hertz theory, the maximum normal contact stiffness is
+% \begin{align}
+% k_0 = \frac{4}{3} E^* \sqrt{R^*_0 \delta_0}
+% \end{align}
+
+% To find the maximum contact stiffness (neglecting the influence of $\delta_0$ for the moment), we will express the relative radius in an alternate form,
+% \begin{align}
+% \frac{1}{R^*_0} = \frac{1}{R_0} + \frac{1}{\gamma R_0}
+% \end{align}
+% where $\gamma \ge 1$, it is a parameter that indicates our smallest pebble of radius $R_0$ is interacting with another pebble that is either the same size or larger. In the limits, if $\gamma =1$, then $R^*_0 = \frac{R_0}{2}$. If $\gamma \rightarrow \infty$, then $R^*_0 = R_0$. The stiffness is positively proportional to relative radius. Therefore if we desire the maximum contact stiffness, we need the largest value of $R^*_0$ and thus require $\gamma \rightarrow \infty$.
+
+% With $R^*_0 = R_0$, we use this in the formula for pebble mass term of the stability criteria 
+% \begin{align}
+% \delta t_c &= \eta  \sqrt{\frac{\frac{4}{3} \pi (R^*_0)^3 \rho}{\frac{4}{3} E^* \sqrt{R^*_0 \delta_0}}}\\
+% \delta t_c &= \left[ \eta \sqrt{ \pi} \right] \rho^{1/2}\left(\frac{1}{E^*}\right)^{1/2} \left(\frac{1}{\delta_0}\right)^{1/4}(R^*_0)^{5/4}
+% \end{align}
+
+% We can relate the maximum pebble overlap $\delta_0$ to the maximum contact force in the ensemble with Eq.~\ref{eq:hertzForce}, after some algebra we find
+% \begin{align}
+% \delta t_c &= \left[ \eta \sqrt{ \pi} (4/3)^{1/6} \right] \rho^{1/2} \left(\frac{1}{F_\text{max}}\right)^{1/6} \left(\frac{1}{E^*}\right)^{1/3} R^{*5/4}_0
+% \end{align}
+
+% The term in the bracket is a constant near unity. Neglecting it, we see the timestep is proportional to these terms,
+% \begin{align}\label{eq:stability-terms}
+% \delta t_c \propto \rho^{1/2} \left(\frac{1}{F_\text{max}}\right)^{1/6} \left(\frac{1}{E^*}\right)^{1/3} R^{*5/4}_0
+% \end{align}
+
+% Figure~\ref{fig:stability-curves} provides visual reinforcement of the powers of terms in Eq.~\ref{eq:stability-terms}; it is the impact of different normal-contact parameters on the stable timestep. 
+% \begin{figure}[ht!]
+% \centering
+% \includegraphics[width = 0.75 \textwidth]{chapters/figures/stability_curves}
+% \caption{Curves showing the rate of response to timestep on the various normal-contact parameters.}\label{fig:stability-curves}
+% \end{figure}
+
+% It is apparent that simulations become less stable primarily as the pebble diameter decreases and then slightly less so for decreasing density and increasing the effective Young's modulus. It takes a rather large increase in the maximum contact force to cause the stable timestep to decrease. This is a fortunate result as it is primarily material properties which dictate stability of a DEM simulation. If external pressures increase and cause increases in the maximum normal contact force in the ensemble, it is unlikely to cause instabilities in the model. The result also provides insight into scaling of physical parameters to allow larger timesteps and thereby shorter overall duration of simulations.
 
 The ceramic materials identified for breeders have relatively high Young's moduli, on the order of \si{10^{10} Pa}. The smallest radius will be on the order of \si{10^{-4} m}. The ceramic density is approximately on the scale of \si{10^{4} kg/m^3}. Finally, to prevent pebbles from cracking in the ensemble, it is reasonable to assume that the maximum contact forces will on the order of \si{10^2 N}. These values lead to a necessary timestep of
-\begin{align}
-\delta t_c \propto 10^{-7} \si{s}
-\end{align}
+
+\begin{equation}
+	\delta t_c \propto 10^{-7} \si{s}
+\end{equation}
+
+For a simulation that may last several hundreds of seconds of real time, this then requires more than 10$^9$ timesteps. If we have 10$^4$ particles in the simulation, each having their position integrated over a billion times, it becomes obvious that computational time is a major issue for our simulations of nuclear heating of ceramic breeder pebbles. If we are able to reduce the critical timestep (while perhaps decreasing the simulation time), the simulations will be much more practical for use.
 
 
 
 \subsection{Simulation acceleration with scaled material properties}
-As we saw with Eq.~\ref{eq:stability-terms}, if we wish to increase the timestep of our DEM simulations, we would be rewarded more quickly if scaling, for example, the material density rather than Young's modulus.
+I wish to rewrite Eq.~\ref{eq:rayleigh-timestep} to facilitate a discussion on the parameters. Isolating each material term gives, 
+
+\begin{equation}
+	\delta t_c \propto R_i \times \frac{\sqrt{2(1+\nu_i)}}{0.1631 \nu_i + 0.876605}  \times \rho_i^{1/2} \times E_i^{-1/2}
+\end{equation}
+
+[pretty sure the approximation for $\nu$ only works when it's less than 1 so can't scale. must find out for sure.]
+
+The most direct effect would come from scaling the radius 
+
 
 
