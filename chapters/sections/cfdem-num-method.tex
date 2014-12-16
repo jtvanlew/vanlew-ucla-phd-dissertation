@@ -6,13 +6,13 @@ Models based on the discrete element method (DEM) are currently the only tools a
 The discrete element framework introduced in \S~\ref{sec:particle-dynamics} is augmented with a drag force term to capture interaction with surrounding fluid velocity fields. To accomplish this, we simply include a drag force to the Newtonian balance of forces given in Eq.~\ref{eq:newtons-first}. The momentum balance now reads:
 
 \begin{equation}\label{eq:cfdem-dem-momentum}
-m_i  \ddt{\vec{r}_i} = m_i\vec{g} + \vec{f}_i + \beta_i V_i \Delta u_{if}
+	m_i  \ddt{\vec{r}_i} = m_i\vec{g} + \vec{f}_i + \beta_i V_i \Delta u_{if}
 \end{equation}
 
 where $\Delta u_{if} = u_f - u_i$, is the relative velocity between the fluid and pebble, $i$, and the inter-phase momentum exchange coefficient, $\beta_i$, acts upon the pebble volume (not to be confused with the damping coefficient introduced in \S~\ref{sec:particle-dynamics}). Similarly, the energy equation now includes 
 
 \begin{equation}\label{eq:cfdem-dem-energy}
-m_iC_i \ddt{T_i} = Q_{n,i} + \sum_{j=1}^Z Q_{ij} + \beta_{E,I} A_i \Delta T_{if}
+	m_iC_i \ddt{T_i} = Q_{n,i} + \sum_{j=1}^Z Q_{ij} + \beta_{E,I} A_i \Delta T_{if}
 \end{equation}
 
 where $\Delta T_{if} = T_f - T_i$, is the relative temperature between teh fluid and pebble, $i$, and the inter-phase energy exchange coefficient, $\beta_{E,i}$, acts upon the pebble surface area, $A_i$.
@@ -22,13 +22,13 @@ The trajectory of pebble $i$ is updated based on the force terms on the right ha
 Drag forces from fluid flows through packed beds are found from volume-averaged, empirical correlations of either numerical or experimental studies. Considering a small region of a packed bed surrounding our particle of interest, i, the non-dimensional drag force is found only as a function of the local packing fraction of that region. In the zero Reynolds number limit, the non-dimensional drag force reduces to a Stokes flow correlation that is only a function of the local packing fraction value, $\phi$. For the value of particle Reynolds numbers seen by the helium purge gas, this is the dominant term. However, for a complete discussion of the non-dimensional drag terms see Refs. 5, 6. The correlation used in this study comes from the results of numerical studies of packed beds by Koch and Hill~\cite{Koch2001, Gruber2012, Benyahia2006}. To arrive at their relationships, they did many lattice-Boltzmann simulations of porous flow.
 
 \begin{equation}
-\beta_{i} = \frac{18\nu_f\rho_f}{d_{i}^2}(1-\phi) F
+	\beta_{i} = \frac{18\nu_f\rho_f}{d_{i}^2}(1-\phi) F
 \end{equation}
 
 where 
 
 \begin{equation}
-F = \epsilon (F_0 + \frac{1}{2}F_3 \Re_{p,i})
+	F = \epsilon (F_0 + \frac{1}{2}F_3 \Re_{p,i})
 \end{equation}
 
 Stokes flow
@@ -44,14 +44,15 @@ F_0 =
 and high Reynolds contribution
 
 \begin{equation}
-F_3 = 0.0673 + 0.212\phi + \frac{0.0232}{(1-\phi)^5}
+	F_3 = 0.0673 + 0.212\phi + \frac{0.0232}{(1-\phi)^5}
 \end{equation}
 
 
 
 The packing fraction and  void fraction in any fluid cell is calculated by summing through all the volumes of $k$ particles located in that cell (or the complement thereof)
+
 \begin{equation}
-\phi = \sum_{i=1}^k \frac{V_{p,i}}{\Delta V_f}
+	\phi = \sum_{i=1}^k \frac{V_{p,i}}{\Delta V_f}
 \end{equation}
 
 % \begin{equation}
@@ -64,7 +65,7 @@ Other forces, such as Magnus forces, are inconsequential on predominantly statio
 The inter-phase energy transfer coefficient is of the same form as a traditional heat transfer coefficient and is calculated from the Nusselt number for the helium flow (with conductivity $k_f$) through a packed bed.
 
 \begin{equation}
-\beta_{E,i} = \frac{\Nu_i k_f}{d_i}
+	\beta_{E,i} = \frac{\Nu_i k_f}{d_i}
 \end{equation}
 
 Li and Mason\cite{Li2000} summarize correlations for Nusselt number as a function of Reynolds number for packed beds with the following equations
