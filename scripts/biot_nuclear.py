@@ -17,7 +17,9 @@ h1    = Nu * kf * 2 / D
 Bi    = h1 * D / (2 * kr)
 h2    = h1/(1.+Bi/5.)   # W/m2K -- Jeffreson Correction
 
-
+deltaT = 50.
+q     = 8.e6
+f     = q / (rhor*Cr*deltaT)
 
 tau   = (D/2)**2/alfa     # s
 
@@ -56,8 +58,9 @@ C = np.array([(4*(np.sin(i)-i*np.cos(i)))/(2*i-np.sin(2*i)) for i in zeta])
 # Q3 is Q_out,transient w/ thermal gradient
 
 
+theta1n  = np.exp(-(h1*A/(rhor*Cr*V))*t) + f*t
 theta1  = np.exp(-(h1*A/(rhor*Cr*V))*t)
-theta2  = np.exp(-(h2*A/(rhor*Cr*V))*t)
+theta2  = np.exp(-(h2*A/(rhor*Cr*V))*t) + f*t
 
 Q1      = 1.-theta1
 Q2      = 1.-theta2
@@ -76,13 +79,22 @@ for j in np.arange(len(zeta)):
 
 import matplotlib.pyplot as plt 
 plt.close('all')
+# plt.figure(1)
+# plt.xlabel(r'Dimensionless time ($t/\tau$)')
+# plt.ylabel(r'Dimensionless total heat removed, $Q^*$')
+# plt.title(r'Biot Number = %s'%(np.round(Bi,2)))
+# plt.plot(Fo, Q1, label = 'Lumped capacitance model (LC)')
+# plt.plot(Fo, Q2,  marker = 'o', label = 'LC with Jeffreson correction (JC)')
+# plt.plot(Fo, Q3, label = 'Exact solution with thermal gradient (TG)')
+# plt.ylim([0, 1])
+# plt.legend(loc='best')
+
 plt.figure(1)
 plt.xlabel(r'Dimensionless time ($t/\tau$)')
-plt.ylabel(r'Dimensionless total heat removed, $Q^*$')
+plt.ylabel(r'$\theta$')
 plt.title(r'Biot Number = %s'%(np.round(Bi,2)))
-plt.plot(Fo, Q1, label = 'Lumped capacitance model (LC)')
-plt.plot(Fo, Q2,  marker = 'o', label = 'LC with Jeffreson correction (JC)')
-plt.plot(Fo, Q3, label = 'Exact solution with thermal gradient (TG)')
+plt.plot(Fo, theta1n, label = 'Lumped capacitance model w/ nuclear (LC)')
+plt.plot(Fo, theta1,  label = 'Lumped capacitance model (LC)')
 plt.ylim([0, 1])
 plt.legend(loc='best')
 
