@@ -67,7 +67,7 @@ Q3     = np.ones(len(t))
 theta3 = np.zeros(len(t))
 
 for j in np.arange(len(zeta)):
-  theta3 += C[j]*np.exp(-zeta[j]**2*Fo)*(1./zeta[j])*np.sin(zeta[j])
+  theta3 += C[j]*np.exp(-zeta[j]**2*Fo)*(1./zeta[j])*np.sin(zeta[j]) - -
   Q3 -= 3*(C[j]*np.exp(-zeta[j]**2*Fo)*(1./zeta[j]**3)*(np.sin(zeta[j])-zeta[j]*np.cos(zeta[j])))
 
     

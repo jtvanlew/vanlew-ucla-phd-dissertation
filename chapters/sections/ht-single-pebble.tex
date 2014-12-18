@@ -41,27 +41,125 @@ Nuclear deposition of energy is handled in a straightforward manner in the DEM c
 
 \subsection{Conduction through the solid}\label{sec:ht-pebble-conduction}
 
-The importance of internal conduction of the solid depends on both the rate of convective heat transfer with the fluid as well as conductive heat transfer to neighbors. To quantify the negligibility of internal conduction relative to surface convection, we look at the Biot number of the particles in our system. The Biot number is a ratio of
+Before considering the heat equation in a sphere, it is instructive to first consider the simpler problem of a one-dimensional slab with volumetric heat generation, $q_g'''$ and convective cooling at the surfaces. The geometry is shown in Fig.~\ref{}.
+
+Assuming we can find the Nusselt number for the convective cooling, we write the heat flux from the surface to the fluid as
 
 \begin{equation}
-	\Bi = \frac{\text{Rate of convective heat transfer from surface}}{\text{Rate of internal conduction to surface}} = \frac{hd_p}{k_s}
+	q_s'' = h(T_s - T_f)	
 \end{equation}
 
-or in terms of the Nusselt number,
+where $T_f$ is the bulk fluid temperature and $T_s$ is the surface temperature. At steady-state the amount of heat moved across the fluid-surface interface must necessarily be equal to the total amount of heat generated into the slab. Therefore,
 
 \begin{equation}
-	\Bi = \Nu \frac{k_f}{k_s}
+	q_w'' = q_g'''L = h(T_f-T_s)
 \end{equation}
 
-where $h$ is the average heat transfer coefficient, $d_p$ is the particle diameter, $k_f$ is the conductivity of the passing fluid, and $k_s$ is the bulk conductivity of the solid. When the $\Bi \ll 1$, the material is considered isothermal and internal conduction is safely ignored. 
+where $L$ is the half-width of the slab. For the sake of discussion, we re-write the above in terms of the temperature delta from surface to fluid in terms of nuclear heating,
 
-The helium purge gas moving through the packed beds is not intended to act as a heat transfer agent and moves along at a creeping flow rate. Therefore, for a first approximation we assume the Nusselt number is $\Nu = 2$. This leads to the requirement that
+\begin{equation}\label{eq:fluid-delta}
+	T_f-T_s = \frac{q_g'''L}{h}
+\end{equation}
+
+Inside the slab, at steady-state the energy equation is simply a balance of heat conduction and nuclear generation. 
+
+\begin{equation}\label{eq:nuclear-heating-slab-ode}
+	0 = k\frac{\mathrm{d}^2T}{\mathrm{d}x^2} + q_g'''
+\end{equation}
+
+The boundary conditions are symmetry about the centerline and known surface temperature
+
+\begin{align}
+	q_{L=0} &= 0 \\
+	T(L) &= T_s
+\end{align}
+
+The ODE of Eq.\ref{eq:nuclear-heating-slab-ode} is solved with simple separation and integration. When the boundary conditions are applied we have
+
+\begin{equation}
+	T(x) = \frac{q_g''' L^2}{2k}\left(1-\frac{x^2}{L^2}\right) + T_s
+\end{equation}
+
+We can find the temperature at the centerline of the slab, $x = 0$ as
+
+\begin{equation}
+	T_{cl} = \frac{q_g''' L^2}{2k} + T_s
+\end{equation}
+
+Or,
+
+\begin{equation}\label{eq:centerline-delta}
+	T_{cl} - T_s = \frac{q_g''' L^2}{2k}
+\end{equation}
+
+From Eqs.~\ref{eq:fluid-delta} and~\ref{eq:centerline-delta}, we see that the temperature differences between the surface and the fluid or the centerline and the surface are dictated by the heat generation rate relative to the speed at which that heat can be transported, via convection or conduction, respectively.
+
+We will divide Eq.~\ref{eq:centerline-delta} by Eq.~\ref{eq:fluid-delta},
+
+\begin{equation}\label{eq:biot-derivation}
+	\frac{T_{cl} - T_s}{T_f-T_s} = \frac{1}{2}\frac{hL}{k}
+\end{equation}
+
+Careful observation of this equation can tell us much about the relative importance of the different modes of heat transfer to/from the surface. If the thermal transport away from the surface occurs at a much slower pace than thermal transport of energy through the solid to the surface, then the change in temperature across the solid $T_{cl}-T_{s}$ will be small compared to the change in temperature from the interface of solid to the bulkd fluid temperature, $T_{s}-T_f$. If the temperature across the solid is negligibly small in comparison to the surface-fluid difference, we are safe in the assumption that the solid is isothermal.
+
+The group of terms on the right-hand-side of Eq.~\ref{eq:biot-derivation} is recognized as the Biot number,
+
+\begin{equation}\label{eq:biot-number}
+	\Bi=\frac{hL}{k}=\frac{R_{cond}}{R_{conv}}
+\end{equation}
+
+whose value is used to quantify the importance of internal conduction in the analysis of the solid interacting with convective heat transfer. If $\Bi<<1$, it is safely assumed that there is no temperature gradient in the solid material. A conclusion that will prove helpful in later analysis.
+
+It is interesting to note that in this derivation of Biot number, we had considered nuclear heating as the source for temperature gradients across the pebble yet the rate of nuclear heating still does not appear in the Biot number. This implies that traditional assumptions of the validity of the lumped capacitance method hold even when dealing with a heat generation term in our energy balance.
+
+
+
+
+
+\subsubsection{Large Biot number}
+
+As we saw from the discussion of Eq.~\ref{eq:biot-number}, when the Biot number is small we can safely neglect temperature gradients through the solid we are analzying. However, when dealing with materials with low conductivity, i.e. larger $\Bi$, this assumption of negligible temperature gradient becomes decreasingly valid.  When dealing with spheres, there are slighty different accepted definitions of the Biot Number.  Some suggest that $\Bi=hd_p/6k$ is acceptable\cite{incropera:245}, where $d_p$ is the diameter of the particle.  However many use the more conservative definition of $\Bi=hd_p/2k$\cite{incropera:245,jeffreson409}.  For consistency and conservatism, we will proceed here with the latter definition.  
+
+Considering now material and geometric properties relevant to our ceramic pebble beds, we will see that we may need to consider the effects of a larger $\Bi$ for our pebbles. The helium purge gas moving through the packed beds is not specifically intended to act as a heat transfer agent and moves along at a creeping flow rate. For a first approximation we will therefore assume as a lower limit the Nusselt number is $\Nu = 2$ (the value for a sphere in quiescent fluid). From the requirement that $\Bi \ll 1$, we have
 
 \begin{equation}
 	2 \frac{k_f}{k_s} \ll 1
 \end{equation}
 
 The conductivity of helium over the temperature range of 300 to 800 $^\circ$C is approximately 0.3 \si{W/m-K}. The solid conductivity of \lit and \lis are approximately 2 \si{W/m-K}. Because of the low conductivity of our solid, the Biot assumption is barely valid, $0.3 < 1$. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 [Go back through Batchelor and O'Brien~\cite{Batchelor1977} paper]
 
