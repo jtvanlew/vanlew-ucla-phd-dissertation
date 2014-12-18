@@ -20,7 +20,8 @@ h2    = h1/(1.+Bi/5.)   # W/m2K -- Jeffreson Correction
 deltaT = 50.
 q     = 8.e6
 f     = q / (rhor*Cr*deltaT)
-G     = q * (D/2.)**2 / (kr*deltaT)
+#G     = q * (D/2.)**2 / (kr)
+theta0 = 0
 tau   = (D/2)**2/alfa     # s
 
 t     = np.linspace(0,3*tau,100) # 1/s
@@ -46,9 +47,11 @@ while len(zeta) < Nroots:
   x += 0.5
 
 zeta = np.array([i for i in zeta])
-Z = np.array([(1-G*(1+2/Bi))*((np.sin(i)-i*np.cos(i))/i**2) + G*(3*(i-2)*np.sin(i) - i*(i**2-6)*np.cos(i))/(i**4) for i in zeta])
-N = np.array([(1./2) * (i**2 + (1-Bi)**2 + (1-Bi))/(i**2 + (1-Bi)**2) for i in zeta])
-M = np.array([(np.sin(i) - i*np.cos(i))/i**2 for i in zeta])
+C = np.array([(np.sin(i) - i*np.cos(i))/i**2 for i in zeta])
+K = np.array([(3.*(i**2-2.)*np.sin(i) - i*(i**2-6.)*np.cos(i))/i**4 for i in zeta])
+Z = (theta0 - (1./6.)*(1+2./Bi))*C + K/6.
+N = np.array([(1./2) * (i**2 + (Bi-1)**2 + (Bi-1))/(i**2 + (Bi-1)**2) for i in zeta])
+
 
 #C = np.array([(4*(np.sin(i)-i*np.cos(i)))/(2*i-np.sin(2*i)) for i in zeta])
 
@@ -69,13 +72,17 @@ theta2  = np.exp(-(h2*A/(rhor*Cr*V))*t) + f*t
 Q1      = 1.-theta1
 Q2      = 1.-theta2
 
+r = np.linspace(0,1,20)
+Q3     = np.zeros(len(t))
+theta3 = np.zeros(len(r))
 
-Q3     = np.ones(len(t))
-theta3 = np.zeros(len(t))
 
 for j in np.arange(len(zeta)):
-  Q3 -= 3*(np.exp(-zeta[j]**2*Fo)*Z[j]*M[j]/N[j]
+  Q3 += 3*(np.exp(-zeta[j]**2*Fo)*Z[j]*C[j]/N[j])
 
+for t in Fo:
+  for j in np.arange(len(zeta)):
+    Q3 += 3*(np.exp(-zeta[j]**2*Fo)*Z[j]*C[j]/N[j]) 
     
 
 
@@ -85,10 +92,10 @@ plt.figure(1)
 plt.xlabel(r'Dimensionless time ($t/\tau$)')
 plt.ylabel(r'Dimensionless total heat removed, $Q^*$')
 plt.title(r'Biot Number = %s'%(np.round(Bi,2)))
-plt.plot(Fo, Q1, label = 'Lumped capacitance model (LC)')
-plt.plot(Fo, Q2,  marker = 'o', label = 'LC with Jeffreson correction (JC)')
+# plt.plot(Fo, Q1, label = 'Lumped capacitance model (LC)')
+# plt.plot(Fo, Q2,  marker = 'o', label = 'LC with Jeffreson correction (JC)')
 plt.plot(Fo, Q3, label = 'Exact solution with thermal gradient (TG)')
-plt.ylim([0, 1])
+#plt.ylim([0, 1])
 plt.legend(loc='best')
 
 

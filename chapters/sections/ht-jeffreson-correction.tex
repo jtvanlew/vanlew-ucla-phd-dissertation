@@ -1,3 +1,244 @@
+\subsection{Conduction through the solid}\label{sec:ht-jeffreson-correction}
+
+
+\section{Solutions to a Sphere in Fluid}
+Van Lew\cite{VanLew2010}, in the study of solar thermal energy storage considered a sphere submerged in a heat-transfer fluid to show the diverging accuracy of the lumped capacitance method as the Biot number increased above unity. Van Lew introduced a method of modifying the heat transfer coefficient, referred to as the Jeffreson correction, to correct for large $\Bi$. The correction technique was further generalized by Xu, et al.\cite{Xu2012} for large Biot numbers with more generic geometries. We will show here how the same technique can be applied when nuclear heating of the solid is introduced. The solution technique is similar to the detailed process given by Van Lew\cite{VanLew2010} so some details will be omitted here.
+
+We consider a single sphere with volumetric heat generation submerged in and thermally interacting with a fluid. The sphere will be of radius $R=d_p/2$, as shown in Fig.~\ref{fig:ParticleControlVolume}. The sphere will initially be at a uniform temperature of $T_i$. The fluid temperature will remain constant at $T_f$
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=2in]{chapters/figures/ParticleControlVolume}
+	\caption[Control volume of single spherical particle in a packed bed]{CONTROL VOLUME OF A SINGLE SPHERICAL PARTICLE IN A PACKED BED}
+	\label{fig:ParticleControlVolume}
+\end{figure}
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+\subsection{Exact Solution for Sphere}
+
+The solution will be found for temperature in dimensionless form. We scale by the maximum temperature difference occuring at the initial state,
+
+\begin{equation}
+	\theta=\frac{T(r,t)-T_{f}}{T_{i}-T_{f}}
+\end{equation}
+
+where $T(r,t)$ is the temperature of the sphere as it varies in radius and time. The solution is given in terms of a dimensionless time (Fourier number), $\Fo = \frac{t}{R^2/\alpha}$, and non-dimensional radius $r^* = \frac{r}{R}$,
+
+\begin{equation}
+	\theta_{t.g.}=\sum_{n=1}^\infty C_n exp(-\zeta_n^2 \Fo)\frac{1}{\zeta_nr^*} sin(\zeta_n r^*)
+\end{equation}
+
+where we designate $\theta_{t.g.}$ as the dimensionless temperature specific for exact solution with thermal gradient. The coefficients are
+
+\begin{equation}
+	C_n=\frac{4\big(sin\zeta_n -\zeta_n cos\zeta_n\big)}{2\zeta_n-sin(2\zeta_n)}
+\end{equation}
+
+and the discrete values of $\zeta_n$ are positive roots of the transcendental equation
+
+\begin{equation}\label{eq:traneqn}
+	1-\zeta_ncot\zeta_n = \Bi
+\end{equation}
+
+where the first 10 roots of the transcendental equation are solved for numerically with the Newton-Raphson method of root finding. The total amount of energy removed from the sphere at time $t$ is given in the same dimensionless form as Van Lew\cite{VanLew2010}, 
+
+\begin{equation}
+	Q^*=\frac{Q}{Q_{\infty}}
+\end{equation}
+
+where $Q_{\infty}$ is the total, thermal potential energy of the sphere,
+
+\begin{equation}
+	Q_{\infty}=\rho_rC_rV(T_{i}-T_{f})
+\end{equation}
+
+The total removed energy is then
+
+\begin{equation}
+\label{eq:qexact}
+	Q^*_{t.g.}=1-3\sum_{n=1}^\infty C_n exp(-\zeta_n^2 Fo)\frac{1}{\zeta_n^3} \big(sin\zeta_n-\zeta_ncos\zeta_n\big)
+\end{equation}
+
+Equation~\ref{eq:qexact} is the exact solution for the amount of heat removed from a sphere as a function of dimensionless time~$Fo$. We will use this value for a direct comparison with the lumped capacitance method.
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+\subsection{Lumped Capacitance Solution for Sphere}
+The dimensionless temperature curve, $\theta_{l.c.}^*$, is found from a simple balance of the change in internal energy with the convective transport of energy away from the solid.  
+
+\begin{equation}
+	hA(T_s-T_f)=-\rho_sC_sV\frac{dT}{dt} + q_g'''V
+\end{equation}
+
+With dimensionless temperature, a first order differential arises and the solution is simply:
+
+\begin{equation}
+\label{eq:thetalc}
+	\theta_{l.c.}=exp\left(-\frac{hA}{\rho_s C_s V}t\right) + G
+\end{equation}
+
+where the dimensionless heat generation term is 
+
+\begin{equation}
+	G = \frac{q_g'''}{\rho_sC_s(T_{i}-T_{f})}
+\end{equation}
+
+To find the heat transfer out of a sphere with the Lumped Capacitance Method, we balance the change in the internal energy of the sphere with the quantity of heat transferred to the fluid, $E_{st} = Q_{\text{out}}$. In dimensionless form, the energy equation simplifies to the simple form of
+
+\begin{equation}
+	Q^*_{l.c.}=1-\theta^*_{l.c.}
+\label{eq:qlc}
+\end{equation}
+
+
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=4in]{chapters/figures/qlcandqexact}
+	\caption[Heat transfer solutions for single sphere]{HEAT TRANSFER SOLUTIONS FOUND IN TIME VIA THE LUMPED CAPACITANCE METHOD AND EXACT SOLUTION FOR SPHERE}
+	\label{fig:qlcandqexact}
+\end{figure}
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+\subsection{Jeffreson Correction Solution}
+A correlation to correct the heat transfer coefficient due to solids with large Biot number is given by Jeffreson\cite{jeffreson409}. The correction has been used to successfully account for using the lumped capacitance method with moderately sized Biot numbers. We introduce it here to the case of a sphere with Biot number greater than unity and experiencing volumetric heat generation. The Jeffreson correction for a sphere is,
+
+\begin{equation}
+	\frac{1}{h_{p}}=\frac{1+Bi/5}{h}
+\end{equation}
+
+where $h_p$ is the modified heat transfer coefficient of the particle with an internal temperature gradient.  An increase in the Biot Number (or increase of thermal gradient inside the solid) results in a decrease in the heat transfer coefficient~$h_p$.  Applying the Jeffreson Correction to Eq.~\ref{eq:thetalc} and thereby Eq.~\ref{eq:qlc} gives,
+
+\begin{equation}
+	\theta^*_{j.c.}=exp\bigg(-\frac{h_{p}A}{\rho_r C_rV}t\bigg)
+\end{equation}
+
+and
+
+\begin{equation}
+\label{eq:qjc}
+	Q^*_{j.c.}=1-\theta^*_{j.c.}
+\end{equation}
+
+We now compare the total heat removed from the sphere as found from the exact solution, Eq.~\ref{eq:qexact}, the standard lumped capacitance method, Eq.~\ref{eq:qlc}, and the lumped capacitance with Jeffreson correction, Eq.~\ref{eq:qjc}.
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Results}
+Plotted in Fig.~\ref{qvstime_lc_jc_tg} is a comparison between the non-dimensional heat transfers out of the sphere as functions of time for three different methods: Lumped Capacitance, Lumped Capacitance with Jeffreson Correction, and the Exact Solution with thermal gradient. As discussed in Fig.~\ref{fig:qlcandqexact}  the curve for Lumped Capacitance Method quickly approaches $Q^*=1$. The exact solution seems to lag behind this curve. This lag appears to be well accounted for with the reduced heat transfer coefficient as given by the Jeffreson Correction.  The curve for the Jeffreson Correction method closely matches that of the model for the Temperature Gradient for all dimensionless time.  
+
+The Jeffreson Correction method accurately models the the thermodynamics of a system with a Biot Number larger while still allowing the simplified calculation of the lumped capacitance method.
+
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics[width=4in]{chapters/figures/Qvstime_lc_jc_tg} 
+	\end{center}
+	\caption[Heat transfer solutions with correction for single sphere]{HEAT TRANSFER SOLUTIONS FOUND IN TIME VIA THE LUMPED CAPACITANCE METHOD, JEFFRESON CORRECTION, AND EXACT SOLUTION FOR SPHERE WITH $Bi=2.54$}
+	\label{qvstime_lc_jc_tg} 
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+Before considering the heat equation in a sphere, it is instructive to first consider the simpler problem of a one-dimensional slab with volumetric heat generation, $q_g'''$ and convective cooling at the surfaces. The geometry is shown in Fig.~\ref{}.
+
+Assuming we can find the Nusselt number for the convective cooling, we write the heat flux from the surface to the fluid as
+
+\begin{equation}
+	q_s'' = h(T_s - T_f)	
+\end{equation}
+
+where $T_f$ is the bulk fluid temperature and $T_s$ is the surface temperature. At steady-state the amount of heat moved across the fluid-surface interface must necessarily be equal to the total amount of heat generated into the slab. Therefore,
+
+\begin{equation}
+	q_w'' = q_g'''L = h(T_f-T_s)
+\end{equation}
+
+where $L$ is the half-width of the slab. For the sake of discussion, we re-write the above in terms of the temperature delta from surface to fluid in terms of nuclear heating,
+
+\begin{equation}\label{eq:fluid-delta}
+	T_f-T_s = \frac{q_g'''L}{h}
+\end{equation}
+
+Inside the slab, at steady-state the energy equation is simply a balance of heat conduction and nuclear generation. 
+
+\begin{equation}\label{eq:nuclear-heating-slab-ode}
+	0 = k\frac{\mathrm{d}^2T}{\mathrm{d}x^2} + q_g'''
+\end{equation}
+
+The boundary conditions are symmetry about the centerline and known surface temperature
+
+\begin{align}
+	q_{L=0} &= 0 \\
+	T(L) &= T_s
+\end{align}
+
+The ODE of Eq.\ref{eq:nuclear-heating-slab-ode} is solved with simple separation and integration. When the boundary conditions are applied we have
+
+\begin{equation}
+	T(x) = \frac{q_g''' L^2}{2k}\left(1-\frac{x^2}{L^2}\right) + T_s
+\end{equation}
+
+We can find the temperature at the centerline of the slab, $x = 0$ as
+
+\begin{equation}
+	T_{cl} = \frac{q_g''' L^2}{2k} + T_s
+\end{equation}
+
+Or,
+
+\begin{equation}\label{eq:centerline-delta}
+	T_{cl} - T_s = \frac{q_g''' L^2}{2k}
+\end{equation}
+
+From Eqs.~\ref{eq:fluid-delta} and~\ref{eq:centerline-delta}, we see that the temperature differences between the surface and the fluid or the centerline and the surface are dictated by the heat generation rate relative to the speed at which that heat can be transported, via convection or conduction, respectively.
+
+We will divide Eq.~\ref{eq:centerline-delta} by Eq.~\ref{eq:fluid-delta},
+
+\begin{equation}\label{eq:biot-derivation}
+	\frac{T_{cl} - T_s}{T_f-T_s} = \frac{1}{2}\frac{hL}{k}
+\end{equation}
+
+Careful observation of this equation can tell us much about the relative importance of the different modes of heat transfer to/from the surface. If the thermal transport away from the surface occurs at a much slower pace than thermal transport of energy through the solid to the surface, then the change in temperature across the solid $T_{cl}-T_{s}$ will be small compared to the change in temperature from the interface of solid to the bulkd fluid temperature, $T_{s}-T_f$. If the temperature across the solid is negligibly small in comparison to the surface-fluid difference, we are safe in the assumption that the solid is isothermal.
+
+The group of terms on the right-hand-side of Eq.~\ref{eq:biot-derivation} is recognized as the Biot number,
+
+\begin{equation}\label{eq:biot-number}
+	\Bi=\frac{hL}{k}=\frac{R_{cond}}{R_{conv}}
+\end{equation}
+
+whose value is used to quantify the importance of internal conduction in the analysis of the solid interacting with convective heat transfer. If $\Bi<<1$, it is safely assumed that there is no temperature gradient in the solid material. A conclusion that will prove helpful in later analysis.
+
+It is interesting to note that in this derivation of Biot number, we had considered nuclear heating as the source for temperature gradients across the pebble yet the rate of nuclear heating still does not appear in the Biot number. This implies that traditional assumptions of the validity of the lumped capacitance method hold even when dealing with a heat generation term in our energy balance.
+
+
+
+
+\subsubsection{Large Biot number}
+
+As we saw from the discussion of Eq.~\ref{eq:biot-number}, when the Biot number is small we can safely neglect temperature gradients through the solid we are analzying. However, when dealing with materials with low conductivity, i.e. larger $\Bi$, this assumption of negligible temperature gradient becomes decreasingly valid.  When dealing with spheres, there are slighty different accepted definitions of the Biot Number.  Some suggest that $\Bi=hd_p/6k$ is acceptable\cite{incropera:245}, where $d_p$ is the diameter of the particle.  However many use the more conservative definition of $\Bi=hd_p/2k$\cite{incropera:245,jeffreson409}.  For consistency and conservatism, we will proceed here with the latter definition.  
+
+Considering now material and geometric properties relevant to our ceramic pebble beds, we will see that we may need to consider the effects of a larger $\Bi$ for our pebbles. The helium purge gas moving through the packed beds is not specifically intended to act as a heat transfer agent and moves along at a creeping flow rate. For a first approximation we will therefore assume as a lower limit the Nusselt number is $\Nu = 2$ (the value for a sphere in quiescent fluid). From the requirement that $\Bi \ll 1$, we have
+
+\begin{equation}
+	2 \frac{k_f}{k_s} \ll 1
+\end{equation}
+
+The conductivity of helium over the temperature range of 300 to 800 $^\circ$C is approximately 0.3 \si{W/m-K}. The solid conductivity of \lit and \lis are approximately 2 \si{W/m-K}. Because of the low conductivity of our solid, the Biot assumption is barely valid, $0.3 < 1$. 
+
+
+
 
 \section{Solutions to a Sphere in Fluid}
 Van Lew\cite{VanLew2010}, in the study of solar thermal energy storage considered a sphere submerged in a heat-transfer fluid to show the diverging accuracy of the lumped capacitance method as the Biot number increased above unity. Van Lew introduced a method of modifying the heat transfer coefficient, referred to as the Jeffreson correction, to correct for large $\Bi$. The correction technique was further generalized by Xu, et al.\cite{Xu2012} for large Biot numbers with more generic geometries. We will show here how the same technique can be applied when nuclear heating of the solid is introduced. The solution technique is similar to the detailed process given by Van Lew\cite{VanLew2010} so some details will be omitted here.

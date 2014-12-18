@@ -1,0 +1,350 @@
+\Appendix{Sphere with heat generation}
+
+To provide homogeneous boundary conditions, the temperature will everywhere be in reference to its difference from the fluid temperature, i.e. $\mathbb{T} = T-T_f$. 
+
+Energy equation
+
+\begin{equation}
+    \frac{1}{r}\frac{\partial^2}{\partial r^2}(r\mathbb{T}) + \frac{g}{k} = \frac{1}{\alpha}\frac{\partial \mathbb{T}}{\partial t}
+\end{equation}
+
+Subject to 
+
+\begin{equation}
+    \frac{\partial \mathbb{T}}{\partial r}\big|_b + \frac{h}{k}\mathbb{T}|_b = 0
+\end{equation}
+
+and
+
+\begin{equation}
+    \mathbb{T}|_0 = \text{finite}
+\end{equation}
+
+with initial condition
+
+\begin{equation}
+    \mathbb{T}(r,0) = \mathbb{T}_0
+\end{equation}
+
+Transform with 
+
+\begin{equation}
+    U(r,t) = r\mathbb{T}(r,t)
+\end{equation}
+
+Energy equation becomes
+
+\begin{equation}
+    \frac{\partial^2 U}{\partial r^2} + \frac{gr}{k} = \frac{1}{\alpha}\frac{\partial U}{\partial t}
+\end{equation}
+
+Subject to
+
+\begin{equation}
+    \frac{\partial U}{\partial r}\big|_b + \left(\frac{h}{k} - \frac{1}{b}\right)U|_b = \frac{hb}{k}T_f
+\end{equation}
+
+and
+
+\begin{equation}
+    U|_0 = 0
+\end{equation}
+
+with initial condition
+
+\begin{equation}
+    U(r,0) = T_0r
+\end{equation}
+
+Break up the problem into simpler problems
+
+\begin{enumerate}
+\item A set of steady-state problems defined by $U_{ss}(r)$
+\item A homogeneous time-dependent problem defined by $U_h(r,t)$
+\end{enumerate}
+
+The solution of $U_{ss}$ is found from the solution of
+
+\begin{equation}
+    \frac{\partial^2 U_{ss}}{\partial r^2} + \frac{gr}{k} = 0
+\end{equation}
+
+subject to the boundary conditions of
+\begin{align}\label{eq:ss-bcs}
+    U_{ss}\big|_0 &= 0\\
+    \frac{\partial U_{ss}}{\partial r}\big|_b + \left(\frac{h}{k} - \frac{1}{b}\right)U_{ss}\big|_b &= 0
+\end{align}
+
+We separate and integrate, 
+
+\begin{align}
+    \frac{\partial U_{ss}}{\partial r} & = -\frac{g}{2k} r^2 + C_1\\
+    U_{ss} & = -\frac{g}{6k} r^3 + C_1r + C_2
+\end{align}
+
+The first boundary condition of Eq.~\ref{eq:ss-bcs} directly provides $C_2 = 0$. The second boundary condition is solved to give
+
+\begin{equation}
+    C_1 = \frac{gb^2}{6k}\left(1 + \frac{2}{Bi}\right)
+\end{equation}
+
+valid for $Bi > 0$. Thus,
+
+\begin{equation}
+    U_{ss} = \frac{gb^2}{6k}\left(1 + \frac{2}{Bi}-\frac{r^2}{b^2}\right)r
+\end{equation}
+
+We can now transform back to the temperature version of the equation with the simple reduction in power of $r$ on U, (U = r$\mathbb{T}$),
+
+\begin{equation}
+    \mathbb{T}_{ss} = \frac{gb^2}{6k}\left(1 + \frac{2}{Bi}-\frac{r^2}{b^2}\right) 
+\end{equation}
+
+Now we non-dimensionalize with 
+
+\begin{equation}\label{eq:dimensionless-temp-definition}
+    \theta = \frac{\mathbb{T}}{gb^2/k}
+\end{equation}
+
+and
+
+\begin{equation}
+    r^* = \frac{r}{b}
+\end{equation}
+
+
+\begin{equation}
+    \theta_{ss} = \frac{1}{6} \left( 1 + \frac{2}{Bi} - r^{*2} \right)
+\end{equation}
+
+The next step is to find the homogeneous solution of 
+
+\begin{equation}
+    \frac{\partial^2 U_h}{\partial r^2} = \frac{1}{\alpha}\frac{\partial U_h}{\partial t}
+\end{equation}
+
+Subject to 
+
+\begin{align}
+    U_{h}\big|_0 &= 0\\
+    \frac{\partial U_{h}}{\partial r}\big|_b + \left(\frac{h}{k} - \frac{1}{b}\right)U_{h}\big|_b &= 0
+\end{align}
+
+and the initial condition of
+
+\begin{align}
+    U_{h,0} &= \mathbb{T}_0r - U_{ss}\\
+    & = \left[\frac{\mathbb{T}_0}{gb^2/k} - \frac{1}{6}\left(1 + \frac{2}{Bi} - \frac{r^2}{b^2}\right)\right]r
+\end{align}
+
+We will again transform the spatial variable into a dimensionless form, $r^* = r/b$. The equation to solve is then,
+
+\begin{equation}
+    \frac{\partial^2 U_h}{\partial r^{*2}} = \frac{b^2}{\alpha}\frac{\partial U_h}{\partial t}
+\end{equation}
+
+with boundary conditions of
+
+\begin{align}
+    U_{h}\big|_0 &= 0\\
+    \frac{\partial U_{h}}{\partial r^*}\big|_1 + (Bi - 1)U_{h}\big|_1 &= 0
+\end{align}
+
+and an initial condition of
+
+\begin{align}
+    U_h(t=0) &= T_0r^*b - \sum_{j=0}^N U_{0j}\\
+    & = \left[\frac{\mathbb{T}_0}{gb^2/k} - \frac{1}{6}\left(1 + \frac{2}{Bi} - r^*\right)\right]r^*b
+\end{align}
+
+
+The solution is assumed of the form
+
+\begin{equation}
+    U_h = R(r^*) \Gamma(t)
+\end{equation}
+
+The solution for $\Gamma$ is given as
+
+\begin{equation}
+    \Gamma = \exp(-\zeta^2t/\tau)
+\end{equation}
+
+where $\tau = b^2/\alpha$. The space-variable function $R(\zeta,r^*)$ satisfies the following eigenvalue problem:
+
+\begin{equation}\label{eq:eigen-function}
+    \frac{\mathrm{d}^2R}{\mathrm{d}r^{*2}} + \zeta^2 R = 0
+\end{equation}
+
+subject to 
+
+\begin{equation}
+    R = 0
+\end{equation}
+
+at $r^* = 0$, and
+
+\begin{equation}
+    \frac{\mathrm{d}R}{\mathrm{d}r^*} + (Bi - 1)R = 0
+\end{equation}
+
+at $r^* = 1$. This eigenvalue problem is a special case of the Sturm-Liouville problem. The solution for $U_h$ can be constructed from known eigenvalue solutions,
+
+\begin{equation}\label{eq:eigen-general-solution}
+    U(r,t) = \sum_{n=1}^\infty c_n R(\zeta_n,r^*)\exp(-\zeta^2 t/\tau)
+\end{equation}
+
+Application of the initial condition gives
+
+\begin{equation}\label{eq:eigen-initial-condition}
+    F(r) = \sum_{n=1}^\infty c_n R(\zeta_n,r^*)
+\end{equation}
+
+where $F(r^*)$ is the initial condition we defined above, 
+
+\begin{equation}
+    F(r^*) =\left[\frac{\mathbb{T}_0}{gb^2/k} - \frac{1}{6}\left(1 + \frac{2}{Bi} - r^*\right)\right]\frac{gb^2}{k}r^*b 
+\end{equation}
+
+The coefficients of $c_n$ can be determined by applying the operator $\int_0^1 R(\zeta_n,r^*)\,\mathrm{d}r^*$ and utilizing the orthogonality property of eigenfunctions. The coefficients are found as
+
+\begin{equation}\label{eq:eigenfunction-coefficients}
+    c_n = \frac{1}{N(\zeta_n)}\int_0^1 R(\zeta_n,r^{*'})F(r^{*'})\,\mathrm{d}r^{*'}
+\end{equation}
+
+The norm, $N$ is defined as
+
+\begin{equation}
+    N(\zeta_n) = \int_0^1 \left[R(\zeta_n,r^*)\right]^2\,\mathrm{d}r^*
+\end{equation}
+
+With the coefficients defined in Eq.~\ref{eq:eigenfunction-coefficients}, they can be substituted back into Eq.~\ref{eq:eigen-general-solution},
+
+\begin{equation}
+    U(r^*,t) = \sum_{n=1}^\infty \exp(-\zeta^2 t/\tau) \frac{R(\zeta_n,r^*)}{N(\zeta_n)}\int_0^1 R(\zeta_n,r^{*'})F(r^{*'})\,\mathrm{d}r^{*'}
+\end{equation}
+
+% Eq.~\ref{eq:eigenfunction-coefficients} is also inserted back into Eq.~\ref{eq:eigen-initial-condition},
+
+% \begin{equation}
+%     (T_0-T_f)r - \frac{g}{6k} r^3 - \frac{gb^2}{6k}\left(1 + \frac{2}{Bi}\right)r = \sum_{n=1}^\infty \frac{R(\zeta_n,r)}{N(\zeta_n)}\int_0^b R(\zeta_n,r')F(r')\,\mathrm{d}r'
+% \end{equation}
+
+The eigenfunctions for Eq.~\ref{eq:eigen-function} are
+
+\begin{equation}
+    R(\zeta_n,r^*) = \sin(\zeta_n r^*)
+\end{equation}
+
+where the eigenvalues are the root of
+
+\begin{equation}
+    \zeta_n\cot(\zeta_n) = -H
+\end{equation}
+
+and the normalization integral is given as
+
+\begin{equation}
+    \frac{1}{N(\zeta_n)} = 2\frac{\zeta_n^2 + H^2}{\zeta_n^2+H^2 + H}
+\end{equation}
+
+where $H = (Bi-1)$
+
+In order to explicitly express the solution, we will first evaluate the integral
+
+\begin{align}
+    Z(\zeta_n)\frac{gb^2}{k}b & = \int_0^1 R(\zeta_n,r^{*'})F(r^{*'})\,\mathrm{d}r^{*'} \\
+    & = \int_0^1\sin(\zeta_nr^{*'}) \left[\frac{\mathbb{T}_0}{gb^2/k} - \frac{1}{6}\left(1 + \frac{2}{Bi} - r^*\right)\right]r^*b \,\mathrm{d}r^{*'}\\
+    & =\left\{ \left[\frac{\mathbb{T}_0}{gb^2/k}  - \frac{1}{6}\left(1 + \frac{2}{Bi}\right)\right]\int_0^1\sin(\zeta_nr^{*'})r^{*'} \,\mathrm{d}r^{*'} + \frac{1}{6}\int_0^1 \sin(\zeta_nr^{*'})r^{*'3} \,\mathrm{d}r^{*'}\right\}\frac{gb^2}{k}b
+\end{align}
+
+The two unique integrals are evaluated as
+
+\begin{align}
+    C_n &= \int_0^1\sin(\zeta_nr^{*'})r^{*'} \,\mathrm{d}r^{*'}  = \frac{\sin\zeta_n-\zeta_n\cos\zeta_n}{\zeta_n^2}\\
+    K_n &= \int_0^1\sin(\zeta_nr^{*'})r^{*'3} \,\mathrm{d}r^{*'}  = \frac{3(\zeta_n^2-2)\sin\zeta_n - \zeta_n(\zeta_n^2-6)\cos\zeta_n}{\zeta_n^4}
+\end{align}
+
+Thus
+\begin{equation}
+    Z(\zeta_n) = \left[\frac{\mathbb{T}_0}{gb^2/k} - \frac{1}{6}\left(1 + \frac{2}{Bi}\right)\right]C_n + \frac{1}{6}K_n
+\end{equation}
+
+or in terms of our dimensionless temperature,
+\begin{equation}
+    Z(\zeta_n) = \left[\theta_0 - \frac{1}{6}\left(1 + \frac{2}{Bi}\right)\right]C_n + \frac{1}{6}K_n
+\end{equation}
+
+The solution in terms of the transformed variable, $U(r^*,T)$ is now written as
+
+\begin{equation}
+    U(r^*,t) = \sum_{n=1}^\infty \exp(-\zeta^2 t/\tau) \sin(\zeta_n r^*)\frac{Z(\zeta_n)\frac{gb^2}{k}b}{N(\zeta_n)}
+\end{equation}
+
+Now we can write the solution for $\mathbb{T}(r^*,t)$ direclty from $U(r^*,t)$,
+
+\begin{equation}
+    \mathbb{T}(r^*,t) = \sum_{n=1}^\infty \exp(-\zeta^2 t/\tau) \frac{\sin(\zeta_n r^*)}{r^*}\frac{Z(\zeta_n)\frac{gb^2}{k}}{N(\zeta_n)}
+\end{equation}
+
+With one last step, we introduce the dimensionless temperature defined from Eq.~\ref{eq:dimensionless-temp-definition}
+
+\begin{equation}
+    \theta(r^*,t)_{t.g.} = \sum_{n=1}^\infty \exp(-\zeta^2 t/\tau) \frac{\sin(\zeta_n r^*)}{r^*}\frac{Z(\zeta_n)}{N(\zeta_n)}
+\end{equation}
+
+
+
+For comparison, we will non-dimensionalize the heat transfer as:
+
+\begin{equation}
+    Q^*=\frac{Q}{Q_{\infty}}
+\end{equation}
+
+where $Q_{\infty}$ is the maximum possible amount of energy transfer between the solid and fluid.  This value is equal for both lumped capacitance and the exact solution and is:
+
+\begin{equation}
+    Q_{\infty}=-\rho_rC_rV(T_f - T_i)
+\end{equation}
+
+Introducing this non-dimensional heat transfer term and the energy balance is expressed as: 
+
+\begin{align}
+    Q^*_{t.g.}&=\int\frac{-\rho_rC_r\big(T(r,t)-T_0\big)dV}{-\rho_rC_rV(T_{\infty}-T_0)}\\
+    Q^*_{t.g.}&=\frac{1}{V}\int 1 - \theta_{t.g.} \,\mathrm{d}V
+\end{align}
+
+
+For a circle in spherical coordinates:
+
+\begin{equation}
+    \mathrm{d}V=r^2\sin(\phi)\mathrm{d}r\mathrm{d}\phi \mathrm{d}\theta
+\end{equation}
+
+In non-dimensional terms and assuming only a radial dependence, this becomes:
+
+\begin{equation}
+    \mathrm{d}V=4\pi R^3 r^{*2}\mathrm{d}r^*
+\end{equation}
+
+The exact equation for dimensionless heat transfer for a sphere is then:
+
+\begin{equation}
+    Q^*_{t.g.}=\frac{4\pi R^3}{V}\int_0^1  \left[ 1 -\sum_{n=1}^\infty \exp(-\zeta^2 t/\tau) \frac{\sin(\zeta_n r^*)}{r^*}\frac{Z(\zeta_n)}{N(\zeta_n)} \right] r^{*2}\,\mathrm{d}r^*
+\end{equation}
+
+This reduces to:
+
+\begin{equation}
+    Q^*_{t.g.}=1 - 3\sum_{n=1}^\infty \exp(-\zeta^2 t/\tau) \frac{Z(\zeta_n)}{N(\zeta_n)} \int_0^1 r^* \sin(\zeta_n r^*)\,\mathrm{d}r^* 
+\end{equation}
+
+And we recognize the integral as one which we solved previously,
+
+\begin{equation}
+\label{eq:qexact}
+    Q^*_{t.g.}=1 - 3\sum_{n=1}^\infty \exp(-\zeta^2 t/\tau) \frac{Z(\zeta_n)}{N(\zeta_n)} C_n(\zeta_n)
+\end{equation}
+
+And we are left with a formula for the total heat removed from the sphere as only a function of the eigenvalues and time.
+
