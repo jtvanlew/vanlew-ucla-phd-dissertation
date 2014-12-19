@@ -1,36 +1,39 @@
-\section{Inter-particle conduction}\label{sec:particle-conduction}
-[Go back through Batchelor and O'Brien~\cite{Batchelor1977} paper]
+\section{Inter-particle heat conduction}\label{sec:ht-pebble-conduction}
+
+Handling the heat transfer between contacting particles has been investigated extensively by researchers in a number of fields\cite{Zhou2009,Zhang2011,Wu2011,Vargas2001,Li2000,Chaudhuri2006}.
+
+In the Hertz analysis we walked through in \S\ref{sec:hertz-contact}, we found the contact radius of two elastic spheres in Eq.~\ref{eq:hertz-radius} as a function of the contact pressure. We rewrite the radius in terms of the compression force acting on the bodies,
 
 \begin{equation}
-	\frac{ k_s }{ k_f } \frac{a}{R^*} = \lambda
+	a =  \left(\frac{3}{4}\frac{R^*}{E^*}\right)^{1/3}F^{1/3}	
 \end{equation}
 
-Similar to the lumped capacitance assumptions, if $\lambda \gg 1$, the solid is approximately is isothermal. The second group on the left-hand side of this condition we remember from the assumptions of Hertz theory, where we require $\frac{a}{R^*} \ll 1^*$. Therefore to satisfy the condition of $\lambda \gg 1$, we require very large conductivity ratios of solid to fluid, $\frac{k_s}{k_f} \gg 1$. Alternatively this is satisfied by definition if the solids exist in vacuum.
+where $\frac{1}{E^*} = \frac{1-\nu_1^2}{E_1} + \frac{1-\nu_2^2}{E_2}$ and $\frac{1}{R^*} = \frac{1}{R_1} + \frac{1}{R_2}$ as before.
 
-Assuming that we satisfy the condition of isothermal solids, we address the conduction between solids in their small regions of contact.
+Batchelor and O'Brien\cite{Batchelor1977} made the brilliant observation that the temperature fields in the near-region of contacting spheres are analogous to the velocity potential of the potential flow of a fluid passing from from one reservoir to another through a circular hole in a planar wall. With the analogy, they could make use of the fluid flow solution to write the total flux across the circle of contact,
 
-[more details]
-
-
-
-
-
-
-
-
-
-
-\subsection{Particle-particle conduction}
-
-Handling the heat transfer between contacting particles has been investigated extensively by researchers in a number of fields\cite{Zhou2009,Zhang2011,Wu2011,Vargas2001,Li2000,Chaudhuri2006}. The amount of energy per time that can be transported per difference in temperature between pebble $i$ and $j$ as a conductance $h_{ij}$. Defined as
-
-\begin{equation}\label{eq:pebble-conductance}
-	\frac{h_{ij}}{k^*}= 2\left[\frac{3F_nR^*}{4E^*}\right]^{1/3}
+\begin{equation}\label{eq:pebble-conduction-heat-transfer}
+	Q_{ij} = H_{ij}(T_i - T_j)
 \end{equation}
 
-$k^*= 2k_ik_j/(k_i+k_j)$ is the effective solid conductivity of the two particles, and $F_n$ is the magnitude of the normal force between particles $i$ and $j$ as calculated by Eq.~\ref{eq:hertzForce}. Therefore, if we consider particles at temperatures $T_i$ and $T_j$ in contact, they will transfer heat at a rate of
+with the heat conductance, 
+
+\begin{equation}\label{eq:batchelor-pebble-conductance}
+	H_{ij} = 2k_sa = 2k_s \left(\frac{3}{4}\frac{R^*}{E^*}\right)^{1/3}F^{1/3}
+\end{equation}
+
+governing the time rate of energy transferred per temperature difference between particles, $T_i$ and $T_j$, respectively. This approach, laid out by Batchelor and O'Brien, is valid when the thermal conductivity ratio of solid and fluid is well above unity and the contact area is small relative to the particle. The condition is expressed as,
 
 \begin{equation}
-	Q_{ij} = h_{ij}(T_i - T_j)
-\end{equation} 
+	\frac{ k_s }{ k_f } \frac{a}{R^*} = \lambda \gg 1
+\end{equation}
 
+The model, being derived from Hertz theory, also carries with it many of the assumptions and limitations inherent with that theory. The assumptions are discussed in detail in \S\ref{sec:hertz-contact}.
+
+Recently, Cheng, et al.\cite{Cheng19994199} proposed a slightly modified variant of the conductance given by Batchelor and O'Brien. In their model, they allow for contacting materials of different thermal conductivity. Therefore they have,
+
+\begin{equation}
+	H_{ij} = 2k^*a = 2k^* \left(\frac{3}{4}\frac{R^*}{E^*}\right)^{1/3}F^{1/3}
+\end{equation}
+
+where $\frac{1}{k^*} = \frac{1}{k_i} + \frac{1}{k_j}$. As well as being a more general, flexible formulation, the models analyzed by Cheng, et al.\cite{Cheng19994199} are in good agreement with experiments and will be used in this study.
