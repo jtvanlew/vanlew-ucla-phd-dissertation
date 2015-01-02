@@ -1,0 +1,72 @@
+
+Before considering the heat equation in a sphere, it is instructive to first consider the simpler problem of a one-dimensional slab with volumetric heat generation, $q_g'''$ and convective cooling at the surfaces. The geometry is shown in Fig.~\ref{}.
+
+Assuming we can find the Nusselt number for the convective cooling, we write the heat flux from the surface to the fluid as
+
+\begin{equation}
+	q_s'' = h(T_s - T_f)	
+\end{equation}
+
+where $T_f$ is the bulk fluid temperature and $T_s$ is the surface temperature. At steady-state the amount of heat moved across the fluid-surface interface must necessarily be equal to the total amount of heat generated into the slab. Therefore,
+
+\begin{equation}
+	q_w'' = q_g'''L = h(T_f-T_s)
+\end{equation}
+
+where $L$ is the half-width of the slab. For the sake of discussion, we re-write the above in terms of the temperature delta from surface to fluid in terms of nuclear heating,
+
+\begin{equation}\label{eq:fluid-delta}
+	T_f-T_s = \frac{q_g'''L}{h}
+\end{equation}
+
+Inside the slab, at steady-state the energy equation is simply a balance of heat conduction and nuclear generation. 
+
+\begin{equation}\label{eq:nuclear-heating-slab-ode}
+	0 = k\frac{\mathrm{d}^2T}{\mathrm{d}x^2} + q_g'''
+\end{equation}
+
+The boundary conditions are symmetry about the centerline and known surface temperature
+
+\begin{align}
+	q_{L=0} &= 0 \\
+	T(L) &= T_s
+\end{align}
+
+The ODE of Eq.\ref{eq:nuclear-heating-slab-ode} is solved with simple separation and integration. When the boundary conditions are applied we have
+
+\begin{equation}
+	T(x) = \frac{q_g''' L^2}{2k}\left(1-\frac{x^2}{L^2}\right) + T_s
+\end{equation}
+
+We can find the temperature at the centerline of the slab, $x = 0$ as
+
+\begin{equation}
+	T_{cl} = \frac{q_g''' L^2}{2k} + T_s
+\end{equation}
+
+Or,
+
+\begin{equation}\label{eq:centerline-delta}
+	T_{cl} - T_s = \frac{q_g''' L^2}{2k}
+\end{equation}
+
+From Eqs.~\ref{eq:fluid-delta} and~\ref{eq:centerline-delta}, we see that the temperature differences between the surface and the fluid or the centerline and the surface are dictated by the heat generation rate relative to the speed at which that heat can be transported, via convection or conduction, respectively.
+
+We will divide Eq.~\ref{eq:centerline-delta} by Eq.~\ref{eq:fluid-delta},
+
+\begin{equation}\label{eq:biot-derivation}
+	\frac{T_{cl} - T_s}{T_f-T_s} = \frac{1}{2}\frac{hL}{k}
+\end{equation}
+
+Careful observation of this equation can tell us much about the relative importance of the different modes of heat transfer to/from the surface. If the thermal transport away from the surface occurs at a much slower pace than thermal transport of energy through the solid to the surface, then the change in temperature across the solid $T_{cl}-T_{s}$ will be small compared to the change in temperature from the interface of solid to the bulkd fluid temperature, $T_{s}-T_f$. If the temperature across the solid is negligibly small in comparison to the surface-fluid difference, we are safe in the assumption that the solid is isothermal.
+
+The group of terms on the right-hand-side of Eq.~\ref{eq:biot-derivation} is recognized as the Biot number,
+
+\begin{equation}\label{eq:biot-number}
+	\Bi=\frac{hL}{k}=\frac{R_{cond}}{R_{conv}}
+\end{equation}
+
+whose value is used to quantify the importance of internal conduction in the analysis of the solid interacting with convective heat transfer. If $\Bi<<1$, it is safely assumed that there is no temperature gradient in the solid material. A conclusion that will prove helpful in later analysis.
+
+It is interesting to note that in this derivation of Biot number, we had considered nuclear heating as the source for temperature gradients across the pebble yet the rate of nuclear heating still does not appear in the Biot number. This implies that traditional assumptions of the validity of the lumped capacitance method hold even when dealing with a heat generation term in our energy balance.
+
