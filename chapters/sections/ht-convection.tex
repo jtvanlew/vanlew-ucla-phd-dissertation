@@ -1,10 +1,92 @@
 \section{Nusselt number for spheres in packed beds}\label{sec:particle-convection}
-\subsection{Convection by interstitial gas}
 
-Engineers have paid considerable attention to the calculation of convective heat transfer in packed beds. Correlations for determining the Nusselt number of a sphere in dilute and dense packings over a range of Reynolds and Prandtl number are available. We will cover the detail of many of these correlations in \S\ref{sec:}. The methods all come down to calculating Nusselt number to find the heat transfer coefficient and then computing the rate of heat transfer from convection as
+Engineers have paid considerable attention to the calculation of convective heat transfer in packed beds. Correlations for determining the Nusselt number of a sphere in dilute and dense packings over a range of Reynolds and Prandtl number are available. From the Nusselt number correlation, an average heat transfer coefficient is determined either locally or globally for the packed bed. The rate of heat transfer is then found, generically, as
 
 \begin{equation}
-	\dot{Q}_\text{convection} = -hA(T_s-T_f)
+	Q_\text{convection} = -hA(T_r-T_f)
 \end{equation}
 
-where $T_s$ is the temperature of the solid with surface area, $A$, and $T_f$ is the local bulk temperature of the passing fluid. The negative sign is to maintain convention that energy transfer into the solid is positive.
+where $T_r$ is the temperature of the solid with some surface area, $A$, and $T_f$ is the local bulk temperature of the passing fluid.
+
+\subsection{Nellis and Klein Correlation}
+
+A heat transfer coefficient for a packed bed of spheres, as given by Nellis and Klein, is determined strictly on geometric details of the packed bed.  Necessary values are the porosity, or void fraction, $\epsilon$, and the cross-sectional surface area of the bed, $A_t$.
+
+The average heat transfer coefficient is correlated in terms of the Colburn $j_h$ factor.
+
+\begin{equation}
+	j_h=\frac{\bar{h}}{G C_f} \Pr^{2/3}
+\end{equation}
+
+The mass flux, $G$, is evaluated in terms of the specific surface area and mass flow rate:
+
+\begin{equation}
+	G=\frac{\dot{m}}{\epsilon A_t}
+\end{equation}
+
+where $C_f$ is the specific heat capacity of the fluid and $\Pr$ the Prandtl number of the fluid. For a packed bed of spheres, Nellis \& Klein used the modified Reynolds number suggested by Kays and London (1984), defined as,
+
+\begin{equation}
+	\Re_G=\frac{4 G r_{char}}{\mu_f}
+\end{equation}
+
+where $\mu_f$ is the viscosity of the fluid.  The characteristic radius $r_{char}$ is given as:
+
+\begin{equation}
+	r_{char}=\frac{\epsilon d_p}{4(1-\epsilon)}
+\end{equation}
+
+where $d_p$ is the average diameter of the packed bed particle. The relationship between Colburn $j_h$ factor and mass-flux Reynolds number was provided in Nellis and Klein. The interpolation of their data yields a functional relationship of,
+
+\begin{equation}
+	jh=0.191 \Re_G^{-.278}
+\end{equation}
+
+Therefore, the heat transfer coefficient is found as,
+
+\begin{equation}
+	h=(0.191 \Re_G^{-.278}) (\frac{\dot{m}}{\epsilon A_t}) C_f Pr^{-2/3}
+\end{equation}
+
+which is applicable for spherical objects in densely packed beds.
+
+\subsection{Packed beds correlation of Whitaker}
+
+Definition of Reynolds number
+
+\begin{equation}
+	\frac{D_p G}{\mu_b(1-\epsilon)}
+\end{equation}
+
+Definition of Nusselt number
+
+\begin{equation}
+	\frac{hD_p}{k_f}\frac{\epsilon}{1-\epsilon}
+\end{equation}
+
+Definition of h
+
+\begin{equation}
+	\frac{\dot{Q}}{a_v}V\Delta T_\ln
+\end{equation}
+
+Reference temp, $T^*$
+
+\begin{equation}
+	\frac{1}{2}(T_{f1} + T_{f2})
+\end{equation}
+
+Range of Reynolds number
+$22-8 \times 10^3$
+
+Range of Prandtl number
+0.7
+
+Range of ($\mu_b/\mu_0$)
+1
+
+Correlation,
+
+\begin{equation}
+	\Nu = \left( 0.5 \Re^{1/2} + 0.2\Re^{2/3} \right)\Pr^{1/3}
+\end{equation}
