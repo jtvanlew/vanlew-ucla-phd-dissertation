@@ -1,12 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Heat transfer in packed beds} \label{ch:modeling-heat-transfer}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-This section covers a discussion of different modes of heat transfer experienced by a pebble in a packed bed. The main modes are conduction to neighbors and convection.
-
-
-
-
-\section{Single particle modes of heat transfer}
+To begin this section, we begin with a general discussion on the thermal interaction of a single particle inside the packed beds of tritium solid breeders of a fusion reactor. In Fig.~\ref{fig:peb-comp-ht}, the different modes of heat transfer are drawn.
 
 \begin{figure}[t]
 	\centering
@@ -14,38 +9,34 @@ This section covers a discussion of different modes of heat transfer experienced
 	\includegraphics[width=0.75\textwidth]{chapters/figures/pebble-complete-heat-transfer}\label{fig:peb-comp-ht}
 \end{figure}
 
-The transient energy balance for an irradiated pebble, shown in Fig.~\ref{fig:peb-comp-ht}, in a packed bed with flowing interstitial gas is given by Eq.~\ref{eq:single-pebble-energy},
 
-\begin{equation}\label{eq:single-pebble-energy}
-	\rho V C \frac{\mathrm{d}T}{\mathrm{d}t} = \dot{Q}_g + \dot{Q}_\text{conduction} + \dot{Q}_\text{convection} + \dot{Q}_\text{radiation}
-\end{equation}
-
-We begin with the lumped capacitance assumption that internal temperature gradients inside of the solid particle are negligible thus we can neglect diffusion terms in the solid. The validity of that assumption for the ceramic pebbles in fusion reactors will be discussed in detail in \S\ref{sec:ht-jeffreson-correction}. The terms on the right-hand-side of Eq.~\ref{eq:single-pebble-energy} are:
 
 \begin{enumerate}
-\item Conduction through the stagnant fluid between two point- or non-contacted particles.
-\item Conduction through the stagnant fluid between two area-contacted particles.
-\item Conduction through the contact area between two area-contacted particles.
-\item Conduction through the fluid in void space. 
-\item Radiation between the surfaces of two particles.
-\item Radiation between adjacent voids.
-% \item Convective heat transfer between fluid and solid particles.
-% \item rate of energy generated internal to the pebble,
-% \item rate of conduction between neighboring pebbles in their regions of contact, 
-% \item rate of convective heat transfer with the interstitial helium gas (which includes energy carried far downstream or redeposited to neighboring pebbles), and
-% \item rate of radiative exchange between local solids.
+\item Conduction through the contact area between contacting particles.
+\item Conduction through the stagnant fluid between near, non-contacting particles.
+\item Conduction through the stagnant fluid between contacting particles.
+\item Conduction through the interstitial fluid. 
+\item Advection of the fluid to contacting- and downstream particles.
+\item Radiation between the surfaces of contacting particles.
+\item Radiation between particles of adjacent voids.
+\item Heat generation internally in the particle.
 \end{enumerate}
 
-% In this section we will provide a brief overview of all the modes of heat transfer to provide an overview of the importance and impact of each mode. For cases when more detail is needed, the details will be expounded in their own complete sections.
+The first mode of transfer will be addressed in \S\ref{sec:ht-pebble-conduction} where we will go through the development of a form of heat conductance between contacting, elastic spheres. Ideally, modes 2-5 would each receive separate treatment but we will wrap up all of their influences with heat transfer coefficients that are functions of local packing fraction to account for both the fluid and the neighboring particles; this is done in \S\ref{sec:particle-convection}. For the present study, we will entirely neglect the modes 6, and 7 because of their added complexity. Finally, the last mode of heat transfer is trivially accounted for with a heat source term,
 
-% \subsection{Heat generation}
+\begin{equation}\label{eq:nuclear-heating-term}
+	Q_g = q'''V
+\end{equation}
 
-% Nuclear deposition of energy is handled in a straightforward manner. With a known volumetric energy generation rate, $q'''$ prescribed by, for instance, the neutron heating in the volume, the heat generation rate for this particle is simply
+where $q'''$ is a known volumetric heating rate and $V$ is the volume of our particle. In practice, we will know a volumetric heating rate from the location and geometry of the solid breeder volume. The volume of the sphere is $V = \frac{4}{3}\pi R^3$.
 
-% \begin{equation}
-% 	\dot{Q}_g = q'''V
+In the following sections we will expand upon the details of the modes of heat transfer considered for our packed beds. They forms of equations used will be written in a way to be implemented directly into the DEM computational framework, to be discussed later in \S\ref{modeling-DEM}.
+
+% The transient energy balance for an irradiated pebble, shown in Fig.~\ref{fig:peb-comp-ht}, in a packed bed with flowing interstitial gas is given by Eq.~\ref{eq:single-pebble-energy},
+
+% \begin{equation}\label{eq:single-pebble-energy}
+% 	\rho V C \frac{\mathrm{d}T}{\mathrm{d}t} = \dot{Q}_g + \dot{Q}_\text{conduction} + \dot{Q}_\text{convection} + \dot{Q}_\text{radiation}
 % \end{equation}
-
 
 
 
@@ -53,25 +44,5 @@ We begin with the lumped capacitance assumption that internal temperature gradie
 \input{chapters/sections/ht-conduction}
 \input{chapters/sections/ht-convection}
 \input{chapters/sections/ht-jeffreson-correction}
+\input{chapters/sections/ht-radiation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-
-
-
-
-
-\subsection{Radiative transfer with neighboring particles}
-
-The temperatures expected in the solid breeder are high enough that we can not a priori neglect radiation. The radiation exchange between contacting neighbors in a packed bed becomes extremely complex due to the local and semi-local nature of radiation. A standard approach to treat radiation exchange between surfaces is to consider the view factor between them. In a dense, randomly packed bed of spheres the computation of view factors between pebbles can be done via a method such as that proposed Feng and Han\cite{Feng2012}. Ideally, we could show this mode of heat transport is negligible compared to the others already discussed.
-
-In ceramic breeder designs, the tritium breeding volume is rarely more than \si{2 cm} wide with pebbles that are, generally, \si{1 mm} in diameter. The maximum expected temperature in the breeding zone is about \si{1000 K}, roughly at the centerline of the \si{2 cm} width. The walls of the coolant must be held below the operable steel temperature of roughly \si{700 K}. This works out to a \si{300 K} differences spanning 10 pebble diameters. From this we can make a first-order approximation of \si{30 K} difference between neighboring pebbles. At the elevated temperatures, an estimate for the radiation exchange between two pebbles (allowing them to act as black bodies for this approximation) is
-
-\begin{equation}
-	\dot{Q}_\text{radiation} = \sigma A \left(T_\text{max}^4 - (T_\text{max}-30)^4\right) \approx 0.022\si{W}
-\end{equation}
- 
- which is the highest amount of radiation exchange we might expect between pebbles. 

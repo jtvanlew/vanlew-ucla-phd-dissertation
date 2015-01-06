@@ -1,53 +1,57 @@
 \section{Inter-particle heat conduction}\label{sec:ht-pebble-conduction}
 
-Handling the heat transfer between contacting particles has been investigated extensively by researchers in a number of fields\cite{Zhou2009,Zhang2011,Wu2011,Vargas2001,Li2000,Chaudhuri2006}.
+When two particles come into contact, energy is transmitted through their region of contact. For this discussion, we assume the particles are spherical, elastic, in vacuum, and we neglect radiation transfer between them. The resistance to heat flowing between the two objects is quantified through a contact conductance, $H_c$. The amount of energy passing between the two particles (labeled $i$ and $j$) is then
 
-In the Hertz analysis we walked through in \S\ref{sec:hertz-contact}, we found the contact radius of two elastic spheres in Eq.~\ref{eq:hertz-radius} as a function of the contact pressure. We rewrite the radius in terms of the compression force acting on the bodies,
+\begin{equation}\label{eq:pebble-conduction-heat-transfer}
+	Q_{ij} = H_{c}(T_i - T_j)
+\end{equation}
+
+where each contacting pair has a specific value of $H_c$. We note that the heat conductance, unlike standard heat transfer coefficients, has units of \si{W/K}.
+
+Batchelor and O'Brien\cite{Batchelor1977} developed a formulation of similar form and then made the brilliant observation that the temperature fields in the near-region of contacting spheres are analogous to the velocity potential of the an (incompressible, irrotational) fluid passing from from one reservoir to another through a circular hole in a planar wall separating the two reservoirs. With the analogy, they could make use of the fluid flow solution to write the total flux across the circle of contact as Eq.~\ref{eq:pebble-conduction-heat-transfer} with the heat conductance as
+
+\begin{equation}\label{eq:batchelor-pebble-conductance}
+	H_c = 2k_ra = 2k_r \left(\frac{3}{4}\frac{R^*}{E^*}\right)^{1/3}F^{1/3}
+\end{equation}
+
+where $k_r$ is the conductivity of the contacting solids and $a$ is the radius of contact. In \S\ref{sec:hertz-contact}, with Hertz theory we found the contact radius in terms of the contact pressure. Here, we give the radius in terms of the compression force acting on the bodies,
 
 \begin{equation}
 	a =  \left(\frac{3}{4}\frac{R^*}{E^*}\right)^{1/3}F^{1/3}	
 \end{equation}
 
-where $\frac{1}{E^*} = \frac{1-\nu_1^2}{E_1} + \frac{1-\nu_2^2}{E_2}$ and $\frac{1}{R^*} = \frac{1}{R_1} + \frac{1}{R_2}$ as before.
+as before, $\frac{1}{E^*} = \frac{1-\nu_1^2}{E_1} + \frac{1-\nu_2^2}{E_2}$ and $\frac{1}{R^*} = \frac{1}{R_1} + \frac{1}{R_2}$. 
 
-Batchelor and O'Brien\cite{Batchelor1977} made the brilliant observation that the temperature fields in the near-region of contacting spheres are analogous to the velocity potential of the potential flow of a fluid passing from from one reservoir to another through a circular hole in a planar wall. With the analogy, they could make use of the fluid flow solution to write the total flux across the circle of contact,
+In Eq.~\ref{eq:batchelor-pebble-conductance}, Batchelor and O'Brien had assumed the two contacting spheres to be of equal conductivity, $k_r$. Cheng, et al.\cite{Cheng19994199} proposed a slightly modified conductance which allows for contacting materials of different thermal conductivity. Tthey have,
 
-\begin{equation}\label{eq:pebble-conduction-heat-transfer}
-	Q_{ij} = H_{ij}(T_i - T_j)
+\begin{equation}\label{eq:cheng-modification-batchelor}
+	H_c = 2k^*a = 2k^* \left(\frac{3}{4}\frac{R^*}{E^*}\right)^{1/3}F^{1/3}
 \end{equation}
 
-with the heat conductance, 
+where $\frac{1}{k^*} = \frac{1}{k_i} + \frac{1}{k_j}$. As well as being a more general, flexible formulation, the models analyzed by Cheng, et al.\cite{Cheng19994199} are in good agreement with experiments. In the DEM numerical structure, we use the form given by Eq.~\ref{eq:cheng-modification-batchelor}.
 
-\begin{equation}\label{eq:batchelor-pebble-conductance}
-	H_{ij} = 2k_sa = 2k_s \left(\frac{3}{4}\frac{R^*}{E^*}\right)^{1/3}F^{1/3}
+Batchelor and O'Brien developed Eq.~\ref{eq:batchelor-pebble-conductance} with the assumption of two contacting particles in vacuum but, once developed, showed\cite{Batchelor1977} that this form is still valid when immersed in a fluid providing that the thermal conductivity ratio of solid and fluid is well above unity. The condition is expressed as,
+
+\begin{equation}\label{eq:conductance-validity-fluid}
+	\frac{ k_r }{ k_f } \frac{a}{R^*} \gg 1
 \end{equation}
 
-governing the time rate of energy transferred per temperature difference between particles, $T_i$ and $T_j$, respectively. This approach, laid out by Batchelor and O'Brien, is valid when the thermal conductivity ratio of solid and fluid is well above unity and the contact area is small relative to the particle. The condition is expressed as,
+The term $\frac{a}{R^*}$, from \S\ref{sec:hertz-contact}, is necessarily much less than 1 for Hertz theory to be applicable. Thus for fluid in vacuum, the condition is identically satisfied but we must consider inaccuracies if we introduce an interstitial fluid with low conductivity ratios. 
+
+For lithium ceramics in helium, the ratio is approximately $\frac{k_r}{k_f} \approx 10$ which is not necessarily large enough to satisfy the requirement of Eq.~\ref{eq:conductance-validity-fluid}.
+
+As we step back from the contact of a single pair of particles and consider a particle in an ensemble with many contacts, we must again consider the validity of applying Eq.~\ref{eq:cheng-modification-batchelor} at each contact. Vargas and McCarthy\cite{Vargas2002a}, proposed introducing a conduction Biot number to relate resistance to heat transfer internal to the particle with the resistance between particles. We use the following form
 
 \begin{equation}
-	\frac{ k_s }{ k_f } \frac{a}{R^*} = \lambda \gg 1
+	\Bi_c = \frac{H}{k^* d_p} = 2\frac{a}{d_p}
 \end{equation}
 
-The model, being derived from Hertz theory, also carries with it many of the assumptions and limitations inherent with that theory. The assumptions are discussed in detail in \S\ref{sec:hertz-contact}.
-
-Recently, Cheng, et al.\cite{Cheng19994199} proposed a slightly modified variant of the conductance given by Batchelor and O'Brien. In their model, they allow for contacting materials of different thermal conductivity. Therefore they have,
+Then if $\Bi_c \\ 1$, the individual energy transferred between each point of contact can be decoupled. The Biot number criteria is already satisfied for Hertz theory to be valid; having assumed that $\frac{a}{d_p} \ll 1$. Therefore the total heat transferred out of a single particle with $Z$ contacts is summed from the individual contacts as 
 
 \begin{equation}
-	H_{ij} = 2k^*a = 2k^* \left(\frac{3}{4}\frac{R^*}{E^*}\right)^{1/3}F^{1/3}
+	Q_i = \sum_j^Z Q_{ij}
 \end{equation}
 
-where $\frac{1}{k^*} = \frac{1}{k_i} + \frac{1}{k_j}$. As well as being a more general, flexible formulation, the models analyzed by Cheng, et al.\cite{Cheng19994199} are in good agreement with experiments and will be used in this study.
+The form of contact conductance used in our study, built upon the solution of Batchelor and O'Brien\cite{Batchelor1977}, has been implemented by others in a variety of studies\cite{Vargas2001, Chaudhuri2006 Zhou2009,Cheng19994199}. However, in many other fields, the researchers are interested in such things as the parallel conduction through a stagnant interstitial gas\cite{Bu2013} or the temporary conduction during impact of fluidized beds\cite{Zhu2008,Zhang2011,Wu2011,,Li2000}. While many research efforts are focused on particle-scale modeling of conduction of granular materials, there is certainly no solid consensus on the approach. 
 
-
-
-
-
-
-\subsubsection{Large Biot number}
-Considering now material and geometric properties relevant to our ceramic pebble beds, we will see that we may need to consider the effects of a larger $\Bi$ for our pebbles. The helium purge gas moving through the packed beds is not specifically intended to act as a heat transfer agent and moves along at a creeping flow rate. For a first approximation we will therefore assume as a lower limit the Nusselt number is $\Nu = 2$ (the value for a sphere in quiescent fluid). From the requirement that $\Bi \ll 1$, we have
-
-\begin{equation}
-	2 \frac{k_f}{k_s} \ll 1
-\end{equation}
-
-The conductivity of helium over the temperature range of 300 to 800 $^\circ$C is approximately 0.3 \si{W/m-K}. The solid conductivity of \lit and \lis are approximately 2 \si{W/m-K}. Because of the low conductivity of our solid, the Biot assumption is barely valid, $0.3 < 1$. 
+However, for the packed beds of ceramic spheres we intend to model, the heat conductance of Eq.~\ref{eq:cheng-modification-batchelor} is an appropriate and valid form. When we incorporate the influence of an interstitial gas, it will be done in such a way as to leave the DEM heat transfer intact and only add an energy source term to stand in for the interaction with the fluid. The details will be discussed in \S\ref{sec:cfdem-heat-transfer}, but for now we conclude with a solid conduction theory that will be implemented in the discrete element method computations.

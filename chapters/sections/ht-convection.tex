@@ -1,14 +1,18 @@
 \section{Nusselt number for spheres in packed beds}\label{sec:particle-convection}
 
-Engineers have paid considerable attention to the calculation of convective heat transfer in packed beds. Correlations for determining the Nusselt number of a sphere in dilute and dense packings over a range of Reynolds and Prandtl number are available. From the Nusselt number correlation, an average heat transfer coefficient is determined either locally or globally for the packed bed. The rate of heat transfer is then found, generically, as
+Historyically, in the treatment of packed beds for heat transfer, engineers developed relationships between overall heat transfer coefficients to the log-mean temperature of the bed. The Nusselt number correlation was applicable to the bed overall rather than any discrete particle inside of the bed. The correlations will be useful for validating our models of helium flow through packed beds of lithium ceramics.
+
+
+Recently, however, experimental and numerical research has focused on the heat transfer at the scale of a particle as a component of dilute or dense packed beds. These correlations will be useful for applying to single discrete elements in our DEM framework.
 
 \begin{equation}
-	Q_\text{convection} = -hA(T_r-T_f)
+	Q_\text{convection} = -hA_r(T_r-T_f)
 \end{equation}
 
-where $T_r$ is the temperature of the solid with some surface area, $A$, and $T_f$ is the local bulk temperature of the passing fluid.
+where $T_r$ is the temperature of the solid with surface area, $A_r$, and $T_f$ is the local bulk temperature of the passing fluid.
 
-\subsection{Nellis and Klein Correlation}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Packed bed correlations: Nellis and Klein}
 
 A heat transfer coefficient for a packed bed of spheres, as given by Nellis and Klein, is determined strictly on geometric details of the packed bed.  Necessary values are the porosity, or void fraction, $\epsilon$, and the cross-sectional surface area of the bed, $A_t$.
 
@@ -49,31 +53,39 @@ Therefore, the heat transfer coefficient is found as,
 \end{equation}
 
 which is applicable for spherical objects in densely packed beds.
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-\subsection{Packed beds correlation of Whitaker}
+
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Packed beds correlation: Whitaker}
 
 Definition of Reynolds number
 
 \begin{equation}
-	\frac{D_p G}{\mu_b(1-\epsilon)}
+	\Re = \frac{D_p G}{\mu_b(1-\epsilon)}
 \end{equation}
 
 Definition of Nusselt number
 
 \begin{equation}
-	\frac{hD_p}{k_f}\frac{\epsilon}{1-\epsilon}
+	\Nu = \frac{hD_p}{k_f}\frac{\epsilon}{1-\epsilon}
 \end{equation}
 
 Definition of h
 
 \begin{equation}
-	\frac{\dot{Q}}{a_v}V\Delta T_\ln
+	h_{\ln} = \frac{\dot{Q}}{a_v}V\Delta T_{\ln}
 \end{equation}
+
+where $a_v = (A_p/V_p)(1-\epsilon)$ is the surface area per unit volume. And $\delta T_{\ln}$ is the log-mean temperature difference.
 
 Reference temp, $T^*$
 
 \begin{equation}
-	\frac{1}{2}(T_{f1} + T_{f2})
+	T^* = \frac{1}{2}(T_{f1} + T_{f2})
 \end{equation}
 
 Range of Reynolds number
@@ -89,4 +101,21 @@ Correlation,
 
 \begin{equation}
 	\Nu = \left( 0.5 \Re^{1/2} + 0.2\Re^{2/3} \right)\Pr^{1/3}
+\end{equation}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Single pebble correlations}
+
+For a sphere in an infinite, quiescent fluid where conduction is the only mode of heat transfer, the Nusselt number is identically 2. In all the single particle correlations, that value is the the limit as $\Re \rightarrow 0$. 
+
+Ranz \& Marshall in 1952 
+
+Zhou, et al 2009
+
+\begin{equation}
+	\Nu_i = 2.0 + 1.2\Re_i^{1/2}Pr^{1/3}
 \end{equation}

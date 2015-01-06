@@ -1,4 +1,4 @@
-\section{Granular heat transfer}
+\section{Granular heat transfer}\label{sec:dem-heat-transfer}
 
 Much like our treatment of the momentum of every particle in DEM, we handle the energy in the Lagrangian specification. The temperature of particle $i$, for example, is found from the first law of thermodynamics
 
@@ -26,7 +26,7 @@ and
 	Q_{ij} = H_{ij}(T_i - T_j)
 \end{equation*} 
 
-We are assuming that in a single timestep a pebble is transfering heat only with its immediate neighbors. Vargas and McCarthy\cite{Vargas2001} provide arguments for the validity of Eq.~\ref{thermoFirstLaw} given numeric time steps and contact areas.
+We are assuming that in a single timestep a pebble is transfering heat only with its immediate neighbors. Vargas and McCarthy\cite{Vargas2001} provide arguments for the validity of Eq.~\ref{thermoFirstLaw} given numeric timesteps and contact areas.
 
 
 \subsection{Thermal expansion}

@@ -3,7 +3,9 @@ The velocity-Verlet algorithm is an efficient means of updating the kinematics o
 
 In this section we will demonstrate the calculation of approximate stable DEM timesteps as a function of material properties of ceramic pebbles. Then with that knowledge in hand, we will argue for scaling certain physical properties to allow for faster simulations without sacrificing fidelity to the real physics of the problem.
 
-\subsection{Critical timestep}
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Critical dynamic timestep}
 When a force is applied to the surface of an elastic body, the force propagates along the surface at the wave speed first solved by John William Strutt, 3rd Baron Rayleigh\cite{Rayleigh1885} (when he wasn't discovering the scattering phenomenon explaining why the sky is blue or winning the Nobel prize for discovering Argon),
 
 \begin{equation}
@@ -18,7 +20,7 @@ where, again, $G$ is the shear modulus and $\rho$ is the density of the elastic 
 
 for realistic values of Poisson's ratio of elastic materials. From the inverse of the Rayleigh wave frequency, we can directly find a timestep for Rayleigh waves,
 
-\begin{equation}
+\begin{equation}\label{eq:rayleigh-stability-time}
 	\delta t_{\Ra} = \frac{\pi R}{u_{\Ra}}
 \end{equation}
 
@@ -90,9 +92,49 @@ The ceramic materials identified for breeders have relatively high Young's modul
 \end{equation}
 
 For a simulation that may last several hundreds of seconds of real time, this then requires more than 10$^9$ timesteps. If we have 10$^4$ particles in the simulation, each having their position integrated over a billion times, it becomes obvious that computational time is a major issue for our simulations of nuclear heating of ceramic breeder pebbles. If we are able to reduce the critical timestep (while perhaps decreasing the simulation time), the simulations will be much more practical for use.
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Critical thermal timestep}
+In \S~\ref{sec:ht-pebble-conduction}, we introduced the dynamics of heat transfer between contacting particles in an ensemble. As we integrate the energy of an individual particle in time, we must also ensure that energy would not propagate through a particle faster than a single timestep can capture. In analogy to the critical timestep for mechanical stability (e.g. Eq.\ref{eq:rayleigh-stability-time}), we write for particle $i$,
+
+\begin{equation}
+	\delta t_\Bi = \frac{\rho_i C_i V_i}{H_c}
+\end{equation}
+
+where $\rho_i C_i V_i$ represents the inertial resistance to changing the temperature of $T_i$ and the conductance, $H_c$ represents the speed at which energy is delivered to $T_i$ from contact conduction. Then from the definition of $H_c$ we have given for smooth elastic spheres, this is also written as
+
+\begin{equation}
+	\delta t_\Bi = \frac{(4/3)\pi R_i^2\rho_i C_i}{2k^*}\frac{R_i}{a}
+\end{equation}
+
+For the material properties of lithium ceramics, as discussed for mechanical stability, we can expect
+
+\begin{equation*}
+	\frac{(4/3)\pi R_i^2\rho_i C_i}{2k^*} \approx \frac{(10^{-4})^210^{4}10^3}{10^0} = 10^{-1}
+\end{equation*}
+
+But from the requirements on Hertz theory in \S\ref{sec:hertz-contact}, we have required that $\frac{a}{R_i} \ll 1$. Thus the timestep for stability in the energy calculation is utterly negligible compared to the mechanical stability.
+
+Vargas and McCarthy\cite{Vargas2001} make similar arguments, giving the criteria as,
+
+\begin{equation}
+	\frac{\mathrm{d}T_i}{T_i - T_j} \ll 1
+\end{equation}
+
+and too note that the timestep requirement for thermal calculations are orders of magnitude less restrictive than the analogous restriction of the particle dynamics.
+
+Thus we can be confident that any timestep chosen for dynamic stability in the DEM simulation will automatically satisfy the timestep for thermal stability.
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \subsection{Simulation acceleration with scaled material properties}
 I wish to rewrite Eq.~\ref{eq:rayleigh-timestep} to facilitate a discussion on the parameters. Isolating each material term gives, 
 

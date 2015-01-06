@@ -2,7 +2,7 @@
 % From TOFE 2014
 Models based on the discrete element method (DEM) are currently the only tools available that can extract information on individual pebble interactions. The DEM formulation provides information such as inter-particle forces and individual particle temperatures, which are necessary for predicting and simulating morphological changes in the bed (e.g. pebble cracking, sintering, etc.) However DEM alone is not able to capture the effects, neither on momentum nor energy, of an interstitial fluid. Therefore we present two fluid modeling techniques to supplement the DEM computations. We will first discuss the fully dynamic coupling of the DEM model with a volume-averaged thermofluid model of helium. Then we will introduce the integration of our DEM packing structure into lattice-Boltzmann simulations of the entire bed-fluid system.
 
-\subsection{DEM}
+\subsection{DEM}\label{sec:cfdem-heat-transfer}
 The discrete element framework introduced in \S~\ref{sec:particle-dynamics} is augmented with a drag force term to capture interaction with surrounding fluid velocity fields. To accomplish this, we simply include a drag force to the Newtonian balance of forces given in Eq.~\ref{eq:newtons-first}. The momentum balance now reads:
 
 \begin{equation}\label{eq:cfdem-dem-momentum}
@@ -11,7 +11,7 @@ The discrete element framework introduced in \S~\ref{sec:particle-dynamics} is a
 
 where $\Delta u_{if} = u_f - u_i$, is the relative velocity between the fluid and pebble, $i$, and the inter-phase momentum exchange coefficient, $\beta_i$, acts upon the pebble volume (not to be confused with the damping coefficient introduced in \S~\ref{sec:particle-dynamics}). Similarly, the energy equation now includes 
 
-\begin{equation}\label{eq:cfdem-dem-energy}
+\begin{equation}\label{eq:cfdem-dem}
 	m_iC_i \ddt{T_i} = Q_{n,i} + \sum_{j=1}^Z Q_{ij} + \beta_{E,I} A_i \Delta T_{if}
 \end{equation}
 
