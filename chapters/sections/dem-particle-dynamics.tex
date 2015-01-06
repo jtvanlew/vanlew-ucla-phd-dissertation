@@ -78,7 +78,7 @@ with $\beta$ as the damping ratio, and the pair mass, $m^* = \frac{m_im_j}{m_i +
 
 
 \subsection{Tangential forces}
-The tangential spring constant from Mindlin modification of Hertz theory, as given in \S~\ref{sec:hertz-mindlin-theory}, 
+The tangential spring constant from Mindlin modification of Hertz theory, 
 
 \begin{equation}\label{eq:tangential-force}
 	\vec{f}^t_{ij} = k^t_{ij} \delta^t_{ij}\vec{t}_{ij} - \gamma^t_{ij} \vec{u}^t_{ij}
@@ -141,7 +141,7 @@ The first step in the velocity-verlet algorithm is to integrate the position of 
 	\vec{r}_{t+\Delta t} = \vec{r}_t + \vec{v}_t\Delta t + \frac{1}{2}\vec{a}_t\Delta t^2
 \end{equation}
 
-The particles at new positions interact as a function of their overlaps (see Eqs.~\ref{eq:normal-force, eq:tangential-force}). Acceleration at the next timestep is then calculated again from the updated forces in Eq.~\ref{eq:newton-acceleration}. As a last step, the velocity at the next timestep is found from an average of the two accelerations,
+The particles at new positions interact as a function of their overlaps (see Eqs.~\ref{eq:normal-force},\ref{eq:tangential-force}). Acceleration at the next timestep is then calculated again from the updated forces in Eq.~\ref{eq:newton-acceleration}. As a last step, the velocity at the next timestep is found from an average of the two accelerations,
 
 \begin{equation}
 	\vec{v}_{t+\Delta t} = \vec{v}_t + \frac{\vec{a}_t + \vec{a}_{t+\Delta t}}{2}\Delta t

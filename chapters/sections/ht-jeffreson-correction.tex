@@ -1,5 +1,5 @@
 \section{Jeffreson correction to lumped capacitance method}\label{sec:ht-jeffreson-correction}
-In \S\ref{sec:particle-convection}, we discuss correlations for heat transfer coefficients of spheres in a packed bed. In \S\ref{eq:cfdem-dem}, we describe how those correlations are incorporated into the CFD-DEM coupling routine. In the modeling, we make the lumped capacitance assumption for each particle in the ensemble. The assumption eases the computation efforts of solving for the temperature distribution inside of each particle; each particle is treated as isothermal. The accuracy of the lumped capacitance method is described by the Biot number,
+In \S\ref{sec:particle-convection}, we discuss correlations for heat transfer coefficients of spheres in a packed bed. In \S\ref{eq:cfdem-dem-energy}, we describe how those correlations are incorporated into the CFD-DEM coupling routine. In the modeling, we make the lumped capacitance assumption for each particle in the ensemble. The assumption eases the computation efforts of solving for the temperature distribution inside of each particle; each particle is treated as isothermal. The accuracy of the lumped capacitance method is described by the Biot number,
 
 \begin{equation}
      \Bi = \frac{hd_p}{k_r}
@@ -132,7 +132,7 @@ We consider now the same size sphere but with the Biot number increased by an or
 
 \begin{figure}
         \centering
-        \begin{subfigure}[b]{0.65\textwidth}
+        \begin{subfigure}[b]{0.5\textwidth}
                 \includegraphics[width=\textwidth]{chapters/figures/LC-analytic-sphere-in-fluid-Bi-2a}
                 \caption{The Biot number increased from a decrease in the solid conductivity.}
 				\label{fig:LC-analytic-sphere-in-fluid-Bi-2a}
@@ -140,7 +140,7 @@ We consider now the same size sphere but with the Biot number increased by an or
         
           %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
           %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.65\textwidth}
+        \begin{subfigure}[b]{0.5\textwidth}
                 \includegraphics[width=\textwidth]{chapters/figures/LC-analytic-sphere-in-fluid-Bi-2b}
                 \caption{The Biot number increased from  an increase in the heat transfer coefficient.}
 				\label{fig:LC-analytic-sphere-in-fluid-Bi-2b}
@@ -203,7 +203,7 @@ We then plot the energy profiles from the lumped capacitance model (LC), the Jef
 
 \begin{figure}
         \centering
-        \begin{subfigure}[b]{0.65\textwidth}
+        \begin{subfigure}[b]{0.5\textwidth}
                 \includegraphics[width=\textwidth]{chapters/figures/LC-JC-analytic-sphere-in-fluid-Bi-2a}
                 \caption{The Biot number increased from a decrease in the solid conductivity.}
 				\label{fig:LC-JC-analytic-sphere-in-fluid-Bi-2a}
@@ -211,7 +211,7 @@ We then plot the energy profiles from the lumped capacitance model (LC), the Jef
         
           %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
           %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.65\textwidth}
+        \begin{subfigure}[b]{0.5\textwidth}
                 \includegraphics[width=\textwidth]{chapters/figures/LC-JC-analytic-sphere-in-fluid-Bi-2b}
                 \caption{The Biot number increased from  an increase in the heat transfer coefficient.}
 				\label{fig:LC-JC-analytic-sphere-in-fluid-Bi-2b}
@@ -223,7 +223,7 @@ The Jeffreson correction to the lumped capacitance method allows the simple mode
 
 \begin{figure}
         \centering
-        \begin{subfigure}[b]{0.65\textwidth}
+        \begin{subfigure}[b]{0.5\textwidth}
                 \includegraphics[width=\textwidth]{chapters/figures/LC-JC-analytic-error-Bi-2a}
                 \caption{The Biot number increased from a decrease in the solid conductivity.}
 				\label{fig:LC-JC-analytic-error-Bi-2a}
@@ -231,7 +231,7 @@ The Jeffreson correction to the lumped capacitance method allows the simple mode
         
           %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
           %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.65\textwidth}
+        \begin{subfigure}[b]{0.5\textwidth}
                 \includegraphics[width=\textwidth]{chapters/figures/LC-JC-analytic-error-Bi-2b}
                 \caption{The Biot number increased from  an increase in the heat transfer coefficient.}
 				\label{fig:LC-JC-analytic-error-Bi-2b}

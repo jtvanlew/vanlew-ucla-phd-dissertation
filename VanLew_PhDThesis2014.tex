@@ -8,7 +8,6 @@
 \usepackage{amsmath}
 \usepackage{amsbsy}
 \usepackage{color}
-%\usepackage{cite}
 \usepackage[superscript,biblabel]{cite}
 \usepackage{amssymb}
 \usepackage{longtable}
@@ -21,18 +20,17 @@
    \usepackage[pdftex]{graphicx}
    \pdfcompresslevel=9
    \fi
-\usepackage{epstopdf}
+% \usepackage{epstopdf}
 \usepackage{array}
 \usepackage{multirow}
 \usepackage{float}
 \usepackage[colorlinks,citecolor=red,linkcolor=blue]{hyperref}
 
-
 \usepackage{xltxtra} % Extra customizations for XeLaTeX
 \usepackage{amsmath}
 \usepackage{tabularx, multirow, booktabs}
 \newcommand{\otoprule}{\midrule[\heavyrulewidth]}
-\usepackage{caption}
+% \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{siunitx}
 
@@ -130,7 +128,7 @@
 
 
 % Content
-%\input{chapters/background-analysis.tex}
+\input{chapters/background-analysis.tex}
 %\input{chapters/modeling-pressure-drop.tex}
 \input{chapters/modeling-heat-transfer.tex}
 \input{chapters/modeling-dem.tex}
@@ -143,6 +141,6 @@
 \input{appendices/appendix-analytic-sphere-heat-generation.tex}
 
 
-\bibliographystyle{ieee}
+\bibliographystyle{plain}
 \bibliography{library.bib}
 \end{document}
