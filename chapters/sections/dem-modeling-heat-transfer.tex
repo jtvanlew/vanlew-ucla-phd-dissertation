@@ -1,0 +1,35 @@
+\section{Granular heat transfer}\label{sec:dem-heat-transfer}
+
+In an analogous way we handled the momentum of every particle in DEM with Newton's laws of motion, the Lagrangian tracking of energy of each particle is obtained via the first law of thermodynamics. We treat each particle is a single distinct object and thus do not consider any internal temperature gradients (a point which we alluded to in \S\ref{sec:ht-jeffreson-correction}). The temperature of particle $i$ is governed by
+
+\begin{equation}\label{eq:thermoFirstLaw}
+	\rho_iV_iC_i\frac{\mathrm{d}T_i}{\mathrm{d}t} = Q_{s,i} + Q_{i}
+\end{equation}
+
+where $\rho$, $V$, and $C$ are the density, volume, and the specific heat of the solid, respectively. Heat generation inside the particle is input with $Q_{s}$ and the total heat transferred to/from particle $i$ via conduction to all, $Z$, neighboring particles,
+
+\begin{equation}
+	Q_i = \sum_{j=1}^Z Q_{ij}
+\end{equation}
+
+The conductive heat transfer to neighboring particles comes from the inter-particle conduction formulas we derived in \S\ref{sec:ht-pebble-conduction}, given in Eq.~\ref{eq:pebble-conduction-heat-transfer} with conductance of Eq.~\ref{eq:cheng-modification-batchelor}. They are repeated here for reference,
+
+\begin{equation*}
+	Q_{ij} = H_c(T_i - T_j)
+\end{equation*} 
+
+and
+
+\begin{equation*}
+	H_c= 2k^*\left[\frac{3F_{n,ij}R^*}{4E^*}\right]^{1/3}
+\end{equation*}
+
+\subsection{Thermal expansion}
+The stresses predicted to act upon the solid breeder volume during operation of the fusion reactor arise from the differential rate of thermal expansion from the highly heated ceramic volume and the relatively cool structural container. Moreover, thermal creep motion is observed in pebble beds\cite{Tanigawa:2010cr, Vargas2007, Chen2009, Divoux2008} and is behavior we must capture in our model. Both of those phenomena can be traced to the thermal expansion of individual particles in the ensemble. Therefore, we introduce a thermal expansion formula that updates the diameter of each particle after a chosen amount of timesteps,
+
+\begin{equation}
+	d_i = d_{0,i}\left[1+\beta_i\left(T_i - T_\text{ref}\right)\right]
+\end{equation}
+
+where $\beta_i$ is the thermal expansion coefficient (in units of \si{1/K}), $T_i$ is the temperature of the pebble at the current step, and $d_{0,i}$ is the diameter of the pebble at temperature $T_\text{ref}$.
+

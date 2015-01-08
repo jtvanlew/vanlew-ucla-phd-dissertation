@@ -1,5 +1,5 @@
 \section{Jeffreson correction to lumped capacitance method}\label{sec:ht-jeffreson-correction}
-In \S\ref{sec:particle-convection}, we discuss correlations for heat transfer coefficients of spheres in a packed bed. In \S\ref{eq:cfdem-dem-energy}, we describe how those correlations are incorporated into the CFD-DEM coupling routine. In the modeling, we make the lumped capacitance assumption for each particle in the ensemble. The assumption eases the computation efforts of solving for the temperature distribution inside of each particle; each particle is treated as isothermal. The accuracy of the lumped capacitance method is described by the Biot number,
+In \S\ref{sec:particle-convection}, we discuss correlations for heat transfer coefficients of spheres in a packed bed. Then those correlations are utilized with CFD-DEM computational routines in \S\ref{eq:cfdem-dem-energy}. When implemented in the DEM-based modeling, we make the lumped capacitance assumption for each particle in the ensemble. The assumption eases the computational efforts of solving for the temperature distribution inside each particle; each particle is treated as isothermal. The accuracy of the lumped capacitance method is described by the Biot number,
 
 \begin{equation}
      \Bi = \frac{hd_p}{k_r}
@@ -29,22 +29,24 @@ The time response of the sphere's temperature is dictated by the balance of ener
 
 Eq.~\ref{eq:lc-energy-balance} is solved in dimensionless form with the following nondimensional parameters of temperature and time,
 
+\begin{subequations}
 \begin{align}
     \theta &= \frac{T(t) - T_f}{T_0 - T_f}\\
-    \tau & = \frac{t}{b^2/\alpha}
+    \tau & = \frac{t}{R^2/\alpha}
 \end{align}
+\end{subequations}
 
-where $b$ is the radius of the sphere, $\alpha$ is the thermal diffusivity of the sphere, $T_0$ is the initial isothermal temperature of the sphere, and $T_f$ is the constant fluid temperature. The resulting temperature distribution is,
+where $\alpha$ is the thermal diffusivity of the sphere, $T_0$ is the initial isothermal temperature of the sphere, and $T_f$ is the constant fluid temperature. The resulting temperature distribution is,
 
 \begin{equation}
 \label{eq:theta-lc}
 	\theta_{LC}=\left(1-\frac{G}{3\Bi}\right)\exp(-3\Bi \tau) + \frac{G}{3\Bi}
 \end{equation}
 
-where $\Bi$ is the familiar Biot number and the dimensionless heat generation term is 
+where we define a dimensionless heat generation,
 
 \begin{equation}\label{eq:nondimensional-heat-generation}
-	G = \frac{gb^2}{k(T_0 - T_f)}
+	G = \frac{gR^2}{k(T_0 - T_f)}
 \end{equation}
 
 The energy of the sphere, relative to the fluid, in nondimensional terms is 
@@ -74,7 +76,7 @@ The nondimensional energy profile of Eq.~\ref{eq:lc-energy-profile} is plotted o
 	\label{fig:LC-sphere-in-fluid}
 \end{figure}
 
-Reviewing Eq.~\ref{eq:theta-lc} we see that the speed of decay is dictated by the term in the exponential, $3\Bi$. Meanwhile, the steady-state value being approached is given by $\frac{G}{3\Bi} = \frac{gb}{h(T_0 - T_f)}$. It is important for this discussion to point out that because both the nondimensional heat generation and Biot number terms contain the solid conductivity, the steady-state value of the lumped capacitance model will not change for varying solid conductivity even if it leads to different Biot numbers. We will return to this point in the next section when we compare the lumped capacitance model to the exact solution when internal conduction of the solid is considered.
+Reviewing Eq.~\ref{eq:theta-lc} we see that the speed of decay is dictated by the term in the exponential, $3\Bi$. Meanwhile, the steady-state value being approached is given by $\frac{G}{3\Bi} = \frac{gR}{h(T_0 - T_f)}$. It is important for this discussion to point out that because both the nondimensional heat generation and Biot number terms contain the solid conductivity, the steady-state value of the lumped capacitance model will not change for varying solid conductivity even if it leads to different Biot numbers. We will return to this point in the next section when we compare the lumped capacitance model to the exact solution when internal conduction of the solid is considered.
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -82,12 +84,12 @@ Reviewing Eq.~\ref{eq:theta-lc} we see that the speed of decay is dictated by th
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \subsection{Exact solution for sphere}\label{sec:analytic-sphere}
 
-We again analyze the sphere of Fig.~\ref{fig:ParticleControlVolume} but now will account for internal temperature gradients inside the sphere. The details of the analytic solution for a sphere with heat generation interacting with a fluid is given in Appendix~\ref{sec:analytic-sphere-details}. We again solve in terms of the nondimensional temperature and time introduced in \S~\ref{sec:lumped-capacitance} as well as a nondimensional radius,
+We again analyze the sphere of Fig.~\ref{fig:ParticleControlVolume} but now will account for internal temperature gradients inside the sphere. The details of the analytic solution for a sphere with heat generation interacting with a fluid is given in Appendix~\ref{sec:analytic-sphere-details}. We again solve in terms of the nondimensional temperature and time introduced in \S\ref{sec:lumped-capacitance} as well as a nondimensional radius,
 
 \begin{align*}
     \theta &= \frac{\mathbb{T}}{\mathbb{T}_0}\\
-    \rho & = \frac{r}{b}\\
-    \tau & = \frac{t}{b^2/\alpha}
+    \rho & = \frac{r}{R}\\
+    \tau & = \frac{t}{R^2/\alpha}
 \end{align*}
 
 The energy conservation equation for the sphere with internal temperature gradient, in nondimensional form $\theta_{TG}$, is
@@ -102,9 +104,9 @@ With the initial condition and boundary conditions outlined in Appendix~\ref{sec
     \theta_{TG}(\rho,\tau) = \left(\frac{G}{6} + \frac{G}{3\Bi}-\rho^2\right)  +   \sum_{n=1}^\infty \exp(-\zeta^2 \tau) \frac{\sin(\zeta_n \rho)}{\rho} \frac{Z(\zeta_n)}{N(\zeta_n)}  
 \end{equation}
 
-where $\zeta_n$ are the eigenvalues of the problem and the functions of $zeta_n$ ($Z$,$N$,$C$) are given in Appendix~\ref{sec:analytic-sphere}. 
+where $\zeta_n$ are the eigenvalues of the equation and the functions of $\zeta_n$ ($Z$,$N$,$C$) are given in Appendix~\ref{sec:analytic-sphere}. 
 
-The accompanying nondimensional energy of the sphere is,
+The accompanying nondimensional energy of the sphere is integrated to,
 
 \begin{equation}
 \label{eq:analytic-energy-profile}
@@ -156,15 +158,15 @@ To first address the source of error on the steady-state value, we view the stea
 	E^*_{TG,ss}=\frac{G}{15}+\frac{G}{3\Bi}
 \end{equation}
 
-Comparatively, we write the steady-state term of the lumped capacitance solution from \S~\ref{sec:lumped-capacitance} as,
+Comparatively, we write the steady-state term of the lumped capacitance solution from \S\ref{sec:lumped-capacitance} as,
 
 \begin{equation}
 	E^*_{LG,ss} = \frac{G}{3\Bi}
 \end{equation}
 
-We clearly see that the two steady-state values differ by the contribution of $\frac{G}{15}$ on the exact solution. This term does not appear in the lumped capacitance solution because it does not account for the temperature difference through the sphere. The nondimensional heat generation term is given in Eq.~\ref{eq:nondimensional-heat-generation}; it is importantly a function of thermal conductivity but not the heat transfer coefficient. This explains the difference between steady-state values in Fig.~\ref{fig:LC-analytic-sphere-in-fluid-Bi-2}.
+We clearly see that the two steady-state values differ by the contribution of $\frac{G}{15}$ on the exact solution. This term does not appear in the lumped capacitance solution because it does not account for the temperature difference through the sphere. The nondimensional heat generation term is given in Eq.~\ref{eq:nondimensional-heat-generation}; it is importantly a function of thermal conductivity but not the heat transfer coefficient. This explains the difference between steady-state values in Fig.~\ref{fig:LC-analytic-sphere-in-fluid-Bi-2} when we modified the two parameters.
 
-To address the inaccuracies in the time-dependent response of the lumped capacitance method with large Biot number, we will make use of the so-called Jeffreson Correction described by Van Lew\cite{VanLew2010} and Xu, et al.\cite{Xu2012}. In their work, they considered a heated heat transfer fluid interacting with a low conductivity thermal storage material. The solar thermal storage systems often had large Biot numbers but they could continue to apply the lumped capacitance model by accounting for the large Biot number with the Jeffreson Correction\cite{jeffreson409}. The details of the Jeffreson correction as applied to a system with volumetric heat generation will be discussed next.
+To address the inaccuracies in the time-dependent response of the lumped capacitance method with large Biot number, we will make use of the so-called Jeffreson Correction described by Van Lew\cite{VanLew2010} and Xu et al.\cite{Xu2012}. In their work, they considered a heated heat transfer fluid interacting with a low conductivity thermal storage material. The solar thermal storage systems they analyzed often had moderate-to-large Biot numbers but they could continue to apply the lumped capacitance model by applying the Jeffreson Correction\cite{jeffreson409}. The details of the Jeffreson correction as applied to a system with volumetric heat generation will be discussed next.
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -216,7 +218,7 @@ We then plot the energy profiles from the lumped capacitance model (LC), the Jef
                 \caption{The Biot number increased from  an increase in the heat transfer coefficient.}
 				\label{fig:LC-JC-analytic-sphere-in-fluid-Bi-2b}
         \end{subfigure}
-        \caption[Error of lumped capacitance and Jeffreson correction for moderate Biot number]{Error of lumped capacitance and reduced error of the model with Jeffreson correction for moderate Biot number.}\label{fig:LC-JC-analytic-sphere-in-fluid-Bi-2}
+        \caption[Jeffreson correction for moderate Biot number based on conductivity]{Analytic, lumped capacitance model, and LC model with Jeffreson correction: Jeffreson correction corrects for transient and steady-state errors of lumped capacitance.}\label{fig:LC-JC-analytic-sphere-in-fluid-Bi-2}
 \end{figure}
 
 The Jeffreson correction to the lumped capacitance method allows the simple model to capture the proper transient as well as steady-state values for this sphere with a moderately sized Biot number. To look more closely, we view the instantaneous error (see Eq.~\ref{eq:error}) in Fig.~\ref{fig:LC-JC-analytic-error-Bi-2}.
@@ -236,7 +238,7 @@ The Jeffreson correction to the lumped capacitance method allows the simple mode
                 \caption{The Biot number increased from  an increase in the heat transfer coefficient.}
 				\label{fig:LC-JC-analytic-error-Bi-2b}
         \end{subfigure}
-        \caption[Jeffreson correction for moderate Biot number based on conductivity]{Analytic, lumped capacitance model, and LC model with Jeffreson correction: Jeffreson correction corrects for transient and steady-state errors of lumped capacitance.}\label{fig:LC-JC-analytic-error-Bi-2}
+        \caption[Error of lumped capacitance and Jeffreson correction for moderate Biot number]{Error of lumped capacitance and reduced error of the model with Jeffreson correction for moderate Biot number.}\label{fig:LC-JC-analytic-error-Bi-2}
 \end{figure}
 
 For the value of $\Bi > 1$ due to either low conductivity (Fig.~\ref{fig:LC-JC-analytic-error-Bi-2a}) or high heat transfer coefficient (Fig.~\ref{fig:LC-JC-analytic-error-Bi-2b}), the error in the Jeffreson correction is always under 10\%; often closer to only 1\%. This is in opposition to the standard lumped capacitance method which has 50-80\% error for both transient and steady-state values.

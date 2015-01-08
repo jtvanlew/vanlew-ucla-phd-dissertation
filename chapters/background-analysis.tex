@@ -1,6 +1,4 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\chapter{Pebble Interaction Analysis: Theory} \label{sec:analysis-theory}
+\chapter{Pebble Interaction Analysis: Theory} \label{sec:hertz-theory}
 
 In \S\ref{sec:particle-dynamics}, we will lay out the contact interaction mechanics implemented in the discrete element method which include normal and tangential forces and damping. While all the mechanics are important for the fidelity and stability of the DEM simulation, we will focus here purely on the normal elastic contact of two interacting bodies, the analysis which was first performed by Heinrich Hertz in 1882. The results of the so-called Hertzian contact law is vital to many other sections of this work so it is instructive to have the analysis laid out.
 
@@ -10,10 +8,12 @@ We consider two non-conforming solids approaching and then contacting under load
 
 Because we are restricting ourselves to two spheres, the surface of curvature of the two bodies may be written as
 
+\begin{subequations}
 \begin{align}
 z_1 &= \frac{1}{2R_1}r^2 \\
 z_2 &= \frac{1}{2R_2}r^2
 \end{align}
+\end{subequations}
 
 respectively. As the two bodies approach, just before the surfaces are in contact, points on the two surfaces are separated by a distance $h(r)$,
 
@@ -121,7 +121,13 @@ The radius, overlap, and pressure relations are inserted into Eq.~\ref{eq:hertzf
 	F = \frac{4}{3}E^* \sqrt{R^*} \, \delta^{3/2}
 \end{equation}
 
-Equation~\ref{eq:hertz-force} defines the normal contact forces between any two contacting, elastic spheres. This extremely important result acts as the basis of all discrete element method codes since the concept was first introduced for granular materials by Cundall \& Strack in 1979\cite{Cundall1979}. 
+as a last step, to differentiate the force from other terms to be derived later, we specificy it as the normal force between sphere $i$ and sphere $j$ as
+
+\begin{equation}\label{eq:hertz-normal-force}
+	F_{n,ij} = \frac{4}{3}E_{ij}^* \sqrt{R_{ij}^*} \, \delta_{n,ij}^{3/2}
+\end{equation}
+
+Equation~\ref{eq:hertz-normal-force} defines the normal contact forces between any two contacting, elastic spheres. This extremely important result acts as the basis of all discrete element method codes since the concept was first introduced for granular materials by Cundall \& Strack in 1979\cite{Cundall1979}. 
 
 It is very appealing to use the Hertz force in a numerical model such as DEM because there are very few assumptions built in to the theory; the material must be elastic and satisfy
 
@@ -129,11 +135,7 @@ It is very appealing to use the Hertz force in a numerical model such as DEM bec
 	\frac{a}{R^*} \ll 1
 \end{equation}
 
-In which case the force of Eq.~\ref{eq:hertz-force} is calculated from material and geometric properties alone and no phenomenological fits are necessary.
+In which case the force of Eq.~\ref{eq:hertz-normal-force} is calculated from material and geometric properties alone and no phenomenological, empirical fits are necessary.
 
-To differentiate the force from other terms to be derived later, we specificy it as the normal force between sphere $i$ and sphere $j$ as
 
-\begin{equation}\label{eq:hertz-normal-force}
-	F_{n,ij} = \frac{4}{3}E_{ij}^* \sqrt{R_{ij}^*} \, \delta_{ij}^{3/2}
-\end{equation}
 

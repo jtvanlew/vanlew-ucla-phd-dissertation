@@ -17,7 +17,7 @@ Batchelor and O'Brien\cite{Batchelor1977} developed a formulation of similar for
 where $k_r$ is the conductivity of the contacting solids and $a$ is the radius of contact. In \S\ref{sec:hertz-contact}, with Hertz theory we found the contact radius in terms of the contact pressure. Here, we give the radius in terms of the compression force acting on the bodies,
 
 \begin{equation}
-	a =  \left(\frac{3}{4}\frac{R^*}{E^*}\right)^{1/3}F^{1/3}	
+	a =  \left(\frac{3}{4}\frac{R^*}{E^*}\right)^{1/3}F_n^{1/3}	
 \end{equation}
 
 as before, $\frac{1}{E^*} = \frac{1-\nu_1^2}{E_1} + \frac{1-\nu_2^2}{E_2}$ and $\frac{1}{R^*} = \frac{1}{R_1} + \frac{1}{R_2}$. 
@@ -25,7 +25,7 @@ as before, $\frac{1}{E^*} = \frac{1-\nu_1^2}{E_1} + \frac{1-\nu_2^2}{E_2}$ and $
 In Eq.~\ref{eq:batchelor-pebble-conductance}, Batchelor and O'Brien had assumed the two contacting spheres to be of equal conductivity, $k_r$. Cheng, et al.\cite{Cheng19994199} proposed a slightly modified conductance which allows for contacting materials of different thermal conductivity. Tthey have,
 
 \begin{equation}\label{eq:cheng-modification-batchelor}
-	H_c = 2k^*a = 2k^* \left(\frac{3}{4}\frac{R^*}{E^*}\right)^{1/3}F^{1/3}
+	H_c = 2k^*a = 2k^* \left(\frac{3}{4}\frac{R^*}{E^*}\right)^{1/3}F_n^{1/3}
 \end{equation}
 
 where $\frac{1}{k^*} = \frac{1}{k_i} + \frac{1}{k_j}$. As well as being a more general, flexible formulation, the models analyzed by Cheng, et al.\cite{Cheng19994199} are in good agreement with experiments. In the DEM numerical structure, we use the form given by Eq.~\ref{eq:cheng-modification-batchelor}.
@@ -43,15 +43,15 @@ For lithium ceramics in helium, the ratio is approximately $\frac{k_r}{k_f} \app
 As we step back from the contact of a single pair of particles and consider a particle in an ensemble with many contacts, we must again consider the validity of applying Eq.~\ref{eq:cheng-modification-batchelor} at each contact. Vargas and McCarthy\cite{Vargas2002a}, proposed introducing a conduction Biot number to relate resistance to heat transfer internal to the particle with the resistance between particles. We use the following form
 
 \begin{equation}
-	\Bi_c = \frac{H}{k^* d_p} = 2\frac{a}{d_p}
+	\Bi_c = \frac{H_c}{k^* d_p} = 2\frac{a}{d_p}
 \end{equation}
 
-Then if $\Bi_c \\ 1$, the individual energy transferred between each point of contact can be decoupled. The Biot number criteria is already satisfied for Hertz theory to be valid; having assumed that $\frac{a}{d_p} \ll 1$. Therefore the total heat transferred out of a single particle with $Z$ contacts is summed from the individual contacts as 
+Then if $\Bi_c \ll 1$, the individual energy transferred between each point of contact can be decoupled. The Biot number criteria is already satisfied for Hertz theory to be valid; having assumed that $\frac{a}{d_p} \ll 1$. Therefore the total heat transferred out of a single particle with $Z$ contacts is summed from the individual contacts as 
 
 \begin{equation}
 	Q_i = \sum_j^Z Q_{ij}
 \end{equation}
 
-The form of contact conductance used in our study, built upon the solution of Batchelor and O'Brien\cite{Batchelor1977}, has been implemented by others in a variety of studies\cite{Vargas2001, Chaudhuri2006, Zhou2009,Cheng19994199}. However, in many other fields, the researchers are interested in such things as the parallel conduction through a stagnant interstitial gas\cite{Bu2013} or the temporary conduction during impact of fluidized beds\cite{Zhu2008,Zhang2011,Wu2011,Li2000}. While many research efforts are focused on particle-scale modeling of conduction of granular materials, there is certainly no solid consensus on the approach. 
+The form of contact conductance used in our study, built upon the solution of Batchelor and O'Brien\cite{Batchelor1977}, has been implemented by others in a variety of studies\cite{Vargas2001, Chaudhuri2006, Zhou2009,Cheng19994199}. However, in many other fields, the researchers are interested in such things as the parallel conduction through a stagnant interstitial gas\cite{Bu2013} or the temporary conduction during impact of fluidized beds\cite{Zhu2008,Zhang2011,Wu2011,Li2000}.
 
-However, for the packed beds of ceramic spheres we intend to model, the heat conductance of Eq.~\ref{eq:cheng-modification-batchelor} is an appropriate and valid form. When we incorporate the influence of an interstitial gas, it will be done in such a way as to leave the DEM heat transfer intact and only add an energy source term to stand in for the interaction with the fluid. The details will be discussed in \S\ref{sec:cfdem-heat-transfer}, but for now we conclude with a solid conduction theory that will be implemented in the discrete element method computations.
+Nevertheless, for the packed beds of ceramic spheres we intend to model, the heat conductance of Eq.~\ref{eq:cheng-modification-batchelor} is an appropriate and valid form. When we incorporate the influence of an interstitial gas, it will be done in such a way as to leave the DEM heat transfer intact and only add an energy source term to stand in for the interaction with the fluid. The details will be discussed in \S\ref{sec:cfdem-heat-transfer}, but for now we conclude with a solid conduction theory that will be implemented in the discrete element method computations.

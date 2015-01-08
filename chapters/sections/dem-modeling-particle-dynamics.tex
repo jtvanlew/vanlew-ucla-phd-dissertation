@@ -1,0 +1,140 @@
+\section{Particle dynamics}\label{sec:particle-dynamics}
+
+The particles in our system are allowed translational and rotational degrees of freedom. In a packed bed, we can restrict our attention to local forces between particles; neglecting, say, non-contact forces such as van der Waals or electrostatic forces. In the first construct, we will treat the particles as if in a vacuum and leave a derivation of fluid interaction forces for \S\ref{sec:modeling-cfd-dem}.
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Particle kinematics}
+
+Assuming we know the contact forces acting upon particle $i$, Newton's equations of motion describe the motion of the particle. The translational and rotational for the translation degrees of freedom:
+
+\begin{subequations}
+\label{eq:newtons-second}
+\begin{align}
+	m_i  \ddt{\vec{r}_i}   & = m_i\vec{g} + \vec{f}_i \label{eq:newton-translational} \\
+	I_i\dt{\vec{\omega}_i} & = \vec{T}_i \label{eq:newton-rotational}
+\end{align}
+\end{subequations}
+
+where $m_i$ is the mass of this particle, $\vec{r}_i$ its location in space, $g$ is gravity, $I_i$ is the particle's moment of inertia, and $\vec{\omega}_i$ its angular velocity.
+
+The net contact force, $\vec{f}_i$, represents the sum of the normal and tangential forces from the total number of contacts, $Z$, acting on this particle.
+
+\begin{equation}
+ 	\vec{f}_i = \sum_{j=1}^{Z} \vec{f}_{n,ij} + \vec{f}_{t,ij}
+ \end{equation} 
+
+and the net torque, $\vec{T}_i$, is similarly,
+
+\begin{equation}
+	\vec{T}_i = -\frac{1}{2}\sum_{j=1}^{Z} \vec{r}_{ij} \times \vec{f}_{t,ij}
+\end{equation}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Linear spring-dashpot model}
+
+When Cundall and Strack first proposed the discrete element method, they used a linear spring-dashpot structure which saw the normal and tangential forces written as,
+
+\begin{subequations}
+\label{eq:dem-forces}
+\begin{align}
+	\vec{f}_{n,ij} &= k_{n,ij} \delta_{n,ij}\vec{n}_{ij} - \gamma_{n,ij} \vec{u}_{n,ij} 	\label{eq:normal-force} \\
+	\vec{f}_{t,ij} &= k_{t,ij} \delta_{t,ij}\vec{t}_{ij} - \gamma_{t,ij} \vec{u}_{t,ij} 	\label{eq:tangential-force}
+\end{align}
+\end{subequations}
+
+The fictive tangential overlap, $\delta_{t,ij}$, is truncated to so the tangential and normal forces obey Coulomb's Law, $\vec{f}_{t,ij} \le \mu_i \vec{f}_{n,ij}$ with $\mu$ as the coefficient of friction of the particle. In the first model of Cundall and Strack, the stiffness coefficients $k$ were constants and the local damping coefficients $\gamma$ were proportional to them, $\gamma \propto k$ to allow dissipation of energy and the system to reach an equilibrium. The relative normal and tangential velocities, respectively, are decomposed from the particle velocities,
+
+\begin{subequations}
+\label{eq:dem-velocities}
+\begin{align}
+	\vec{u}_{n,ij} &= (-(\vec{u}_i-\vec{u}_j)\cdot\vec{n}_{ij})\vec{n}_{ij} \\
+	\vec{u}_{t,ij} &= (-(\vec{u}_i-\vec{u}_j)\cdot\vec{t}_{ij})\vec{t}_{ij}
+\end{align}
+\end{subequations}
+
+with the unit vector $\vec{n}_{ij}$ pointing from particle $j$ to $i$
+
+Similarly to the approach of Hertz (see \S\ref{sec:hertz-theory}), the surfaces of the two particles are allowed to virtually pass through each other (no deformation) resulting in normal and tangential overlaps of,
+
+\begin{subequations}
+\label{eq:dem-overlaps}
+\begin{align}
+	\delta_{n,ij} &= (R_i + R_j) - (\vec{r}_i -\vec{r}_j)\cdot \vec{n}_{ij} \\
+	\delta_{t,ij} &= \int_{t_{c,0}}^{t} \vec{u}_{t,ij}\,\mathrm{d}\tau 
+\end{align}
+\end{subequations}
+
+We have a relatively simple approach of calculating the interaction forces between particles with Eq.~\ref{eq:dem-forces} based on the kinematics of velocity and position of the interacting particles from Eq.~\ref{eq:dem-velocities} and Eq.~\ref{eq:dem-overlaps}, respectively. As the DEM evolved and drew the attention of more researchers, more complex formulas governing the forces of Eq.~\ref{eq:dem-forces} emerged. But the core approach remained the same and the models all fall into the same family of so-called `soft particle' models of DEM. A well-composed summary of the different DEM force models is given by Zhu et al\cite{Zhu2007}.
+
+The method used in our work is fit into the computational skeleton of Cundall and Strack's method but with non-linear spring-dashpot coefficients defined by simplified Hertz-Mindlin-Deresiewicz model; the details will be expressed in the next section.
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Hertzian non-linear spring dashpot model}
+
+The normal-direction (Hertz) stiffness coefficient of Eq.~\ref{eq:normal-force} is based on the Hertzian contact laws given in \S\ref{sec:hertz-contact}. The tangential-direction (Mindlin) stiffness coefficient follows from Brilliantov\cite{Brilliantov1996, Zhu2007, Langston1995},
+
+\begin{subequations}
+\begin{align}
+	k_{n,ij} &= \frac{4}{3}E_{ij}^*\sqrt{R_{ij}^*\delta_{n,ij}} \\
+	k_{t,ij} &= 8 G_{ij}^*\sqrt{R_{ij}^*\delta_{t,ij}}
+\end{align}
+\end{subequations}
+
+with $G_{ij}^*$ as the pair bulk modulus,
+
+\begin{equation}
+	\frac{1}{G^*_{ij}} = \frac{2(2+\nu_i)}{E_i} + \frac{2(2+\nu_j)}{E_j}
+\end{equation}
+
+The damping coefficients, $\gamma$, arise to account for the energy dissipated from the collision of two particles\cite{DiRenzo2004, Tsuji1992, Tsuji1993}. Whether the damping coefficient is local or global and the exact form of the coefficient is more important for loosely confined granular systems and dictates the way the system approaches an equilibrium state\cite{Makse2004}. For the case of our tightly packed pebble beds, it suffices to use the efficient form of\cite{Dippel1996, Makse2004, Brilliantov1996, Zhang2005, Zhu2007},
+
+\begin{subequations}
+\begin{align}
+	\gamma_n &= \sqrt{5}\beta_\text{diss}\sqrt{m^*k_{n,ij}} \\
+	\gamma_t &= \sqrt{\frac{10}{3}}\beta_\text{damp}\sqrt{k_{t,ij} m^*}
+\end{align}
+\end{subequations}
+
+with $\beta_\text{damp}$ as the damping ratio, and the pair mass, $\frac{1}{m^*} = \frac{1}{m_i} + \frac{1}{m_j}$. For a stable system with $\beta_\text{damp} < 1$, the damping ratio is related to the coefficient of restitution, $e$,
+
+\begin{equation}
+	\beta_\text{diss} = -\frac{\ln{e}}{\sqrt{\ln^2{e}+\pi^2}}
+\end{equation}
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Time integration}
+
+Having expressed the contact mechanics of the discrete element method, we now need a means of integrating the kinematics of the particles. The most common means of marching in time with DEM is the velocity-Verlet algorithm\cite{Kruggel-Emden2008}. In this algorithm we integrate Eqs.~\ref{eq:newtons-second} with half-steps in velocity, full steps in position, and then finally the complete step in velocity (the two half-steps in velocity are often compressed into a single, full step, as we will do below). Here we will explicitly show the integration for the translational degrees of freedom. 
+
+The force field defined by Eq.~\ref{eq:newton-translational} is rewritten in terms of the acceleration of the particle. For clarity in expression, the per-particle subscripts ($i$, $j$, etc.) will be temporarily omitted. Instead, time-varying quantities will have a subscript to refer to their temporal location. Quantities measured or evaluated at the current timestep will have subscript $t$ (note this does not refer to tangential directions!). Eq.~\ref{eq:newton-translational} is rewritten as
+
+\begin{equation}\label{eq:newton-acceleration}
+	\vec{a}_t = \vec{g} + \frac{\vec{f}_t}{m}
+\end{equation}
+
+The first step in the velocity-Verlet algorithm is to integrate the position of the particle by a full timestep based on the current timestep's velocity and acceleration. Note that the initial condition of the particle must specify both position and velocity for this step to be evaluated at the start, from then on the velocity is explicitly updated.
+
+\begin{equation}
+	\vec{r}_{t+\Delta t} = \vec{r}_t + \vec{v}_t\Delta t + \frac{1}{2}\vec{a}_t\Delta t^2
+\end{equation}
+
+The particles at new positions interact as a function of their overlaps (see Eqs.~\ref{eq:dem-forces}). Acceleration at the full timestep is then calculated from the updated forces (of Eq.~\ref{eq:newton-acceleration}). In the last computational step, the velocity at the full timestep is found from an average acceleration,
+
+\begin{equation}
+	\vec{v}_{t+\Delta t} = \vec{v}_t + \frac{\vec{a}_t + \vec{a}_{t+\Delta t}}{2}\Delta t
+\end{equation}
+
+The velocity-Verlet algorithm is an efficient means of explicitly integrating the kinematic equations for all the particles in the ensemble but, as an explicit method, the size of the timestep must be carefully chosen to avoid instabilities in the system. Stable, critical timesteps and means of circumventing unreasonably small timesteps will be addressed in \S\ref{sec:dem-stability}. Additionally, we have contended with the Lagrangian tracking of the particles momentum but we have still to deal with energy transfer through the packed beds which is just as important for our packed beds of ceramic breeder material. The heat transfer will be tackled in \S\ref{sec:dem-heat-transfer}.

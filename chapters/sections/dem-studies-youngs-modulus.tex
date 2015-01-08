@@ -1,0 +1,85 @@
+\section{Study of Young's Modulus}\label{sec:dem-studies-youngs-modulus}
+
+The fundamental assumption in the DEM formulation is that each pebble acts perfectly elastically and thereby adheres to Hertz theory for contacting spheres. With Hertz theory, one finds contact forces as a simple function of: the virtual overlap between two objects, the Young's modulus of the contacting material (and Poisson ratio), and radii of the two. In past studies, the Young's modulus of the ceramic materials  used in DEM simulations was taken from historical data, for instance lithium metatitanate from Ref.~\cite{Gierszewski1998}.
+
+Based on observations of experimental data from single pebble crush data, in this study we propose a new method of obtaining the Young's modulus for a batch of ceramic pebbles as the historical values from literature are not always appropriate. Details of the motivation and physics are in \S\ref{sec:exp-reduction-factor}.
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Numerical experiments setup}
+%In pebble bed breeder units, the stresses on the pebble regions are a result of thermal expansion of the relatively hot pebbles contained by relatively cool container walls. This process is a function of the coefficient of thermal expansion of the pebbles and their elevated temperature; the confined strain relates to a stress. 
+We model our pebble beds undergoing a standard stress-controlled uni-axial compression up to 6 MPa. We will measure the macroscopic stress-strain for some parametrically varied pebble beds and compare the curves. At the moment of maximum stress, we can investigate the differences in contact forces of those pebble beds.
+
+Our pebble ensemble is composed of \si{0.5 mm} diameter lithium orthosilicate pebbles. The pebble beds are initiated and packed in the same manner as \S\ref{sec:dem-studies-effective-conductivity}. There are two main bed groups. Set A: the first set of three beds (A.1-3) contain a single type of pebble with $E$ = \si{90 GPa}. Set B: the second set of four beds (B.1-4) contain ten types of pebbles with their Young's modulus assigned in a discrete, random way to satisfy the distribution seen from experimental data. For the DEM study, we fit to lithium orthosilicate pebbles where the average stiffness was $\bar{E} = 49$~GPa. The description of the two sets of pebble beds is visually represented in Fig.~\ref{fig:dem-types}. The pebble bed geometry was also the same used in the study of Ref.~\cite{VanLew2014}; two virtual walls in the x-direction located at $x_\text{lim} = \pm 20 R_p$, periodic boundaries at the limits of $y_\text{lim} = \pm 15 R_p$, and a total of 8000 pebbles packed into the volume to an approximate height of $z_\text{lim} = 20 R_p$.
+
+Among both sets, a parametric study was done on pebble radius and coefficient of friction. The radii of pebbles in beds A.1, A.2, B.1, and B.2 were constant at $R_p$=.25 mm. The radii of pebbles in beds A.3, B.3, and B.4 followed a Gaussian distribution about $\bar{R}_p$ = 0.25 mm: $\mu_d = R_p$ and $sigma_d = R_p$. The coefficient of friction was set at $\mu = 0.2$ for beds A.1, A.3, B.1, and B.3; the coefficient of friction was $\mu = 0.3$ for beds A.2, B.2, and B.4.
+
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width = 0.75 \textwidth]{chapters/figures/DEM-types}
+  \caption{[color online] On the left, set A, a pebble bed with a single type, of $E = 120$ GPa. On the right, set B, is a pebble bed with 10, randomly distributed types; each type corresponds to a reduced, apparent Young's modulus as derived from experimental data.}\label{fig:dem-types}
+\end{figure}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Results}
+
+
+A constant-velocity, uniaxial compression was applied to the pebble beds. A single cycle up to 6 Mpa was used on all the beds. The macroscopic measurements of stress-strain are shown for all the pebble beds in Fig.~\ref{fig:stress-strain}.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width = 0.75 \textwidth]{chapters/figures/stress-strain}
+  \caption{[color online] Stress-strain responses of pebble beds with: squares, constant Young's modulus; and circles, Gaussian distribution of Young's modulus. The constant Young's modulus beds all had much firmer responses for all parametric cases studied here.}\label{fig:stress-strain}
+\end{figure}
+
+Naturally, the pebble beds with smaller Young’s modulus (with circle markers) are more compliant to external loads. The result is true regardless of the coefficient of friction or distribution of pebble radius studied here. Group B moved to an average strain of about 2.6\% at 6 MPa, by comparison the beds of Group A only had strained 1.9 \% on average to reach the same stress. Among the beds of each group, pebble beds with constant radius pebbles behaved virtually the same as similar pebble beds with a Gaussian distribution on radius. An increase in the coefficient of friction had a moderate impact on the overall stress-strain response. 
+
+
+The parametric study here shows that the largest contributor to stress-strain response is the Young’s modulus. The coefficient of friction and radius distribution had comparatively insignificant influence. A pebble bed geometry more directly comparable to oedometric compression experiments should be used to allow direct comparison and validation of the numerical models.
+
+
+At the point of peak stress for each bed, we use DEM results to visualize the distribution of contact forces among all pebbles in the ensemble. A plot of the probability distributions of all the beds together, Fig.~\ref{fig:all-contact-forces}, shows that the majority of the contacts in all the beds are equally small. There are a few overall trends we observe from the results however. The pebble beds with the constant Young's modulus are always higher for their comparable version with distributed Young's modulus. For pebble beds with comparable Young's modulii and radii, higher coefficients of friction generally have higher peak contact forces. Pebble beds' radius distributions have much less impact on peak contact forces than either coefficient of friction or Young’s modulus. Another method of comparing overall contact force distributions is to consider predictions on pebble cracking which assigns a strength value at random to pebbles in the bed, according to Eq.~\ref{eq:crush-predict}. At the point of maximum stress, this is done and the results are shown in Tab.~\ref{tab:num-crush-percent}.
+
+While overall the predicted number of broken pebbles is small, we compare similar parameteric pebble beds and in each case pebble beds with modified Young’s modulus overall predict smaller percentages of broken pebbles. Pebble crushing is a major topic for the overall evaluation of the feasibility of ceramic pebble beds in fusion reactors. This study reveals that past DEM work on pebble crushing was likely over-predicting the extent of crushing if the Young's modulus used in the study was much larger than the realistic response of individual pebbles.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width = 0.75 \textwidth]{chapters/figures/all-contact-forces}
+  \caption{[color online] Probability distribution of contact forces in all the pebble beds studied here. Elastic moduli value is the largest contributor to higher peak contact forces among pebbles.}\label{fig:all-contact-forces}
+\end{figure}
+
+
+\begin{table}[t]
+\caption{Comparisons for the two styles of Young's modulii used in the study. }
+\label{tab:num-crush-percent}\centering
+\begin{tabular}{llS[table-format=3.2]}
+\toprule
+Bed label		& 		Parameters 								&	\text{Predicted crushed}			\\
+				& 												&	\multicolumn{1}{r}{\text{\%}}		\\\otoprule
+A.1				& 		$E$, $R_p$, $\mu = 0.2$          		&	0.3									\\\midrule
+A.2				& 		$E$, $R_p$, $\mu = 0.3$     			&	1.0									\\\midrule
+A.3				& 		$E$, $\bar{R}_p$, $\mu = 0.2$			&	0.9									\\\midrule
+B.1				& 		$\bar{E}$, $R_p$, $\mu = 0.2$			&	0.6									\\\midrule
+B.2				& 		$\bar{E}$, $R_p$, $\mu = 0.3$			&	0.8									\\\midrule
+B.3				& 		$\bar{E}$, $\bar{R}_p$, $\mu = 0.2$		&	0.4									\\\midrule
+B.4				& 		$\bar{E}$, $\bar{R}_p$, $\mu = 0.3$		&	0.7									\\\bottomrule
+\end{tabular}
+\end{table}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Conclusions}
+Models based on the discrete element method have received considerable attention by ceramic breeder researchers. The method is attractive as it is based on material properties and forgoes many of the assumptions necessary in empirical equations of effective properties for continuum models. Variation in production techniques for ceramic pebbles lead to changes in ceramic microstructure, as evident in the wide distribution of crush loads reported in past studies, \textit{e.g.} Refs.~\cite{Zhao2012,Mandal2012a}. By the same token, the different microstructures should naturally lead to variation in Young’s modulus. However up to now values of Young’s modulus used in numerical models are taken from values measured for large sintered pellets of ceramic materials. Based on single pebble experiments and the application of Hertz theory, a technique for introducing a modified Young’s modulus into DEM models has been proposed here. DEM simulations show the impact of modified pebble elasticity on both macroscopic measurements of stress-strain curves as well as mesoscopic measures of inter-pebble contact force – with major implications for prediction of pebble crushing in ceramic pebble beds. The models applying the elasticity reduction factor, $k$, predict more compliant pebble beds and smaller peak contact forces in beds and thus fewer crushed pebbles.
