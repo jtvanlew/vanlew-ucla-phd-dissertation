@@ -34,7 +34,6 @@
 \usepackage{subcaption}
 \usepackage{siunitx}
 
-
 \setcounter{secnumdepth}{5}
 \setcounter{tocdepth}{4}
 %\linespread{1.6}%double line (1.6%) spacing, for one & half use {1.3}
@@ -123,22 +122,33 @@
 
 
 % Reference sections
-\input{chapters/introduction.tex}     			- not done
-%\input{chapters/background-discussion.tex}		- not done
+\part{Introduction and Motivation}
+\input{chapters/introduction.tex}
 
 
-% Content
-\input{chapters/background-analysis.tex}
-%\input{chapters/modeling-pressure-drop.tex}
-\input{chapters/modeling-heat-transfer.tex}
+% Literature Review
+\part{Literature Review}
+\input{chapters/survey-background-analysis.tex}
+\input{chapters/survey-pressure-drop.tex}
+\input{chapters/survey-heat-transfer.tex}
+\input{chapters/survey-packed-bed-empirical-relationships.tex}
+
+% Methodology
+\part{Methodology}
 \input{chapters/modeling-dem.tex}
-\input{chapters/studies-dem.tex}
 \input{chapters/modeling-cfd-dem.tex}
-\input{chapters/studies-cfd-dem.tex})
-%\input{chapters/modeling-lbm.tex}				- not done
-\input{chapters/experimenting.tex}				- not done
+\input{chapters/modeling-lbm.tex}
 
+% Case studies
+\part{Cases studied}
+\input{chapters/studies-dem.tex}
+\input{chapters/studies-cfd-dem.tex}
+\input{chapters/studies-lbm.tex}
+\input{chapters/studies-experiments.tex}
 
+\part{Future Work}
+
+\part{Appendices}
 \appendix
 \input{appendices/appendix-analytic-sphere-heat-generation.tex}
 
