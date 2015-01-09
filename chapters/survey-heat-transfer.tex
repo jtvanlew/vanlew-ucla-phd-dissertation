@@ -1,0 +1,48 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Heat transfer in packed beds} \label{ch:modeling-heat-transfer}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+To begin this section, we begin with a general discussion on the thermal interaction of a single particle inside the packed beds of tritium solid breeders of a fusion reactor. In Fig.~\ref{fig:peb-comp-ht}, the different modes of heat transfer are drawn.
+
+\begin{figure}[t]
+	\centering
+	\caption{Each ceramic pebble in a fusion reactor will experience multiple modes of heat transfer.}
+	\includegraphics[width=0.75\textwidth]{chapters/figures/pebble-complete-heat-transfer}\label{fig:peb-comp-ht}
+\end{figure}
+
+
+
+\begin{enumerate}
+\item Conduction through the contact area between contacting particles.
+\item Conduction through the stagnant fluid between near, non-contacting particles.
+\item Conduction through the stagnant fluid between contacting particles.
+\item Conduction through the interstitial fluid. 
+\item Advection of the fluid to contacting- and downstream particles.
+\item Radiation between the surfaces of contacting particles.
+\item Radiation between particles of adjacent voids.
+\item Heat generation internally in the particle.
+\end{enumerate}
+
+The first mode of transfer will be addressed in \S\ref{sec:ht-pebble-conduction} where we will go through the development of a form of heat conductance between contacting, elastic spheres. Ideally, modes 2-5 would each receive separate treatment but we will wrap up all of their influences with heat transfer coefficients that are functions of local packing fraction to account for both the fluid and the neighboring particles; this is done in \S\ref{sec:particle-convection}. For the present study, we will entirely neglect the modes 6, and 7 because of their added complexity. Finally, the last mode of heat transfer is trivially accounted for with a heat source term,
+
+\begin{equation}\label{eq:nuclear-heating-term}
+	Q_g = q'''V
+\end{equation}
+
+where $q'''$ is a known volumetric heating rate and $V$ is the volume of our particle. In practice, we will know a volumetric heating rate from the location and geometry of the solid breeder volume. The volume of the sphere is $V = \frac{4}{3}\pi R^3$.
+
+In the following sections we will expand upon the details of the modes of heat transfer considered for our packed beds. They forms of equations used will be written in a way to be implemented directly into the DEM computational framework, to be discussed later in \S\ref{modeling-DEM}.
+
+% The transient energy balance for an irradiated pebble, shown in Fig.~\ref{fig:peb-comp-ht}, in a packed bed with flowing interstitial gas is given by Eq.~\ref{eq:single-pebble-energy},
+
+% \begin{equation}\label{eq:single-pebble-energy}
+% 	\rho V C \frac{\mathrm{d}T}{\mathrm{d}t} = \dot{Q}_g + \dot{Q}_\text{conduction} + \dot{Q}_\text{convection} + \dot{Q}_\text{radiation}
+% \end{equation}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{chapters/sections/ht-conduction}
+\input{chapters/sections/ht-convection}
+\input{chapters/sections/ht-jeffreson-correction}
+\input{chapters/sections/ht-radiation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
