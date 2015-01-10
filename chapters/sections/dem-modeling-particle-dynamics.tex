@@ -1,6 +1,6 @@
 \section{Particle dynamics}\label{sec:particle-dynamics}
 
-The particles in our system are allowed translational and rotational degrees of freedom. In a packed bed, we can restrict our attention to local forces between particles; neglecting, say, non-contact forces such as van der Waals or electrostatic forces. In the first construct, we will treat the particles as if in a vacuum and leave a derivation of fluid interaction forces for \S\ref{sec:modeling-cfd-dem}.
+The particles in our system are allowed translational and rotational degrees of freedom. In a packed bed, we can restrict our attention to local forces between particles; neglecting, say, non-contact forces such as van der Waals or electrostatic forces. In the first construct, we will treat the particles as if in a vacuum and leave a derivation of fluid interaction forces for \cref{sec:modeling-cfd-dem}.
 
 
 
@@ -59,7 +59,7 @@ The fictive tangential overlap, $\delta_{t,ij}$, is truncated to so the tangenti
 
 with the unit vector $\vec{n}_{ij}$ pointing from particle $j$ to $i$
 
-Similarly to the approach of Hertz (see \S\ref{sec:hertz-theory}), the surfaces of the two particles are allowed to virtually pass through each other (no deformation) resulting in normal and tangential overlaps of,
+Similarly to the approach of Hertz (see \cref{sec:hertz-theory}), the surfaces of the two particles are allowed to virtually pass through each other (no deformation) resulting in normal and tangential overlaps of,
 
 \begin{subequations}
 \label{eq:dem-overlaps}
@@ -79,7 +79,7 @@ The method used in our work is fit into the computational skeleton of Cundall an
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \subsection{Hertzian non-linear spring dashpot model}
 
-The normal-direction (Hertz) stiffness coefficient of Eq.~\ref{eq:normal-force} is based on the Hertzian contact laws given in \S\ref{sec:hertz-contact}. The tangential-direction (Mindlin) stiffness coefficient follows from Brilliantov\cite{Brilliantov1996, Zhu2007, Langston1995},
+The normal-direction (Hertz) stiffness coefficient of Eq.~\ref{eq:normal-force} is based on the Hertzian contact laws given in \cref{sec:hertz-contact}. The tangential-direction (Mindlin) stiffness coefficient follows from Brilliantov\cite{Brilliantov1996, Zhu2007, Langston1995},
 
 \begin{subequations}
 \begin{align}
@@ -137,4 +137,4 @@ The particles at new positions interact as a function of their overlaps (see Eqs
 	\vec{v}_{t+\Delta t} = \vec{v}_t + \frac{\vec{a}_t + \vec{a}_{t+\Delta t}}{2}\Delta t
 \end{equation}
 
-The velocity-Verlet algorithm is an efficient means of explicitly integrating the kinematic equations for all the particles in the ensemble but, as an explicit method, the size of the timestep must be carefully chosen to avoid instabilities in the system. Stable, critical timesteps and means of circumventing unreasonably small timesteps will be addressed in \S\ref{sec:dem-stability}. Additionally, we have contended with the Lagrangian tracking of the particles momentum but we have still to deal with energy transfer through the packed beds which is just as important for our packed beds of ceramic breeder material. The heat transfer will be tackled in \S\ref{sec:dem-heat-transfer}.
+The velocity-Verlet algorithm is an efficient means of explicitly integrating the kinematic equations for all the particles in the ensemble but, as an explicit method, the size of the timestep must be carefully chosen to avoid instabilities in the system. Stable, critical timesteps and means of circumventing unreasonably small timesteps will be addressed in \cref{sec:dem-stability}. Additionally, we have contended with the Lagrangian tracking of the particles momentum but we have still to deal with energy transfer through the packed beds which is just as important for our packed beds of ceramic breeder material. The heat transfer will be tackled in \cref{sec:dem-heat-transfer}.

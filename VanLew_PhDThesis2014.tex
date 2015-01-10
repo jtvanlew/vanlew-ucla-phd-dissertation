@@ -35,8 +35,28 @@
 \usepackage{siunitx}
 
 \setcounter{secnumdepth}{5}
-\setcounter{tocdepth}{4}
+\setcounter{tocdepth}{3}
 %\linespread{1.6}%double line (1.6%) spacing, for one & half use {1.3}
+
+
+
+
+
+\usepackage{cleveref}
+
+\makeatletter
+\newcommand{\crefnames}[3]{%
+  \@for\next:=#1\do{%
+    \expandafter\crefname\expandafter{\next}{#2}{#3}%
+  }%
+}
+\makeatother
+
+\setcounter{secnumdepth}{100}
+
+\crefnames{part,chapter,section}{\S}{\S\S}
+\crefnames{paragraph,subparagraph}{\P}{\P\P}
+
 
 
 \input{vanlew-macros}                        % personal LaTeX macros
@@ -96,7 +116,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\makeintropages
+%\makeintropages
 
 
 
@@ -107,7 +127,7 @@
 %\mymakeabstractpage            % Abstract Page
 %\mymakesignaturepage           % Committee Member Signature Page
 %\setcounter{page}{4}
-%\tableofcontents               % Table of Contents
+\tableofcontents               % Table of Contents
 %\listoffigures                 % List of Figures
 %\listoftables                  % List of Tables
 %\input{nomenclature.tex}
@@ -131,7 +151,6 @@
 \input{chapters/survey-background-analysis.tex}
 \input{chapters/survey-pressure-drop.tex}
 \input{chapters/survey-heat-transfer.tex}
-\input{chapters/survey-packed-bed-empirical-relationships.tex}
 
 % Methodology
 \part{Methodology}

@@ -1,5 +1,5 @@
 \section{Jeffreson correction to lumped capacitance method}\label{sec:ht-jeffreson-correction}
-In \S\ref{sec:particle-convection}, we discuss correlations for heat transfer coefficients of spheres in a packed bed. Then those correlations are utilized with CFD-DEM computational routines in \S\ref{eq:cfdem-dem-energy}. When implemented in the DEM-based modeling, we make the lumped capacitance assumption for each particle in the ensemble. The assumption eases the computational efforts of solving for the temperature distribution inside each particle; each particle is treated as isothermal. The accuracy of the lumped capacitance method is described by the Biot number,
+In \cref{sec:particle-convection}, we discuss correlations for heat transfer coefficients of spheres in a packed bed. Then those correlations are utilized with CFD-DEM computational routines in \cref{eq:cfdem-dem-energy}. When implemented in the DEM-based modeling, we make the lumped capacitance assumption for each particle in the ensemble. The assumption eases the computational efforts of solving for the temperature distribution inside each particle; each particle is treated as isothermal. The accuracy of the lumped capacitance method is described by the Biot number,
 
 \begin{equation}
      \Bi = \frac{hd_p}{k_r}
@@ -84,7 +84,7 @@ Reviewing Eq.~\ref{eq:theta-lc} we see that the speed of decay is dictated by th
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \subsection{Exact solution for sphere}\label{sec:analytic-sphere}
 
-We again analyze the sphere of Fig.~\ref{fig:ParticleControlVolume} but now will account for internal temperature gradients inside the sphere. The details of the analytic solution for a sphere with heat generation interacting with a fluid is given in Appendix~\ref{sec:analytic-sphere-details}. We again solve in terms of the nondimensional temperature and time introduced in \S\ref{sec:lumped-capacitance} as well as a nondimensional radius,
+We again analyze the sphere of Fig.~\ref{fig:ParticleControlVolume} but now will account for internal temperature gradients inside the sphere. The details of the analytic solution for a sphere with heat generation interacting with a fluid is given in Appendix~\ref{sec:analytic-sphere-details}. We again solve in terms of the nondimensional temperature and time introduced in \cref{sec:lumped-capacitance} as well as a nondimensional radius,
 
 \begin{align*}
     \theta &= \frac{\mathbb{T}}{\mathbb{T}_0}\\
@@ -158,7 +158,7 @@ To first address the source of error on the steady-state value, we view the stea
 	E^*_{TG,ss}=\frac{G}{15}+\frac{G}{3\Bi}
 \end{equation}
 
-Comparatively, we write the steady-state term of the lumped capacitance solution from \S\ref{sec:lumped-capacitance} as,
+Comparatively, we write the steady-state term of the lumped capacitance solution from \cref{sec:lumped-capacitance} as,
 
 \begin{equation}
 	E^*_{LG,ss} = \frac{G}{3\Bi}

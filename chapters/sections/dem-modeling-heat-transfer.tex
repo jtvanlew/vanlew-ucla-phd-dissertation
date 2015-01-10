@@ -1,6 +1,6 @@
 \section{Granular heat transfer}\label{sec:dem-heat-transfer}
 
-In an analogous way we handled the momentum of every particle in DEM with Newton's laws of motion, the Lagrangian tracking of energy of each particle is obtained via the first law of thermodynamics. We treat each particle is a single distinct object and thus do not consider any internal temperature gradients (a point which we alluded to in \S\ref{sec:ht-jeffreson-correction}). The temperature of particle $i$ is governed by
+In an analogous way we handled the momentum of every particle in DEM with Newton's laws of motion, the Lagrangian tracking of energy of each particle is obtained via the first law of thermodynamics. We treat each particle is a single distinct object and thus do not consider any internal temperature gradients (a point which we alluded to in \cref{sec:ht-jeffreson-correction}). The temperature of particle $i$ is governed by
 
 \begin{equation}\label{eq:thermoFirstLaw}
 	\rho_iV_iC_i\frac{\mathrm{d}T_i}{\mathrm{d}t} = Q_{s,i} + Q_{i}
@@ -12,7 +12,7 @@ where $\rho$, $V$, and $C$ are the density, volume, and the specific heat of the
 	Q_i = \sum_{j=1}^Z Q_{ij}
 \end{equation}
 
-The conductive heat transfer to neighboring particles comes from the inter-particle conduction formulas we derived in \S\ref{sec:ht-pebble-conduction}, given in Eq.~\ref{eq:pebble-conduction-heat-transfer} with conductance of Eq.~\ref{eq:cheng-modification-batchelor}. They are repeated here for reference,
+The conductive heat transfer to neighboring particles comes from the inter-particle conduction formulas we derived in \cref{sec:ht-pebble-conduction}, given in Eq.~\ref{eq:pebble-conduction-heat-transfer} with conductance of Eq.~\ref{eq:cheng-modification-batchelor}. They are repeated here for reference,
 
 \begin{equation*}
 	Q_{ij} = H_c(T_i - T_j)
