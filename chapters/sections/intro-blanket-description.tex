@@ -1,65 +1,53 @@
-\section{Description of solid breeder blankets}\label{sec:intro-blanket-description}
+\section{Solid breeder background}\label{sec:intro-blanket-description}
 
-The solid breeder blanket is an integral part of the power generation and fuel cycle in a fusion reactor. Before describing the specific functional requirements of the solid breeder blanket, we will review the major features of a fusion reactor fuel cycle. The current, worldwide choice for fusion reaction is deuterium-tritium (DT). The choice is based on DT having a high reaction probability at the lowest ion temperature, high energy yield, fuel availability, and reaction products (how harmless are the daughter products). The DT reaction is
-
+The solid breeder blanket is an integral part of the power generation and fuel cycle in a fusion reactor. On the road to understanding the specific functional requirements of the solid breeder blanket, we will review the major features of a fusion reactor power and fuel cycle as they relate to the blanket. Currently, the worldwide choice for fusion reaction in a power plant is the deuterium-tritium (DT) reaction. The choice is based on DT having: a high reaction probability at the lowest ion temperature, high energy yield, availabile fuel (to a degree), and relatively harmless reaction products. The DT reaction is
 \begin{align}
-	\mathrm{D} +~\mathrm{T}&\xrightarrow{}~^4\mathrm{He}+\mathrm{n}+17.58~\text{MeV} \label{eq:dt-reaction}
+	\mathrm{D} + \mathrm{T}&\xrightarrow{}~^4\mathrm{He}+\mathrm{n}+17.58~\text{MeV} \label{eq:dt-reaction}
 \end{align}
 
-Of the two isotopes fused, deuterium ($D$, or $^2$H) is a stable isotope and is naturally occuring in an average abundance of 0.015 mole percent in water on Earth. But tritium ($T$, or $^3$H), contrarily, is radioactive with a half life of only about 12.32 years; naturally decaying as $\beta^-$ emitter (no $\gamma$ rays),
-
+Of the two isotopes fused, deuterium ($D$, or $^2$H) is a stable isotope and is naturally occuring in an average abundance of 0.015 mole percent in water on Earth. But tritium ($T$, or $^3$H), contrarily, is radioactive with a half-life of only about 12.32 years; naturally decaying as a $\beta^-$ emitter,
 \begin{align}\label{eq:t-decay}
 	\mathrm{T} \xrightarrow{}~^3\mathrm{He} + \beta^-
 \end{align}
 
-Owing to its short half life, any naturally occurring tritium decays at such a rapid pace it will never accumulate. Because of this, to use the DT reaction in a fusion power plant, tritium will need to be generated artificially (breeded) and collected as fuel source. 
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Owing to its short half-life, any naturally occurring tritium decays at such a rapid pace it will never accumulate to an appreciable amount on Earth. Because of this, to use the DT reaction in a fusion power plant, tritium will need to be generated artificially (bred) and collected as fuel source. One way of breeding tritium for a fusion reactor is to include a so-called tritium breeding blanket that surrounds the fusion plasma with a phase of lithium. We will keep our focus completely on the solid, non-mobile choice of a lithium blanket but note that lithium as a liquid is also heavily studied as a potential tritium breeding blanket.
 
-
-
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Tritium breeding}
-
-One way of breeding tritium for a fusion reactor is to include a so-called tritium breeding blanket that surrounds the fusion plasma with some phase of lithium. Natural lithium interacts with the neutrons with the two most common reactions given in Eq.\ref{eq:lithium-t}
-
+The two most abundant isotopes in natural lithium interact with the neutrons as given in Eq.\ref{eq:lithium-t}
 \begin{subequations}\label{eq:lithium-t}
 \begin{align}
-	\mathrm{n}_\text{fast} + ~^7\mathrm{Li} &\xrightarrow ~\mathrm{n}+\alpha + \mathrm{T} -2.47~\text{MeV}\label{eq:li7-t}\\
-	\mathrm{n}_\text{thermal} + ~^6\mathrm{Li} &\xrightarrow ~ \alpha + \mathrm{T} +4.78~\text{MeV} \label{eq:li6-t}
+	\mathrm{n} + ~^7\mathrm{Li} &\xrightarrow ~\mathrm{n}+\alpha + \mathrm{T} -2.47~\text{MeV}\label{eq:li7-t}\\
+	\mathrm{n} + ~^6\mathrm{Li} &\xrightarrow ~ \alpha + \mathrm{T} +4.78~\text{MeV} \label{eq:li6-t}
 \end{align}
 \end{subequations}
-
-where we haved used the common short-hand of $\alpha$ in place of the helium nucleus. The cross-sections of the lithium reactions are given in Fig.~\ref{fig:li-xsects}
+where we haved used the common short-hand of $\alpha$ in place of the helium nucleus. The cross-sections of the lithium reactions are given in Fig.~\ref{fig:li-xsects}. Note the exothermic lithium-6 reaction and the threshold energy required of the incident neutron to incite the lithium-7 reaction.
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.8\textwidth]{chapters/figures/breeding_xsecs} 
+	\includegraphics[width=0.75\textwidth]{chapters/figures/breeding_xsecs} 
 	\caption{Cross-sections of various blanket materials. Note the threshold for the $^7$Li and neutron multiplying reactions.}
 	\label{fig:li-xsects}
 \end{figure}
 
-Serendipitously, the DT reaction itself produces a high energy neutron (see Eq.~\ref{eq:dt-reaction}) that can interact with the two isotope reactions of Eq.~\ref{eq:lithium-t}. A commonly used classification of the efficacy of a breeding blanket is through the `tritium breeding ratio', defined as 
-
+Serendipitously, the DT reaction itself produces a high energy neutron (see Eq.~\ref{eq:dt-reaction}) that can interact with the two isotope reactions of Eq.~\ref{eq:lithium-t}. Therefore sulf-sufficiency of the fusion fuel cycle can be realized with the fusion neutron interacting with the lithium blanket. A commonly used classification of the efficacy of a breeding blanket is via the tritium breeding ratio (TBR), defined as 
 \begin{equation}
 	\text{TBR} = \cfrac{\dot{N}^+}{\dot{N}^-}
 \end{equation}
-
 where $\dot{N}^+$ is the number of tritium atoms generated per unit time in the blanket and $\dot{N}^-$ are the number of tritium atoms consumed per unit time.
 
-For a DT cycle that creates a single neutron we can simplify this definition to say the tritium breeding ratio is the number of tritium atoms produced in the blanket per fusion neutron. If every single neutron from the fusion reaction were to be captured by lithium, we would have a TBR $=1$ and would be ideally self-sufficient. In reality, when we take into account neutron interactions with materials in the structure, tritium retention in material, or losses due to inefficiency in collecting tritium, self-sufficiency of the fuel cycle is not possible unless the fusion neutron is multiplied before interacting with lithium. The extra neutrons allow a TBR$>1$ to be realized and counter-act losses. Materials to act as neutron multipliers would be those that have large neutron multiplication cross sections (over large energy ranges). They react with (n,2n) or (n,3n). Furthermore it is desirable that they have low neutron absorption and that they would have a favorable impact on energy multiplication. 
+For a DT cycle that creates a single neutron we can simplify this definition to say the tritium breeding ratio is the number of tritium atoms produced in the blanket per fusion neutron. If every single neutron from the fusion reaction were to be captured by lithium, we would have a TBR of $\approx 1$ and the reactor would possibly be self-sufficient in this ideal case. Unfortunately, in reality, only 60-80\% of the fusion neutrons actually react with the lithium due to neutron leakage and parasitic reactions. Futhermore, when we take into account tritium retention in structural material or losses due to inefficiency in collecting tritium, then self-sufficiency of the fuel cycle is clearly not possible unless we produce more than one tritium per fusion neutron. 
 
-The two most prominently analyzed neutron multipliers for a fusion reactor are beryllium and lead. Beryllium has a very high nuclide density while also being very light, with a high melting temperature, and high thermal conductivity. However it undergoes a 2-$\alpha$ reaction that causes trapped helium to swell the material. There is also a rarely occurring reaction with beryllium that generates tritium; it is frequent enough to cause a concern with contamination. For solid breeding blankets, beryllium has been pegged as the element of choice. The exact details of implementing a neutron multiplier are beyond the scope of this report.
+For solid breeders, beryllium is introduced into the blanket as a neutron multiplier. The incident neutron breaks Be up into two $\alpha$ particles and an additional two neutrons. Thus it is possible, with careful neutronics analysis and engineering of tritium breeding volumes and neutron multiplying regions, to attain a TBR which makes the power plant not only self-sufficient in terms of fuel, but also able to seed tritium for a future power plant. Assuming that the fuel cycle of tritium is handled properly (perhaps the biggest assumption we will make in this work), the last remaining function of the blanket is to supply energy for the electricity generation of the power plant. 
 
-Clearly it is essential to engineer a device that surrounds the fusion reaction, captures the ejected neutron to breed tritium, and allows recovery of that tritium to attain self-sufficiency. Additionally, the blanket must also be capable of converting energy deposited from neutrons, $\gamma$ rays, and surface radiation from the plasma and then recovering the energy at high tempreatures for efficient power production in the fusion power plant.
+The fusion reaction deposits a great deal of surface radiation on the first wall of the breeding blanket and the blanket will be absorbing energy deposited from neutron interactions and $\gamma$ rays. The blanket must be capable of converting and then recovering the energy at high tempreatures for efficient power production in the fusion power plant. The nuclear heat generated in the pebble bed solid breeder will heat the ceramic pebbles to maximum temperatures of approximately 900~\celsius. The heat of the pebbles is transported through them via conduction through inter-particle contacts, conduction through the purge gas into neighboring particles, and ultimately through contact with the containing structure. The box structure surrounding the solid breeder will have high pressure (\si{8~MPa} in many current designs) helium flowing through channels that remove the heat from the blanket, with the helium reaching temperatures of 500~\celsius, and into a power generation cycle.
 
-Blanket designs have evolved significantly since their introducetion in the 1970s. Some features of current breeder designs will be discussed next.
+In summary, it is feasible, in principle, for a fusion power plant to produce electricity and be self-sustaining in terms of its limiting fuel. The feasibility depends on the the ability engineer a device that surrounds the fusion reaction, captures the ejected neutron to breed tritium, allows recovery of that tritium to attain self-sufficiency, and delivers the energy deposited in the blanket as high quality heat into a power cycle to create electricity. Blanket designs of solid breeders have evolved significantly since their introduction in the 1970s. Some features of current breeder designs will be discussed next.
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Solid breeder design}
-Pure lithium has a melting temperature of only about \si{180 C} so must be combined with a refractory material if we choose to keep it in solid form at high temperatures. To date, most parties researching solid breeder blankets are focusing on lithium orthosilicate ($\lis$) or lithium metatitanite ($\lit$) as candidate ceramics, though other candidate ceramics do still exist. Lithium oxide had been considered because of its favorable lithium density, among other attractive features, though the reaction of lithium with elemental oxygen is a concern. Pure lithium reacts with oxygen exothermically in reactions such as
+\subsection{Solid breeder material and form considerations}
+Pure lithium has a melting temperature of only about 180~\celsius so must be combined with a refractory material to keep it in solid form at high temperatures (melting temperatures >1000~\celsius). To date, most parties researching solid breeder blankets are focusing on lithium orthosilicate (\lis) or lithium metatitanite (\lit) as candidate ceramics, though other candidate ceramics do still exist. Lithium oxide had been considered because of its favorable lithium density, among other attractive features, though the reaction of lithium with elemental oxygen is a concern. Pure lithium reacts with oxygen exothermically in reactions such as
 
 \begin{subequations}
 \begin{align}
@@ -68,13 +56,17 @@ Pure lithium has a melting temperature of only about \si{180 C} so must be combi
 \end{align}
 \end{subequations}
 
-Of primary concern in lithium fires is the peak flame temperature. This will determine, to a large extent, whether many radioactive species become air-borne by vaporization. The flame temperature depends on many variables. Some investigations found it to be about 2500 K which would cause some materials to melt but not vaporize. [cite Abdou's class notes?]
+Of primary concern in lithium fires is the peak flame temperature. This will determine, to a large extent, whether many radioactive species become air-borne by vaporization. The flame temperature depends on many variables. Some investigations found it to be about 2500~K which would cause some materials to melt but not vaporize. [cite Abdou's class notes?]
 
-Large thermal gradients in the solid lithiated ceramics will cause large stresses across large characteristic lengths. Avoiding those stresses has led to most solid breeder designs implementing packed beds of small, spherical (or near-spherical) pebbles. The solid breeder in many current designs for ITER feature sub-module units of packed beds. From the point of view of pebble bed thermomechanics, this has the advantage of producing units individually that can be tested and qualified to desired packing states (and therefore thermomechanics) during the design phase.
+As nuclear energy is deposited into the solid breeder, large thermal gradients in the solid lithiated ceramics will induce thermal stresses across large characteristic lengths. Avoiding thermal stress has led to most solid breeder designs implementing packed beds of small, spherical (or near-spherical) pebbles. Moreover, tritium diffusion and release considerations for solid lithium ceramic support the choice of short characteristic lengths of individual pebbles. From an engineering design standpoint, the choice of packed bed has other desirable characteristics. For instance, the ensemble of small spherical pebbles can be filled into many complex shapes with relatively uniform porosity for well-distributed flow of the purge gas. 
 
-The packed bed will be contained by ferritic or austenitic steel that is itself cooled, most commonly, by a high pressure helium gas. A low-pressure (just above atmospheric) purge gas of hydrogen-doped helium 
+The packed bed will be contained in a structure of ferritic or austenitic steel. The energy of the packed bed is carried away by coolant channels in the structure that have flowing in them high pressure helium gas. Because the structural material is held cooler than the breeding zone, it will confine the thermal expansion of the lithium ceramic and lead to mechanical stresses at the points of contact of the individual pebbles in the packed bed. Engineering design issues surrounding this thermal stress is of great concern to researchers and will be the focus of much of this report.
 
+Once in operation, the ceramic pebble beds will have a specified operating temperature window that is dictated by tritium release characteristics. The low end of the temperature window is governed by a minimum temperature for acceptable release rates of tritium from the ceramic to the purge gas; the value is generally set around 500~K. The upper limit of the temperature window is chosen to avoid sintering of the lithiated ceramic. Sintering of the ceramics, as grains in individual pebbles meld, is predicted to reduce the rate of tritium release. The upper end of the temperature window is generally set around 1000~K.
 
+The size of breeder regions is limited by the temperature window combined with the poor effective conductivity of packed beds of ceramic pebbles. The conductivity is a weak function of external pressure but can generally be approximated as about \si{1 W/{mK}}. Because the effective conductivity and packed bed-wall interface conductance is predominately a contact conduction, disruptions to the packing structure will have considerable impact on the heat transfer of the packed bed.
 
+As each individual tritium breeding region is small, in a typical solid breeder blanket design there are several alternating layers of breeding zone, cooling plate, and neutron multiplier. 
 
-% 
+The two most prominently analyzed neutron multipliers for a fusion reactor are beryllium and lead. Beryllium has a very high nuclide density while also being very light, with a high melting temperature, and high thermal conductivity. For solid breeding blankets, beryllium has been pegged as the element of choice. The beryllium, based on its own design requirements, is generally also chosen to exist in a pebble bed form in the breeding blanket device.
+

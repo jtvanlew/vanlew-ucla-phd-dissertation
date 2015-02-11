@@ -1,15 +1,42 @@
-\section{Importance of pebble bed integrity and motivation}\label{sec:intro-bed-integrity}
+\section{Pebble bed integrity and thermophysics}\label{sec:intro-bed-integrity}
+
+A common problem plaguing those who study packed beds is the multi-scale of physics dictating the behavior of the packed bed. In the realm of engineering continuum mechanics, packed beds cannot be adequetly described as a solid or liquid (or obviously gas) alone. Under compression, a packed bed responds like a solid with non-linear elasticity and a plasticity that is history-dependent. The packed bed can obviously not support any tensile pressure and will often behave like a liquid as it may fill in voids under just the force of gravity. Experiments on packed beds provide effective material properties that are often specific to the material, packing fraction, moisture content, or level of polydispersity.
+
+In packed beds of ceramics for tritium breeding, phenomenological models have been developed based on the controlled environment of laboratory experiments. The models provide reliable information on the initial states of breeder volumes in the fusion reactor environment and allow reasonable design predictions of the thermomechanics of the breeding blanket. Unfortunately, a certain measurable quantity in an experiment may arise due to vastly different pebble-scale physics. Furthermore, it is unavoidable that other morphological changes of the pebble bed may arise due to individual pebble cracking, inter-particle creep, or inter-particle sintering. Designers of solid breeder blankets must have predictive capabilities for the initiation of morphological changes in the packed bed as well as how those changes impact the thermophysics of the bed.
+
+The solid breeder in many current designs feature sub-module units of packed beds. From the point of view of pebble bed thermomechanical properties, this has the advantage of producing units individually that can be tested and qualified to desired packing states (and therefore thermomechanics) during the design phase. 
 
 
-% From ITER 2013
-Control of the manufacturing processes of the ceramic pebbles permits manufactureres to custom vary characteristics, such as the pebble's:
-\begin{itemize}
-\item tritium retention and release properties.
-\item Lithium density
-\item Opened- and closed-porosity
-\item Nominal diameter
-\item and, indirectly, crush strength. 
-\end{itemize}
-However the characteristics of the pebble are often coupled. For instance, for the sake of tritium management the open porosity of the pebble is often increased. But this comes at the expense of a decreased crush strength of the pebble. Because of the relatively weak crush strength distributions among batches of pebbles as well as the value of stresses predicted in the pebble bed, it is inevitable that during operation in the fusion environment individual pebbles will `fail' in the ensemble. Designers of lithium ceramic tritium breeding blankets must mitigate pebble failure but also anticipate the breadth and magnitude of effects that some unavoidable failure will have on macroscopic properties.
+
+
+
+
+
+
+Stresses in the pebble bed (the origins of the stresses will be discussed in \cref{sec:intro-bed-integrity}) may lead to the cracking or crushing of individual pebbles which disrupts the physical contact of pebbles and may thereby disrupt the heat transport out of the pebble bed. Even in the absence of crushed pebbles, at the high temperatures expected in the tritium breeding zone, thermal creep between the small contact regions of pebbles may itself alter thermophysical properties 
+
+ 
+
+In typical solid breeder modules, 
+
+Alleviating any of the issues that may plague the ceramic breeder all boil down to requiring temperature control via an understanding and of the morphological changes of the ceramic packed beds and their interaction with the interstitial purge gas and structural container. In this work we introduce enhancements and new elements to build upon the understanding from ceramic breeder models of past research efforts. 
+
+
+As such, heat transfer out of the pebble bed relies on maintaining strong contact both between pebbles in the bed and pebbles with the container.
+
+The pebble bed will experience a constrained thermal expansion as the hot ceramic pebbles press against the relatively cooler container. The restricted thermal expansion of the pebble bed gives rise to stresses which may crush individual pebbles as the stress at the walls propagates through contact forces between pebbles in the ensemble. With the potential accumulation of many cracked/crushed individual pebbles, the overall packing structure of the pebble bed is altered as the  are cracked or crushed packing structure response depends on the extent and modes of cracking and the thermophysical properties likewise change. Second, thermal ratcheting or thermally-induced bed creep can lead to evolutions in thermophysical properties even in the absence of cracked pebbles. Finally, as the thermophysical properties evolve, global or local bed temperatures change and ultimately the tritium release characteristics of the bed deviate from any prediction one may have had from the initial packing of the ceramic pebble bed. 
+
+
+% Control of the manufacturing processes of the ceramic pebbles permits manufactureres to custom vary characteristics, such as the pebble's:
+% \begin{itemize}
+% \item tritium retention and release properties.
+% \item Lithium density
+% \item Opened- and closed-porosity
+% \item Nominal diameter
+% \item and, indirectly, crush strength. 
+% \end{itemize}
+% However the characteristics of the pebble are often coupled. For instance, for the sake of tritium management the open porosity of the pebble is often increased. But this comes at the expense of a decreased crush strength of the pebble. Because of the relatively weak crush strength distributions among batches of pebbles as well as the value of stresses predicted in the pebble bed, it is inevitable that during operation in the fusion environment individual pebbles will `fail' in the ensemble. Designers of lithium ceramic tritium breeding blankets must mitigate pebble failure but also anticipate the breadth and magnitude of effects that some unavoidable failure will have on macroscopic properties.
+
+
 
 % [EDIT: THIS PARAGRAPH IS NOT NECESSARY? I DON'T NEED TO MAKE THE CASE FOR USING DEM. I JUST NEED TO EXPLAIN THE MODEL]The volume of a pebble in a tritium breeder is on the scale of 10$^{-9}$~m$^3$ while the typical container volume can be on the order of 10$^{-2}$~m$^3$\cite{Cho2008}.  Thus a single breeder volume will house upwards of $N = 10^7$ pebbles. Statistically then, the behavior of any single pebble seems insignificant and instead the entire ensemble of pebbles may be treated as a continuous media. Continuum theory for the is the basis of finite element method models that have been able to predict thermomechanical behavior with reasonable accuracy\cite{DiMaio20081287,Zaccari20081282,Gan:2009vn}. However, after the pebble beds are placed into the fusion environment they will be required to operate for long duty times without maintenance. Thus, as time progresses the accumulation of individual failed pebbles will eventually have consequences for the macroscopic thermomechanics.  and no continuum theory exists to account for this. Instead, we turn to the discrete element method to provide a solutino.
