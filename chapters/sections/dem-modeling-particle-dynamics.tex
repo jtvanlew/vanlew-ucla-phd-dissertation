@@ -115,7 +115,7 @@ with $\beta_\text{damp}$ as the damping ratio, and the pair mass, $\frac{1}{m^*}
 
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Time integration}
+\subsection{Time integration}\label{sec:velocity-verlet}
 
 Having expressed the contact mechanics of the discrete element method, we now need a means of integrating the kinematics of the particles. The most common means of marching in time with DEM is the velocity-Verlet algorithm\cite{Kruggel-Emden2008}. In this algorithm we integrate Eqs.~\ref{eq:newtons-second} with half-steps in velocity, full steps in position, and then finally the complete step in velocity (the two half-steps in velocity are often compressed into a single, full step, as we will do below). Here we will explicitly show the integration for the translational degrees of freedom. 
 
