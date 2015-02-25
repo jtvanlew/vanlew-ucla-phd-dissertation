@@ -78,11 +78,11 @@ where
 	G = \frac{q'''L^2}{k_\text{eff}(T_0 - T_s)}
 \end{equation}
 
-In the non-dimensional form of Eq.~\ref{eq:continuum-heateqn-nondim}, the solution is purely geometric,
+In the non-dimensionalized form, the solution is revealed to be purely geometric,
 \begin{equation}\label{eq:continuum-temperature-nondim}
 	\theta = 1-x^{*2}
 \end{equation}. 
-when $T_0 = T_s + \frac{q'''L^2}{2k_\text{eff}}$. We will use the non-dimensional temperature solution of Eq.~\ref{eq:continuum-temperature-nondim} to prove our one-dimensional assumption of heat transfer is justified for the pebble beds.
+as $T_0  - T_s = \frac{q'''L^2}{2k_\text{eff}}$. We will use the non-dimensional temperature solution of Eq.~\ref{eq:continuum-temperature-nondim} to prove our one-dimensional assumption of heat transfer is justified for the pebble beds.
 
 We note that in this continuum mechanics formulation, we are assuming that the nuclear source, $q'''$ term is applied evenly over the entire volume. In our DEM formulation, our source term applies to a single pebble. To find the effective thermal conductivity of our `slab' of pebble bed, we must reconcile this discrepency. This is accomplished with the exchange of
 \begin{equation}\label{eq:q-source-translation}
@@ -116,11 +116,11 @@ We will use this formulation of Eq.~\ref{eq:dem-effecitve-conductivity-formula} 
 
 
 \subsection{Results}
-The aim of this study was both to discover the impact of pebble failure on thermomechanical properties as well as determine the impact as a function of the number of failed pebbles. To satisfy the latter, we created beds with $\eta = 1\%$, $5\%$, $10\%$, and $15\%$ of pebbles failed. 
+The aim of this study was both to discover the impact of pebble failure on thermomechanical properties as well as determine the impact as a function of the number of failed pebbles. To satisfy the latter, we created beds with $\eta = 1\%$, $3\%$, $5\%$, $10\%$, and $15\%$ of pebbles failed. 
 
 We plot Eq.~\ref{eq:continuum-temperature-nondim} against the non-dimensionalized temperature profiles coming from the steady-state DEM simulation in Fig.~\ref{fig:tempProfile}. We find that all our models had a nearly perfect match to a one-dimensional prediction, validating the calculation of effective thermal conductivity in this study. Furthmore, the profiles adhering to the one-dimensional curve also allows us to find the effective conductivity of each bed from applying Eq.~\ref{eq:dem-effecitve-conductivity-formula}, which was derived from the one-dimensional assumption.
 
-One concern we had for pebble crushing, was the phenomenon of `jamming' during resettling that would possibly leave pebbles isolated from their neighbors (apart from those they are resting upon). Such an isolated pebble would have no strong pathway for heat transfer and heat up much higher than that of its neighbors. Evidence of pebble isolation and `hot-spots' would be apparent in Fig.~\ref{fig:tempProfile} as localized deviations of data points from the quadratic profile. However, no deviations are seen in the data and we conclude that hot-spots will not be a concern in a packed bed.
+One concern we had for pebble crushing, was the phenomenon of `jamming' during resettling that would possibly leave pebbles isolated from their neighbors (apart from those they are resting upon). Jamming can happen when a bridge of pebbles have a balance for forces without strong or any contact to a pebble below them. The pebble under the bridge then only has light contact with the pebbles upon which it is resting. Such an isolated pebble would have no strong pathway for heat transfer and heat up much higher than that of its neighbors. Evidence of pebble isolation is apparent in hot individual pebbles above the grouped curve in Fig.~\ref{fig:temp-scatters}. 
 
 \begin{figure}[htbp]
 	\centering
@@ -129,13 +129,15 @@ One concern we had for pebble crushing, was the phenomenon of `jamming' during r
 \label{fig:tempProfile}
 \end{figure}
 
-We first compare steady-state temperature profiles in the test beds against the one-dimensional theory of Eq.\ref{eq:continuum-heateqn-nondim}. To find the temperature profile in $x$, we create volumes of width $\Delta x$ that extend through the limits of the $y$- and $z$-directions. We then find the $n$ pebbles residing in the slices and take the mean value of their temperatures, 
+The individual hot pebbles in Fig.~\ref{fig:temp-scatters} are also indicative of the shortcomings of the discrete element method for modeling solid breeders in fusion reactors. The flowing purge gas in actual solid breeders would likely not permit such thermal isolation of pebbles. Even if a pebble had no physical contact with neighboring ones, it would still transport energy via conduction and advection of the helium gas. This will be addressed again and in more detail in \cref{sec:cfd-dem-effective-conductivity}.
+
+In order to calculate an effective conductivity of the pebble bed, we must find an average temperature profile through the bed to compare with Eq.~\ref{eq:continuum-temperature-nondim} and thus employ Eq.~\ref{eq:dem-effecitve-conductivity-formula}. We compare steady-state temperature profiles in the test beds against the one-dimensional, non-dimensional temperature profile. Average values of the bed, along the $x$ direction, are generated via averaging temperatures in bins. We create volumes slices of width $\Delta x$ that extend through the limits of the $y$- and $z$-directions. We then find the $n$ pebbles residing in the slices and take the mean value of their temperatures, 
 \begin{equation}
-	\langle T\rangle = \sum_{i}^n T_i / n	
+	\langle T\rangle = \frac{1}{n}\sum_{i}^n T_i 	
 \end{equation}
 Using the volume slices, we also find the average coordination number, 
 \begin{equation}
-	\langle Z \rangle = \sum_{i}^n Z_i / n
+	\langle Z \rangle = \frac{1}{n}\sum_{i}^n Z_i
 \end{equation}
 normalized average contact force, 
 \begin{equation}
@@ -145,7 +147,6 @@ and the normalized average temperature difference between pebbles in the slice,
 \begin{equation}
 	 \langle \Delta T_{ij} \rangle / (T_0 - T_s)_\text{bl}
 \end{equation}
-Below we will omit the notation $\langle T \rangle$ with the understanding that temperatures are volume-averages. 
 
 
 \begin{figure}[htbp]
