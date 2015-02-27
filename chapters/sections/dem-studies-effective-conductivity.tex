@@ -19,7 +19,7 @@ E           &     $\nu$    	&    k         	&    C          &   $\alpha$        
 
 In the first attempt at packing pebbles into the system, we begin with a common starting point of a filled, lightly packed volume of 10~550 pebbles. We simulate pouring the pebbles into the volume by initializing them into the system from a height of $\frac{z}{d_p} \approx 50$ and allow them to fall under the influence of gravity (see Fig.~\ref{fig:fill01}). We pack the pebbles into a higher packing fraction by means of oscillating the walls as if the pebble bed were sitting on a vibrating plate. This was to imitate the vibration packing technique done in our experimental lab when testing pebble beds in the uniaxial compression test stand. The vibration scheme was able to slowly densify the packed bed but, owing to the very small timestep of the simulation, the simulation times were impractically large to approach a packing fraction greater than $\phi = 60\%$. 
 
-\begin{figure}[h]
+\begin{figure}[!h]
 	\centering
 	\begin{subfigure}[b]{0.25\textwidth}
 		\centering
@@ -107,18 +107,12 @@ We will use this formulation of Eq.~\ref{eq:dem-effecitve-conductivity-formula} 
 % \label{fig:pebbleBedTemperature}
 % \end{figure}
 
-% \begin{figure}[htbp]
-% 	\centering
-% 	\includegraphics[width=0.5\textwidth]{chapters/figures/settlingStudy}
-% 	\caption{Demonstrating the dynamic resettling from an example study done on location bias to pebble failure. The top image had the pebbles near the left wall biased to fail. The bottom image had a bias for the pebbles near both walls to fail. The lines are drawn as an aid to the eye.}
-% \label{fig:settlingStudy}
-% \end{figure}
 
 
 \subsection{Results}
 The aim of this study was both to discover the impact of pebble failure on thermomechanical properties as well as determine the impact as a function of the number of failed pebbles. To satisfy the latter, we created beds with $\eta = 1\%$, $3\%$, $5\%$, $10\%$, and $15\%$ of pebbles failed. 
 
-We plot Eq.~\ref{eq:continuum-temperature-nondim} against the non-dimensionalized temperature profiles coming from the steady-state DEM simulation in Fig.~\ref{fig:tempProfile}. We find that all our models had a nearly perfect match to a one-dimensional prediction, validating the calculation of effective thermal conductivity in this study. Furthmore, the profiles adhering to the one-dimensional curve also allows us to find the effective conductivity of each bed from applying Eq.~\ref{eq:dem-effecitve-conductivity-formula}, which was derived from the one-dimensional assumption.
+We plot Eq.~\ref{eq:continuum-temperature-nondim} against the non-dimensionalized temperature profiles coming from the steady-state DEM simulation in Fig.~\ref{fig:temp-scatters}. We find that all our models had a nearly perfect match to a one-dimensional prediction, validating the calculation of effective thermal conductivity in this study. Furthmore, the profiles adhering to the one-dimensional curve also allows us to find the effective conductivity of each bed from applying Eq.~\ref{eq:dem-effecitve-conductivity-formula}, which was derived from the one-dimensional assumption.
 
 One concern we had for pebble crushing, was the phenomenon of `jamming' during resettling that would possibly leave pebbles isolated from their neighbors (apart from those they are resting upon). Jamming can happen when a bridge of pebbles have a balance for forces without strong or any contact to a pebble below them. The pebble under the bridge then only has light contact with the pebbles upon which it is resting. Such an isolated pebble would have no strong pathway for heat transfer and heat up much higher than that of its neighbors. Evidence of pebble isolation is apparent in hot individual pebbles above the grouped curve in Fig.~\ref{fig:temp-scatters}. 
 
@@ -126,12 +120,12 @@ One concern we had for pebble crushing, was the phenomenon of `jamming' during r
 	\centering
 	\includegraphics[width=0.65\textwidth]{chapters/figures/dem-evap-0-15-scatter-keff.png}
 	\caption{The nondimensional temperature profiles for each test case follow the theoretical shape of a one-dimensional, constant $k$, continuum solution.}
-\label{fig:tempProfile}
+\label{fig:temp-scatters}
 \end{figure}
 
 The individual hot pebbles in Fig.~\ref{fig:temp-scatters} are also indicative of the shortcomings of the discrete element method for modeling solid breeders in fusion reactors. The flowing purge gas in actual solid breeders would likely not permit such thermal isolation of pebbles. Even if a pebble had no physical contact with neighboring ones, it would still transport energy via conduction and advection of the helium gas. This will be addressed again and in more detail in \cref{sec:cfd-dem-effective-conductivity}.
 
-In order to calculate an effective conductivity of the pebble bed, we must find an average temperature profile through the bed to compare with Eq.~\ref{eq:continuum-temperature-nondim} and thus employ Eq.~\ref{eq:dem-effecitve-conductivity-formula}. We compare steady-state temperature profiles in the test beds against the one-dimensional, non-dimensional temperature profile. Average values of the bed, along the $x$ direction, are generated via averaging temperatures in bins. We create volumes slices of width $\Delta x$ that extend through the limits of the $y$- and $z$-directions. We then find the $n$ pebbles residing in the slices and take the mean value of their temperatures, 
+In order to calculate an effective conductivity of the pebble bed, we must find an average temperature profile through the bed to compare with Eq.~\ref{eq:continuum-temperature-nondim} and thus employ Eq.~\ref{eq:dem-effecitve-conductivity-formula}. We compare steady-state temperature profiles in the test beds against the one-dimensional, non-dimensional temperature profile. Average values of the bed, along the $x$ direction, are generated via averaging temperatures in bins. We create bins that are volumes slices of width $\Delta x$ that extend through the limits of the $y$- and $z$-directions. We then find the $n$ pebbles residing in the slices and take the mean value of their temperatures, 
 \begin{equation}
 	\langle T\rangle = \frac{1}{n}\sum_{i}^n T_i 	
 \end{equation}
@@ -139,29 +133,18 @@ Using the volume slices, we also find the average coordination number,
 \begin{equation}
 	\langle Z \rangle = \frac{1}{n}\sum_{i}^n Z_i
 \end{equation}
-normalized average contact force, 
+and average contact force, 
 \begin{equation}
-	\langle F^* \rangle=\left[\langle F \rangle/\langle F_{bl} \rangle_\text{max}\right]^{1/3}
-\end{equation}
-and the normalized average temperature difference between pebbles in the slice,
-\begin{equation}
-	 \langle \Delta T_{ij} \rangle / (T_0 - T_s)_\text{bl}
+	\langle F^{1/3} \rangle = \frac{1}{n}\sum_{i}^n F_{n,ij}^{1/3}
 \end{equation}
 
 
-% \begin{figure}[htbp]
-% 	\centering
-% 	\includegraphics[width=0.65\textwidth]{chapters/figures/kEff_packingFraction}
-% 	\caption{The normalized effective thermal conductivity (solid line) follows an exponential decay relationship with amount of failed pebbles. The normalized packing fraction (dashed line), compared to thermal conductivity, is relatively constant and is more closely fit to a linear reduction.}
-% \label{fig:packingFraction}
-% \end{figure}
-
-% \begin{figure}[htbp]
-% 	\centering
-% 	\includegraphics[width=0.75\textwidth]{chapters/figures/z_f_deltaT_subPlots}
-% 	\caption{Average temperature differences between neighboring pebbles (top), contact forces (middle) and coordination numbers (bottom). The profiles of average coordination number and contact forces in the bed decrease in value with increasing pebble failure. Fewer and weaker contacts will reduce the possible paths of heat transfer from a pebble and this results in higher average temperatures between neighbors.}
-% \label{fig:coordProfiles}
-% \end{figure}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.65\textwidth]{chapters/figures/kEff_packingFraction}
+	\caption{The normalized effective thermal conductivity (solid line) follows an exponential decay relationship with amount of failed pebbles. The normalized packing fraction (dashed line), compared to thermal conductivity, is relatively constant and is more closely fit to a linear reduction.}
+\label{fig:packing-fraction}
+\end{figure}
 
 
 The effective thermal conductivity is found for all of our pebble beds, via Eq.~\ref{eq:dem-effecitve-conductivity-formula}, then normalized against the conductivity of the baseline ensemble ($k^* = k/k_\text{0}$). Figure~\ref{fig:packingFraction} shows the decreasing ETC with pebble failure. When $15\%$ of the pebbles are crushed in a pebble bed, the ETC has fallen all the way to only $k^*=0.07$. This large reduction is especially important in light of the already poor thermal management of virgin pebble beds that, even in helium environments, have been experimentally measured at only approximately 1~W/m-K (see, { e.g.}, Refs.~\cite{Reimann:2002mi, Piazza2002}). To find the cause of decrease in conductivity we make use of the inter-particle information provided by DEM tools instead of comparing macroscopic properties of packing fraction or external pressure.
@@ -172,9 +155,54 @@ In Eq.~\ref{eq:thermoFirstLaw} of \cref{sec:dem-heat-transfer}, we see that at s
 	Q_\text{net} =f( Z, F_n^{1/3}, \Delta T)
 \end{equation}
 
+The coordination number and contact forces are features of the packing structure in the packed bed that we can analyze to discover what happens to the heat flux between pebbles when the bed experiences crushed particles. Conversely, the $\Delta T$ between two pebbles is the effect of the thermal transport (i.e. leading to higher bed temperatures such as those of Fig.~\ref{fig:temp-scatters}). We will first analyze the changes to the coordination numbers of pebbles in the ensemble as pebbles crush.
 
 
-\begin{figure}[h!]
+
+\begin{figure}[!h]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapters/figures/heating_dte-02/dem-evap-0-scatter-coord.png}
+		\caption{Baseline pebble bed (0\% crushed)}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapters/figures/heating_dte-02/dem-evap-1-scatter-coord.png}
+		\caption{1\% crushed}
+	\end{subfigure}
+	
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapters/figures/heating_dte-02/dem-evap-2-scatter-coord.png}
+		\caption{3\% crushed}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapters/figures/heating_dte-02/dem-evap-3-scatter-coord.png}
+		\caption{5\% crushed}
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapters/figures/heating_dte-02/dem-evap-4-scatter-coord.png}
+		\caption{10\% crushed}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapters/figures/heating_dte-02/dem-evap-5-scatter-coord.png}
+		\caption{15\% crushed}\label{fig:coord-scatter-15percent}
+	\end{subfigure}
+	\caption{Caption}
+\label{fig:coord-scatter}
+\end{figure}
+
+The average coordination number for the different pebble beds are shown in the plots of Fig.~\ref{fig:coord-scatter}. Clearly, there are fewer contacts in the pebble bed after failure but this alone does not account for the reduction in $k_\text{eff}$. Next we look to the normal contact forces between pebbles in the bed.
+
+
+
+
+\begin{figure}[!h]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
@@ -212,11 +240,11 @@ In Eq.~\ref{eq:thermoFirstLaw} of \cref{sec:dem-heat-transfer}, we see that at s
 \label{fig:contact-forces-scatter}
 \end{figure}
 
-The forces affecting $Q_\text{net}$ for the different levels of crushed pebbles are all plotted in Fig.~\ref{fig:contact-forces-scatter}. A dramatic reduction in the normal forces seen by pebbles after many of their neighbors are crushed and are removed from the system. From the baseline down to the 15\% failed case, the contact forces are reduced by about a factor of 10. 
+The contact forces affecting $Q_\text{net}$ for the different levels of crushed pebbles are plotted in Fig.~\ref{fig:contact-forces-scatter}. A dramatic reduction in the normal forces is seen after many of their neighbors are crushed and are removed from the system. From the baseline down to the 15\% failed case, the contact forces are reduced by about a factor of 10.
 
 Another feature of Fig.~\ref{fig:contact-forces-scatter} to point out is the change in distribution of average normal contact forces as the pebble beds experience crushed particles. For the well-packed beds of the baseline case up to the bed with 5\% crushed pebbles, the contact forces are relatively evenly distributed through the bed (i.e. the binned average line is relatively flat). However as substantial numbers of pebbles are induced to be crushed for the 10\% and 15\% beds, we see more of a dependence on location for contact force. This is based on the massive re-arrangement that happens in these beds. To demonstrate, we view the pebble bed of the 15\% crushed case in Fig.~\ref{fig:15percent-crushed-swelling}.
 
-\begin{figure}[h!]
+\begin{figure}[!h]
 	\centering
 	\begin{subfigure}[t]{0.45\textwidth}
 		\centering
@@ -236,14 +264,4 @@ After 15\% of the pebbles are removed from the system, a tremendous amount of re
 
 
 
-
-
-This reduction in force is joined by an increase in average neighbor temperatures which are 3 times higher for the bed with most failed pebbles when compared to the baseline. 
-
-The average coordination number, shown in the bottom plot, decreases from a mid-line value of about 7.0 at the steady-state of the baseline case down to a mid-line value of 5.5 for the 15\% failed bed; a reduction of about 80\%. But this number doesn't compare with the large reduction in ETC which was $k_\text{eff}^*=0.30$. Clearly, there are fewer contacts in the pebble bed after failure but this alone does not account for the reduction in ETC.
-
-
-
-The results shown in Fig.~\ref{fig:coordProfiles} demonstrate that the heat transfer through a pebble bed is simultaneously a function of the coordination number and inter-particle contact forces -- which are both reduced as pebbles in the bed fail -- as well as the temperature difference between pebbles at steady state -- which increases as pebbles in the ensemble fail. Interestingly, when a pebble bed has lower overall inter-particle contact forces fewer particles would be expected to break. This would imply that pebble breakage is self-dampening; as pebbles begin to break the ensemble quickly relaxes and avoids future pebble failure. So while we induced failure up to $\eta = 15\%$, such large values may not occur in real beds. 
-
-
+\FloatBarrier
