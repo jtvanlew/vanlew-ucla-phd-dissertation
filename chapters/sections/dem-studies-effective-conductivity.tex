@@ -123,31 +123,30 @@ One concern we had for pebble crushing, was the phenomenon of `jamming' during r
 \label{fig:temp-scatters}
 \end{figure}
 
-The individual hot pebbles in Fig.~\ref{fig:temp-scatters} are also indicative of the shortcomings of the discrete element method for modeling solid breeders in fusion reactors. The flowing purge gas in actual solid breeders would likely not permit such thermal isolation of pebbles. Even if a pebble had no physical contact with neighboring ones, it would still transport energy via conduction and advection of the helium gas. This will be addressed again and in more detail in \cref{sec:cfd-dem-effective-conductivity}.
-
-In order to calculate an effective conductivity of the pebble bed, we must find an average temperature profile through the bed to compare with Eq.~\ref{eq:continuum-temperature-nondim} and thus employ Eq.~\ref{eq:dem-effecitve-conductivity-formula}. We compare steady-state temperature profiles in the test beds against the one-dimensional, non-dimensional temperature profile. Average values of the bed, along the $x$ direction, are generated via averaging temperatures in bins. We create bins that are volumes slices of width $\Delta x$ that extend through the limits of the $y$- and $z$-directions. We then find the $n$ pebbles residing in the slices and take the mean value of their temperatures, 
-\begin{equation}
-	\langle T\rangle = \frac{1}{n}\sum_{i}^n T_i 	
-\end{equation}
-Using the volume slices, we also find the average coordination number, 
-\begin{equation}
-	\langle Z \rangle = \frac{1}{n}\sum_{i}^n Z_i
-\end{equation}
-and average contact force, 
-\begin{equation}
-	\langle F^{1/3} \rangle = \frac{1}{n}\sum_{i}^n F_{n,ij}^{1/3}
-\end{equation}
-
+Because the 10\% and 15\% cases have such high temperatures, we show only the 0-5\% crushed together in Fig.~\ref{fig:temp-scatters-zoomed}
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.65\textwidth]{chapters/figures/kEff_packingFraction}
-	\caption{The normalized effective thermal conductivity (solid line) follows an exponential decay relationship with amount of failed pebbles. The normalized packing fraction (dashed line), compared to thermal conductivity, is relatively constant and is more closely fit to a linear reduction.}
-\label{fig:packing-fraction}
+	\includegraphics[width=0.65\textwidth]{chapters/figures/dem-evap-0-5-scatter-keff.png}
+	\caption{The nondimensional temperature profiles for the test cases up to 5\% crushed pebbles.}
+\label{fig:temp-scatters-zoomed}
 \end{figure}
 
+The individual hot pebbles in Fig.~\ref{fig:temp-scatters} are also indicative of the shortcomings of the discrete element method for modeling solid breeders in fusion reactors. The flowing purge gas in actual solid breeders would likely not permit such thermal isolation of pebbles. Even if a pebble had no physical contact with neighboring ones, it would still transport energy via conduction and advection of the helium gas. This will be addressed again and in more detail in \cref{sec:cfd-dem-effective-conductivity}.
 
-The effective thermal conductivity is found for all of our pebble beds, via Eq.~\ref{eq:dem-effecitve-conductivity-formula}, then normalized against the conductivity of the baseline ensemble ($k^* = k/k_\text{0}$). Figure~\ref{fig:packingFraction} shows the decreasing ETC with pebble failure. When $15\%$ of the pebbles are crushed in a pebble bed, the ETC has fallen all the way to only $k^*=0.07$. This large reduction is especially important in light of the already poor thermal management of virgin pebble beds that, even in helium environments, have been experimentally measured at only approximately 1~W/m-K (see, { e.g.}, Refs.~\cite{Reimann:2002mi, Piazza2002}). To find the cause of decrease in conductivity we make use of the inter-particle information provided by DEM tools instead of comparing macroscopic properties of packing fraction or external pressure.
+In order to calculate an effective conductivity of the pebble bed, we must find an average temperature profile through the bed to compare with Eq.~\ref{eq:continuum-temperature-nondim} and thus employ Eq.~\ref{eq:dem-effecitve-conductivity-formula}. We compare steady-state temperature profiles in the test beds against the one-dimensional, non-dimensional temperature profile. Average values of the bed, along the $x$ direction, are generated via averaging temperatures in bins. We create bins that are volumes slices of width $\Delta x$ that extend through the limits of the $y$- and $z$-directions. We then find the $n$ pebbles residing in the slices and take the mean value of their temperatures. The average, given by Eq.~\ref{eq:binned-T}, is also given in Fig.~\ref{fig:temp-scatters}. The binned average temperature is 
+\begin{equation}\label{eq:binned-T}
+	\langle T\rangle = \frac{1}{n}\sum_{i}^n T_i 	
+\end{equation}
+Using the volume slices, we also find the average coordination number, 
+\begin{equation}\label{eq:binned-z}
+	\langle Z \rangle = \frac{1}{n}\sum_{i}^n Z_i
+\end{equation}
+and average contact force, 
+\begin{equation}\label{eq:binned-f}
+	\langle F^{1/3} \rangle = \frac{1}{n}\sum_{i}^n F_{n,ij}^{1/3}
+\end{equation}
+
 
 In Eq.~\ref{eq:thermoFirstLaw} of \cref{sec:dem-heat-transfer}, we see that at steady-state, the energy input by nuclear heating must be balanced by the transport of heat out of a pebble into its neighbors. Inter-particle heat transfer is dictated by the number of neighboring contacts, temperature difference between pebbles, and the thermal conductance, $H_{c}$, through the contact area. The thermal conductance (see Eq.~\ref{eq:dem-conductance}) is itself a function purely of material properties  (which are essentially constant here) and the force at the contact, going as $H_{c} \propto F_{n,ij}^{1/3}$. Thus, we write the net heat out of a pebble at steady state as a function of the three variables,
 
@@ -158,8 +157,7 @@ In Eq.~\ref{eq:thermoFirstLaw} of \cref{sec:dem-heat-transfer}, we see that at s
 The coordination number and contact forces are features of the packing structure in the packed bed that we can analyze to discover what happens to the heat flux between pebbles when the bed experiences crushed particles. Conversely, the $\Delta T$ between two pebbles is the effect of the thermal transport (i.e. leading to higher bed temperatures such as those of Fig.~\ref{fig:temp-scatters}). We will first analyze the changes to the coordination numbers of pebbles in the ensemble as pebbles crush.
 
 
-
-\begin{figure}[!h]
+\begin{figure}[!ht]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
@@ -193,16 +191,14 @@ The coordination number and contact forces are features of the packing structure
 		\includegraphics[width=\textwidth]{chapters/figures/heating_dte-02/dem-evap-5-scatter-coord.png}
 		\caption{15\% crushed}\label{fig:coord-scatter-15percent}
 	\end{subfigure}
-	\caption{Caption}
+	\caption{The average coordination number decreases slowly as the number of broken pebbles in the ensemble increases.}
 \label{fig:coord-scatter}
 \end{figure}
 
-The average coordination number for the different pebble beds are shown in the plots of Fig.~\ref{fig:coord-scatter}. Clearly, there are fewer contacts in the pebble bed after failure but this alone does not account for the reduction in $k_\text{eff}$. Next we look to the normal contact forces between pebbles in the bed.
+In Fig.~\ref{fig:coord-scatter} we plot the data for all pebbles in the ensemble as well as the binned average (Eq.~\ref{eq:binned-z}). Clearly, there are fewer average contacts per pebble in the ensemble after failure; At 15\% crushed the coordination number drops by roughly 30\%. But this alone can not not account for the reduction in $k_\text{eff}$ by 93\% for the same amount of crushed pebbles. Next we look to the normal contact forces between pebbles in the bed.
 
 
-
-
-\begin{figure}[!h]
+\begin{figure}[!ht]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
@@ -240,27 +236,37 @@ The average coordination number for the different pebble beds are shown in the p
 \label{fig:contact-forces-scatter}
 \end{figure}
 
-The contact forces affecting $Q_\text{net}$ for the different levels of crushed pebbles are plotted in Fig.~\ref{fig:contact-forces-scatter}. A dramatic reduction in the normal forces is seen after many of their neighbors are crushed and are removed from the system. From the baseline down to the 15\% failed case, the contact forces are reduced by about a factor of 10.
+The normal contact forces between pebbles are plotted in Fig.~\ref{fig:contact-forces-scatter}. A dramatic reduction in the normal forces is seen after many of their neighbors are crushed and are removed from the system. From the baseline down to the 15\% failed case, the contact forces are reduced by about a factor of 10 - similar to the reduction in effective conductivity.
 
-Another feature of Fig.~\ref{fig:contact-forces-scatter} to point out is the change in distribution of average normal contact forces as the pebble beds experience crushed particles. For the well-packed beds of the baseline case up to the bed with 5\% crushed pebbles, the contact forces are relatively evenly distributed through the bed (i.e. the binned average line is relatively flat). However as substantial numbers of pebbles are induced to be crushed for the 10\% and 15\% beds, we see more of a dependence on location for contact force. This is based on the massive re-arrangement that happens in these beds. To demonstrate, we view the pebble bed of the 15\% crushed case in Fig.~\ref{fig:15percent-crushed-swelling}.
+The effective thermal conductivity was found for all of our pebble beds, via Eq.~\ref{eq:dem-effecitve-conductivity-formula}, then normalized against the conductivity of the baseline ensemble ($k^* = k/k_\text{0}$). The average coordination number of the beds and average normal contact forces were also found. Another way of describing a pebble bed is with the packing fraction, $\phi$. In Fig.~\ref{fig:packing-fraction}, we collect all these values (and normalize them against the baseline case) to provide a direct comparison to their changes as a function of crushed pebbles. When $15\%$ of the pebbles are crushed in a pebble bed, the effective conductivity has fallen all the way to only $k^*=0.07$. This large reduction is especially important in light of the already poor thermal management of virgin pebble beds that, even in helium environments, have been experimentally measured at only approximately 1~W/m-K (see, { e.g.}, Refs.~\cite{Reimann:2002mi, Piazza2002}). The only parameter to have similar reductions in value is the average normal contact force, a value which is seen to follow closely to the curve of effective conductivity. Thus we conclude that the single most important factor for determining the effective thermal conductivity in these pebble beds is the normal contact forces between pebbles; a force which decreases sharply as pebbles are crushed in the system.
 
-\begin{figure}[!h]
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.75\textwidth]{chapters/figures/kEff_packingFraction}
+	\caption{The normalized effective conductivity drops much more rapidly than the normalized packing fraction, $\phi$, while pebbles are crushed. The effective conductivity follows with reduced normal contact forces.}
+\label{fig:packing-fraction}
+\end{figure}
+
+The large reduction in normal contact force (which leads to a large reduction in effective conductivity) is explainable based on the experimental setup of our numeric model. In our system, we had rigid walls in the $x$ and $z$ directions. These walls did not change after the substantial number of pebbles were crushed and removed. After the 15\% crushing event, the pebble bed appeared as Fig.~\ref{fig:15percent-crushed-pre}. A massive re-arrangement proceeds from the crushing event. As the pebble bed heats up, the thermal expansion of the pebbles is unconstrained as there exists an average of two pebble diameter gap above the pebbles to the top of the container. Numerically there is no limit to the pebble temperatures (phase change and sintering is not incorporated into the DEM calculations) so the pebbles heat and swell until coming into contact with the top wall, at which time they begin to press into one another (though lightly) to allow thermal conduction. The pebble bed after swelling is shown in Fig.~\ref{fig:15percent-crushed-swelling}.
+
+\begin{figure}[!ht]
 	\centering
 	\begin{subfigure}[t]{0.45\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{chapters/figures/heating_dte-02/15/0.15_pre_heat.png}
 		\caption{Side-view of the pebble bed after resettling from the crushing event, before heating.}
+		\label{fig:15percent-crushed-pre}
 	\end{subfigure}
 	\begin{subfigure}[t]{0.45\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{chapters/figures/heating_dte-02/15/0.15_post_heat.png}
 		\caption{Side-view of the pebble bed after heating}
+		\label{fig:15percent-crushed-swelling}
 	\end{subfigure}
 	\caption{In (a) we see the pebble bed after 15\% of the pebbles have been crushed (removed) and then after the heating cycle in (b). The gap formed after crushing is completely filled by swelling pebbles.}
-\label{fig:15percent-crushed-swelling}
 \end{figure}
 
-After 15\% of the pebbles are removed from the system, a tremendous amount of resettling occurs and a large gap appears between the top wall and the top layer of pebbles. When heating is applied, the pebbles heat up very high until such time that they swell and press into each other with enough force to allow sufficient heat to conduct between them to balance the nuclear heating. Because of the resettling tending collapse toward the center, the residue of the resettling is apparent in the average normal contact forces of Fig.~\ref{fig:contact-forces-scatter-15percent}.
+
 
 
 

@@ -1,4 +1,4 @@
-\section{Linking interactions with strain energy}\label{theoryStrainEnergy}
+\section{Linking interactions with strain energy}\label{sec:theoryStrainEnergy}
 Hertz theory is applicable to any two contacting elastic objects. In practice, we cannot probe the contacts of small particles and rely on experiments where we press pebbles between flat platens. Here we will develop a theory for connecting the results of the experiments with the interaction of two spherical objects.
 
 To relate the situation in the lab to two particles, we first integrate the Hertzian force along the overlap to find the strain energy, $W_\epsilon$, of that contact. 
@@ -7,7 +7,7 @@ To relate the situation in the lab to two particles, we first integrate the Hert
 	W_\epsilon = \int_0^{\delta_c}\!F_n(\delta')\,\mathrm{d}\delta'
 \end{equation}
 
-where the upper limit of the integration is the critical overlap $\delta_c$ (the meaning of this value will be explained in detail later). With the force defined from Eq.~\ref{eq:hertzForce}, this is straightforward to integrate.
+where the upper limit of the integration is the critical overlap $\delta_c$ (the meaning of this value will be explained in detail later). With the force defined from Eq.~\ref{eq:hertz-normal-force}, this is straightforward to integrate.
 
 \begin{align}
 	W_\epsilon& = \int_0^{\delta_c}\!  \frac{4}{3}E^*\sqrt{R^*}\,\delta'^{3/2} \,\mathrm{d}\delta' \\
@@ -27,7 +27,7 @@ We solve for the interacting particle overlap as a function of the lab strain en
 	\delta_{c,B} = \left[\frac{15W_{\epsilon,L}}{8E_B^*\sqrt{R_B^*}}\right]^{2/5}
 \end{equation}
 
-This overlap can be reinserted to Eq.~\ref{eq:hertzForce} to find the critical force of the interacting particles as a function of the critical strain energy of the lab. Doing this, we find:
+This overlap can be reinserted to Eq.~\ref{eq:hertz-normal-force} to find the critical force of the interacting particles as a function of the critical strain energy of the lab. Doing this, we find:
 
 \begin{equation}\label{eq:peb_hertz}
 	F_{c,B} = C{E_B^*}^{2/5}{R_B^*}^{1/5}W_{\epsilon,L}^{3/5}
@@ -35,8 +35,7 @@ This overlap can be reinserted to Eq.~\ref{eq:hertzForce} to find the critical f
 
 where $C = \frac{4}{3}\left(\frac{15}{8}\right)^{3/5}$.
 
-In this analysis we have referred to a `lab' and `particle' for the two situations. In fact, the result is more general and can be used to relate any two scenarios. The only requirement is that both conditions adhere to the assumptions of Hertz theory. The ramifications of this relationship will be explored in more detail in \cref{analysisExp}.
-
+In this analysis we have referred to a `lab' and `particle' for the two situations. In fact, the result is more general and can be used to relate any two scenarios. The only requirement is that both conditions adhere to the assumptions of Hertz theory. The ramifications of this relationship will be explored in more detail in \cref{sec:studies-experiments}.
 
 
 
