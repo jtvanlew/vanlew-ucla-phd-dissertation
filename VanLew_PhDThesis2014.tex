@@ -34,6 +34,7 @@
 % \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{siunitx}
+\usepackage{textcomp}%it was suggested online to load this before gensymb to get rid of an annoying error
 \usepackage{gensymb}
 %\setcounter{secnumdepth}{5}
 \setcounter{tocdepth}{2}
@@ -159,15 +160,17 @@
 \input{chapters/modeling-dem.tex}
 \input{chapters/modeling-cfd-dem.tex}
 \input{chapters/modeling-lbm.tex}
+\input{chapters/studies-background-experiments.tex}
+\input{chapters/studies-background-numerics.tex}
+
 
 % Case studies
-\part{Studies of Pebble Bed Thermophsyics, Mechanics, \&  Morphological Changes}
+\part{Studies of Pebble Bed Thermophysics, Mechanics, \&  Morphological Changes}
 \input{chapters/studies-dem.tex}
 \input{chapters/studies-cfd-dem.tex}
 \input{chapters/studies-lbm.tex}
 \input{chapters/studies-applied.tex}
-\input{chapters/studies-background-experiments.tex}
-\input{chapters/studies-background-numerics.tex}
+
 
 \part{Future Work}
 

@@ -16,31 +16,31 @@ Specifically, much of the work in this dissertation concerns the evolution of th
 
 
 %DEM
-\subsection{DEM}
+\subsection*{DEM}
 In the first study of \cref{sec:dem-studies}, we analyze the effective thermal conductivity of a pebble bed assuming different fractions of pebbles in the ensemble are completely crushed. The focus of this study is to determine the extent of change in aggregate ensemble properties due to individual pebble crushing, relate the changes in effective conductivity to quantifiable pebble-scale properties (e.g. contact force, coordination number, etc.), as well as help designers anticipate acceptable limits of pebble loss from a thermal management point of view. For the DEM tools used in this study, the only mode of heat transfer is conduction between the solid particles. 
 
 
 
 %CFD-DEM
-\subsection{CFD-DEM}
+\subsection*{CFD-DEM}
 In a fusion breeder, the helium purge gas winding through the interstitial gaps of the pebbles has a substantial contribution to overall heat transfer.\cite{Reimann:2002mi,Abou-Sena2005} The model of \cref{sec:dem-studies} is improved to include the flowing interstitial gas. In \cref{sec:cfd-dem-studies}, we continue to employ our DEM tools to provide particle-scale information such as contact force, but couple the pebbles to a volume-averaged computational fluid dynamics (CFD) code. The coupled CFD-DEM model is again used to simulate the heat transfer in packed beds of ceramic spheres that experience pebble crushing -- but now investigate the impact of a flowing interstitial helium purge gas when pebbles are crushed.
 
 
 
 %APPLICATION -- ORIENTATION OF CONTAINER
-\subsection{Applied CFD-DEM}
+\subsection*{Applied CFD-DEM}
 In the study of \cref{sec:applied-studies}, we apply our coupled CFD-DEM computational tools to the analysis of ITER-relevant solid breeder geometries. In this study we consider the combined effects of pebble crushing, packing restructuring due to both gravity and the unbalanced force network in the pebble bed, and convection from helium purge gas on temperature profiles in solid breeders for different breeding configurations. In typical solid breeder modules, coolant fluid runs through the containing structure surrounding the pebble bed. Heat is removed from the pebble bed predominately through inter-particle conduction and contact conductance of many pebbles pressed against the containing surface. As such, heat transfer out of the pebble bed relies on maintaining good pebble-pebble and pebble-wall contact. However, physical contact is interrupted to different degrees when a pebble bed responds to various amounts of individual crushed pebbles. Furthermore, the restructuring of the pebble bed after a pebble crushing event is, in part, dependent on gravity forces acting upon each pebble in the ensemble. We investigate two representative pebble bed configurations where heat is removed from the bed via inter-particle conduction, convection of purge gas, and contact between the pebble bed and its container. In the first, the coolant containing structural walls (heat transfer walls) are oriented parallel to the gravity vector. In the second configuration, the heat transfer walls are perpendicular to the direction of gravity. To simulate a crushed pebble, we replace the pebble with many smaller, non-cohesive elements while maintaining mass-conservation between the original solid pebble and crushed fragments. The fragments are then free to resettle into interstitial gaps and the rest of the bed resettles as determined by forces from gravity, contact of neighboring particles, and even the small influence of the moving purge gas. The thermofluid interaction with the helium purge gas will be included with volume-averaged Navier-Stokes and energy equations. The representative solid breeder volumes will be compared with respect to their temperature peaks and profiles and how those temperatures vary as a function of the percentage of crushed pebbles in the ensemble. The results can be used to optimize solid breeder pebble bed designs through the choice of breeding zone orientation relative to the gravity vector.
 
 
 %LBM
-\subsection{LBM}
+\subsection*{LBM}
 The models used to account for helium purge gas in the studies of \cref{sec:cfd-dem-studies,sec:applied-studies} assume effective drag or heat transfer coefficients for pebbles in a computational volume and then include the pebble influence through effective source/sink terms in the momentum and energy equations. The volume-averaged approach allows for simpler meshing of the fluid volume while still retaining much of the physical realism of the system. Complete models of the conjugate heat transfer of both the fluid moving through the tortuous interstitial gaps pebble beds pressing each other with small contact areas are intractable with current computational hardware and finite-element modeling techniques. To overcome deficiencies in computational power, in \cref{sec:modeling-lbm}, we apply the lattice-Boltzmann algorithm to our pebble bed with helium. The lattice-Boltzmann method (LBM) is a non-traditional fluid simulation technique that allows us to resolve pebble-scale interactions with bed-scale conjugate heat transfer with flowing gas on realistic simulation time scales. The LBM approach is applied to the same pebble beds analyzed in \cref{sec:cfd-dem-studies} to provide comparison between the two modeling techniques. Furthmore the LBM model, accounting for the complex helium purge gas pathways, provides more insight to the influence of helium on the heat transfer in the heat transfer of packed beds.
 
 
 %Background studies
-\subsection{Other kinds of studies and shit}
-\cref{sec:studies-experiments}
-\cref{sec:studies-numerics}
+% \subsection*{Other kinds of studies and shit}
+% \cref{sec:studies-experiments}
+% \cref{sec:studies-numerics}
 
 
 
