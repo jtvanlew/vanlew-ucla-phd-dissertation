@@ -2,8 +2,7 @@
 
 In \cref{sec:particle-dynamics}, we will lay out the contact interaction mechanics implemented in the discrete element method which include normal and tangential forces and damping. While all the mechanics are important for the fidelity and stability of the DEM simulation, we will focus here purely on the normal elastic contact of two interacting bodies, the analysis which was first performed by Heinrich Hertz in 1882. The results of the so-called Hertzian contact law is vital to many other sections of this work so it is instructive to have the analysis laid out.
 
-[DRAW SOME COORDINATE DIAGRAMS TO SHOW HOW Z R AND X-Y WHATEVER ARE ACTUALLY RELATED AND CAN BE VISUALIZED]
-We consider two non-conforming solids approaching and then contacting under load. Picture a line connecting the centerpoints of the two bodies and an $x-y$ plane existing at the midpoint between the bodies and oriented normal to their connecting line. On that surface, there is a radius, $r$ extending from the connecting line that is related to the $x-y$ coordinates as $r^2 = x^2 + y^2$.
+We consider two non-conforming solids approaching and then contacting under load. Picture a line connecting the center points of the two bodies and an $x-y$ plane existing at the midpoint between the bodies and oriented normal to their connecting line. On that surface, there is a radius, $r$ extending from the connecting line that is related to the $x-y$ coordinates as $r^2 = x^2 + y^2$.
 
 Because we are restricting ourselves to two spheres, the surface of curvature of the two bodies may be written as
 
@@ -37,7 +36,7 @@ and then the separation is simply $h = (1/2R^*)r^2$.
 	\end{center}
 \end{figure}
 
-The two bodies continue their approach towards each other until finally, under an external load $F$, come into contact. The cross-section of these bodies after contact are shown in Fig.~\ref{fig:hertzgeometry}. If we first imagine that the two surfaces do not interact and their surfaces pass through each other unimpeded, their surfaces would be overalapped to a distance $\delta$. In such a case, we examine two points deep within the bodies, along the axis of contact, calling them $T_{1}$ and $T_2$. These points will have moved $\delta_1$ and $\delta_2$, respectively. The total overlap is obviously related to these displacements by $\delta = \delta_1 + \delta_2$. 
+The two bodies continue their approach towards each other until finally, under an external load $F$, come into contact. The cross-section of these bodies after contact are shown in Fig.~\ref{fig:hertzgeometry}. If we first imagine that the two surfaces do not interact and their surfaces pass through each other unimpeded, their surfaces would be overlapped to a distance $\delta$. In such a case, we examine two points deep within the bodies, along the axis of contact, calling them $T_{1}$ and $T_2$. These points will have moved $\delta_1$ and $\delta_2$, respectively. The total overlap is obviously related to these displacements by $\delta = \delta_1 + \delta_2$. 
 
 However, under actual interaction, the two surfaces are going to deform as the load $F$ presses them into contact. So now we consider two points on the surfaces, such as $S_1$ and $S_2$. Before contact, these two points are initially are separated by a distance $h$ (from Eq.~\ref{eq:separationh}), then displace by $\bar{u}_{z1}$ and $\bar{u}_{z2}$ due to contact pressure. 
 
@@ -120,7 +119,7 @@ The radius, overlap, and pressure relations are inserted into Eq.~\ref{eq:hertzf
 	F = \frac{4}{3}E^* \sqrt{R^*} \, \delta^{3/2}
 \end{equation}
 
-as a last step, to differentiate the force from other terms to be derived later, we specificy it as the normal force between sphere $i$ and sphere $j$ as
+as a last step, to differentiate the force from other terms to be derived later, we specify it as the normal force between sphere $i$ and sphere $j$ as
 
 \begin{equation}\label{eq:hertz-normal-force}
 	F_{n,ij} = \frac{4}{3}E_{ij}^* \sqrt{R_{ij}^*} \, \delta_{n,ij}^{3/2}
