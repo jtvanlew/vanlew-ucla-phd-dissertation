@@ -819,3 +819,6 @@
 
 % Generate thesis preliminary pages
 \input{uclathti.clo}
+
+
+\setlength{\paperheight}{11in}

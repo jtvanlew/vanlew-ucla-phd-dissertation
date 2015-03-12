@@ -47,7 +47,7 @@ A thorough review of the physics behind DEM will be given in \cref{sec:dem-studi
 
 The Discrete Element Method (DEM) introduced by~\cite{Cundall1979} has been shown to be a promising tool to study the behavior of granular systems through the interaction between the individual particles. DEM was first applied to study the micro-mechanical aspects of cyclic thermal loads on the relaxation of stress in pebble beds for fusion reactors.\cite{Lu2000b,Ying2002}. An iterative relaxation strategy of DEM was used to study the internal contact forces in a pebble bed under an external load by An, et al.\cite{An20072233} The same DEM tools, and the insight provided by which, were also used to initiate DEM-based investigations of creep between pebbles under thermal and mechanical loads.\cite{An20071393} While An, et al. studied the pebble assemblies in rectangular and cylindrical containers bounded by a elastic walls, computational requirements prevented more than a few thousand particles in the ensemble with rigid walls.\cite{An20072233} Following An's work, the DEM torch was passed across the pond to researchers at KIT where they began to improve upon the initial studies begun at UCLA.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.5\textwidth]{chapters/figures/1-s2.0-S092037960700049X-gr1.jpg}
 	\caption{Stress–strain behaviors of granular materials in a rectangular box under uni-axial compaction from DEM are qualitatively matched to behaviors seen experimentally.}
@@ -58,7 +58,7 @@ The effect of packing factor, geometry of the assembly on the overall stress-str
 
 Recently, the effect of the pebble size distribution on the overall thermo-mechanical behavior of the pebble assembly is studied by Annabattula, et al.\cite{Annabattula2011}. They consider the pebble size distribution of ceramic breeder pebbles (\lis) with a diameter range of $0.25\ \mathrm{mm}$-$0.65\ \mathrm{mm}$. Figure~\ref{fig:pebble-assembly-potential-energy} shows a binary pebble assembly in a periodic box. The colors indicate stored elastic strain energy of the pebble (red: maximum and blue: zero). The assembly has a maximum pebble radius $\rmax=0.25$ mm with the pebble size ratio $\rstar=\rmin/\rmax=0.6$, relative volume fraction $\vstar=\vmax/V=0.7$ and a packing factor $\eta=0.643$. The average stress in a granular assembly can be deduced from the contact forces between individual grains.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 	\begin{center}
 	\begin{minipage}{0.45\textwidth}
 	\includegraphics[width=6cm]{chapters/figures/Fig-3}
@@ -75,7 +75,7 @@ Another aspect of interest in the study of mechanics of pebble beds is the crush
 
 A probabilistic method for analyzing the crush events of individual pebbles and a procedure with the combination of DEM and experimental data to obtain crush load probability has been reported by~\cite{Gan:2010kc}. Figure~\ref{fig:cdf_pebbles} shows the cumulative distribution function as a function of the hydrostatic pressure placed on the bed. The probability analysis, derived from DEM calculations, provides quantitative report of pebble crushing as a function of a specific hydrostatic pressure. The results of this analysis exemplify the growing strength of DEM techniques for analyses connecting global pebble bed loads to individual pebbles.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
   \begin{center}
 \includegraphics[width=0.5\textwidth]{chapters/figures/Fig-4}
 \end{center}
@@ -87,7 +87,7 @@ However, it has been shown~\cite{Zhao2010,Zhao2011} that a criterion based on cr
 
 Figure.~\ref{fig:stress-strain-effect} shows the results for two types of damage law each with three different realizations. Each realization corresponds to a different random distribution of critical energies assigned to the pebbles in the assembly. The results do not show appreciable sensitivity to random distribution of energies. In the case of gradual damage law, the reduction of the elastic modulus of the pebble starts when the stored elastic energy reaches 50\% of the critical energy for that pebble and the elastic modulus reaches exponentially to its minimum value when the stored elastic energy reaches the critical energy prescribed. In the case of sudden damage this reduction starts at a much later stage when the stored elastic energy reaches 95\% of the critical energy of the pebble. Clearly, the assembly with a sudden damage accumulation shows a higher maximum strength compared to the gradual damage. In the case of the gradual damage, the pebbles start to degrade much earlier (at small strain) than in the case of sudden damage. Hence the critical number of pebbles to fail for the onset of maximum strength is reached earlier (at small strain) in gradual damage. It turns out that a mere 0.2\% pebbles is the critical number for the onset of maximum strength (stress plateau) observed.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \begin{center}
 \includegraphics[width=0.4\textwidth]{chapters/figures/Fig-5}
 \end{center}

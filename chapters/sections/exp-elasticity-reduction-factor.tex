@@ -1,39 +1,42 @@
 \section{Elasticity reduction factor}\label{sec:exp-reduction-factor}
-
+\newlength{\imagewidth} 
+\setlength{\imagewidth}{0.5\textwidth}
 % the following was from the MOTIVATION section of SOFT-2014~~~~~~~~~~~~~~~~~~~~~~
-In the study of individual pebble crush force (see \cref{sec:exp-reduction-factor}), the force-travel response curves of ceramic materials consistently exhibit distributions in the stiffness of the pebbles. For example, see the results of different lithium ceramic pebbles in Fig.~\ref{fig:force-travel-exp}. For DEM studies, we claim that interaction between these pebbles is well-represented by the Hertzian normal force as derived in \cref{sec:hertz-theory}. For the discussion, we rewrite Eq.~\ref{eq:hertz-normal-force} here,
+% In the study of individual pebble crush force, the force-travel response curves of ceramic materials consistently exhibit distributions in the stiffness of the pebbles. For example, see the results of different lithium ceramic pebbles in Fig.~\ref{fig:force-travel-exp}. For DEM studies, we claim that interaction between these pebbles is well-represented by the Hertzian normal force as derived in \cref{sec:hertz-theory}. For the discussion, we rewrite Eq.~\ref{eq:hertz-normal-force} here,
 
 
-\begin{equation}
-  F_{n,ij} = \frac{4}{3}E_{ij}^* \sqrt{R_{ij}^*} \, \delta_{n,ij}^{3/2}
-\end{equation}
+% \begin{equation*}
+%   F_{n,ij} = \frac{4}{3}E_{ij}^* \sqrt{R_{ij}^*} \, \delta_{n,ij}^{3/2}
+% \end{equation*}
 
-where $\delta$ is the overlap between contacting spheres and $\frac{1}{E^*} = \frac{1-\nu_i^2}{E_i} + \frac{1-\nu_j^2}{E_j}$, $\frac{1}{R^*} = \frac{1}{R_i} + \frac{1}{R_j}$
-The contact force is directly proportional to the pair Young's modulus, $E^*$. Thus an accurate value of pebble Young's modulus is critical for an accurate calculation of contact force. For brevity, we do not include many details on DEM, but refer the reader to the original paper by Cundall and Strack\cite{Cundall1979} upon which all modern models are based.
+% where $\delta$ is the overlap between contacting spheres and $\frac{1}{E^*} = \frac{1-\nu_i^2}{E_i} + \frac{1-\nu_j^2}{E_j}$, $\frac{1}{R^*} = \frac{1}{R_i} + \frac{1}{R_j}$
 
-We now present Hertz equation as it applies to a pebble, diameter of $d_p$, being pressed between two flat anvils with measured travel of one anvil as $s$:
+% From Eq.~\ref{eq:hertz-normal-force}, we see the contact force is directly proportional to the pair Young's modulus, $E^*$. Thus an accurate value of pebble Young's modulus is critical for an accurate calculation of contact force. We now present Hertz equation as it applies to a pebble, diameter of $d_p$, being pressed between two flat anvils with measured travel of one anvil as $s$:
 
-\begin{equation}\label{eq:peb-anvil-contact-force}
-  F_n = \frac{1}{3}E^*\sqrt{d_ps^3}
-\end{equation} 
+% \begin{equation}\label{eq:peb-anvil-contact-force}
+%   F_n = \frac{1}{3}E^*\sqrt{d_ps^3}
+% \end{equation} 
 
-and $\frac{1}{E^*} = \frac{1-\nu_p^2}{E_p} + \frac{1-\nu_a^2}{E_a}$. Where the subscript $p$ refers to pebbles and $a$ the anvils.
+% and $\frac{1}{E^*} = \frac{1-\nu_p^2}{E_p} + \frac{1-\nu_a^2}{E_a}$. Where the subscript $p$ refers to pebbles and $a$ the anvils.
 
-From Eq.~\ref{eq:peb-anvil-contact-force}, we see that standard Hertz theory, where we use a single value for Young's modulus from literature, is not appropriate for pebbles studied in ceramic breeders. If single values of $E_p$ and $\nu_p$ are employed, then variation in pebble diameters can not alone explain the variation of curves of Fig.~\ref{fig:force-travel-exp}.
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Elasticity reduction factor}
-We propose to explain the behavior of individual pebbles (as in Fig.~\ref{fig:force-travel-exp}) with an assumption that the production technique yields pebbles with slightly different internal structures. The differences in internal structure then cause the pebble to have a different apparent modulus of elasticity; which will vary from some strong limit value. The strong value is the elastic modulus of highly sintered pellets reported in literature for the material, $E_\text{bulk}$. Assuming this strong value is the upper limit, imperfections in the pebbles will lead only to a reduction in this value. To quantify the deviation from the bulk, we introduce a $k$ factor, defined as the elasticity reduction factor:
+% From Eq.~\ref{eq:peb-anvil-contact-force}, we see that standard Hertz theory, where we use a single value for Young's modulus from literature, is not appropriate for pebbles studied in ceramic breeders. If single values of $E_p$ and $\nu_p$ are employed, then variation in pebble diameters can not alone explain the variation of curves of Fig.~\ref{fig:force-travel-exp}.
+% %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-\begin{equation}
-  k = \frac{E_\text{peb}}{E_\text{bulk}}
-\end{equation}
-where $k \in [0,1]$.
 
-If each pebble has a unique $k$ value, this would quantify the spread in elastic responses seen in the experiments. The value is found by assuming that the pebbles are, in fact, behaving in a Hertzian manner, allowing us to back-out its $k$ value, or in other words the unique $E^*$ of that pebble by finding a best fit to the experimental curves. 
 
-From room temperature, we take the sintered pebble value for these Li$_4$SiO$_4$ pebbles to be $E_\text{bulk} = 90$~GPa and $E_\text{bulk} = 124$~GPa for Li$_4$SiO$_4$ pebbles. Then we iterate over all values of $k\in[0,1]$ and compare the Hertzian response to that pebble's force-displacement curve.
+% \subsection{Elasticity reduction factor}
+% We propose to explain the behavior of individual pebbles (as in Fig.~\ref{fig:force-travel-exp}) with an assumption that the production technique yields pebbles with slightly different internal structures. The differences in internal structure then cause the pebble to have a different apparent modulus of elasticity; which will vary from some strong limit value. The strong value is the elastic modulus of highly sintered pellets reported in literature for the material, $E_\text{bulk}$. Assuming this strong value is the upper limit, imperfections in the pebbles will lead only to a reduction in this value. To quantify the deviation from the bulk, we introduce a $k$ factor, defined as the elasticity reduction factor:
 
-The data of Fig.~\ref{fig:nfri-force-travel-exp} is fit in the manner described and the pebbles are all plotted against Hertzian curves with their own unique modified Young's modulus in Fig.~\ref{fig:hertz-exp}. The modified Hertzian curves with apparent Young's modulus fits well with most of the pebbles' curves. Similar data is obtained for the pebbles of Fig.~\ref{fig:fzk-force-travel-exp} but the results are omitted for conciseness.
+% \begin{equation}
+%   k = \frac{E_\text{peb}}{E_\text{bulk}}
+% \end{equation}
+% where $k \in [0,1]$.
+
+% If each pebble has a unique $k$ value, this would quantify the spread in elastic responses seen in the experiments. The value is found by assuming that the pebbles are, in fact, behaving in a Hertzian manner, allowing us to back-out its $k$ value, or in other words the unique $E^*$ of that pebble by finding a best fit to the experimental curves. 
+
+% From room temperature, we take the sintered pebble value for these Li$_4$SiO$_4$ pebbles to be $E_\text{bulk} = 90$~GPa and $E_\text{bulk} = 124$~GPa for Li$_4$SiO$_4$ pebbles. Then we iterate over all values of $k\in[0,1]$ and compare the Hertzian response to that pebble's force-displacement curve.
+
+% The data of Fig.~\ref{fig:nfri-force-travel-exp} is fit in the manner described and the pebbles are all plotted against Hertzian curves with their own unique modified Young's modulus in Fig.~\ref{fig:hertz-exp}. The modified Hertzian curves with apparent Young's modulus fits well with most of the pebbles' curves. Similar data is obtained for the pebbles of Fig.~\ref{fig:fzk-force-travel-exp} but the results are omitted for conciseness.
 
 
 % \begin{figure}
@@ -65,15 +68,15 @@ The data of Fig.~\ref{fig:nfri-force-travel-exp} is fit in the manner described 
 % \end{figure}
 
 % From the distribution of $k$, we see that the Young's modulus of many of the pebbles is about 20\% of the value of the sintered pellet that is given as the material property from literature. The Hertz contact force for these soft pebbles is then likewise 20\% of the value one would predict if using the Young's modulus from literature! 
-One of the benefits of using DEM simulations is the ability to predict pebble cracking in an ensemble based on knowledge of the interaction forces. If we are over-predicting the contact forces based on inaccurate material properties, we are going to be over-predicting the impact of pebble cracking as well. An accurate description of the material properties is an important feature for ceramic breeder designers.
+% One of the benefits of using DEM simulations is the ability to predict pebble cracking in an ensemble based on knowledge of the interaction forces. If we are over-predicting the contact forces based on inaccurate material properties, we are going to be over-predicting the impact of pebble cracking as well. An accurate description of the material properties is an important feature for ceramic breeder designers.
 
-We will apply the modified Young's modulus distributions to pebble beds and compare the results to pebble beds simulated with standard Young's modulus from literature.
+% We will apply the modified Young's modulus distributions to pebble beds and compare the results to pebble beds simulated with standard Young's modulus from literature.
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width = 0.75 \textwidth]{chapters/figures/NFRI-exp_v_hertz}
-  \caption{Experimental responses (solid) and fit curves of Hertzian equivalent with apparent Young's modulus (dashed).}\label{fig:hertz-exp}
-\end{figure}
+% \begin{figure}[t]
+%   \centering
+%   \includegraphics[width = \imagewidth]{chapters/figures/NFRI-exp_v_hertz}
+%   \caption{Experimental responses (solid) and fit curves of Hertzian equivalent with apparent Young's modulus (dashed).}\label{fig:hertz-exp}
+% \end{figure}
 
 %end of the section taken from SOFT 2014 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -81,145 +84,202 @@ We will apply the modified Young's modulus distributions to pebble beds and comp
 
 
 
-We introduced Hertz theory in \cref{sec:hertz-theory}, and now we apply it to experiments for analysis of ceramic pebbles. The derivation of Hertz force can be found on page~\pageref{eq:hertz-normal-force} but is given again here for reference.
-\begin{equation}
-        F = \frac{4}{3}E^*\sqrt{R^*}\,\delta^{3/2}
-\end{equation}
-and, again, the relative Young's modulus and radius are
+We introduced Hertz theory in \cref{sec:hertz-theory}, and in \cref{sec:modeling-dem} showed how we apply the Hertzian contact rules into the discrete element computational framework. We will revisit the Hertzian equations as we analyze the force-displacement measurements of single pebbles in the anvils of our uniaxial compression test stand.
+
+The derivation to the Hertz force can be found on page~\pageref{eq:hertz-normal-force} but the result is given again here for reference:
+\begin{equation*}
+  F_{n,ij} = \frac{4}{3}E_{ij}^* \sqrt{R_{ij}^*} \, \delta_{n,ij}^{3/2}
+\end{equation*}
+and, again, the pair Young's modulus and radius are
 \begin{align*}
 \frac{1}{E^*} & = \frac{1-\nu_i^2}{E_i} + \frac{1-\nu_j^2}{E_j} \\
 \frac{1}{R^*} & = \frac{1}{R_i} + \frac{1}{R_j}
 \end{align*}
 
-In experiments where we press a ceramic pebble between two platens, we measure the travel, $s$, rather than the pebble overlap, so we modify Eq.~\ref{eq:hertz-normal-force} to be represented in terms of travel ($s = 2\delta$). Furthermore, for a pebble ($R_i = R_p$) in contact with a smooth plane ($R_j \rightarrow \infty$), the relative radius is simply $R^* = R_p = d_p/2$.
-
-The Hertz force is now expressed as
+In experiments where we press a ceramic pebble between two platens, we measure the travel, $s$, rather than the pebble overlap, so we modify Eq.~\ref{eq:hertz-normal-force} to be represented in terms of travel ($s = 2\delta$). Furthermore, for a pebble ($R_i = R_p$) in contact with a smooth plane ($R_j \rightarrow \infty$), the relative radius is simply $R^* = R_p = d_p/2$. We write the Young's modulus of the pebble as $E_p$ and for the test stand's anvil as $E_s$; similarly for the Poisson ratios of the two materials. The Hertz force for a pebble between anvils is then
 
 \begin{equation}\label{eq:contact-force}
-        F = \frac{1}{3}E^*\sqrt{d_ps^3}
+        F = \left[\frac{1}{3}\frac{\sqrt{d_p}}{\frac{1-\nu_p^2}{E_p} + \frac{1-\nu_s^2}{E_s}}\right] s^{3/2}
 \end{equation}
 
-Let's take a moment to discuss Eq.~\ref{eq:contact-force}. The Young's modulus of the test stand platen is a constant value. One might assume the Young's modulus of the ceramic is also a known, constant value. In that case, there should be only a single force response for every pebble of a given diameter. Using the material properties given in Ref.~\cite{Gierszewski1998} for \lit, we plot a set of parametric curves based on diameter. The properties used for an nickel-alloy platen and \lit are given in Table~\ref{tab:hertz-dp-study-props}. The curves are given in Fig.~\ref{fig:hertz-dp-dependence}.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width = \imagewidth]{chapters/figures/hertz-dp-dependence}
+\caption{Hertzian responses of \lit pebbles compressed between platens. The colormap shows pebble diameters in \si{m}. The diameters span an order of magnitude from $d_p = \si{0.2 mm}$ to $d_p = \si{2 mm}$.}\label{fig:hertz-dp-dependence}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+    \includegraphics[width=\imagewidth]{chapters/figures/fzk-data-w-ideal-hertz.png}
+    \caption{Dashed lines are \lis pebbles of approximately \si{0.5 mm} diameter. Solid lines are the Hertzian (Eq.\ref{eq:contact-force}) responses based on each pebble's measured diameter.}
+    \label{fig:fzk-exp-colormap}
+\end{figure}
+
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{\imagewidth}
+                \includegraphics[width=\textwidth]{chapters/figures/nfri-1mm-data-w-ideal-hertz.png}
+                \caption{$\bar{d}_p = 1$ mm}
+                \label{fig:nfri-1-exp-colormap}
+        \end{subfigure}
+
+        \begin{subfigure}[b]{\imagewidth}
+                \includegraphics[width=\textwidth]{chapters/figures/nfri-1.5mm-data-w-ideal-hertz.png}
+                \caption{$\bar{d}_p = 1.5$ mm}
+                \label{fig:nfri-1.5-exp-colormap}
+        \end{subfigure}
+        \caption{Dashed lines are \lit pebbles. Solid lines are the Hertzian (Eq.\ref{eq:contact-force}) responses based on each pebble's measured diameter.}\label{fig:nfri-exp-curves}
+\end{figure}
+
+
+\begin{figure}[!ht]
+\centering
+    \includegraphics[width=\imagewidth]{chapters/figures/fzk-hertz-colormap.png}
+    \caption{Force-displacement curves for \lis pebbles (in color) along with their Hertzian fits (in black) calculated with each pebble having a unique Young's modulus.}
+    \label{fig:fzk-exp-hertz}
+\end{figure}
+
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{\imagewidth}
+                \includegraphics[width=\textwidth]{chapters/figures/nfri-1mm-hertz-colormap.png}
+                \caption{$\bar{d}_p = 1$ mm}
+                \label{fig:nfri-1-exp-hertz}
+        \end{subfigure}
+
+        \begin{subfigure}[b]{\imagewidth}
+                \includegraphics[width=\textwidth]{chapters/figures/nfri-1.5mm-hertz-colormap.png}
+                \caption{$\bar{d}_p = 1.5$ mm}
+                \label{fig:nfri-1.5-exp-hertz}
+        \end{subfigure}
+        \caption{Force-displacement curves for \lit pebbles (in color) along with their Hertzian fits (in black) calculated with each pebble having a unique Young's modulus.}\label{fig:nfri-exp-hertz}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+    \includegraphics[width=\imagewidth]{chapters/figures/fzk-E-plot.png}
+    \caption{Distribution of modified Young's modulus for a batch of \lis pebbles. Most pebbles responded to compression with a Young's modulus well below the sintered pellet value of \si{90 GPa}.}
+    \label{fig:fzk-E-plot}
+\end{figure}
+
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{\imagewidth}
+                \includegraphics[width=\textwidth]{chapters/figures/nfri-1mm-E-plot.png}
+                \caption{$\bar{d}_p = 1$ mm}
+                \label{fig:nfri-1mm-E-plot}
+        \end{subfigure}
+
+        \begin{subfigure}[b]{\imagewidth}
+                \includegraphics[width=\textwidth]{chapters/figures/nfri-1.5mm-E-plot.png}
+                \caption{$\bar{d}_p = 1.5$ mm}
+                \label{fig:nfri-1.5mm-E-plot}
+        \end{subfigure}
+        \caption{Distribution of modified Young's modulus for a batch of \lit pebbles. All pebbles responded to compression with a Young's modulus well below the sintered pellet value of \si{126 GPa}.}\label{fig:nfri-E-plot}
+\end{figure}
+
+
+\begin{figure}[!ht]
+\centering
+    \includegraphics[width=\imagewidth]{chapters/figures/fzk-kappa-histogram.png}
+    \caption{Histogram of $\kappa$ for a batch of \lis pebbles. Most pebbles responded to compression with a Young's modulus well below the sintered pellet value of \si{90 GPa}.}
+    \label{fig:fzk-kappa-hist}
+\end{figure}
+
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{\imagewidth}
+                \includegraphics[width=\textwidth]{chapters/figures/nfri-1mm-kappa-histogram.png}
+                \caption{$\bar{d}_p = 1$ mm}
+                \label{fig:nfri-1mm-kappa-hist}
+        \end{subfigure}
+
+        \begin{subfigure}[b]{\imagewidth}
+                \includegraphics[width=\textwidth]{chapters/figures/nfri-1.5mm-kappa-histogram.png}
+                \caption{$\bar{d}_p = 1.5$ mm}
+                \label{fig:nfri-1.5mm-kappa-hist}
+        \end{subfigure}
+        \caption{Histogram of $\kappa$ for two batches of \lit pebbles. All pebbles responded to compression with a Young's modulus well below the sintered pellet value of \si{126 GPa}.}\label{fig:nfri-kappa-hist}
+\end{figure}
+
+
+\begin{figure}[!ht]
+\centering
+    \includegraphics[width=\imagewidth]{chapters/figures/fzk-kappa-dp-scatter.png}
+    \caption{Scatter of $\kappa$ against pebble diameter for a batch of \lis pebbles showing almost no relationship between apparent stiffness and diameter.}
+    \label{fig:fzk-kappa-dp-scatter}
+\end{figure}
+
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{\imagewidth}
+                \includegraphics[width=\textwidth]{chapters/figures/nfri-1mm-kappa-dp-scatter.png}
+                \caption{$\bar{d}_p = 1$ mm}
+                \label{fig:nfri-1mm-kappa-dp-scatter}
+        \end{subfigure}
+
+        \begin{subfigure}[b]{\imagewidth}
+                \includegraphics[width=\textwidth]{chapters/figures/nfri-1.5mm-kappa-dp-scatter.png}
+                \caption{$\bar{d}_p = 1.5$ mm}
+                \label{fig:nfri-1.5mm-kappa-dp-scatter}
+        \end{subfigure}
+        \caption{Scatter of $\kappa$ against pebble diameter for two batches of \lit pebbles showing almost no relationship between apparent stiffness and diameter.}\label{fig:nfri-kappa-dp-scatter}
+\end{figure}
+
+
+
+
+
+
+The Young's modulus and Poisson ratio of the test stand are known values that do not vary between pebble experiments. Similarly, in the application of Hertz theory, we also assume the Young's modulus and Poisson ratio of the ceramic is also a known, constant value. In that case, for any given pebble diameter, the term inside $[\,]$ is composed of entirely of constants for any given pebble; there is therefore a single force-travel response possible based on $s$. Using the material properties given in Ref.~\cite{Gierszewski1998} for \lit, we plot a set of parametric curves based on diameter over a range of travel. The properties we have used for the nickel-alloy anvil of our test stand and \lit are given in Table~\ref{tab:hertz-dp-study-props}. The curves are given in Fig.~\ref{fig:hertz-dp-dependence}.
 
 \begin {table}[htp] %
 \caption{Material properties used for \lit and nickel-alloy platen}
 \label {tab:hertz-dp-study-props} \centering %
 \begin {tabular}{ cccccc }
 \toprule %
-$E_\text{peb}$		&     $\nu_\text{peb}$	&	$E_\text{stand}$		&     $\nu_\text{stand}$	\\
-(GPa)			&					&	(GPa)				&					\\\toprule
-126				&	0.24				&	220					& 	0.27				\\\bottomrule
+$E_\text{peb}$      &     $\nu_\text{peb}$  &   $E_\text{stand}$        &     $\nu_\text{stand}$    \\
+(GPa)           &                   &   (GPa)               &                   \\\toprule
+126             &   0.24                &   220                 &   0.27                \\\bottomrule
 \end{tabular}
 \end{table}
 
-\begin{figure}[ht!]
-\centering
-\includegraphics[width = 0.75 \textwidth]{chapters/figures/hertz-dp-dependence}
-\caption{Hertzian responses of \lit pebbles compressed between platens. The colormap shows pebble diameters in \si{m}. The diameters span an order of magnitude from $d_p = \si{0.2 mm}$ to $d_p = \si{2 mm}$.}\label{fig:hertz-dp-dependence}
-\end{figure}
+Figure~\ref{fig:hertz-dp-dependence} shows that, for a given pebble diameter, there is a  is strictly obeying Hertz theory, there is only a single force-displacement curve it can follow. However, when experiments are performed on single pebbles of \lis we see responses in the dashed lines of Fig.~\ref{fig:fzk-exp-colormap}. Similarly for the dashed lines of \lit in Fig.~\ref{fig:nfri-exp-curves}.
 
-Figure~\ref{fig:hertz-dp-dependence} clearly shows that if a pebble of a given diameter is strictly obeying Hertz theory, there is only a single force-displacement curve it can follow. However, when experiments are performed on single pebbles we see quite different behavior for the F-s curves, see the curves of Fig.~\ref{fig:exp-curves}. 
+Contrary to the diameter dependence seen in Fig.~\ref{fig:hertz-dp-dependence}, the curves of Figs.~\ref{fig:fzk-exp-colormap},~\ref{fig:nfri-exp-curves} do not demonstrate any relationship between diameter and force. For comparison, the solid lines on the figures for each ceramic show the predicted Hertzian response as calculated by Eq.~\ref{eq:contact-force} based on the measured diameter of each pebble. For both the \lis and \lit pebbles, there are very few pebbles that show a measured force-travel response that is similar to the Hertzian prediction based on the material properties reported in literature. We conclude that variations in pebble diameter can not alone account for the variations in the force curves measured for the pebbles in our experiments. %The most reasonable source for variation is in the Young's modulus of pebbles in a batch. Such a conclusion is important for implementation of Hertz theory in DEM algorithms.
 
-\begin{figure}
-        \centering
-        \begin{subfigure}[b]{0.75\textwidth}
-                \includegraphics[width=\textwidth]{chapters/figures/fzk-exp-colormap}
-                \caption{\lis pebbles of approximately \si{0.5 mm} diameter.}
-                \label{fig:fzk-exp-colormap}
-        \end{subfigure}
-         
-        %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-        %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.75\textwidth}
-                \includegraphics[width=\textwidth]{chapters/figures/nfri-exp-colormap}
-                \caption{\lit pebbles of approximately \si{1.5 mm} diameter.}
-                \label{fig:nfri-exp-colormap}
-        \end{subfigure}
-        \caption{Force-displacement curves for two sets of experimental data, a batch of \lis pebbles and a batch of \lit pebbles. The colormap shows pebble diameters in \si{m}.}\label{fig:exp-curves}
-\end{figure}
-
-Figure~\ref{fig:fzk-exp-colormap} shows \lis pebbles as they are compressed between platens. Neglecting the handful of pebbles with very low force responses to high strain, there is a grouping of pebbles where there is a general trend that matches Fig.~\ref{fig:hertz-dp-dependence}. The smaller diameter pebbles, in blue colors, have lower force responses for a given strain. Larger pebble diameters, in yellow-orange, are slightly higher overall in their force response. Finally, the largest diameter pebble in dark red has the highest force response for a given diameter. However, while the trends are \textit{generally} similar to the theoretical Hertzian curves, there are noticeable spreads in responses. The responses of \lit pebbles of Fig.~\ref{fig:nfri-exp-colormap}, on the contrary, show almost no adherence to the expected diameter dependence of Hertz theory. 
-
-The behavior of pebbles observed in Fig.~\ref{fig:exp-curves} lead us to conclude that variations in pebble diameter can not alone account for the variation in the F-s curves. The most reasonable source for is a variation is in the Young's modulus of pebbles in a batch. Such a conclusion is important for implementation of Hertz theory in DEM algorithms.
-
-We hypothesize that variation in the apparent Young's modulus of each pebble is rooted in the production of the pebbles which yields pebbles with slightly different internal structures. The differences in internal structure then cause the pebble to behave with different stiffnesses than the value expected from measurements of sintered pellets of lithium ceramics. In fact, we consider the sintered pellet Young's modulus, $E_\text{sp}$, as the upper limit for the pebbles and that most will emerge with values less than $E_\text{sp}$. To quantify the deviation of each pebble's $E_\text{peb}$ from the sintered pellet, we introduce a $k$ factor, defined as the elasticity reduction factor:
+We hypothesize that variation in measured curves is due to each pebble having Young's modulii that diverge from the values measured from sintered blocks as reported in literature. Therefore each pebble displays a different apparent Young's modulus in the single pebble experiments. The apparent Young's modulus of each pebble is rooted in the manufacture of the pebbles which yields pebbles with slightly different internal structures. The differences in internal structure then cause the pebble to behave with different stiffnesses than the value expected from measurements of sintered pellets of lithium ceramics. In fact, the solid lines in Figs.~\ref{fig:fzk-exp-colormap},~\ref{fig:nfri-exp-curves}, as calculated from the measurements of sintered pellets, appear to be an upper limit to the pebbles. Therefore we consider pebbles will emerge with values less than the value from literature, $E_\text{lit}$ by some factor. To quantify the deviation of each pebble's $E_\text{peb}$ from the sintered pellet, we introduce a $\kappa$ factor, which we define as the elasticity reduction factor:
 
 \begin{equation}
-k = \frac{E_\text{peb}}{E_\text{sp}}
+\kappa = \frac{E_\text{peb}}{E_\text{lit}}
 \end{equation}
 where
 \[
-k \in [0,1]
+\kappa \in [0,1]
 \]
 
-If each pebble has a unique $k$ value, this would quantify the spread in elastic responses seen in the experiments. We find the value by assuming that the pebbles are, in fact, behaving in a Hertzian manner. This allows us to back-out a $k$ value, or in other words the unique $E_\text{peb}$ of that pebble by finding a best fit to the experimental curves. 
-
-We take the sintered pebble value of Young's modulus for \lis to be $E_\text{sp} = \si{90 GPa}$ and the value for \lit to be $E_\text{sp}= \si{124 GPa}$. Then we iterate over all values of $k\in[0,1]$ and compare the Hertzian response to that pebbles force-displacement curve. At each iteration, the L2-norm of the difference between Hertzian and experimental curves is used as the `error'. The L2 norm, $A$ for a given array, $a$ is 
+If each pebble has a unique $\kappa$ value, it would quantify the spread in elastic responses seen in the experiments. We find the value by assuming that the pebbles are, in fact, behaving in a Hertzian manner and we can fit the Hertzian to our experimental measurements. This allows us to back-out a $\kappa$ value, or in other words the unique $E_\text{peb}$ of that pebble. We take the sintered pebble value of Young's modulus for \lis to be $E_\text{lit} = \si{90 GPa}$ and the value for \lit to be $E_\text{lit}= \si{124 GPa}$. Then we iterate over all values of $k\in[0,1]$ and compare the Hertzian response to that pebbles force-displacement curve. At each iteration, the L2-norm of the difference between Hertzian and experimental curves is used as the `error'. The L2 norm, $A$ for a given array, $a$ is 
 
 \begin{equation}
 ||A||_F = \left[\sum_{i,j}\textrm{abs}(a_{i,j})^2\right]^{1/2}
 \end{equation}
 
-This is a convenient way to compare the error at every point along the force-displacement curves. When the error is minimized, the elasticity reduction value corresponding the minimum is recorded for that pebble. The Hertzian curves (in black) for each pebble are plotted in green against the experimental curves in Fig.~\ref{fig:exp-hertz}. 
+This is a convenient way to compare the error at every point along the force-displacement curves. When the error is minimized, the elasticity reduction value corresponding the minimum is recorded for that pebble. In The Hertzian curves (in black) for each pebble are plotted in green against the experimental curves in Figs.~\ref{fig:fzk-exp-hertz},~\ref{fig:nfri-exp-hertz}. 
 
 
 
+Many of the curves for \lis in Fig.~\ref{fig:fzk-exp-hertz} seem to be fit well with a Hertzian curve with modified Young's modulus. The value of Young's modulus found for each pebble is plotted in Fig.~\ref{fig:fzk-E-plot}. The Young's modulus of pebble numbers 0 to 4 are the very soft pebbles seen with very low forces on Fig.~\ref{fig:fzk-exp-hertz}. The majority of pebbles, however, behave with a Young's modulus between 30 and 70 \si{GPa}. On the upper end, a few pebbles acted very similar to their sintered pellet counterpart with approximate value of \si{90 GPa}. 
 
-\begin{figure}
-        \centering
-        \begin{subfigure}[b]{0.75\textwidth}
-                \includegraphics[width=\textwidth]{chapters/figures/fzk-hertz-colormap}
-                \caption{\lis pebbles of approximately \si{0.5 mm} diameter.}
-                \label{fig:fzk-hertz-colormap}
-        \end{subfigure}
-         
-        %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-        %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.75\textwidth}
-                \includegraphics[width=\textwidth]{chapters/figures/nfri-hertz-colormap}
-                \caption{\lit pebbles of approximately \si{1.5 mm} diameter.}
-                \label{fig:nfri-hertz-colormap}
-        \end{subfigure}
-        \caption{Force-displacement curves for two sets of experimental data, a batch of \lis pebbles and a batch of \lit pebbles. The colormap shows pebble diameters in \si{m}.}\label{fig:exp-hertz}
-\end{figure}
+The two batches of \lit pebbles we analyzed (Fig.~\ref{fig:nfri-exp-hertz}) are similarly fit well to different Hertzian curves. The apparent Young's modulii of the \lit pebbles are given in Fig.~\ref{fig:nfri-E-plot}. These \lit pebbles have a large distribution of stiffness, from between 20 to 120~GPa for the 1~mm pebbles and roughly 2 to 80~GPa for the 1.5~mm pebbles.
 
 
+A histogram of the $\kappa$ factor for this batch of \lis pebbles is given in Fig.~\ref{fig:fzk-kappa-hist}. For the \lis pebbles, the histogram resembles a normal distribution but for the large spike in pebbles with very small $\kappa$. When we look back to the force-travel plots of Fig.~\ref{fig:fzk-exp-colormap}, the four softest pebbles show similar trends of long, relatively flat responses to travel before reaching a point where there is a sharp increase in the $F-s$ slope. In the experiments, the flat sections of the curve occurred when the pebbles in the anvil were not perfectly spherical and rotated slightly under the application of a load. Once the pebbles rotated into a flat spot that could take a normal load without any angular moment, the force increased quickly under further travel. In light of this, it is unreasonable to consider their $\kappa$ values as representing their true stiffness. Neglecting the four outliers in the histogram of Fig.~\ref{fig:fzk-kappa-hist}, we are then left with a distribution much more closely resembling a normal probability distribution.
 
-Many of the curves in Fig.~\ref{fig:fzk-hertz-colormap} seem to be fit well with a Hertzian curve with modified Young's modulus. The value of Young's modulus found for each pebble is plotted in Fig.~\ref{fig:fzk-E-plot}. The Young's modulus of pebble numbers 0 to 4 are the very 'soft' pebbles seen with very low forces on Fig.~\ref{fig:fzk-hertz-colormap}. The majority of pebbles behave with a Young's modulus between 30 and 70 \si{GPa}. On the upper end, a few pebbles acted very similar to their sintered pellet counterpart with approximate value of \si{90 GPa}.
+The histograms for the two batches of \lit are given in Fig.~\ref{fig:nfri-kappa-hist}. The distributions for both batches of \lit pebbles more closely resemble Snedecor's F distribution with many pebbles behaving with a very small $\kappa$.
 
-\begin{figure}[ht!]
-\centering
-\includegraphics[width = 0.75 \textwidth]{chapters/figures/fzk-E-plot}
-\caption{Distribution of modified Young's modulus for a batch of \lis pebbles. Most pebbles responded to compression with a Young's modulus well below the sintered pellet value of \si{90 GPa}.}\label{fig:fzk-E-plot}
-\end{figure}
+In Figs.~\ref{fig:fzk-kappa-dp-scatter} and~\ref{fig:nfri-kappa-dp-scatter} we see scatter plots of the pebble diameters and $\kappa$ values for the different batches of lithium ceramic pebbles. A Pearson Correlation value was calculated for each of the batches to find a relationship between diameter and $\kappa$. For the \lis pebbles, we find $R = 0.198$ which is a weak positive correlation. For the \lit pebbles we have $R = -0.385$ for $\bar{d}_p = 1$~mm and $R = -0.201$ for $\bar{d}_p = 1.5$~mm. Both of these are weakly negatively correlated. 
 
-\begin{figure}[ht!]
-\centering
-\includegraphics[width = 0.75 \textwidth]{chapters/figures/nfri-E-plot}
-\caption{Distribution of modified Young's modulus for a batch of \lit pebbles. All pebbles responded to compression with a Young's modulus well below the sintered pellet value of \si{126 GPa}.}\label{fig:nfri-E-plot}
-\end{figure}
+The implications of these results are that the Young's modulus traditionally used in DEM simulations for ceramic pebble beds in solid breeders is incorrect. In \cref{sec:dem-studies-youngs-modulus}, we will introduce $\kappa$, the elasticity reduction factor, into our DEM simulations. Numerical recreations of the probability distribution curves will be used to apply $\kappa$ to pebbles in the ensemble. From the weak correlations between diameter and $\kappa$, we are free to ignore any diameter dependence when assigning $\kappa$ values in the DEM framework. In the module where we assign Young's modulus to the particles in the ensemble will apply the distribution in a random fashion.
 
-
-What remains is actually using these modified Young's modulus in DEM simulations to see if they more accurately reflect pebble bed macroscopic behavior. If so, it is assumed they will more accurately reflect the contact forces between pebbles in the ensemble.
-
-
-
-
-\begin{figure}[!htp]
-  \centering
-  \begin{subfigure}[b]{0.75\textwidth}
-         \includegraphics[width=\textwidth]{chapters/figures/NFRI-data}
-         \caption{Li$_2$TiO$_3$ pebbles of $d_p = 1$ \si{mm}.}
-         \label{fig:nfri-force-travel-exp}
-  \end{subfigure}
-
-  %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-  %(or a blank line to force the subfigure onto a new line)
-  \begin{subfigure}[b]{0.75\textwidth}
-         \includegraphics[width=\textwidth]{chapters/figures/FZK-data}
-         \caption{Li$_4$SiO$_4$ pebbles of $d_p = 0.5$ \si{mm}.}
-         \label{fig:fzk-force-travel-exp}
-  \end{subfigure}
-  \caption{Force-travel responses of various lithiated ceramic pebbles of disparate diameters show similar behavior in distributions of responses. The colormaps differentiate the pebbles by diameter (in meters).}
-\label{fig:force-travel-exp}
-\end{figure}
+\FloatBarrier
