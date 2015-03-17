@@ -40,7 +40,7 @@ and the energy deposited is not balanced between a virgin bed and one with crush
 
 \subsection{Modeling a Crushed Pebble}
 In the DEM framework, we are limited to modeling elastic spheres. If we strictly wish to conserve mass between a solid pebble of radius $R_p$ and the crushed fragments of radius $R_c$, then the number of crushed fragments (spheres) per crushed pebble is
-\begin{equation}
+\begin{equation}\label{eq:nc-crushed-fragments}
 	N_c = \left(\frac{R_c}{R_p}\right)^{-3}
 \end{equation}
 
@@ -48,18 +48,15 @@ Thus the number of fragments goes like the inverse of radius ratio to the third 
 
 
 \begin {table}[htp] %
-\caption{The particle crush fragments, $N_c$, necessary to replace a single crushed particle and obey conservation of mass (fragment number is rounded to nearest integer).}
+\caption{Example values of the particle crush fragments, $N_c$, necessary to replace a single crushed particle and obey conservation of mass (fragment number is rounded to nearest integer).}
 \label {tab:rstar-Nc} \centering %
-\begin {tabular}{ cc }
+\begin {tabular}{ S[table-format=3.2]S[table-format=3.2] }
 \toprule
 $R_c/R_p$ 						& $N_c$  				\\\otoprule
-0.2                             & 125                   \\    
-0.25                            & 64                      \\  
-0.3                             & 37               \\
-0.35                            & 23               \\
-0.4                             & 16                   \\
-0.45                            & 11                \\
-0.5                             & 8                         \\
+0.20                            & 125                   \\    
+0.30                            & 37               \\
+0.40                            & 16                   \\
+0.50                            & 8                         \\
 0.75                            & 2                \\\bottomrule
 \end{tabular}
 \end{table}
@@ -79,7 +76,7 @@ However, aside from satisfying conservation of mass, we must physically insert t
 
 Dense packing of spheres inside a larger sphere is an interesting mathematical problem. \href{http://www.randomwalk.de/sphere/insphr/spisbest.txt}{Hugh Pfoertner} keeps a compiled list of many solutions for a number of particles; many solutions are his are from Gensane.\cite{gensane2003dense}
 
-If we consider, for instance, that a radius ratio of $R_c/R_p = 0.3$ requires 37 particle fragments, then we can also find from Ref.~\cite{gensane2003dense} that 37 particles would have to be of radius 0.2406866 to fit into a single sphere of radius of unity. If we define the particle fragment radius as $R_c$, the original particle as $R_p$, and then radius of sphere necessary to hold the $N$ fragments as $R_N$, we can find a relationship between the volume of sphere $V_p$ and necessary volume $V_N$,
+If we consider, for instance, that a radius ratio of $R_c/R_p = 0.3$ requires 37 particle fragments, then we can also find from Ref.~\cite{gensane2003dense} that 37 particles would have to be of radius 0.2406866 to fit into a single sphere of radius of unity. We defined the particle fragment radius as $R_c$, the original particle as $R_p$, and then radius of sphere necessary to hold the $N_c$ fragments will be $R_N$, we can find a relationship between the volume of sphere $V_p$ and necessary volume $V_N$,
 \begin{equation}
 	r_1^* = \frac{R_c}{R_p}
 \end{equation}
@@ -98,7 +95,7 @@ thus
 
 If we choose a linearly spaced distribution of $r_1^*$ between 0 and 1, we can then find how many $N_c$ particles are necessary to conserve mass, then from the $N_c$ particles we can find from the database of sphere packing solutions the size of sphere that would be necessary to fit the $N_c$ particles. The calculations are carried out and shown in Fig.\ref{fig:volume-ratio}. The data in Ref.~\cite{gensane2003dense} does not go above 72 spheres so we are limited to radius ratios above about $r_1^* > 0.24$.
 
-The plot shows that for particle fragments of reasonable numbers ($N_c\approx 20$), the volume necessary to fit the number of volume-conserving particles is greater than double the volume of the original sphere! 
+The plot shows that for particle fragments of reasonable numbers ($N_c\approx 20$ for $r_1^*\approx 0.3$), the volume necessary to fit the number of volume-conserving particles is greater than double the volume of the original sphere! 
 
 \begin{figure}[!t]
 \centering
@@ -109,6 +106,7 @@ The plot shows that for particle fragments of reasonable numbers ($N_c\approx 20
 
 Therefore from the point of view of having the physical space to insert the fragments, smaller sized fragments is ideal. To insert the few number of large particles would require disrupting the packing in the region of the damaged particle.
 
+Thus we have competing results from the two requirements. Computationally, we desire larger crushed fragments yet we need smaller fragments in order to fit them into the system in a non-disruptive way.
 
 
 \begin{figure}[!ht]
@@ -123,7 +121,7 @@ Therefore from the point of view of having the physical space to insert the frag
 		\includegraphics[width=\textwidth]{chapters/figures/crush-fragments/0.20-2.png}
 		\caption{final}
 	\end{subfigure}
-	\caption{$N_c = 8594$, $N_\text{tot} = 15430$, $R^* = 0.20$. Side view of the packing arrangement and settling for different crush fragment sizes. The small crush fragments migrate far through the height of the bed. The yellow particles are the original pebbles and the blue are fragments inserted into the system after pebble crushing.}
+	\caption{$N_c = 8594$, $N_\text{tot} = 15430$, $r_1^* = 0.20$. Side view of the packing arrangement and settling for different crush fragment sizes. The small crush fragments migrate far through the height of the bed. The yellow particles are the original pebbles and the blue are fragments inserted into the system after pebble crushing.}
 \label{fig:crush-settling-pictures-1}
 \end{figure}
 \begin{figure}[!ht]
@@ -137,7 +135,7 @@ Therefore from the point of view of having the physical space to insert the frag
 		\includegraphics[width=\textwidth]{chapters/figures/crush-fragments/0.25-2.png}
 		\caption{final}
 	\end{subfigure}
-	\caption{$N_c = 4400$, $N_\text{tot} = 11222$, $R^* = 0.25$. Side view of the packing arrangement and settling for different crush fragment sizes. The small crush fragments migrate far through the height of the bed. The yellow particles are the original pebbles and the blue are fragments inserted into the system after pebble crushing.}
+	\caption{$N_c = 4400$, $N_\text{tot} = 11222$, $r_1^* = 0.25$. Side view of the packing arrangement and settling for different crush fragment sizes. The small crush fragments migrate far through the height of the bed. The yellow particles are the original pebbles and the blue are fragments inserted into the system after pebble crushing.}
 \label{fig:crush-settling-pictures-2}
 \end{figure}
 
@@ -153,7 +151,7 @@ Therefore from the point of view of having the physical space to insert the frag
 		\includegraphics[width=\textwidth]{chapters/figures/crush-fragments/0.35-2.png}
 		\caption{final}
 	\end{subfigure}
-	\caption{$N_c = 1603$, $N_\text{tot} = 8393$, $R^* = 0.35$. Side view of the packing arrangement and settling for different crush fragment sizes. The bigger fragments remain largely in place. The yellow particles are the original pebbles and the blue are fragments inserted into the system after pebble crushing.}
+	\caption{$N_c = 1603$, $N_\text{tot} = 8393$, $r_1^* = 0.35$. Side view of the packing arrangement and settling for different crush fragment sizes. The bigger fragments remain largely in place. The yellow particles are the original pebbles and the blue are fragments inserted into the system after pebble crushing.}
 \label{fig:crush-settling-pictures-3}
 \end{figure}
 \begin{figure}[!ht]
@@ -167,12 +165,12 @@ Therefore from the point of view of having the physical space to insert the frag
 		\includegraphics[width=\textwidth]{chapters/figures/crush-fragments/0.50-2.png}
 		\caption{final}
 	\end{subfigure}
-	\caption{$N_c = 550$, $N_\text{tot} = 7358$, $R^* = 0.50$. Side view of the packing arrangement and settling for different crush fragment sizes. The bigger fragments remain largely in place. The yellow particles are the original pebbles and the blue are fragments inserted into the system after pebble crushing.}
+	\caption{$N_c = 550$, $N_\text{tot} = 7358$, $r_1^* = 0.50$. Side view of the packing arrangement and settling for different crush fragment sizes. The bigger fragments remain largely in place. The yellow particles are the original pebbles and the blue are fragments inserted into the system after pebble crushing.}
 \label{fig:crush-settling-pictures-4}
 \end{figure}
 \FloatBarrier
 
-Lastly, in this packing study we look at the displacement of the particle fragments after insertion into the system and as they come to rest in a steady state. In the images of Figs.~\ref{fig:crush-settling-pictures-1},~\ref{fig:crush-settling-pictures-2},~\ref{fig:crush-settling-pictures-3}, and~\ref{fig:crush-settling-pictures-4}, we see the initial packing of new particle fragments (in blue) settle into the interstitial gaps of the packing structure of original pebbles (yellow).
+Lastly, in this packing study we look at the displacement of the particle fragments after insertion into the system and as they come to rest in a steady state. We began with 6~875 particles and randomly crushed 1\%. This was done with a range of fragments of size $r_1^* = [0.20, 0.25, 0.35, 0.50]$. The number of particles inserted followed the from Eq.~\ref{eq:nc-crushed-fragments}. In the images of Figs.~\ref{fig:crush-settling-pictures-1},~\ref{fig:crush-settling-pictures-2},~\ref{fig:crush-settling-pictures-3}, and~\ref{fig:crush-settling-pictures-4}, we see the initial packing of new particle fragments (in blue) settle into the interstitial gaps of the packing structure of original pebbles (yellow).
 
 \begin{figure}[!t]
 \centering
@@ -183,11 +181,11 @@ Lastly, in this packing study we look at the displacement of the particle fragme
 
 The settling of crushing fragments is also visualized in Fig.~\ref{fig:displacement-scatter}. In this figure, the magnitude of displacement for all the crushed fragments is recorded based on the change between initial insertion location and final resting place. The displacement of the fragments is normalized against the height of the pebble bed, $H$. The fragments with $r_1^* = 0.2$ are seen to travel, on average, 10\% of the height of the pebble bed before coming to rest; some of them travel more than the entire height of the bed! In contrast, the particle fragments of size $r_1^* = 0.35$ and $r_1^* = 0.5$ travel only about 1\% of the height of the bed before coming to rest. 
 
-The impression arises that the large displacement magnitudes of the small crush fragments would result in an overall less-dense bed with large increase in packing fraction near the floor where pebbles settle. In Fig.~\ref{fig:fragment-packing-fraction}, the packing fraction of the four different pebble beds is given. 
-
 \begin{figure}[!t]
 \centering
     \includegraphics[width=\singleimagewidth]{chapters/figures/crush-fragments/packing-fraction-height.png}
     \caption{For only 1\% of crushed pebbles, the re-settling of small pebble fragments has a small effect on the overall packing fraction of the pebble bed. In the inset, the main influence is seen in the slight increase of packing fraction within the first pebble radius of the floor.}
     \label{fig:fragment-packing-fraction}
 \end{figure}
+
+From Fig.~\ref{fig:displacement-scatter}, the impression then arises that the large displacement magnitudes of the small crush fragments would result in an overall less-dense bed with large increase in packing fraction near the floor where pebbles settle. However, there is no observable changes to the local packing fraction along the height of the pebble bed. In Fig.~\ref{fig:fragment-packing-fraction}, the packing fraction of the four different pebble beds is given. We chose to only simulate a small percentage of crushed pebbles in these simulations. 
