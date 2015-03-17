@@ -1,0 +1,73 @@
+# from http://www.randomwalk.de/sphere/insphr/spisbest.txt
+1  1.0000000 'common sense'
+2  0.5000000 'common sense'
+3  0.4641016 'Tammes sol.'
+4  0.4494897 'Tammes sol.'
+5  0.4142135 'Tammes sol.'
+6  0.4142135 'Tammes sol.'
+7  0.3859136 'Tammes sol.'
+8  0.3780248 'Tammes sol.'
+9  0.3660254 'Tammes sol.'
+10  0.3530494 'Tammes sol.'
+11  0.3445765 'Tammes sol.'
+12  0.3445765 'Tammes sol.'
+13  0.3333333 'Tammes sol.+0'
+14  0.3235046 'Tammes sol.+0'
+15  0.3183048 'Tammes sol.+0'
+16  0.3109759 'Tammes sol.+0'
+17  0.3056940 'Tammes sol.+0'
+18  0.3012965 'Tammes sol.+0'
+19  0.2953323 'Tammes sol.+0'
+20  0.2878907 'Tammes sol.+0'
+21  0.2868327 'Tammes sol.+0'
+22  0.2793425 'Tammes sol.+0'
+23  0.2756707 'Tammes sol.+0'
+24  0.2713413 'Thierry Gensane'
+25  0.2711918 'Tammes sol.+0'
+26  0.2668513 'Thierry Gensane' / best HP: 0.2668496
+27  0.2622321 'Thierry Gensane'
+28  0.2603055 'Thierry Gensane' / best HP: 0.2603008
+29  0.2579255 'Thierry Gensane'
+30  0.2553306 'Thierry Gensane' / best HP: 0.2553300
+31  0.2531162 'Dave Boll' / best HP: 0.2531141
+32  0.2507874 'Thierry Gensane'
+33  0.2487624 'Thierry Gensane' / best HP: 0.2487614
+34  0.2470527 'Thierry Gensane' / best HP: 0.2470423
+35  0.2448337 'Thierry Gensane' / best HP: 0.2448284
+36  0.2431322 'Thierry Gensane'
+37  0.2406866 'Thierry Gensane' / best HP: 0.2406218
+38  0.2405156 'Thierry Gensane'
+39  0.2367452 'Thierry Gensane' / best HP: 0.2365522
+40  0.2349992 'Thierry Gensane' / best HP: 0.2349756
+41  0.2327559 'Thierry Gensane' / best HP: 0.2326644
+42  0.2321190 'Dave Boll' / best HP: 0.2318415
+43  0.2297330 'Thierry Gensane' / best HP: 0.2293405
+44  0.2281629 'Thierry Gensane' / best HP: 0.2281582
+45  0.2269116 'Thierry Gensane' / best HP: 0.2267410
+46  0.2251681 'Dave Boll' / best HP: 0.2251162
+47  0.2235070 'Thierry Gensane' / best HP: 0.2234820
+48  0.2224059 'Thierry Gensane' / best HP: 0.2223540
+49  0.2212751 'Thierry Gensane' / best HP: 0.2209176
+50  0.2197529 'Thierry Gensane' / best HP: 0.2193485
+51  0.2178888 'HP'
+52  0.2167665 'HP'
+53  0.2157772 'HP'
+54  0.2146846 'HP'
+55  0.2132680 'HP'
+56  0.2126136 'HP'
+57  0.2108661 'HP'
+58  0.2103022 'HP'
+59  0.2096252 'HP'
+60  0.2094269 'HP'
+61  0.2089123 'HP'
+62  0.2058170 'HP'
+63  0.2047140 'HP'
+64  0.2036646 'HP'
+65  0.2027475 'HP'
+66  0.2019158 'HP'
+67  0.2004429 'HP'
+68  0.1997220 'HP'
+69  0.1987922 'HP'
+70  0.1983310 'HP'
+71  0.1969787 'HP'
+72  0.1958001 'HP'

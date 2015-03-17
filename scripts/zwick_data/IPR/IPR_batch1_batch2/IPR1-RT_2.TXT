@@ -1,0 +1,7 @@
+"Maximum force","Unknown"
+"Gage length ",50,"mm"
+"Strain energy","Unknown"
+"Deformation at maximum force","Unknown"
+"Standard travel","Standard force"
+"mm","N"
+0.0,-0.000462586

@@ -1,28 +1,125 @@
-
-\section{Pebble failure modeling}
-\label{sec:failure-discussion}
-Research on pebble failure has been taken up by others in the fusion community (see \cref{sec:failure-discussion}) to predict the onset of pebble crushing as a function of an external pressure and the resulting changes to mechanical properties such as the stress-strain of the pebble bed. 
-
-
-%In modeling pebble failure, there are two main tasks. The first is to develop a model for predicting a pebble failure event; { i.e.} what load (mechanical or thermal) will cause a pebble to crack, shatter, fracture, etc. The second is to develop a model which simulates the failure of that pebble; { i.e.} a scheme to treat a cracked, shattered, or crushed pebble in the assembly. 
-
-The discrete element method has been used for studies in a variety of fields for studying inter-particle forces and the homogeneously distributed force networks that arise in packed beds (for example, see Ref.~\cite{Makse2000}). The discrete element method was also used in the fusion community to attempt to model failure initiation and propagation\cite{Annabattula2012a, Zhao2012, Zhao2013}. They too observed that a relatively few number of high-force networks, distributed troughought the bed supported the external mechanical loads. The even distribution of the force networks was used to defend the development of a probability-based predictor for failure. We make use of the probability argument of Zhao, {et al.} for the current study\cite{Zhao2013}. Their basic premise is that probability distributions of strength curves for pebble crushing have been observed (see, for example crush loads of Ref.~\cite{Tsuchiya1998}). Then in DEM models, a probability distribution of inter-particle forces are also observed. Overlaying the two probabilities resulted in seemingly random locations of pebbles satisfying the failure criteria -- not strictly along the high-force chains running through packed beds.
-
-We apply the theory of Zhao, { et al.} in the following manner. If pebbles fail at random locations, we may de-couple the task of predicting pebble failure ({ i.e.} finding the mechanical or thermal load that causes a pebble to fail) from the task of modeling the ramifications of pebble failure. In our model, we begin with a starting point of a packed bed and then simply flag pebbles at random for `failing'. For our first model of failure, after a pebble has been flagged it is removed from the system entirely. The removal disrupts the meta-static state of the ensemble and the remaining pebbles re-settle. In reality, the ceramic pebbles generally break into just a few large pieces that remain in the system. Under development is a method for recreating that behavior in the DEM domain, it will be reported in future studies.
+\section{Pebble Damage Modeling}\label{sec:failure-study}
+% \cite{Hiramatsu1966}
+% From , 
+% \begin{align*}
+% \sigma_{cr} = \cfrac{2.8}{\pi}\cfrac{F_{cr}}{4R^2}
+% \end{align*}
+Research on pebble damage has been taken up by others in the fusion community to predict the onset of pebble crushing as a function of an external pressure and the resulting changes to mechanical properties such as the stress-strain of the pebble bed.\cite{Annabattula2012a, Zhao2012, Zhao2013} Other fields of engineering have also employed DEM in studies of granular crushing with generally similar modeling approaches.\cite{Marketos2007,Pitchumani2004}
 
 
+In modeling pebble damage, there are two main tasks: predicting when the grain crushes and what happens when it does. For the former, the task is to develop a model for predicting a pebble crushing event; \textit{i.e.} what load (mechanical or thermal) will cause a pebble to crack, shatter, fracture, etc. To tackle the latter is to develop a model which simulates the damage of that pebble; \textit{i.e.} a scheme to treat a cracked, shattered, or crushed pebble in the assembly as small particles, removed particles, or particles with modified material properties.
+
+\begin{figure}[!t]
+\centering
+	\includegraphics[]{chapters/figures/markets-bolton-stress-strain-crushing.jpg}
+	\caption{Stress-strain response of a pebble bed with crushed pebbles. Reproduced from Ref.~\cite{Marketos2007}}
+	\label{fig:marketos-bolton-stress-strain}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+	\includegraphics[]{chapters/figures/annabattula-stress-strain-crushing.jpg}
+	\caption{Stress-strain response of a pebble bed with crushed pebbles. Reproduced from Ref.~\cite{Annabattula2012a}}
+	\label{fig:annabattula-stress-strain}
+\end{figure}
+
+This numerical study will focus on the `what happens' question. In work by Marketos and Bolton, they treated a crushed pebble very similar to Van Lew\etal~; when a pebble was damaged it was removed completely from the assembly.\cite{Marketos2007,VanLew2014} Marketos and Bolton study the stress-strain response of a pebble bed with a predictive crushing routine while we studied the effective thermal conductivity of a damaged pebble bed.
+
+However, the technique of removing a pebble is limited by the fact that energy input into two systems being studied is not comparable. Because we have volumetric energy deposition in our simulations, the total energy pouring into the non-damaged system would be
+\begin{equation}
+	E_h = \frac{q'''_\text{nuc} V_\text{peb} N}{V_\text{bed}}
+\end{equation}
+where $N$ is the total number of pebbles of volume $V_\text{peb}$ that exist in the pebble bed of volume $V_\text{bed}$. After a crushing event, when we remove pebbles, the total amount of energy is
+\begin{equation}
+	E_h' = \frac{q'''_\text{nuc} V_\text{peb} \eta N}{V_\text{bed}}
+\end{equation}
+where $\eta$ is the percent of crushed pebbles. Obviously then, the ratio of the two heating rates is\begin{equation}
+	\frac{E_h'}{E_h} = 1 - \eta
+\end{equation}
+and the energy deposited is not balanced between a virgin bed and one with crushed pebbles. We will attempt to address this issue.
+
+\subsection{Modeling a Crushed Pebble}
+In the DEM framework, we are limited to modeling elastic spheres. If we strictly wish to conserve mass between a solid pebble of radius $R_p$ and the crushed fragments of radius $R_c$, then the number of crushed fragments (spheres) per crushed pebble is
+\begin{equation}
+	N_c = \left(\frac{R_c}{R_p}\right)^{-3}
+\end{equation}
+
+Thus the number of fragments goes like the inverse of radius ratio to the third power and the number of crushed fragments to represent a single crushed pebble increases rapidly as the fragments shrink.
 
 
-Russell, et al. \cite{Russell2009} conclude: the largest contact force acting upon a particle is the primary agent driving the failure of the individual. Based upon the failure criterion developed for brittle materials, crushing of an individual does not directly depend upon the presence or magnitude of any lesser contact forces acting on the particle \emph{ or the material properties of the particle}.
+\begin {table}[htp] %
+\caption{The particle crush fragments, $N_c$, necessary to replace a single crushed particle and obey conservation of mass.}
+\label {tab:rstar-Nc} \centering %
+\begin {tabular}{ cc }
+\toprule
+$R_c/R_p$ 						& $N_c$  				\\\otoprule
+0.2                             & 125                   \\    
+0.25                            & 64                      \\  
+0.3                             & 37.0               \\
+0.35                            & 23.3               \\
+0.4                             & 15.6                    \\
+0.45                            & 11.0                \\
+0.5                             & 8                         \\
+0.75                            & 2.4                \\\bottomrule
+\end{tabular}
+\end{table}
 
 
-From \cite{Pitchumani2004}, 
-\begin{align*}
-\sigma_{cr} = \cfrac{2.8}{\pi}\cfrac{F_{cr}}{4R^2}
-\end{align*}
-
-%Experiments on crushing single, brittle pebbles reveal that there are a number of failure modes\cite{Wu2004}. At one end, the pebble may simply crack and continue to hold a load for some time. At the other extreme, a pebble may crush virtually into a dust. We concern ourselves with the latter for this study. When a pebble in our simulation has been flagged for failure, we remove the pebble completely from the ensemble and then allow the remaining pebbles to rearrange to compensate for the lack of equilibrium on their contact forces. 
 
 
-%\section{Simulation methods}
-%\label{back} 
+
+
+\begin{figure}[!ht]
+	\centering
+	\begin{subfigure}[b]{\imagewidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapters/figures/crush-fragments/0.20-1.png}
+		\caption{$R^* = 0.20$, initial}
+	\end{subfigure}
+	\begin{subfigure}[b]{\imagewidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapters/figures/crush-fragments/0.20-2.png}
+		\caption{$R^* = 0.20$, final}
+	\end{subfigure}
+	
+	\begin{subfigure}[b]{\imagewidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapters/figures/crush-fragments/0.25-1.png}
+		\caption{$R^* = 0.25$, initial}
+	\end{subfigure}
+	\begin{subfigure}[b]{\imagewidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapters/figures/crush-fragments/0.25-2.png}
+		\caption{$R^* = 0.25$, final}
+	\end{subfigure}
+	\caption{The packing arrangement and settling for different crush fragment sizes. The small crush fragments migrate far through the height of the bed.}
+\label{fig:crush-settling-pictures-1}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\begin{subfigure}[b]{\imagewidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapters/figures/crush-fragments/0.35-1.png}
+		\caption{$R^* = 0.35$, initial}
+	\end{subfigure}
+	\begin{subfigure}[b]{\imagewidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapters/figures/crush-fragments/0.35-2.png}
+		\caption{$R^* = 0.35$, final}
+	\end{subfigure}
+
+	\begin{subfigure}[b]{\imagewidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapters/figures/crush-fragments/0.50-1.png}
+		\caption{$R^* = 0.50$, initial}
+	\end{subfigure}
+	\begin{subfigure}[b]{\imagewidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapters/figures/crush-fragments/0.50-2.png}
+		\caption{$R^* = 0.50$, final}
+	\end{subfigure}
+	\caption{The packing arrangement and settling for different crush fragment sizes. The bigger fragments remain largely in place.}
+\label{fig:crush-settling-pictures}
+\end{figure}
+\FloatBarrier

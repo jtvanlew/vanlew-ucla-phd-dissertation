@@ -1,11 +1,11 @@
-\section{Particle dynamics}\label{sec:particle-dynamics}
+\section{Particle Dynamics}\label{sec:particle-dynamics}
 
 The particles in our system are allowed translational and rotational degrees of freedom. In a packed bed, we can restrict our attention to local forces between particles; neglecting, say, non-contact forces such as van der Waals or electrostatic forces. In the first construct, we will treat the particles as if in a vacuum and leave a derivation of fluid interaction forces for \cref{sec:modeling-cfd-dem}.
 
 
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Particle kinematics}
+\subsection{Particle Kinematics}
 
 Assuming we know the contact forces acting upon particle $i$, Newton's equations of motion describe the motion of the particle. The translational and rotational for the translation degrees of freedom:
 
@@ -35,7 +35,7 @@ and the net torque, $\vec{T}_i$, is similarly,
 
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Linear spring-dashpot model}
+\subsection{Linear Spring-Dashpot Model}
 
 When Cundall and Strack first proposed the discrete element method, they used a linear spring-dashpot structure which saw the normal and tangential forces written as,
 
@@ -69,7 +69,7 @@ Similarly to the approach of Hertz (see \cref{sec:hertz-theory}), the surfaces o
 \end{align}
 \end{subequations}
 
-We have a relatively simple approach of calculating the interaction forces between particles with Eq.~\ref{eq:dem-forces} based on the kinematics of velocity and position of the interacting particles from Eq.~\ref{eq:dem-velocities} and Eq.~\ref{eq:dem-overlaps}, respectively. As the DEM evolved and drew the attention of more researchers, more complex formulas governing the forces of Eq.~\ref{eq:dem-forces} emerged. But the core approach remained the same and the models all fall into the same family of so-called `soft particle' models of DEM. A well-composed summary of the different DEM force models is given by Zhu et al\cite{Zhu2007}.
+We have a relatively simple approach of calculating the interaction forces between particles with Eq.~\ref{eq:dem-forces} based on the kinematics of velocity and position of the interacting particles from Eq.~\ref{eq:dem-velocities} and Eq.~\ref{eq:dem-overlaps}, respectively. As the DEM evolved and drew the attention of more researchers, more complex formulas governing the forces of Eq.~\ref{eq:dem-forces} emerged. But the core approach remained the same and the models all fall into the same family of so-called `soft particle' models of DEM. A well-composed summary of the different DEM force models is given by Zhu\etal\cite{Zhu2007}.
 
 The method used in our work is fit into the computational skeleton of Cundall and Strack's method but with non-linear spring-dashpot coefficients defined by simplified Hertz-Mindlin-Deresiewicz model; the details will be expressed in the next section.
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -77,7 +77,7 @@ The method used in our work is fit into the computational skeleton of Cundall an
 
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Hertzian non-linear spring dashpot model}
+\subsection{Hertzian Non-Linear Spring Dashpot Model}
 
 The normal-direction (Hertz) stiffness coefficient of Eq.~\ref{eq:normal-force} is based on the Hertzian contact laws given in \cref{sec:hertz-theory}. The tangential-direction (Mindlin) stiffness coefficient follows from Brilliantov\cite{Brilliantov1996, Zhu2007, Langston1995},
 
@@ -115,7 +115,7 @@ with $\beta_\text{damp}$ as the damping ratio, and the pair mass, $\frac{1}{m^*}
 
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Time integration}\label{sec:velocity-verlet}
+\subsection{Time Integration}\label{sec:velocity-verlet}
 
 Having expressed the contact mechanics of the discrete element method, we now need a means of integrating the kinematics of the particles. The most common means of marching in time with DEM is the velocity-Verlet algorithm\cite{Kruggel-Emden2008}. In this algorithm we integrate Eqs.~\ref{eq:newtons-second} with half-steps in velocity, full steps in position, and then finally the complete step in velocity (the two half-steps in velocity are often compressed into a single, full step, as we will do below). Here we will explicitly show the integration for the translational degrees of freedom. 
 
