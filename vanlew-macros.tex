@@ -31,6 +31,16 @@
 \newcommand{\etal}{ \textit{et al.}}
 
 
+\newlength{\singleimagewidth} 
+\setlength{\singleimagewidth}{0.7\textwidth}
+\newlength{\doubleimagewidth} 
+\setlength{\doubleimagewidth}{0.45\textwidth}
+
+
+
+
+
+
 
 
 
@@ -52,3 +62,35 @@
 %   mark coordinate/.style={inner sep=0pt,outer sep=0pt,minimum size=3pt,
 %     fill=black,circle}%
 % }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\makeatletter
+\newcommand{\crefnames}[3]{%
+  \@for\next:=#1\do{%
+    \expandafter\crefname\expandafter{\next}{#2}{#3}%
+  }%
+}
+\makeatother
+
+\setcounter{secnumdepth}{100}
+
+\crefnames{part,chapter,section}{\S}{\S\S}
+\crefnames{paragraph,subparagraph}{\P}{\P\P}
+
+% this command gives control of image widths so many can be changed at once
+% instead of doing them individually.
