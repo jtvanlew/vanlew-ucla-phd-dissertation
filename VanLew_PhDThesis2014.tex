@@ -3,58 +3,32 @@
 \input{packages-macro.tex}
 \input{vanlew-macros}                        % personal LaTeX macros
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                                                      %
-%                          PRELIMINARY PAGES                           %
-%                                                                      %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \title          {Shitty Dissertation Title}
 \author         {Jon Thomas Van Lew}
 \department     {Mechanical Engineering}
 \degreeyear     {2015}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \chair{Mohamed Abdou}
 \member{Alice Ying}
 \member{Adrienne Lavine}
 \member{Nasr Ghoniem}
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %\dedication     {\textsl{To My loved ones \ldots without \\
 %                whom I could not find the will\\
 %      and courage to do this}}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \acknowledgments {I did it all on my own}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \vitaitem {2005} {B.S., Mechanical Engineering, Cum Laude\\ University of Arizona\\ Tucson, AZ}
-
 \vitaitem {2010} {M.S., Mechanical Engineering \\ University of Arizona \\ Tucson, AZ}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \abstract{It's all crap}
 
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\makeintropages
-
-
 
 %\mymaketitlepages              % Thesis Title Page
 %\mymakecopyrightpage           % Copyright Page
@@ -76,11 +50,9 @@
 %\pagenumbering{arabic}
 %\setcounter{page}{1}
 
-
 % Reference sections
 \part{Introduction and Motivation}
 \input{chapters/introduction.tex}
-
 
 % Literature Review
 \part{Literature Review}
@@ -88,15 +60,13 @@
 \input{chapters/survey-background-analysis.tex}
 \input{chapters/survey-packed-bed.tex}
 
-
 % Methodology
-\part{Development of Modeling Tools for Pebble Bed Morphological Evolution Study}
+\part{Development of Modeling Tools for Pebble Bed Morphological Evolution Studies}
 \input{chapters/modeling-dem.tex}
 \input{chapters/modeling-cfd-dem.tex}
 \input{chapters/modeling-lbm.tex}
 \input{chapters/studies-background-experiments.tex}
 \input{chapters/studies-background-numerics.tex}
-
 
 % Case studies
 \part{Studies of Pebble Bed Thermophysics, Mechanics, \&  Morphological Changes}
@@ -105,7 +75,6 @@
 \input{chapters/studies-lbm.tex}
 \input{chapters/studies-applied.tex}
 
-
 \part{Future Work}
 
 \part{Appendices}
@@ -113,6 +82,7 @@
 \input{appendices/analytic-sphere-heat-generation.tex}
 \input{appendices/solid-breeder-history.tex}
 \input{appendices/dem-studies-stability.tex}
+
 
 \bibliographystyle{plain}
 \bibliography{library.bib}
