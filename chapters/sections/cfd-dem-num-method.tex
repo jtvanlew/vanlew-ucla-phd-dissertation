@@ -33,8 +33,8 @@ where $r^*$ is the non-dimensional distance from the wall; here it is defined in
 \[
     a= 
 \begin{cases}
-    7.383 - \cfrac{2.932}{\alpha - 9.864}, & \text{if }~ \alpha \geq 13\\
-    8.243 - \cfrac{12.98}{\alpha + 3.156}, & \text{if} ~13 \geq \alpha \geq 2.61
+    7.383 - \cfrac{2.932}{\alpha - 9.864}, & \text{if }\  \alpha \geq 13\\
+    8.243 - \cfrac{12.98}{\alpha + 3.156}, & \text{if} \ 13 \geq \alpha \geq 2.61
 \end{cases}
 \]
 then
@@ -71,14 +71,14 @@ From Eqs.~\ref{eq:interphase-momentum} and~\ref{eq:interphase-energy}, we have a
 
 \subsection{Volume-averaged Thermofluid Flow}
 
-The gas phase flow field will be treated with volume-averaging theory (VAT).\cite{Sbutega2013,whitaker1999method,Tsuji1992} The VAT allows treatment of complex porous flows with smooth continuous equations. In the VAT, we average over a discrete space to replace complex geometry with a fictitious, smooth, continuous medium in which quantities of interested are defined independently of whether specific locations in that space are, for instance, solid or gas.
+The gas phase flow field will be treated in a method analogous to the approach of volume-averaging theory (VAT).\cite{Sbutega2013,whitaker1999method,Tsuji1992} The VAT allows treatment of complex porous flows with smooth continuous equations. In the VAT, we average over a discrete space to replace complex geometry with a fictitious, smooth, continuous medium in which quantities of interested are defined independently of whether specific locations in that space are, for instance, solid or gas.
 
 In this formulation of the gas flow, we discretize the gas space with cells that are much larger than the individual particles; in the application of our CFD-DEM coupling, this meant approximately 5~6 particles per cell. With VAT, the particles themselves are not resolved in the fluid space but are simply introduced via closure terms.\cite{Sbutega2013,Horvat2006} Derivation of the governing equations of VAT can be found in Sbutega \& Catton\cite{Sbutega2013}. The momentum and energy of a fluid flow through a solid phase with volume-averaged Navier-Stokes and energy equations are applied to each cell, $k$, in the discretized fluid space,
-\begin{subequations}
+\begin{subequations}\label{eq:cfd-equations}
 \begin{align}
 \pder[\epsilon_k \rho_f]{t} + \nabla\cdot(\epsilon_k u_f \rho_f) &= 0\\
 \pder[\epsilon_k u_f]{t} + \nabla\cdot(\epsilon_k u_f u_f) &= -\frac{\epsilon_k}{\rho_f}\nabla P_f + \nabla\cdot\left(\nu_f\epsilon_k\nabla u_f\right) - \frac{S_k}{\rho_f}\\
-\pder[\epsilon_k T_f]{t} + \nabla\cdot(\epsilon_k u_f T_f) &= \nabla\left(\epsilon_k\epsilon\nabla T_f\right)-\frac{E_k}{\rho_fC_f}
+\pder[\epsilon_k T_f]{t} + \nabla\cdot(\epsilon_k u_f T_f) &= \nabla\left(\epsilon_k\nabla T_f\right)-\frac{E_k}{\rho_fC_f}
 \end{align}
 \end{subequations}
 
@@ -91,13 +91,63 @@ where the fluid void fraction is the complement of the solid packing fraction, $
 Coupling the fluid phase to the particles happens with the sink terms in momentum and energy of $S_k$ and $E_k$, respectively. They are volume-weighted sums of the drag forces and energy exchanges, respectively, for all particles in the discretized fluid cell,
 \begin{subequations}
 \begin{align}
-	S_k &= \frac{1}{V_k}\sum_{\forall i \in k} \beta_i V_i \Delta u_{if}\\
+	S_k &= \frac{1}{V_k}\sum_{\forall i \in k} \beta_i V_i \Delta u_{if} \label{eq:cfd-mom-source}\\
 	E_k &= \frac{1}{V_k}\sum_{\forall i \in k} \beta_{E,i} A_i \Delta T_{if}
 \end{align}
 \end{subequations}
 The inter-phase momentum and energy exchange coefficients act as the communicators between the particle information from the DEM solver and the fluid fields from CFD. Thus the motion and energy of the fluid field are intimately coupled with the particle positions and energy, but computational time is preserved by only considering volume-averaged values in the fluid domain. %The cross-communication between fluid and solid is accomplished with a coupling routine that is explained in detail in Refs. 11, 12.
 
 
-\subsection{Discussion of Methodology}
-Discussion of three sets of governing equations\cite{Zhou2010}
-Since the introduction of the CFD-DEM coupling methodology by Tsuji\etal~in 1993 and then Hoomans\etal~in 1996, many researchers have adopted the approach when particle-scale information of granular and fluidized beds is important.\cite{Tsuji1993,Hoomans1996} Fluidized beds have many industrial applications and are most often studied with coupled CFD-DEM tools. Review papers \cite{Zhu2007} and \cite{Deen2007}
+
+
+
+\subsection{Lagrangian-Eulerian Mapping Calculations of Porosity}
+\begin{figure}[t]
+	\centering
+	\caption{The dashed line represents a computational cell in which exist many particles. The particles with centroids inside the cell are shaded red.}
+	\includegraphics[width=\singleimagewidth]{chapters/figures/void-fraction-cell.pdf}\label{fig:centroid-void-fraction}
+\end{figure}
+The simplest method for calculating the porosity of a CFD computational cell is to map all the DEM particles into the Eulerian volume via their centroid. We refer to this simple technique as the particle centroid method; in spite of its simplicity it is often used for large cell-to-particle volume ratios.\cite{Xu1997} A two-dimensional demonstration of the centroid technique is given in Fig.~\ref{fig:centroid-void-fraction}. In this figure, we see a computational cell (dashed line) in which many particles exist either partially or fully. The particles shaded in red have their centers located inside the cell and therefore have their entire volume contribute to the calculation of the porosity. The porosity is calculated as
+\begin{equation}
+	\epsilon_\text{cell} = 1-\frac{1}{V_\text{cell}}\sum_{i = A}^{i=L}V_{p,i}
+\end{equation}
+where $V_{p,i}$ is the volume of particle $i$. As the cell size begins to approach the size of the particle, erroneous calculations of porosity arise. This is visible, for instance, by particle A in Fig.~\ref{fig:centroid-void-fraction}. This particle has only a quarter of its volume inside the cell but the porosity of the cell is computed as if the entire particle existed inside. Hoomans\etal~recognized this limitation of the centroid method and introduced a fractional volume method.\cite{Hoomans1996} The porosity is found as
+\begin{equation}
+	\epsilon_\text{cell} = 1-\frac{1}{V_\text{cell}}\sum_{i = A}^{i=L}f_iV_{p,i}
+\end{equation}
+where $f_i$ is the fraction of the particle in the Eulerian cell. A similar approach taken by Kloss\etal~is the divided technique.\cite{Kloss2012} In this technique, the spherical particle is artificially divided into a number of regions with markers indicating their location. For example, see now how particle A is treated in Fig.~\ref{fig:centroid-void-fraction-divided}. Instead of searching for centroids of particles, each particle has a search through the marker points (the black dots drawn in Pebble A) and the volume of that section of the sphere is assigned to whichever cell it falls inside. 
+\begin{figure}[t]
+	\centering
+	\caption{The dashed line represents a computational cell in which exist many particles. The particles with centroids inside the cell are shaded red.}
+	\includegraphics[width=\singleimagewidth]{chapters/figures/void-fraction-divided-cell.pdf}\label{fig:centroid-void-fraction-divided}
+\end{figure}
+
+As the computational cell volume approaches the size of a single particle $V_\text{cell}\rightarrow V_p$, the centroid and divided techniques break down. A technique introduced by Link\etal~treats the particle as a porous cube and allows computations when a cell is completely occupied by only a single particle.\cite{Link2005} Peng\etal~offer an an analytic technique as well as guidelines for validity of either analytic or centroid techniques.\cite{Peng2014} In this work, we will always apply the divided technique of Kloss\etal~based on the geometry of our packed bed flow and the guidelines established by Peng\etal.\cite{Kloss2012,Peng2014}
+
+
+\subsection{Eulerian-Lagrangian Mapping Calculations of Force and Energy}
+Once the fluid momentum and energy fields are calculated in the Eulerian grid, the coupled inter-phase exchange coefficients must map the velocities and temperatures onto the particles in the Lagrangian DEM framework. A particle centroid method is always used in the exchange onto the particles. Referencing Fig.~\ref{fig:centroid-void-fraction}, the velocity and temperature of the dashed cell is mapped only onto the particles highlighted in red. The approach has been used successfully by others.\cite{Xu1997,Link2005,Kloss2012}
+
+
+
+
+
+
+
+\section{Discussion of CFD-DEM Governing Equations}
+Early work on gas-particle flow models treated the solid and gas phases as two inter-penetrating continuum. The solid and gas were treated with the so-called two fluid model (TFM) by Anderson \& Jackson in 1967.\cite{Anderson1967} The TFM approach is similar to the VAT approach in that the fluid computational cell is sufficiently large to include many individual particles but still smaller than the size of the system.\cite{Enwald1996} The governing equations of TFM are fundamentally similar to Eqs.~\ref{eq:cfd-equations} but required constitutive equations for closure between the fluid and solid phases. Zhou\etal~show the equivalence of the governing equations of TFM and CFD-DEM.\cite{Zhou2010} The essential difference is that the issue of closure is removed with the information from DEM providing direct coupling to the fluid phase.
+
+Since the introduction of the CFD-DEM coupling methodology by Tsuji\etal~in 1993 and then Hoomans\etal~in 1996, many researchers have adopted the approach when particle-scale information of granular and fluidized beds is important.\cite{Tsuji1993,Hoomans1996} Fluidized beds have many industrial applications and are most often studied with coupled CFD-DEM tools. A short example of work can be found in Refs.~\cite{Xu1997,Patankar2001,Swasdisevi2005,Deen2007,Zhang2008,Chu2008,VanBuijtenen2011,Gruber2012,Peng2014}
+
+Noting the growth in application of CFD-DEM, a systematic review of the theoretical developments behind different particular system models was given by Zhu\etal. In the chemical engineering textbook of Gidaspow, two formulations of the governing equations (labeled as Model A and Model B) are noted.\cite{gidaspow1994multiphase} Both of these models have been implemented somewhat interchangeably in CFD-DEM simulations. As pointed out by Zhu\etal, the two models differ by their treatment of the pressure drop. In Model A, the pressure drop on the system is jointly shared by the gas and solid phases. In Model B, it is only the gas phase which directly experiences the effects of pressure drop. Therefore, the two models have different forms of coupling source term, $S_k$ (see Eq.~\ref{eq:cfd-mom-source}). The source of Model B is related to that of Model A as $S_k^B = S_k^A/\epsilon - \rho_f\phi g$.
+
+However, as is shown by Zhou\etal, there is a built-in assumption to Model B which is typically overlooked in the implementation of CFD-DEM. For an accelerating fluid, there is an added-mass in the momentum equation. In the derivation of Model B, it is tacitly assumed that the fluid is steady which is not generally valid.\cite{Zhou2010} Nevertheless, the proliferation of Model B is due to the ease in numerical implementation and, except for some situations, Model B is numerically similar to Model A for most cases studied in CFD-DEM simulations.\cite{Zhou2010} In the simulations of packed beds for tritium breeding, we choose to implement Model B as it is valid for any of the flow scenarios ever experienced by the ceramic pebble bed.
+
+
+
+
+
+
+
+% Stability
+% viscous momentum does not propagate approximately more than one cell in a single timestep. If a characteristic time, $T$, is resolved with $M$ steps, then a fluid packet will travel a distance of $L$ at velocity $U$, $TU = L$. 
