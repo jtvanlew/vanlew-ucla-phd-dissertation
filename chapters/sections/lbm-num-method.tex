@@ -1,0 +1,9 @@
+\section{Numerical Methodology}
+
+The distribution function at a given node is explicitly updated in time in two steps: collision and streaming. In the first step, collision operator of Eq.~\ref{eq:bgk-operator} dictates the distribution function at all the nodes. In the second step, information is streamed for the timestep to neighboring nodes according to Eq.~\ref{eq:lbm-evolution}.
+
+The collision operator for the thermal lattice is that given by Guo, et al.17 The solver has two lattices overlaid upon each other. The first is used to solve for density and velocity. The second lattice uses the velocity at each node and solves for the passive temperature scalar. 
+
+For our model we represented the pebbles with a resolution of 10 nodes per diameter. For the system analyzed, this resulted in two lattices that have nodal sizes of 201×151×501; requiring, in a total, about 30 million nodes to be updated at each time step.
+
+In the DEM-LBM approach, DEM is used only to determine packing structure and contact forces. When the bed is settled, a snapshot of the structure is discretized and loaded into the LBM solver which then calculates temperature and velocity fields of both solid and fluid phases. There is no cross-communication in this technique as the packing structure is effectively frozen during the LBM calculations.

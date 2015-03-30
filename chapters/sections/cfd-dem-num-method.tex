@@ -89,7 +89,7 @@ The packing fraction in any fluid cell is calculated by summing through all the 
 where the fluid void fraction is the complement of the solid packing fraction, $\epsilon = 1 - \phi$. 
 
 Coupling the fluid phase to the particles happens with the sink terms in momentum and energy of $S_k$ and $E_k$, respectively. They are volume-weighted sums of the drag forces and energy exchanges, respectively, for all particles in the discretized fluid cell,
-\begin{subequations}
+\begin{subequations}\label{eq:cfd-sources}
 \begin{align}
 	S_k &= \frac{1}{V_k}\sum_{\forall i \in k} \beta_i V_i \Delta u_{if} \label{eq:cfd-mom-source}\\
 	E_k &= \frac{1}{V_k}\sum_{\forall i \in k} \beta_{E,i} A_i \Delta T_{if}
@@ -101,7 +101,7 @@ The inter-phase momentum and energy exchange coefficients act as the communicato
 
 
 
-\subsection{Lagrangian-Eulerian Mapping Calculations of Porosity}
+\subsection{Lagrangian-Eulerian Mapping Calculations of Porosity}\label{sec:lag-eul-mapping}
 \begin{figure}[t]
 	\centering
 	\caption{The dashed line represents a computational cell in which exist many particles. The particles with centroids inside the cell are shaded red.}
@@ -115,7 +115,7 @@ where $V_{p,i}$ is the volume of particle $i$. As the cell size begins to approa
 \begin{equation}
 	\epsilon_\text{cell} = 1-\frac{1}{V_\text{cell}}\sum_{i = A}^{i=L}f_iV_{p,i}
 \end{equation}
-where $f_i$ is the fraction of the particle in the Eulerian cell. A similar approach taken by Kloss\etal~is the divided technique.\cite{Kloss2012} In this technique, the spherical particle is artificially divided into a number of regions with markers indicating their location. For example, see now how particle A is treated in Fig.~\ref{fig:centroid-void-fraction-divided}. Instead of searching for centroids of particles, each particle has a search through the marker points (the black dots drawn in Pebble A) and the volume of that section of the sphere is assigned to whichever cell it falls inside. 
+where $f_i$ is the fraction of the particle in the Eulerian cell. A similar approach taken by Kloss\etal~ and Zhao \& Shan is the divided technique.\cite{Kloss2012,Zhao2013a} In this technique, the spherical particle is artificially divided into a number of regions with markers indicating their location. For example, see now how particle A is treated in Fig.~\ref{fig:centroid-void-fraction-divided}. Instead of searching for centroids of particles, each particle has a search through the marker points (the black dots drawn in Pebble A) and the volume of that section of the sphere is assigned to whichever cell it falls inside. 
 \begin{figure}[t]
 	\centering
 	\caption{The dashed line represents a computational cell in which exist many particles. The particles with centroids inside the cell are shaded red.}
