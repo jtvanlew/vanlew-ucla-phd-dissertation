@@ -96,3 +96,13 @@
 
 % this command gives control of image widths so many can be changed at once
 % instead of doing them individually.
+
+
+
+
+
+
+\newcommand{\myPart}[1]{%
+  \part{#1}%
+  \addtocontents{toc}{\vskip-6pt\par\noindent\protect\hrulefill\par}
+}

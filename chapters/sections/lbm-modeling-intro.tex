@@ -167,7 +167,14 @@ The lattice weights, $w_i$ are necessary to account for the different vector len
 
 
 \subsection{Boundary Conditions}
-Implementation of no-slip boundary conditions at the wall in the lattice-Boltzmann method are direct descendants of the schemes from lattice gas automata: a bounce-back scheme. In the scheme, lattice nodes that at the boundary have particle directions that point into the wall. For example, see $f_3$, $f_6$, and $f_7$ in Fig.~\ref{}. In this configuration, as particles stream into the wall, their distributions are scattered back in equal and opposite directions (see the right image of Fig.~\ref{}). Computationally, the bounce-back scheme is very attractive for the simplicity of implementing the method even in complex geometries. A fact which makes the use in LBM particularly attractive for packed bed simulations.\cite{Chen1998a} The bounce-back scheme has been shown to be first-order accurate for most three-dimensional flows, degrading the other-wise second order accuracy of the fluid bulk calculations.\cite{Zou1997,Chen1998a} To combat the loss in accuracy, several modifications to the bounce-back scheme have been proposed (see Ref.~\cite{Chen1998a}). However, for the porous flow to be studied in ceramic pebble beds, it suffices to implement the bounce-back boundary condition to enforce no-slip.\cite{Chen1998a,Luo2003a}
+Implementation of no-slip boundary conditions at the wall in the lattice-Boltzmann method are direct descendants of the schemes from lattice gas automata: a bounce-back scheme. In the scheme, lattice nodes that at the boundary have particle directions that point into the wall. For example, see $f_4$, $f_7$, and $f_8$ in Fig.~\ref{fig:wall-lattice-bc}. In this configuration, as particles stream into the wall, their distributions are scattered back in equal and opposite directions. Computationally, the bounce-back scheme is very attractive for the simplicity of implementing the method even in complex geometries. A fact which makes the use in LBM particularly attractive for packed bed simulations.\cite{Chen1998a} The bounce-back scheme has been shown to be first-order accurate for most three-dimensional flows, degrading the other-wise second order accuracy of the fluid bulk calculations.\cite{Zou1997,Chen1998a} To combat the loss in accuracy, several modifications to the bounce-back scheme have been proposed (see Ref.~\cite{Chen1998a}). However, for the porous flow to be studied in ceramic pebble beds, it suffices to implement the bounce-back boundary condition to enforce no-slip.\cite{Chen1998a,Luo2003a}
+
+\begin{figure}[t]
+	\centering
+	\caption{Sketch of the D2Q9 nodes; showing at the boundary the distribution functions that would come from neighbors outside the boundary (in the solid) are unknown (reproduced from Ref.~\cite{Parmigiani2011}).}
+	\includegraphics[width=\singleimagewidth]{chapters/figures/lbm/wall-lattice-bc}\label{fig:wall-lattice-bc}
+\end{figure}
+
 
 To treat velocity or pressure boundary conditions, we use the technique of Zou \& He.\cite{Zou1997} They proposed extending the bounce-back condition to the non-equilibrium distribution function in the direction normal to the boundary. The approach allows closure of the algebraic calculation of distribution functions when we have a known, physical, velocity or pressure (see Eqs.~\ref{eq:lbm2physical}). We note again that, in lattice units, determination of density is equivalent to determination of pressure via the ideal gas pressure law. Zou \& He showed the approach provides second-order accurate results.\cite{Zou1997} 
 
@@ -184,7 +191,7 @@ To treat velocity or pressure boundary conditions, we use the technique of Zou \
 
 \subsection{Thermal LBM}
 
-Thus far the lattice-Boltzmann formulation allows us to calculate mass and momentum transport of a fluid. But in the packed beds of fusion reactors, the transport of energy in the system is of utmost importance. To handle the thermal equations in the lattice-Boltzmann framework, we use the model of Guo\etal.\cite{Guo2002} Guo\etal~introduced a second lattice upon which the distribution functions for temperature resided. The temperature distribution evolved with a coupling to the velocity distribution on the lattice solving the Navier-Stokes equations. The temperature was linked back to the Navier-Stokes lattice with a Boussinesq assumption that introduced a body force term to the fluid.\cite{Guo2002} Guo\etal~referred to their approach at the Coupled Lattice BGK (CLBGK) method.
+Thus far the lattice-Boltzmann formulation allows us to calculate mass and momentum transport of a fluid. But in the packed beds of fusion reactors, the transport of energy in the system is of utmost importance. To handle the thermal equations in the lattice-Boltzmann framework, we use the model of Guo\etal.\cite{Guo2002} Guo\etal~introduced a second lattice upon which the distribution functions for temperature resided. The temperature distribution evolved with a coupling to the velocity distribution on the lattice solving the Navier-Stokes equations. The temperature was linked back to the Navier-Stokes lattice with a Boussinesq assumption that introduced a body force term to the fluid.\cite{Guo2002} Guo\etal~referred to their approach at the Coupled Lattice BGK (CLBGK) method. 
 
 On the thermal lattice in the CLBGK method, the temperature is a passive scalar that is transported by the velocity (it is specified at each node corresponding to the overlapped nodes from lattice solving the Navier-Stokes equations). Therefore, the density of the Navier-Stokes lattice is equivalent to the temperature on the thermal lattice. The thermal lattice BGK equation is analagous to Eq.~\ref{eq:lbm-bgk},
 \begin{equation}\label{eq:lbm-thermal-bgk}
@@ -195,8 +202,15 @@ where we have a second relaxation time for the thermal lattice, $\tau_T$. The te
 	T = \sum_i^q T_i
 \end{equation}
 
-A multi-scale expansion of Eq.~\ref{eq:lbm-thermal-bgk} can show that it is equivalent to the temperature form of the continuous energy conservation equation.\cite{Guo2002} 
+A multi-scale expansion of Eq.~\ref{eq:lbm-thermal-bgk} can show that it is equivalent to the temperature form of the continuous energy conservation equation.\cite{Guo2002} For the transport of the passive scalar, we can use a D3Q7 lattice which is sufficient to model the advection-diffusion of temperature.\cite{Latt2007,Parmigiani2011}), For such a lattice, the speed of sound is $c^2_{s,ad} = \frac{1}{2}$. We use a linear equilibrium function for $T_i^\eq$,
+\begin{equation}
+	T_i^\eq = w_i T (1+\frac{\vec{c}_i\cdot\vec{u}}{c_s^2})
+\end{equation}
 
+The thermal diffusivity (analogous to the viscosity in the momentum lattice) is 
+\begin{equation}
+	\alpha_{lb} = c_{s,ad}^2(\tau_{ad} - \frac{1}{2})
+\end{equation}
 % The coupling from temperature to density via the Boussinesq assumption is done with the addition of a body force term, $g_i$ to the Navier-Stokes' BGK equation,
 % \begin{equation}
 % 	f_i^\eq = \rho(\vec{x},t)w_i\left[1+\frac{\vec{u}\cdot\vec{c}_i}{c_s^2} + \frac{(\vec{u}\cdot\vec{c}_i)^2}{2c_s^4} - \frac{\vec{u}^2}{2c_s^2} \right] + g_i
@@ -207,3 +221,11 @@ A multi-scale expansion of Eq.~\ref{eq:lbm-thermal-bgk} can show that it is equi
 % \end{equation}
 
 Thermal boundary conditions are handled via a decomposition of the boundary nodes into equilibrium and non-equilibrium parts and the values of the node extrapolated from neighboring nodes. Details of the precise equations can be found in the paper by Guo\etal.\cite{Guo2002}
+
+
+
+
+
+
+\subsection{LBM for Porous Flow}
+The lattice-Boltzmann technique, because of its incredibly simple implementation of no-slip boundary conditions for even the most complex geometry, was immediately seen as a powerful option of fluid modeling in porous networks. Chen \& Doolen review many of the major accomplishments of implementing LBM models which verified Darcy's Law, the Cozeny-Karman equation, and Brinkmann equation among other efforts.\cite{Chen1998a} Pan\etal~evaluated the single-relaxation time BGK operator against models with multiple relaxation times as well as the differences with implemented various fluid-solid interface boundary conditions -- among which was the bounce-back scheme we use here.\cite{Pan2006}
