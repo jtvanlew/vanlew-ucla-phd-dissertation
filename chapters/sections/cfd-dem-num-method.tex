@@ -6,9 +6,9 @@ Researchers of ceramic pebble beds for fusion reactors are concerned with damage
 
 The numerical framework behind the discrete element was given in \cref{sec:particle-dynamics}. In the DEM model, each pebble obeys Newton's equations of motion. As the fluid passes through the packed bed of pebbles, it imparts a force on each individual pebble which cumulatively total to the pressure drop across the bed. To include the influence of helium, we simply augment the the linear momentum of Eq.~\ref{eq:newton-translational} to include the drag force of the fluid on the particle. The momentum balance of our Lagrangian-tracked pebble now reads,
 \begin{equation}\label{eq:cfdem-dem-momentum}
-	m_i  \ddt{\vec{r}_i} = m_i\vec{g} + \vec{f}_i + \beta_i V_i \Delta u_{if}
+	m_i  \ddt{\vec{r}_i} = m_i\vec{g} + \vec{f}_i + \beta_i V_i \Delta \vec{u}_{if}
 \end{equation}
-where all but the last term is identical to Eq.~\ref{eq:newton-translational} but the last term accounts for the fluid. $\Delta u_{if} = u_f - u_i$, is the relative velocity between the fluid and pebble, $i$, and the inter-phase momentum exchange coefficient, $\beta_i$, acts upon the entire pebble volume, $V_i$. 
+where all but the last term is identical to Eq.~\ref{eq:newton-translational} but the last term accounts for the fluid. $\Delta \vec{u}_{if} = \vec{u}_f - u_i$, is the relative velocity between the fluid and pebble, $i$, and the inter-phase momentum exchange coefficient, $\beta_i$, acts upon the entire pebble volume, $V_i$. 
 
 Similarly, as the helium of temperature $T_f$ passes over the particle at temperature $T_i$, energy will be exchanged. For consistency with the momentum equation, we introduce an inter-phase energy exchange coefficient (a renaming of the heat transfer coefficient) which we assume to be constant for the entire surface of the particle. The energy balance of the particle was given in Eq.~\ref{eq:thermoFirstLaw}. After adding the inter-phase energy exchange coefficient, it now reads,
 \begin{equation}\label{eq:cfdem-dem-energy}
@@ -76,22 +76,22 @@ The gas phase flow field will be treated in a method analogous to the approach o
 In this formulation of the gas flow, we discretize the gas space with cells that are much larger than the individual particles; in the application of our CFD-DEM coupling, this meant approximately 5~6 particles per cell. With VAT, the particles themselves are not resolved in the fluid space but are simply introduced via closure terms.\cite{Sbutega2013,Horvat2006} Derivation of the governing equations of VAT can be found in Sbutega \& Catton\cite{Sbutega2013}. The momentum and energy of a fluid flow through a solid phase with volume-averaged Navier-Stokes and energy equations are applied to each cell, $k$, in the discretized fluid space,
 \begin{subequations}\label{eq:cfd-equations}
 \begin{align}
-\pder[\epsilon_k \rho_f]{t} + \nabla\cdot(\epsilon_k u_f \rho_f) &= 0\\
-\pder[\epsilon_k u_f]{t} + \nabla\cdot(\epsilon_k u_f u_f) &= -\frac{\epsilon_k}{\rho_f}\nabla P_f + \nabla\cdot\left(\nu_f\epsilon_k\nabla u_f\right) - \frac{S_k}{\rho_f}\\
-\pder[\epsilon_k T_f]{t} + \nabla\cdot(\epsilon_k u_f T_f) &= \nabla\left(\epsilon_k\nabla T_f\right)-\frac{E_k}{\rho_fC_f}
+\pder[\epsilon_k \rho_f]{t} + \nabla\cdot(\epsilon_k \vec{u}_f \rho_f) &= 0\\
+\pder[\epsilon_k \vec{u}_f]{t} + \nabla\cdot(\epsilon_k \vec{u}_f \vec{u}_f) &= -\frac{\epsilon_k}{\rho_f}\nabla P_f + \nabla\cdot\left(\nu_f\epsilon_k\nabla \vec{u}_f\right) - \frac{S_k}{\rho_f}\\
+\pder[\epsilon_k T_f]{t} + \nabla\cdot(\epsilon_k \vec{u}_f T_f) &= \nabla\left(\epsilon_k\nabla T_f\right)-\frac{E_k}{\rho_fC_f}
 \end{align}
 \end{subequations}
 
-The packing fraction in any fluid cell is calculated by summing through all the volumes of $k$ particles located in that cell
+The packing fraction in any fluid cell is calculated by summing through all the volumes of particles located in cell $k$,
 \begin{equation}
-	\phi_k = \sum_{i=1}^k \frac{V_{p,i}}{\Delta V_k}
+	\phi_k = \frac{1}{V_k}\sum_{\forall i \in k} V_{p,i}
 \end{equation}
 where the fluid void fraction is the complement of the solid packing fraction, $\epsilon = 1 - \phi$. 
 
 Coupling the fluid phase to the particles happens with the sink terms in momentum and energy of $S_k$ and $E_k$, respectively. They are volume-weighted sums of the drag forces and energy exchanges, respectively, for all particles in the discretized fluid cell,
 \begin{subequations}\label{eq:cfd-sources}
 \begin{align}
-	S_k &= \frac{1}{V_k}\sum_{\forall i \in k} \beta_i V_i \Delta u_{if} \label{eq:cfd-mom-source}\\
+	S_k &= \frac{1}{V_k}\sum_{\forall i \in k} \beta_i V_i \Delta \vec{u}_{if} \label{eq:cfd-mom-source}\\
 	E_k &= \frac{1}{V_k}\sum_{\forall i \in k} \beta_{E,i} A_i \Delta T_{if}
 \end{align}
 \end{subequations}

@@ -1,0 +1,71 @@
+\subsection{DEM Model}
+\begin{frame}{Particle Dynamics}
+\begin{columns}[t]
+\column{.5\textwidth}
+	Track particle trajectories,
+	\begin{equation}
+	\label{eq:newtons-second}
+		m_i  \ddt{\vec{r}_i}  = m_i\vec{g} + \sum_{j=1}^{Z} \vec{f}_{n,ij} 
+	\end{equation}
+
+	\begin{subequations}
+	\begin{align}
+		\vec{f}_{n,ij} &= k_{n,ij} \delta_{n,ij}\vec{n}_{ij} - \gamma_{n,ij} \vec{u}_{n,ij} 	\label{eq:normal-force} \\
+		k_{n,ij} &= \frac{4}{3}E_{ij}^*\sqrt{R_{ij}^*\delta_{n,ij}}
+	\end{align}
+	\end{subequations}
+
+	\begin{subequations}
+	\begin{align}
+		\frac{1}{R_{ij}^*} &= \frac{1}{R_i} + \frac{1}{R_j} \\
+		\frac{1}{E_{ij}^*} &= \frac{1-\nu_i^2}{E_i} + \frac{1-\nu_j^2}{E_j}
+	\end{align}
+	\end{subequations}
+
+
+\column{.5\textwidth}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.5\linewidth]{chapters/figures/particle-interaction-drawing} 
+		\caption{Allowing fictive overlap, $\delta$, between centroids to determine repulsive force between pebbles.}
+		\label{fig:interacting-particles}
+	\end{figure}
+	 
+
+	Equations of motion are integrated with the Velocity-Verlet algorithm -- global error of approximately $O(\Delta t^2)$
+
+\end{columns}
+
+
+
+
+\end{frame}
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+% \begin{frame}
+% Velocity-Verlet time integration
+% \begin{subequations}
+% \begin{align}
+% 	\vec{a}_t &= \vec{g} + \frac{\vec{f}_t}{m}\\
+% 	\vec{r}_{t+\Delta t} &= \vec{r}_t + \vec{v}_t\Delta t + \frac{1}{2}\vec{a}_t\Delta t^2\\
+% 	\vec{v}_{t+\Delta t} &= \vec{v}_t + \frac{\vec{a}_t + \vec{a}_{t+\Delta t}}{2}\Delta t
+% \end{align}
+% \end{subequations}
+% \end{frame}
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+\begin{frame}{Particle Heat Transfer}
+\begin{equation}\label{eq:thermoFirstLaw}
+	m_iC_i\ddt{T_i} = Q_{s,i} + \sum_{j=1}^Z H_c(T_i - T_j)
+\end{equation}
+\begin{equation}\label{eq:dem-conductance}
+	H_c= 2k^*\left[\frac{3F_{n,ij}R^*}{4E^*}\right]^{1/3}
+\end{equation}
+\begin{equation}
+	d_{p,i} = d_{p_0,i}\left[1+\beta_i\left(T_i - T_\text{ref}\right)\right]
+\end{equation}
+\end{frame}
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
