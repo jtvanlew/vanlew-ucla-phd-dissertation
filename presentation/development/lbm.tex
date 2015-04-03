@@ -1,4 +1,8 @@
 \subsection{LBM}
+\begin{frame}{lattice-Boltzmann Introduction}
+Discretize the continuous 
+\end{frame}
+
 \begin{frame}{Bhatnagar-Gross-Krook lattice-Boltzmann Formulation}
 \begin{align}
 	\underbrace{f_i(\vec{x}+\vec{c}_i, t + 1)  = f_i(\vec{x},t)}_\text{streaming}  + \underbrace{\Omega_i(\vec{x},t)}_\text{collision}
@@ -22,4 +26,18 @@ Bounce-back boundary condition
 	\includegraphics[width=0.5\linewidth]{chapters/figures/lbm/ongrid}\label{fig:wall-lattice-bc}
 	\caption{Sketch of the D2Q9 nodes showing at the boundary the distribution functions that would come from neighbors outside the boundary (at the wall) are unknown (drawing from correspondence with Dr. Bao, billbao@cims.nyu.edu).}
 \end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{subequations}\label{eq:lbm2physical}
+\begin{align}
+	\rho(\vec{x},t) &= \sum_i f_i(\vec{x},t)\\
+	\vec{u}(\vec{x},t) &= \frac{1}{\rho(\vec{x},t)}\sum_i \vec{c}_if_i(\vec{x},t)
+\end{align}
+\end{subequations}
+
+The fluid pressure is related to the density for an ideal gas, so we can find the physical pressure in terms of the lattice density,
+\begin{equation}
+	p = p_0\frac{\rho(\vec{x},t)}{\rho_0}
+\end{equation}
 \end{frame}
