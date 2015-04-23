@@ -48,17 +48,35 @@ Vfit = np.poly1d(np.polyfit(Pf2fit,V2fit,3))
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # plot the shit
-plt.figure(1)
-plt.plot(Pf, Vstar, label='Minimum volume')
-plt.plot(pfit, Vfit(pfit),'c',label='3rd order polynomial fit')
-plt.xlabel(r'Radius Ratio ($R_c/R_p$)')
-plt.ylabel(r'Dimensionless Volume')
-plt.xlim([0, 1])
-plt.legend(loc='best')
+fig1, ax1 = plt.subplots(1)
 
-plt.figure(2)
-plt.plot(rstar_1, N)
-plt.xlabel(r'Radius Ratio ($R_c/R_p$)')
-plt.ylabel('Pebble Fragments (rounded to whole number)')
+ax1.plot(Pf, Vstar, label='Minimum volume')
+#ax1.plot(pfit, Vfit(pfit),'c',label='3rd order polynomial fit')
+ax1.set_ylim([0, 4])
+
+# Create shaded region under 0.4
+Pf = np.array(Pf)
+Vstar = np.array(Vstar)
+Pf_shaded = Pf[np.where(Pf<0.4)]
+Vstar_shaded = Vstar[np.where(Pf<0.4)]
+ax1.fill_between(Pf_shaded, Vstar_shaded, 0, color='blue',alpha=0.3)
+#___________________________________________________________________
+
+
+# plot the other one
+ax1.set_xlabel(r'Radius Ratio ($R_c/R_p$)')
+ax1.set_ylabel(r'Dimensionless Volume')
+ax1.set_xlim([0, 1])
+
+fig2, ax2 = plt.subplots()
+ax2.plot(rstar_1, N)
+ax2.set_xlabel(r'Radius Ratio ($R_c/R_p$)')
+ax2.set_ylabel('Pebble Fragments (rounded to whole number)')
+
+# create shaded region above 0.3
+rstar_shaded = rstar_1[np.where(rstar_1 >= 0.3)]
+Nshaded = N[np.where(rstar_1 >= 0.3)]
+ax2.fill_between(rstar_shaded, Nshaded, 0, color='blue',alpha=0.3)
+#___________________________________________________________________
 
 plt.show()
