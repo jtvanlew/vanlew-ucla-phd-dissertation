@@ -31,7 +31,7 @@ q     = 8.e6  # W/m3
 
 
 # FLUID MATERIAL PROPERTIES##########################
-Nu    = 2.*10
+Nu    = 2.
 kf    = 0.29445875
 h1    = Nu * kf * 2 / D
 #####################################################
@@ -112,7 +112,7 @@ errJ = error(E2,E3)
 plt.figure(1)
 plt.title('Bi = %s'%(Bi))
 plt.plot(tstar, E1, marker = 'x', label = 'LC', color='k')
-plt.plot(tstar, E2, marker = 'o', label = 'Jeffreson', color='k')
+# plt.plot(tstar, E2, marker = 'o', label = 'Jeffreson', color='k')
 plt.plot(tstar, E3, label = 'Exact', color='k')
 plt.ylim([0, 1])
 plt.xlim([0, tauscale/Bi])
