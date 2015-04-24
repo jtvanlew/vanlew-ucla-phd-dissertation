@@ -1,4 +1,4 @@
-\section{Proper Selection of Young's Modulus for DEM Simulations}\label{sec:dem-studies-youngs-modulus}
+\subsection{Proper Selection of Young's Modulus for DEM Simulations}\label{sec:dem-studies-youngs-modulus}
 
 The discrete element method is used by many ceramic breeder researchers to model the interaction of individual pebbles in an ensemble in an effort to obtain a more detailed understanding of pebble beds than is possible with experimental measurements of effective properties. For example see Refs.~\cite{An20071393, Lu2000, Zhao2010, Gan:2010uq, Annabattula2012a, VanLew2014}. The fundamental assumption in the DEM formulation is that each pebble acts perfectly elastically and adheres to Hertz theory for contacting spheres. With Hertz theory, one finds contact forces as a simple function of: the virtual overlap between two objects, the Young's modulus of the contacting material (and Poisson ratio), and radii of the two. In past studies, the Young's modulus of the ceramic materials  used in DEM simulations was taken from historical data, for instance lithium metatitanate from Ref.~\cite{Gierszewski1998}.
 
@@ -10,7 +10,7 @@ The Hertzian force is linearly proportional to the pair Young's modulus of conta
 
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Numerical Setup}
+\subsubsection{Numerical Setup}
 %In pebble bed breeder units, the stresses on the pebble regions are a result of thermal expansion of the relatively hot pebbles contained by relatively cool container walls. This process is a function of the coefficient of thermal expansion of the pebbles and their elevated temperature; the confined strain relates to a stress. 
 We model our pebble beds undergoing a standard stress-controlled uni-axial compression up to 6 MPa. We will measure the macroscopic stress-strain for some parametrically varied pebble beds and compare the curves. At the moment of maximum stress, we can investigate the differences in contact forces of those pebble beds.
 
@@ -31,7 +31,7 @@ Among both sets, a parametric study was done on pebble radius and coefficient of
 
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Results from Uni-axial Compression}
+\subsubsection{Results from Uni-axial Compression}
 
 
 A constant-velocity, uniaxial compression was applied to the pebble beds. A single cycle up to 6 Mpa was used on all the beds. The macroscopic measurements of stress-strain are shown for all the pebble beds in Fig.~\ref{fig:stress-strain}.
@@ -83,5 +83,5 @@ B.4				& 		$\bar{E}$, $\bar{R}_p$, $\mu = 0.3$		&	0.7									\\\bottomrule
 
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Conclusions for Modified Young's Modulus}
+\subsubsection{Conclusions for Modified Young's Modulus}
 Models based on the discrete element method have received considerable attention by ceramic breeder researchers. The method is attractive as it is based on material properties and forgoes many of the assumptions necessary in empirical equations of effective properties for continuum models. Variation in production techniques for ceramic pebbles lead to changes in ceramic microstructure, as evident in the wide distribution of crush loads reported in past studies, \textit{e.g.} Refs.~\cite{Zhao2012,Mandal2012a}. By the same token, the different microstructures should naturally lead to variation in Young’s modulus. However up to now values of Young’s modulus used in numerical models are taken from values measured for large sintered pellets of ceramic materials. Based on single pebble experiments and the application of Hertz theory, a technique for introducing a modified Young’s modulus into DEM models has been proposed here. DEM simulations show the impact of modified pebble elasticity on both macroscopic measurements of stress-strain curves as well as mesoscopic measures of inter-pebble contact force – with major implications for prediction of pebble crushing in ceramic pebble beds. The models applying the elasticity reduction factor, $k$, predict more compliant pebble beds and smaller peak contact forces in beds and thus fewer crushed pebbles.
