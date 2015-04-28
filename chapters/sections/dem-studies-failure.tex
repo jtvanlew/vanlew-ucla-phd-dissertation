@@ -2,7 +2,7 @@
 
 \subsection{Translating Experimental Results to Pebble Bed Interactions}\label{sec:theoryStrainEnergy}
 
-It is impractical, if not impossible, to accurately measure the contact forces between all the pebbles in a densely-packed, three-dimensional ensemble. In investigating the probability of pebbles becoming damaged (i.e. crushed or cracked) in a packed bed, we therefore rely on the combined information gained from indirect measurements of the entire pebble bed, crush experiments of individual pebbles, and the predictive capabilities of DEM simulations. In this study we look at the results of individual pebble crush experiments and create a metric to link the data to the contact forces measured in DEM to help predict when pebbles in the ensemble will become damaged.
+It is impractical, if not impossible, to accurately measure the contact forces between all the pebbles in a densely-packed, three-dimensional ensemble. In investigating the probability of pebbles becoming damaged (\textit{i.e.} crushed or cracked) in a packed bed, we therefore rely on the combined information gained from indirect measurements of the entire pebble bed, crush experiments of individual pebbles, and the predictive capabilities of DEM simulations. In this section I first employ observations of individual pebble crush experiments to create a metric (strain energy) to link the data to the contact forces measured in DEM to help predict when pebbles in the ensemble will become damaged. I then review some literature where similar efforts have been performed at other research institutions and point out why the method employed here is preferred. Finally I show some numerical recipes I have developed for modeling the fragmentation event of a crushed pebble in the DEM framework -- along with an evaluation of some fragmentation schemes. 
 
 \subsubsection{Experimental Measurements of Strain Energy}
 \begin{figure}[!t]
@@ -65,7 +65,7 @@ Equation~\ref{eq:peb_hertz} is a generic translation between lab materials and p
 
 
 % FROM SOFT PAPER
-\subsubsection{Calculating Critical Strain Energy}
+\subsection{Calculating Critical Strain Energy}
 With the rise of micro-mechanical tools and computing power, attempting to predict when ceramic pebbles will crush in an ensemble, based on inter-particle contact forces, has received considerable attention. In this section we will review literature studying granular crushing.
 
 Probability and statistics were applied to the study of packed beds of brittle grains by Marketos and Bolton\cite{Marketos2007}. The fundamental assumption in their predictive method was the independence of crushing events. They used their model to predict the initiation of crushing as well as the evolution of the packing after crushing. They created somewhat arbitrary probability distributions of the strength of their granular particles,
@@ -171,7 +171,7 @@ where $\eta$ is the percent of crushed pebbles. Obviously then, the ratio of the
 \end{equation}
 and the energy deposited is not balanced between a virgin bed and one with crushed pebbles. We will attempt to address this issue.
 
-\subsubsection{Modeling a Crushed Pebble}
+\subsection{Modeling Fragments of a Crushed Pebble}
 In the DEM framework, we are limited to modeling elastic spheres. If we strictly wish to conserve mass between a solid pebble of radius $R_p$ and the crushed fragments of radius $R_c$, then the number of crushed fragments (spheres) per crushed pebble is
 \begin{equation}\label{eq:nc-crushed-fragments}
 	N_c = \left(\frac{R_c}{R_p}\right)^{-3}
@@ -357,7 +357,7 @@ The last point to discuss is how the different size particles change the distrib
 
 What we see in Fig.~\ref{fig:fragment-contact-forces} is that the average contact forces in the pebble bed remain mostly unchanged as a function of the size of the fragment radii. For all pebble beds, after the bed re-settles from the crushing event, the average contact forces (to the 1/3 power, which is the value important for heat transfer, see \cref{sec:dem-studies-effective-conductivity}) are approximately $4.9\ N^{1/3}$. None of the beds have a maximum value greater than $9\ N^{1/3}$. The contact forces are the most significant contributor to changes in effective conductivity (see \cref{sec:dem-studies-effective-conductivity}). We do not expect, therefore for the size of the fragment to contribute significantly to changes in effective thermal conductivity of the pebble bed.
 
-\subsubsection{Conclusions}
+\subsection{Conclusions of Pebble Failure Modeling}
 
 In this section we introduce a method for introducing crushed pebble fragments into an ensemble after a pebble is damaged. The method was necessary to conserve mass between pebble beds before and after the crushing event which is necessary for also balancing the energy deposition into the bed from volumetric heating before and after the crushing event. We then showed that fragments increase the computational time as $(1/r_1^*)^{1/3}$ while the necessary minimum volume for inserting the particles follows roughly as $(r_1^*)^{1/3}$. For the optimization of fragment size, the most important feature is to represent realistic physics. From this point of view, disrupting the packing with a large fragments is least desirable. Therefore, from the plot of Fig.~\ref{fig:volume-ratio}, we somewhat arbitrarily recommend fragments of size $r_1^* < 0.4$ to keep the required volume small. In terms of computation time, now as a secondary concern, we recommend fragments of size $r_1^* > 0.3$; keeping in mind as computer power and ease of parallelizing increases every year, this recommendation can quickly be relaxed to smaller fragment sizes.
 

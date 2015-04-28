@@ -20,9 +20,23 @@ This chapter presents the motivations and background of this study. First, it di
 \input{chapters/sections/dem-studies-failure}
 
 
+\section{Summary of DEM Modeling Background}
+
+DEM formulation of pebble bed allows interrogation of the micromechanical interactions that lead to macroscopic, effective properties measurable in the lab
+A modified Young’s modulus (fit to a probabilistic distribution) is necessary to capture the observed behavior of ceramic pebbles
+Introduced into DEM simulations with a numeric random generator satisfying a Fisher-Snedecor distribution fit to the experimental data of the pebble batch
+A crush prediction algorithm was developed and implemented into DEM
+Numeric random generator satisfying a Weibull distribution assigns a strength value to each pebble which is constantly compared to all the contact forces on the pebble
+A volume-conserving pebble fragmentation script is used to simulate a broken pebble
+Based on current single radius implementation, modeling particle fragments should be approximately held to 
+Investigating mixed-radius fragmentation – create a library of radius distributions that the software can draw from
 
 
+Heat transfer (conduction) between pebbles may need a roughness parameter to reflect thermal transport between ceramic pebbles in a breeding blanket
 
+DEM, alone, neglects the thermal transport between pebbles and interstitial gas
+Theoretically- and experimentally-based  correlations have been proposed to include stagnant gas heat transfer in DEM framework
+We must address the helium influence on heat transfer within the pebble bed – two schemes are developed here
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Dynamic Coupling of Fluid-particle, Volume-averaged Modeling} \label{sec:modeling-cfd-dem}
@@ -34,7 +48,9 @@ We now consider the influence of helium on thermal transport of deposited nuclea
 The chapter begins with introduction of the coupled fluid dynamics - discrete element method (CFD-DEM) approasec: governing equations, discretization techniques, and algorithms.
 
 We then do LBM. And stuff.
-
+\section{Numerical Methodology}
+% From TOFE 2014
+Researchers of ceramic pebble beds for fusion reactors are concerned with damage to individual pebbles in the solid breeder volume; the accumulation of damage (\textit{e.g.} sintering, crushing) to many pebbles will ultimately have global effects on the tritium performance of the pebble bed volume.  The discrete element method provides us with the ability to probe particle-scale interactions so that we might understand, predict, and more importantly, avoid pebble damage and the morphological changes to the pebble bed associated with it. However, simulations with the DEM alone are only telling half of the story of the solid breeder. DEM models (as we are implementing them) are not able to capture the effects, neither on momentum nor energy, of an interstitial fluid. Therefore we present a modeling technique to supplement the DEM computations with a volume-averaged thermofluid model of helium (we will frequently refer to the thermofluid model as the computational fluid dynamics (CFD) method). The technique of coupling CFD to DEM was first proposed by Tsuji\etal.\cite{Tsuji1992} in 1992. Since that time, the CFD-DEM coupling approach has grown as a tool for granular flow research. A comparison of model formulation for CFD-DEM is discussed clearly by Zhou\etal\cite{Zhou2010}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{chapters/sections/cfd-dem-num-method.tex}
 \input{chapters/sections/cfd-dem-solver.tex}
