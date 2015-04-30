@@ -1,14 +1,22 @@
-\chapter{Development of Modeling Tools for Ceramic Solid Breeders}
+\chapter{Development of Modeling Tools for Ceramic Solid Breeders}\label{ch:modeling-development}
 
+In this chapter we walk through the development of all the numerical tools we will use for the analysis of pebble damage in ceramic pebble beds for fusion reactors. The most important tool in our arsenal will be the pebble-scale modeling of DEM. This tool is the backbone upon which we will build two different methods of coupling to the helium purge gas; dynamically and statically.
+
+The core of the modeling code we employ in this dissertation come from open-sourced, crowd-supported, standard libraries. Along the process of developing the tools and adapting them to the specific needs of the ceramic breeders, I will introduce several new models and algorithms. The enhancements to the code represent a significant contribution to the design tools that will be available to solid breeder designers upon the successful completion of this dissertation.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Particle-scale Modeling} \label{sec:modeling-dem}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-This chapter presents the motivations and background of this study. First, it discusses energy usage in our society and the inevitable production of waste mechanical and thermal energies and their ubiquitous nature. This is followed by a brief discussion of common methods of converting ambient mechanical energy and waste heat into useful electrical energy. This chapter concludes with the objectives of this study and the scope of the document.
 
+The observable, macroscopic behavior of particulate, or granular, systems is a complex function of the multitude of particle-scale interactions. Historically, empirical relationships have been used to describe these systems as if a continuous media. But with the advent of the discrete element method by Cundall and Strack\cite{Cundall1979} and the acceleration of computing power, it became practical to investigate these particulate systems at the particle scale. With the discrete element method, we track all the particles in the system in a Lagrangian manner. In the ensemble, the kinematics of each particle is tracked and updated based on balances (or imbalances) of forces or energy acting upon the particle.
+
+Experiments on packed beds are generally limited to measurements of statistically averaged, macroscopic responses. Unlike continuous materials, packed beds as yet can not be described by any State. For instance, with an ideal gas if we know two properties such as temperature or pressure, the State of the gas is known and its behavior predicted. Two packed beds with the same temperature, packing fraction, average particle diameter, and stress state may react wildly different. As researchers we create empirical fits to data on the particular packed bed under investigation but then might have to dubiously apply the relationships to beds of different packing states. 
+
+DEM is emerging as a reliable method to remove speculation about the internal state of the packed bed as the simulations provide valuable information on the dynamics of particle interactions and how they relate to the macroscopic responses that are measured experimentally.
+
+In this section we will lay out the formulas governing interaction of particles in the DEM framework, the methods of computation, and the code used for implementation. In \cref{sec:dem-stability}, we will use the derivation of the Hertz contact law described in \cref{sec:hertz-theory} to argue for a technique of accelerating the computational time without loss of physics via proper scaling of physical parameters. Lastly, in \cref{sec:dem-studies-effective-conductivity}, we use our DEM tools to investigate the thermo physics of representative packed beds for solid breeders in fusion reactors.
 % model introduction and summary
 % this section is all review of the model capabilities and, more importantly, the work
 % of other people! My work begins once it is finished
-\input{chapters/sections/dem-modeling-intro}
 \input{chapters/sections/dem-modeling-particle-dynamics}
 \input{chapters/sections/dem-modeling-heat-transfer}
 \input{chapters/sections/dem-modeling-solver}
@@ -20,7 +28,7 @@ This chapter presents the motivations and background of this study. First, it di
 \input{chapters/sections/dem-studies-failure}
 
 
-\section{Summary of DEM Modeling Background}
+\section{Summary of DEM Modeling Development}
 
 DEM formulation of pebble bed allows interrogation of the micromechanical interactions that lead to macroscopic, effective properties measurable in the lab
 A modified Young’s modulus (fit to a probabilistic distribution) is necessary to capture the observed behavior of ceramic pebbles
@@ -38,37 +46,71 @@ DEM, alone, neglects the thermal transport between pebbles and interstitial gas
 Theoretically- and experimentally-based  correlations have been proposed to include stagnant gas heat transfer in DEM framework
 We must address the helium influence on heat transfer within the pebble bed – two schemes are developed here
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Dynamic Coupling of Fluid-particle, Volume-averaged Modeling} \label{sec:modeling-cfd-dem}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-[talk about how lacking the DEM result is without the inclusion of helium in analysis. There are some Fusion papers on conductivity in vacuum and with helium]
 
-We now consider the influence of helium on thermal transport of deposited nuclear energy as it is carried away by the cooled structural walls. We begin by considering the fluid in a continuum sense and the pebbles in a discrete one. The interactions of the fluid and solid are characterized by effective relationships in each discretized cell of fluid. We then consider an mesoscopic approach to the fluid-solid interaction with the Lattice-Boltzmann method. 
+As we saw earlier from Fig.~\ref{fig:keff-pressure}, even in a stagnant bed of ceramic pebbles, the helium plays a large role in the overall energy transport. A complete model of the thermophysics of a packed bed would therefore be sorely incomplete without including the contribution of helium. Accordingly, we present a modeling technique to supplement the DEM computations with a volume-averaged thermofluid model of helium (we will frequently refer to the thermofluid model as the computational fluid dynamics (CFD) method). This will be the first of two approaches taken to consider the influence of helium on thermal transport of deposited nuclear energy as it is carried away by the cooled structural walls. We begin by considering the fluid in a continuum sense and the pebbles in a discrete one. The interactions of the fluid and solid are characterized by effective relationships in each discretized cell of fluid. The technique of coupling CFD to DEM was first proposed by Tsuji\etal.\cite{Tsuji1992} in 1992. Since that time, the CFD-DEM coupling approach has grown as a tool for granular flow research. A comparison of model formulation for CFD-DEM is discussed clearly by Zhou\etal\cite{Zhou2010}.
 
-The chapter begins with introduction of the coupled fluid dynamics - discrete element method (CFD-DEM) approasec: governing equations, discretization techniques, and algorithms.
-
-We then do LBM. And stuff.
-\section{Numerical Methodology}
-% From TOFE 2014
-Researchers of ceramic pebble beds for fusion reactors are concerned with damage to individual pebbles in the solid breeder volume; the accumulation of damage (\textit{e.g.} sintering, crushing) to many pebbles will ultimately have global effects on the tritium performance of the pebble bed volume.  The discrete element method provides us with the ability to probe particle-scale interactions so that we might understand, predict, and more importantly, avoid pebble damage and the morphological changes to the pebble bed associated with it. However, simulations with the DEM alone are only telling half of the story of the solid breeder. DEM models (as we are implementing them) are not able to capture the effects, neither on momentum nor energy, of an interstitial fluid. Therefore we present a modeling technique to supplement the DEM computations with a volume-averaged thermofluid model of helium (we will frequently refer to the thermofluid model as the computational fluid dynamics (CFD) method). The technique of coupling CFD to DEM was first proposed by Tsuji\etal.\cite{Tsuji1992} in 1992. Since that time, the CFD-DEM coupling approach has grown as a tool for granular flow research. A comparison of model formulation for CFD-DEM is discussed clearly by Zhou\etal\cite{Zhou2010}.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{chapters/sections/cfd-dem-num-method.tex}
-\input{chapters/sections/cfd-dem-solver.tex}
 \input{chapters/sections/cfd-dem-modeling-solver.tex}
 \input{chapters/sections/cfd-dem-jeffreson-correction.tex}
-\input{chapters/sections/cfd-dem-benchmark.tex}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Summary of CFD-DEM Modeling Development}
+
+Researchers of ceramic pebble beds for fusion reactors are concerned with damage to individual pebbles in the solid breeder volume; the accumulation of damage (\textit{e.g.} sintering, crushing) to many pebbles will ultimately have global effects on the tritium performance of the pebble bed volume.  The discrete element method provides us with the ability to probe particle-scale interactions so that we might understand, predict, and more importantly, avoid pebble damage and the morphological changes to the pebble bed associated with it. However, simulations with the DEM alone are only telling half of the story of the solid breeder. DEM models (as we are implementing them) are not able to capture the effects, neither on momentum nor energy, of an interstitial fluid. 
 
 
+CFD-DEM begun as a tool to study fluidized beds
+Benchmarked against common jet-spout fluidized beds with light-to-medium packing
+
+CFD-DEM has not yet been applied to packed beds with nuclear heating such as our breeder blanket volumes
+Fluid-solid heat transfer correlation was developed for non-heat-generation situations
+The lumped capacitance assumption is made for the particles
+
+We test the validity of lumped capacitance assumption when pebbles experience heat generation \& introduce a correction
+
+
+Retains pebble-scale micromechanical interaction information necessary for pebble damage modeling
+
+Computational resources conserved with volume-averaged treatment of fluid
+Closure of particle-fluid heat transfer equations via experimental correlations for heat transfer coefficient on DEM particles
+
+A modified heat transfer coefficient is derived and introduced to account for not satisfying Biot number assumption in lumped-capacitance analysis
+Accounts for internal temperature gradients with negligible computational overhead
+
+Simplicity of model sacrifices simulation of complex flow fields ñ unclear if this is an acceptable simplification
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Static Coupling of Fluid-particle, Complete Modeling}\label{sec:modeling-lbm}
-The volume-averaged approach of the CFD-DEM coupling is an effective and efficient method for solving transiently coupled helium flow and pebble interaction. However, there are cases when a complete knowledge of the tortuous flow of the interstitial helium is desired. But because the CFD-DEM solver does not resolve the pathways on the particle scale, knowledge of precise helium flow is not possible with that technique. Therefore we have also investigated a combination of DEM and with lattice-Boltzmann solvers. 
+The volume-averaged approach of the CFD-DEM coupling is an effective and efficient method for solving transiently-coupled helium flow and pebble interaction via volume-averaging techniques for the fluid. However, there are situations when a complete knowledge of the tortuous flow of the interstitial helium is desired. Because the CFD-DEM solver does not resolve the pathways on the particle scale, knowledge of precise helium flow is not possible with that scheme. Therefore I have also investigated a method of linking our DEM pebble beds with lattice-Boltzmann solvers. 
 
-The lattice-Boltzmann approach to fluid simulations is a growing field of numerical modeling with a rich historical development. As the LBM approach is relatively unfamiliar, we will go through some of the notable evolutions of the modeling history and the background physics leading to the governing equations to be implemented numerically. Certainly this short study cannot do justice to a proper explanation of the underlying physics. References~\cite{Chen1998a,Viggen2009,Sukop2007,Chopard2002,succi2001lattice} should be read by those curious for excellent and thorough descriptions of the physics, modeling approaches, and applications of LBM theory to fluid dynamics problems.
+The lattice-Boltzmann method (LBM) to fluid simulations is a growing field of numerical modeling with a rich historical development. As the LBM approach is relatively new and its governing equations seem much more esoteric than the familiar conservation equations from continuum modeling, I will first go through some of the notable evolutions of the modeling history and the background physics leading to the governing equations -- which lend themselves to relatively straightforward numerical implementation. Certainly this short study cannot do justice to a proper explanation of the underlying physics. References~\cite{Chen1998a,Viggen2009,Sukop2007,Chopard2002,succi2001lattice} should be read by those curious for an excellent and thorough description of the physics, modeling approaches, and applications of LBM theory to fluid dynamics problems.
 
-In the rest of this chapter we introduce the core concepts behind the lattice-Boltzmann method, their application into numerical code, and finally a discussion of the solver used in this research.
+\input{chapters/sections/lbm-physics-intro.tex}
+\input{chapters/sections/lbm-modeling.tex}
+\input{chapters/sections/lbm-modeling-solver.tex}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{chapters/sections/lbm-modeling-intro.tex}
-\input{chapters/sections/lbm-num-method.tex}
-\input{chapters/sections/lbm-benchmark.tex}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary of LBM Modeling Development}
+
+While concurrently developing the dynamic-coupling tools for the CFD-DEM models, I recognized the potential need for modeling the meandering path of low-$\Re$ flow of helium in our packed bed with heat generation. The sacrifice we make to achieve the numerical fidelity is that in this implementation of fluid-particle interaction we have a static coupling. The pebble-scale micromechanical interaction information for pebble damage modeling is still solved transiently in the DEM computations. When the bed is settled, a snapshot of the structure is discretized and loaded into the LBM solver which then calculates temperature and velocity fields of both solid and fluid phases. There is no cross-communication in this technique as the packing structure is effectively frozen during the LBM calculations.
+
+The LBM approach was chosen in place of finite element or finite volume methodology because of issues with discretization of meshes in a three dimensional packed bed with interstitial gas. There are techniques to handle packed beds with continuum fluid mechanics software, but the size of packed beds we are interested in make the FEM approach intractable.
+
+Furthermore, the simple LBM formulation of enforcing no-slip conditions on complex geometry is trivially realized with bounce-back rules on distribution functions. The multi-relaxation-time lattices for momentum and energy offer complete modeling of complex geometry and conjugate heat transfer with far less computational overhead compared to FEM models.

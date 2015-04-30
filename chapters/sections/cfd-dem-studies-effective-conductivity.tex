@@ -1,22 +1,55 @@
 \subsection{Effective Thermal Conductivity from CFD-DEM}\label{sec:cfd-dem-effective-conductivity}
 
-\subsubsection{Stagnant interstitial fluid}
-can use correlations for stagnant gas in packed bed.
+The simulation is allowed to run to thermal steady-state at which point we can analyze the temperature profile of the fluid and pebble bed. The temperature of the fluid volume from the simulation of the well-packed bed is shown in Fig.~\ref{fig:cfdem-complete-domain}. The flow field is also visualized in Fig.~\ref{fig:cfdem-streamlines}; in this figure the pebble bed is clipped at the centerline to allow viewing of the helium streamlines. Apparent in the figure is temperature profiles in the helium from centerline to wall that qualitatively mirror temperature profiles in the pebble bed. The two beds in our system, well-packed and resettled, were run to thermal steady-state with nuclear heating and wall cooling in both pure DEM and coupled CFD-DEM simulations for comparison. From steady-state temperature distributions, seen in the pebble scatter plots in Fig.~\ref{fig:cfdem-x-T}, an average profile is calculated and an effective thermal conductivity computed. The values are tabulated in Table~\ref{tab:cfdem-keff}. 
 
+In the case of pure DEM, energy is transported solely along conduction routes in the ensemble. When the packing of the bed is disturbed, this results in a substantial drop in effective conductivity (a drop of 31\%). Perhaps more important than the reduction in effective conductivity, is the appearance of isolated pebbles. Because heat deposition is volumetrically applied, pebbles with poor conduction routes become much hotter than their neighbors. This is evident in the high temperatures seen in many of the pebbles in the Fig.~\ref{fig:x-T-evap}. Over-heating of isolated pebbles could induce sintering and impact their tritium release even when the average temperatures measured in the bed are well below sintering values.
 
+When CFD-DEM beds are analyzed, there is still a large reduction in effective conductivity (22\% drop), but interesting to note is the lack of isolated pebbles with high temperatures. In the CFD-DEM scatter plot of Fig.~\ref{fig:x-T-evap}, there is evidence of the reduced heat transfer in the same region as the isolated pebbles from the DEM bed, but the temperatures are much closer to the average values of neighboring pebbles. The helium purge gas has effectively smoothed out the temperatures and provided heat transport paths for any pebbles that have loose physical contact with neighbors.
 
-\subsubsection{Purge Gas}
-The well-packed and resettled pebble beds were run to thermal steady-state with nuclear heating and wall cooling in both pure DEM and coupled CFD-DEM simulations for comparison. From steady-state temperature distributions, seen in the pebble scatter plots in Fig. 3, an average profile is calculated and an effective thermal conductivity computed. The values are tabulated in Table I. 
-In the case of pure DEM, energy is transported solely along conduction routes in the ensemble. When the packing of the bed is disturbed, this results in a substantial drop in effective conductivity (a drop of 31\%). The details of the conductivity reduction were studied extensively in Ref. 23. Perhaps more important than the reduction in effective conductivity, is the appearance of isolated pebbles. Because heat deposition is volumetrically applied, pebbles with poor conduction routes become much hotter than their neighbors. This is evident in the high temperatures seen in many of the pebbles in the right figure of Fig. 3. Over-heating of isolated pebbles could induce sintering and impact their tritium release even when the average temperatures measured in the bed are well below sintering values.
-When CFD-DEM beds are analyzed, there is still a large reduction in effective conductivity (22\% drop), but interesting to note is the lack of isolated pebbles with high temperatures. In the CFD-DEM scatter plot of the right image in Fig. 3, there is evidence of the reduced heat transfer in the same region as the isolated pebbles from the DEM bed, but the temperatures are much closer to the average values of neighboring pebbles. The helium purge gas has effectively smoothed out the temperatures and provided heat transport paths for any pebbles that have loose physical contact with neighbors.
 In spite of the 22\% decrease in effective conductivity, the maximum temperature of the pebble bed only increased 6.2\% (from 725 to 751 K) when helium is included in the model. This result is significant for solid breeder designers. They may choose a solid breeder volume such that in the event of extensive pebble cracking, the maximum temperature of the bed would remain within the ideal windows dictate for the lithium ceramics.
+
+An accompanying result is the increased amount of energy carried out of the system by the helium purge gas. In Table I, the last column provides the ratio of energy carried out of the system to the nuclear energy deposited into the bed. The amount of energy carried out by the helium increased from 1.15\% to 1.52\% from the well-packed to damaged beds.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\singleimagewidth]{chapters/figures/full-cfd-dem-fluid-temp}
+    \caption{View of the complete fluid domain at thermal steady state.}\label{fig:cfdem-complete-domain}
+\end{figure}
+
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\singleimagewidth]{chapters/figures/cfd-dem-streamlines2}
+    \caption{Cut-away view of the pebble bed with streamlines of helium moving in generally straight paths from inlet to exit.}\label{fig:cfdem-streamlines}
+\end{figure}
+
+
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.5\textwidth}
+                \includegraphics[width=\textwidth]{chapters/figures/full-x-T-color}
+                \caption{Well-packed bed}
+                \label{fig:x-T-full}
+        \end{subfigure}%
+        
+          %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.5\textwidth}
+                \includegraphics[width=\textwidth]{chapters/figures/evap-x-T-color}
+                \caption{Re-settled bed}
+                \label{fig:x-T-evap}
+        \end{subfigure}
+        \caption{Scatter temperature profiles of pebbles in a bed that is: well-packed (left) and resettled after 10\% of pebbles were removed from crushing (right). The introduction of helium into the simulation contributes to both lower overall temperatures (higher effective conductivity) and the smoothing out of high temperatures of isolated pebbles.}\label{fig:cfdem-x-T}
+\end{figure}
+
+
 
 \begin {table}[htp] %
 \caption{Pebble bed values from the test matrix of the beds analyzed in this study.}
 \label {tab:cfdem-keff} \centering %
 \begin {tabular}{ rccccc }
 \toprule %
-			& 	\multicolumn{2}{c}{$k_\text{eff}$}	&   \multicolumn{2}{c}{$T_\text{max}$}	&	$\frac{Q_h}{Q_\text{nuc}}$		\\
+			& 	\multicolumn{2}{c}{$\keff$}	&   \multicolumn{2}{c}{$T_\text{max}$}	&	$\frac{Q_h}{Q_\text{nuc}}$		\\
 			& 	\multicolumn{2}{c}{(W/mK)}			&	\multicolumn{2}{c}{(K)}				&									\\
 			& 	DEM 		& 	CFD-DEM				&	DEM 		& 	CFD-DEM 			& 	CFD-DEM							\\\toprule
 Well-packed	& 	0.96		& 	1.09				& 	745			& 	725					& 	1.15							\\
@@ -27,5 +60,6 @@ Resettled	& 	0.66		& 	0.85				& 	800			& 	751					& 	1.52							\\\bottomrule
 
 
 
-An accompanying result is the increased amount of energy carried out of the system by the helium purge gas. In Table I, the last column provides the ratio of energy carried out of the system to the nuclear energy deposited into the bed. The amount of energy carried out by the helium increased from 1.15\% to 1.52\% from ‘well-packed’ to ‘resettled’.
-evap-x-T-color
+
+\FloatBarrier
+

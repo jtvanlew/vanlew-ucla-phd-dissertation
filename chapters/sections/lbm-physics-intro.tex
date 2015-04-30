@@ -1,8 +1,8 @@
-\section{Introduction to the Lattice-Boltzmann Method for Modeling}\label{sec:lbm-intro}
+\subsection{Introduction to the Lattice-Boltzmann Method for Modeling}\label{sec:lbm-intro}
 
-The lattice-Boltzmann is named after its mother: lattice gas automata, and its father: the Boltzmann equation from statistical mechanics. Understandably, the lattice-Boltzmann method (LBM) is meant to inherit many of the advantages from both of its parents. We begin with a brief introduction to the Boltzmann equation for the statistical behavior of non-equilibrium thermodynamic systems. Then we will introduce some of the lattice gas automata predecessors to the current lattice-Boltzmann method.
+The lattice-Boltzmann is named after its mother: lattice gas automata, and its father: the Boltzmann equation from statistical mechanics. Understandably, the lattice-Boltzmann method is meant to inherit many of the advantages from both of its parents. We begin with a brief introduction to the Boltzmann equation for the statistical behavior of non-equilibrium thermodynamic systems. Then we will introduce some of the lattice gas automata predecessors to the current lattice-Boltzmann method.
 
-\subsection{Discretized Boltzmann Equation}
+\subsubsection{Discretized Boltzmann Equation}
 
 In the realm of statistical mechanics, suppose we wish to know, at a certain time $t$, how many particles exist at a given location, $\vec{x}$, that have momentum, $\vec{p}$. We define a number given by
 \begin{equation}
@@ -15,12 +15,12 @@ Now let us assume we apply a small force, $\vec{F}$, to all the $n$ particles ab
  	n = f(\vec{x} + \frac{\vec{p}}{m}\mathrm{d}t,\vec{p} + \mathrm{d}\vec{p},t + \mathrm{d}t)\mathrm{d}\vec{x}\mathrm{d}\vec{p}
  \end{equation}
 
-The number of particles in the two moments of time is conserved, so we can also say
+The number of particles in the two moments of time are conserved, so we can also say
 \begin{equation}
 	f(\vec{x} + \frac{\vec{p}}{m}\mathrm{d}t,\vec{p} + \mathrm{d}\vec{p},t + \mathrm{d}t)\mathrm{d}\vec{x}\mathrm{d}\vec{p} = f(\vec{x},\vec{p},t)\mathrm{d}\vec{x}\mathrm{d}\vec{p}
 \end{equation}
 
-Next we relax the assumption of no collisions. If we focus our attention of the phase space as before, some of the particles that began at $(\vec{x},\vec{p},t)$ will not arrive at the phase space of $(\vec{x} + \frac{\vec{p}}{m}\mathrm{d}t,\vec{p} + \mathrm{d}\vec{p},t + \mathrm{d}t)$. By the same measure, some particles that began in some other phase space \textit{will} arrive in $(\vec{x} + \frac{\vec{p}}{m}\mathrm{d}t,\vec{p} + \mathrm{d}\vec{p},t + \mathrm{d}t)$. The net number of particles having left and entered this phase space is represented by
+Next we relax the assumption of no collisions. If we focus our attention of the phase space as before, some of the particles that began at $(\vec{x},\vec{p},t)$ will not arrive at the phase space of $(\vec{x} + \frac{\vec{p}}{m}\mathrm{d}t,\vec{p} + \mathrm{d}\vec{p},t + \mathrm{d}t)$. By the same measure, some particles that began in some other phase space \textit{will} arrive in $(\vec{x} + \frac{\vec{p}}{m}\mathrm{d}t,\vec{p} + \mathrm{d}\vec{p},t + \mathrm{d}t)$. Now the number of particles is not conserved and we write the net number of particles having left and entered this phase space as
 \begin{equation}
 	\Omega\mathrm{d}\vec{x}\mathrm{d}\vec{p}\mathrm{d}t
 \end{equation}
@@ -29,7 +29,7 @@ where $\Omega$ is classically referred to as the collision operator. This functi
 	f(\vec{x} + \frac{\vec{p}}{m}\mathrm{d}t,\vec{p} + \mathrm{d}\vec{p},t + \mathrm{d}t)\mathrm{d}\vec{x}\mathrm{d}\vec{p} - f(\vec{x},\vec{p},t)\mathrm{d}\vec{x}\mathrm{d}\vec{p} = \Omega\mathrm{d}\vec{x}\mathrm{d}\vec{p}\mathrm{d}t
 \end{equation}
 
-In reality, to arrive at the collision operator, $\Omega$, in the form we have used in Eq.~\ref{eq:particle-balance}, it is required to make a few assumptions on the system. Following the assumptions of Ludwig Boltzmann: the particles are dilute, point-like, and structureless that only interact via short-range two-body potentials. Another famous assumption from Boltzmann was of \textit{Stosszahlansatz} (molecular chaos) which allow the inter-particle interactions to be described only in terms of their local binary collisions with very long paths through free space in between collisions.\cite{succi2001lattice} For the sake of this discussion, we will just accept the formulation of Eq.~\ref{eq:particle-balance} as the evolution equation for the particles in our system. 
+In reality, to arrive at the collision operator, $\Omega$, in the form we have used in Eq.~\ref{eq:particle-balance}, it is required to make a few assumptions on the system. Following the assumptions of Ludwig Boltzmann: the particles are dilute, point-like, and structureless that only interact via short-range two-body potentials. Another famous assumption from Boltzmann was of \textit{Stosszahlansatz} (molecular chaos) which allow the inter-particle interactions to be described only in terms of their local binary collisions with very long paths through free space between collisions.\cite{succi2001lattice} For the sake of this discussion, we will just accept the formulation of Eq.~\ref{eq:particle-balance} as the evolution equation for the particles in our system. 
 
 As a side note, after taking the Taylor expansion of Eq.~\ref{eq:particle-balance}, we arrive at the the recognizable Boltzmann equation,
 \begin{equation}\label{eq:boltzmann-continuum}
@@ -51,7 +51,7 @@ In the form of Eq.~\ref{eq:boltzmann2lbe}, our discretized version of the Boltzm
 
 
 
-\subsection{Lattice Gas Automata}
+\subsubsection{Lattice Gas Automata}
 
 In a broad sense, lattice gas automata (LGA) simulated the behavior of individual particles with a simple boolean approach where basic collision rules were defined at nodes in a lattice. As particles approached the node from neighboring nodes at a given time, the rules would dictate the direction of the particle at the next moment in time. Computationally, the particles were simply represented with boolean operators that said either 1: a particle existed at that node in that direction; or 0: no particle existed at that node in that direction. Conceptually, the particles can be thought of as hard spheres that would collide on nodes of a lattice; collisions would send the particles rebounding along discrete directions toward neighboring nodes. The restraint on collision rules required that they obey conservation of mass and momentum. 
 
@@ -85,15 +85,15 @@ As stated prior, the choice of collision operators is restricted only to obey co
 
 With these simple rules applied to specific lattices, such as the LHP hexagons, it is possible to show the lattice gas automata, on a proper lattice, can be re-expressed to satisfy continuity and conservation of momentum (see Ref.~\cite{Viggen2009,Frisch1986}). The construction of LGA schemes were extremely simple yet, with their connection to conservation equations in the continuum, seemed promising as a perfect scheme for modeling fluid mechanics.
 
-However, as exciting as the early LGA methods were, their drawbacks were very nearly as disheartening after being formally compared to the Navier-Stokes equations. Succi provides a thorough summary of the early issues with FHP (and all LGA approaches).\cite{succi2001lattice} For the sake of brevity we only mention that the main disadvantages was the lack Galilean invariance at higher Mach numbers (the results were not the same irrespective of inertial frame) and statistical noise in macroscopic quantities. The microscopic nature of LGAs -- tracking the paths of individual particles -- precluded the method from ever completely eliminating the issues such as statistical noise. The solution to the issues came in 1988 as a group zoomed out from the microscopic into a mesoscopic formulation.
+However, as exciting as the early LGA methods were, their drawbacks were very nearly as disheartening after being formally compared to the Navier-Stokes equations. Succi provides a thorough summary of the early issues with FHP (and all LGA approaches).\cite{succi2001lattice} For the sake of brevity we only mention that the main disadvantages was the lack Galilean invariance at higher Mach numbers (the results were not the same irrespective of inertial frame) and statistical noise in macroscopic quantities. The microscopic nature of LGAs -- tracking the paths of individual particles -- precluded the method from ever completely eliminating the issues such as statistical noise. The solution to the issues came in 1988 as a group zoomed-out from the microscopic into a mesoscopic formulation.
 
 
 
-\subsection{Lattice-Boltzmann Equation}
+\subsection{The Lattice-Boltzmann Equation}\label{sec:lbm-equations}
 
 McNamara and Zanetti proposed a fix to the statistical noise in LGA via ensemble averaging the boolean occupation numbers,\cite{McNamara1988}
 \begin{equation}\label{eq:lbm-pdf}
-	f_i = \langle n_i \rangle = \frac{1}{q}\sum_i=1^qn_i
+	f_i = \langle n_i \rangle = \frac{1}{q}\sum_{i=1}^qn_i
 \end{equation}
 where $q$ is the number of lattice directions from the node. The average quantity, $f_i$, was now identical in form to the distribution function of the Boltzmann equation. In the formulation of McNamara and Zanetti, we are no longer tracking individual boolean particles but a representative ensemble population of the particles. Thus we have stepped out of the microscopic scale of individual particles into a mesoscopic realm. 
 
@@ -116,11 +116,11 @@ The fluid pressure is related to the density for an ideal gas, so we can find th
 	p = p_0\frac{\rho(\vec{x},t)}{\rho_0}
 \end{equation}
 
-The density distribution function, while eliminating statistical noise, broke the exactness of calculations from the boolean numbers of $n_i$ in LGA methods. The density distribution function is now a floating point number, requiring more memory storage per node and introducing round-off error into calculations. In Chapter 3 of Ref.~\cite{succi2001lattice}, Succi provides an excellent discussion of the early stages of LBM and the problems that the early models (such as those of McNamara and Zanetti) faced as well as their many great advantages. For our purposes, we accept Eq.~\ref{eq:lbm-evolution} as the fundamental equation driving the evolution of the density distribution function in a system.
+The density distribution function, while eliminating statistical noise, broke the exactness of calculations from the boolean numbers of $n_i$ in LGA methods. The density distribution function is now a floating point number, requiring more memory storage per node and introducing round-off error into calculations. In Chapter 3 of Ref.~\cite{succi2001lattice}~, Succi provides an excellent discussion of the early stages of LBM and the problems that the early models (such as those of McNamara and Zanetti) faced as well as their many great advantages. For our purposes, we accept Eq.~\ref{eq:lbm-evolution} as the fundamental equation driving the evolution of the density distribution function in a system.
 
 
 
-\subsection{Collision Operator for Lattice-Boltzmann Equation}
+\subsubsection{Collision Operator for Lattice-Boltzmann Equation}
 
 The strength of Eq.~\ref{eq:lbm-evolution} hinges on the ability for the collision operator, $\Omega_i(\vec{x},t)$, to allow reproduction of the Navier-Stokes equations. Up to this point we have only alluded to its function in the LGA and now LBM computations. While there are many potential collision operators (see Ref.~\cite{succi2001lattice}), we focus on the operator proposed by Qian, d’Humieres, and Lallemand.\cite{qian1992lattice} Noting the similarities of LBM to kinetic theory, Qian, d'Humieres, and Lallemand proposed a collision operator similar to that proposed by Bhatnagar, Gross, and Krook in 1954 for the Boltzmann equation.\cite{Bhatnagar1954a} The BGK collision operator is
 \begin{equation}\label{eq:bgk-operator}
@@ -143,16 +143,16 @@ The equilibrium distribution function, $f^\eq$, is derived from the Maxwell-Bolt
 \begin{equation}\label{eq:equilib-dist-function}
 	f_i^\eq = \rho(\vec{x},t)w_i\left[1+\frac{\vec{u}\cdot\vec{c}_i}{c_s^2} + \frac{(\vec{u}\cdot\vec{c}_i)^2}{2c_s^4} - \frac{\vec{u}^2}{2c_s^2} \right]
 \end{equation}
-where $c_s$ is the speed of sound on the lattice and $w_i$ are weighted lattice constants. In the development of the equilibrium function, it is assumed that the velocity of the fluid is small compared to the speed of sound on the lattice, in other words small Mach numbers: $Ma = \frac{|u|}{c_s} < 1$.\cite{qian1992lattice,Chen1998a} It is worth noting here that the equilibrium function is defined entirely in terms of local velocity and density. This feature aids the LBM approach in being highly parallelizable.
+where $c_s$ is the speed of sound on the lattice and $w_i$ are weighted lattice constants. In the development of the equilibrium function, it is assumed that the velocity of the fluid is small compared to the speed of sound on the lattice, in other words small Mach numbers: $Ma = \frac{|u|}{c_s} < 1$.\cite{qian1992lattice,Chen1998a} It is worth noting here that the equilibrium function of Eq.~\ref{eq:equilib-dist-function} is defined entirely in terms of local velocity and density (everything is in terms of node $i$). This feature aids the LBM approach in being highly parallelizable in the same way the LGA method was.
 
-There are several conditions a lattice must meet to satisfy the isotropy necessary to regain the Navier-Stokes equations in the macroscopic form.\cite{Viggen2009,Latt2007} A lattice structure in $d$ dimensions with $q$ lattice directions is commonly identified with the D$d$Q$q$ lattice label. In the three-dimensional flow of our packed beds, we use the D3Q19 lattice (\textit{i.e.} $d=3$, and $q=19$). A representative node from the D3Q19 lattice is shown in Fig.~\ref{fig:d3q19-lattice}.
+There are several conditions a lattice must meet to satisfy the isotropy necessary to regain the Navier-Stokes equations in the macroscopic form.\cite{Viggen2009,Latt2007} A lattice structure in $d$ dimensions with $q$ lattice directions is commonly identified with the D$d$Q$q$ lattice label. In the three-dimensional flow of our packed beds, we use the D3Q19 lattice, \textit{i.e.} $d=3$ dimensions, and $q=19$ nodes surround the node of interest (including the node itself). A representative node from the D3Q19 lattice is shown in Fig.~\ref{fig:d3q19-lattice}.
 \begin{figure}[t]
 	\centering
-	\caption{A representative node with directional vectors to the 18 neighbors (+1 central node) in the D3Q19 lattice (reproduced from Ref.~\cite{1742-5468-2010-01-P01018}).}
-	\includegraphics[width=\singleimagewidth]{chapters/figures/lbm/4193301.jpg}\label{fig:d3q19-lattice}
+	\includegraphics[width=\singleimagewidth]{chapters/figures/lbm/4193301.jpg}
+	\caption{A representative node with directional vectors to the 18 neighbors (+1 central node) in the D3Q19 lattice (reproduced from Ref.~\cite{1742-5468-2010-01-P01018}).}\label{fig:d3q19-lattice}
 \end{figure}
 
-The numbered direction in the lattice of Fig.~\ref{fig:d3q19-lattice} follows the standard practice of LBM. The index $i=0$ corresponds to the node center. The indices $i = 1,2,3,\dots,6$ point to the six faces of the cube surrounding the node. Lastly, the indices $i=7,8,9,\dots,18$ point to the twelve midpoints of the edges of the cube. The weight constants, satisfying lattice symmetry, of the lattice structure of Fig.~\ref{fig:d3q19-lattice} are calculated in Ref.~\cite{Latt2007} and given as,
+The numbered directions in the lattice of Fig.~\ref{fig:d3q19-lattice} follows the standard practice of LBM. The index $i=0$ corresponds to the node center. The indices $i = 1,2,3,\dots,6$ point to the six faces of the cube surrounding the node. Lastly, the indices $i=7,8,9,\dots,18$ point to the twelve midpoints of the edges of the cube. The weight constants, satisfying lattice symmetry, of the lattice structure of Fig.~\ref{fig:d3q19-lattice} are calculated in Ref.~\cite{Latt2007} and given as,
 \begin{equation}\label{eq:d3q19-weights}
 	w_i = \begin{cases}
 	\frac{1}{3}			& i = 0\\
@@ -166,8 +166,8 @@ The lattice weights, $w_i$ are necessary to account for the different vector len
 
 
 
-\subsection{Boundary Conditions}
-Implementation of no-slip boundary conditions at the wall in the lattice-Boltzmann method are direct descendants of the schemes from lattice gas automata: a bounce-back scheme. In the scheme, lattice nodes that at the boundary have particle directions that point into the wall. For example, see $f_4$, $f_7$, and $f_8$ in Fig.~\ref{fig:wall-lattice-bc}. In this configuration, as particles stream into the wall, their distributions are scattered back in equal and opposite directions. Computationally, the bounce-back scheme is very attractive for the simplicity of implementing the method even in complex geometries. A fact which makes the use in LBM particularly attractive for packed bed simulations.\cite{Chen1998a} The bounce-back scheme has been shown to be first-order accurate for most three-dimensional flows, degrading the other-wise second order accuracy of the fluid bulk calculations.\cite{Zou1997,Chen1998a} To combat the loss in accuracy, several modifications to the bounce-back scheme have been proposed (see Ref.~\cite{Chen1998a}). However, for the porous flow to be studied in ceramic pebble beds, it suffices to implement the bounce-back boundary condition to enforce no-slip.\cite{Chen1998a,Luo2003a}
+\subsubsection{Boundary Conditions}
+Implementation of no-slip boundary conditions at the wall in the lattice-Boltzmann method are direct descendants of the schemes from lattice gas automata: a bounce-back scheme. In the scheme, lattice nodes that at the boundary have particle directions that point into the wall. For example, see $f_4$, $f_7$, and $f_8$ in Fig.~\ref{fig:wall-lattice-bc}. In this configuration, as particles stream into the wall, their distributions are scattered back in equal and opposite directions. Computationally, the bounce-back scheme is very attractive for the simplicity of implementing the method even in complex geometries. A fact which makes the use in LBM particularly attractive for packed bed simulations.\cite{Chen1998a} The bounce-back scheme has been shown to be first-order accurate for most three-dimensional flows, degrading the other-wise second order accuracy of the fluid bulk calculations.\cite{Zou1997,Chen1998a} To combat the loss in accuracy with increasing Reynolds number, several modifications to the bounce-back scheme have been proposed (see Ref.~\cite{Chen1998a}). However, for the porous flow to be studied in ceramic pebble beds, it suffices to implement the bounce-back boundary condition to enforce no-slip at the fluid-particle interface.\cite{Chen1998a,Luo2003a}
 
 \begin{figure}[t]
 	\centering
@@ -189,22 +189,22 @@ To treat velocity or pressure boundary conditions, we use the technique of Zou \
 
 
 
-\subsection{Thermal LBM}
+\subsubsection{Thermal LBM}
 
 Thus far the lattice-Boltzmann formulation allows us to calculate mass and momentum transport of a fluid. But in the packed beds of fusion reactors, the transport of energy in the system is of utmost importance. To handle the thermal equations in the lattice-Boltzmann framework, we use the model of Guo\etal.\cite{Guo2002} Guo\etal~introduced a second lattice upon which the distribution functions for temperature resided. The temperature distribution evolved with a coupling to the velocity distribution on the lattice solving the Navier-Stokes equations. The temperature was linked back to the Navier-Stokes lattice with a Boussinesq assumption that introduced a body force term to the fluid.\cite{Guo2002} Guo\etal~referred to their approach at the Coupled Lattice BGK (CLBGK) method. 
 
 On the thermal lattice in the CLBGK method, the temperature is a passive scalar that is transported by the velocity (it is specified at each node corresponding to the overlapped nodes from lattice solving the Navier-Stokes equations). Therefore, the density of the Navier-Stokes lattice is equivalent to the temperature on the thermal lattice. The thermal lattice BGK equation is analagous to Eq.~\ref{eq:lbm-bgk},
 \begin{equation}\label{eq:lbm-thermal-bgk}
-	T_i(\vec{x}+\vec{c}_i, t + 1) = T_i(\vec{x},t) - \frac{1}{\tau_T}\left[T_i^\eq(\vec{x},t) - T_i(\vec{x},t)\right]
+	g_i(\vec{x}+\vec{c}_i, t + 1) = g_i(\vec{x},t) - \frac{1}{\tau_g}\left[g_i^\eq(\vec{x},t) - g_i(\vec{x},t)\right]
 \end{equation}
 where we have a second relaxation time for the thermal lattice, $\tau_T$. The temperature field is reconstructed via
 \begin{equation}
-	T = \sum_i^q T_i
+	T = \sum_i^q g_i
 \end{equation}
 
-A multi-scale expansion of Eq.~\ref{eq:lbm-thermal-bgk} can show that it is equivalent to the temperature form of the continuous energy conservation equation.\cite{Guo2002} For the transport of the passive scalar, we can use a D3Q7 lattice which is sufficient to model the advection-diffusion of temperature.\cite{Latt2007,Parmigiani2011}), For such a lattice, the speed of sound is $c^2_{s,ad} = \frac{1}{2}$. We use a linear equilibrium function for $T_i^\eq$,
+A multi-scale Champan-Enskog expansion of Eq.~\ref{eq:lbm-thermal-bgk} can show that it is equivalent to the temperature form of the continuous energy conservation equation.\cite{Guo2002} For the transport of the passive scalar, we can use a D3Q7 lattice which is sufficient to model the advection-diffusion of temperature.\cite{Latt2007,Parmigiani2011}), For such a lattice, the speed of sound is $c^2_{s,ad} = \frac{1}{2}$. We use a linear equilibrium function for $g_i^\eq$,
 \begin{equation}
-	T_i^\eq = w_i T (1+\frac{\vec{c}_i\cdot\vec{u}}{c_s^2})
+	g_i^\eq = w_i T (1+\frac{\vec{c}_i\cdot\vec{u}}{c_{s,ad}^2})
 \end{equation}
 
 The thermal diffusivity (analogous to the viscosity in the momentum lattice) is 
@@ -223,9 +223,3 @@ The thermal diffusivity (analogous to the viscosity in the momentum lattice) is
 Thermal boundary conditions are handled via a decomposition of the boundary nodes into equilibrium and non-equilibrium parts and the values of the node extrapolated from neighboring nodes. Details of the precise equations can be found in the paper by Guo\etal.\cite{Guo2002}
 
 
-
-
-
-
-\subsection{LBM for Porous Flow}
-The lattice-Boltzmann technique, because of its incredibly simple implementation of no-slip boundary conditions for even the most complex geometry, was immediately seen as a powerful option of fluid modeling in porous networks. Chen \& Doolen review many of the major accomplishments of implementing LBM models which verified Darcy's Law, the Cozeny-Karman equation, and Brinkmann equation among other efforts.\cite{Chen1998a} Pan\etal~evaluated the single-relaxation time BGK operator against models with multiple relaxation times as well as the differences with implemented various fluid-solid interface boundary conditions -- among which was the bounce-back scheme we use here.\cite{Pan2006}

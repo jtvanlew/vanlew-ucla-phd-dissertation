@@ -46,7 +46,7 @@ At present there are two main avenues of tritium breeder designs: those containi
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.85\textwidth]{chapters/figures/solid_breeder_sketch} 
+	\includegraphics[width=0.5\textwidth]{chapters/figures/solid_breeder_sketch} 
 	\caption{Sketch of a typical unit of a pebble bed tritium breeding zone. The pebble bed is cooled with contact to the containing structure.}
 	\label{fig:solid-breeder-sketch}
 \end{figure}
@@ -67,7 +67,7 @@ The dual role of the breeding blanket to generate heat and tritium forces a spec
         \centering
         \begin{subfigure}[b]{\doubleimagewidth}
                 \includegraphics[width=\textwidth]{chapters/figures/keff-pressure}
-                \caption{Effective conductivity of ceramic pebble beds is dependent on the pressure of the interstitial gas, a minimum of about $k_\text{eff} = 1$~W/m-K in vacuum.}
+                \caption{Effective conductivity of ceramic pebble beds is dependent on the pressure of the interstitial gas, a minimum of about $\keff = 1$~W/m-K in vacuum.}
                 \label{fig:keff-pressure}
         \end{subfigure}%
         
@@ -75,10 +75,10 @@ The dual role of the breeding blanket to generate heat and tritium forces a spec
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{\doubleimagewidth 	}
                 \includegraphics[width=\textwidth]{chapters/figures/lit-keff-exp}
-                \caption{The effective conductivity of pebble beds is weakly dependent on external mechanical pressure and is always approximately $k_\text{eff} = 1$~W/m-K in helium.}
+                \caption{The effective conductivity of pebble beds is weakly dependent on external mechanical pressure and is always approximately $\keff = 1$~W/m-K in helium.}
                 \label{fig:keff-lit}
         \end{subfigure}
-        \caption{Effective conductivity of lithium ceramics.}\label{fig:keff}
+        \caption{Effective conductivity of lithium ceramics. Results from Ref.~\cite{Abou-Sena2005}}\label{fig:keff}
 \end{figure}
 
 Many experiments have been run to measure the effective thermal conductivity of a volume of pebbles. In Figs.~\ref{fig:keff}, the effective conductivity is seen to be strong affected by the interstitial gas but weakly affected by the mechanical loads on the bed. The main ideas to take from Figs.~\ref{fig:keff} are that the interstitial gas is an important transporter of heat in the bed and that the effective thermal conductivity of the pebble bed is low and will limit the size of the ceramic pebble bed volume in order to satisfy the temperature window mentioned above; the characteristic length in the direction of conduction to cooling is generally on the order of 1~cm for solid breeder designs.
@@ -130,7 +130,7 @@ In our group we identified the need to obtain an ability to predict pebble damag
 After developing a sophisticated pebble-scale model, I will show the limitations of the micro-mechanical model when it comes to simulating the heat transfer of a ceramic pebble bed with a creeping helium purge gas. Thus I also implement some efficient bed-scale models of thermo-fluid flow coupled to/integrated with particle-scale mechanics. The steps toward achieving these models includes:
 \begin{enumerate}
 \item select, adapt, and employ two numerical schemes to study packed bed energy transfer with interstitial gas,
-\item analyze the reduction in $k_\text{eff}$ due to broken pebbles,
+\item analyze the reduction in $\keff$ due to broken pebbles,
 \item address the overall impact of the helium purge gas on the thermal transport in a bed with evolving morphology,
 \item study the lumped-capacitance assumption (innate to the particle-scale modeling approach) in a packed bed with high Biot number with nuclear heating.
 \end{enumerate}

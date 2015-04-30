@@ -1,4 +1,4 @@
-\section{Numerical Implementation of CFD-DEM}\label{sec:cfd-dem-solver}
+\subsection{Numerical Implementation of CFD-DEM}\label{sec:cfd-dem-solver}
 
 The infrastructure for solving the DEM equations continues to be handled by LIGGGHTS. Details of the software are described in \cref{sec:dem-solver}. The DEM solver is a highly parallel C++ code based on the Molecular Dynamics (MD) code LAMMPS.\cite{Plimpton1995}
 
@@ -8,7 +8,7 @@ Taking advantage of a separate, stand-alone CFD solver that is maintained by a l
 
 The routine of coupling CFD-DEM consists of several steps:
 \begin{enumerate}
-\item the DEM solver calculates the particles positions, velocities, and temperatures with timestep dictated by stability of DEM
+\item the DEM solver calculates the particles positions, velocities, and temperatures with time step dictated by stability of DEM
 \item the particles positions and velocities are passed to the CFD solver using the Message Passing Interface (MPI)
 \item for each particle, the cell in the CFD mesh that contains the particle is located
 \item for each cell, the particle volume fraction is determined from the divided technique described in \cref{sec:lag-eul-mapping}. The ensemble-average velocity of the particles is determined

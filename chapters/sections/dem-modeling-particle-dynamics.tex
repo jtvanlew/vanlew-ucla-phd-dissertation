@@ -119,24 +119,24 @@ with $\beta_\text{damp}$ as the damping ratio, and the pair mass, $\frac{1}{m^*}
 
 Having expressed the contact mechanics of the discrete element method, we now need a means of integrating the kinematics of the particles. The most common means of marching in time with DEM is the velocity-Verlet algorithm\cite{Kruggel-Emden2008}. In this algorithm we integrate Eqs.~\ref{eq:newtons-second} with half-steps in velocity, full steps in position, and then finally the complete step in velocity (the two half-steps in velocity are often compressed into a single, full step, as we will do below). Here we will explicitly show the integration for the translational degrees of freedom. 
 
-The force field defined by Eq.~\ref{eq:newton-translational} is rewritten in terms of the acceleration of the particle. For clarity in expression, the per-particle subscripts ($i$, $j$, etc.) will be temporarily omitted. Instead, time-varying quantities will have a subscript to refer to their temporal location. Quantities measured or evaluated at the current timestep will have subscript $t$ (note this does not refer to tangential directions!). Eq.~\ref{eq:newton-translational} is rewritten as
+The force field defined by Eq.~\ref{eq:newton-translational} is rewritten in terms of the acceleration of the particle. For clarity in expression, the per-particle subscripts ($i$, $j$, etc.) will be temporarily omitted. Instead, time-varying quantities will have a subscript to refer to their temporal location. Quantities measured or evaluated at the current time step will have subscript $t$ (note this does not refer to tangential directions!). Eq.~\ref{eq:newton-translational} is rewritten as
 
 \begin{equation}\label{eq:newton-acceleration}
 	\vec{a}_t = \vec{g} + \frac{\vec{f}_t}{m}
 \end{equation}
 
-The first step in the velocity-Verlet algorithm is to integrate the position of the particle by a full timestep based on the current timestep's velocity and acceleration. Note that the initial condition of the particle must specify both position and velocity for this step to be evaluated at the start, from then on the velocity is explicitly updated.
+The first step in the velocity-Verlet algorithm is to integrate the position of the particle by a full time step based on the current time step's velocity and acceleration. Note that the initial condition of the particle must specify both position and velocity for this step to be evaluated at the start, from then on the velocity is explicitly updated.
 
 \begin{equation}
 	\vec{r}_{t+\Delta t} = \vec{r}_t + \vec{v}_t\Delta t + \frac{1}{2}\vec{a}_t\Delta t^2
 \end{equation}
 
-The particles at new positions interact as a function of their overlaps (see Eqs.~\ref{eq:dem-forces}). Acceleration at the full timestep is then calculated from the updated forces (of Eq.~\ref{eq:newton-acceleration}). In the last computational step, the velocity at the full timestep is found from an average acceleration,
+The particles at new positions interact as a function of their overlaps (see Eqs.~\ref{eq:dem-forces}). Acceleration at the full time step is then calculated from the updated forces (of Eq.~\ref{eq:newton-acceleration}). In the last computational step, the velocity at the full time step is found from an average acceleration,
 
 \begin{equation}
 	\vec{v}_{t+\Delta t} = \vec{v}_t + \frac{\vec{a}_t + \vec{a}_{t+\Delta t}}{2}\Delta t
 \end{equation}
 
-The velocity-Verlet algorithm is an efficient means of explicitly integrating the kinematic equations for all the particles in the ensemble. The algorithm is stable with a global error of approximately $O(\Delta t^2)$ for displacement.\cite{Grubmuller1991} But, as an explicit method, the size of the timestep must be carefully chosen to avoid instabilities in the system. Stable, critical timesteps and means of circumventing unreasonably small timesteps will be addressed in \cref{sec:dem-stability}. Additionally, we have contended with the Lagrangian tracking of the particles momentum but we have still to deal with energy transfer through the packed beds which is just as important for our packed beds of ceramic breeder material. The heat transfer will be tackled in \cref{sec:dem-heat-transfer}.
+The velocity-Verlet algorithm is an efficient means of explicitly integrating the kinematic equations for all the particles in the ensemble. The algorithm is stable with a global error of approximately $O(\Delta t^2)$ for displacement.\cite{Grubmuller1991} But, as an explicit method, the size of the time step must be carefully chosen to avoid instabilities in the system. Stable, critical time steps and means of circumventing unreasonably small time steps will be addressed in \cref{sec:dem-stability}. Additionally, we have contended with the Lagrangian tracking of the particles momentum but we have still to deal with energy transfer through the packed beds which is just as important for our packed beds of ceramic breeder material. The heat transfer will be tackled in \cref{sec:dem-heat-transfer}.
 
 In our work, we occasionally required a fully quiesced bed. To determine when this occurred, the total kinetic energy of the entire ensemble was monitored and a packed bed was considered to have completely settled once the kinetic energy of the system was less than $10^{-9}$; similar to the process described in Ref.~\cite{Silbert2002}. 

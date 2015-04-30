@@ -1,0 +1,46 @@
+\subsection{Modeling Setup, Boundary Conditions, and Coupling}
+We begin with the same well-packed pebble bed set up in \cref{sec:dem-studies-effective-conductivity}. With the inclusion of helium, we only consider a single representative damaged bed, with $\eta = 10$\%. The random removal technique of inducing `damage' to the bed was again used (in the same manner as described in \cref{sec:dem-studies-effective-conductivity}). The intent is to deduce changes in thermophysical properties when helium is considered in the thermal transport network of the pebble bed -- and as a function of the morphological changes due to damaged pebbles.
+
+The fluid domain is constructed to include an inlet and outlet region of fluid. The inlet region is 5 pebble diameters in length and the outlet is 30 pebble diameters. No-slip boundary conditions are enforced at the walls at the $x$-limits of the region. To match the DEM domain, periodic boundary conditions are used in the $y$-limits. The inlet face of the fluid is specified at a constant $\vec{v} = 0.05$~cm/s. The outlet face is specified with OpenFOAM's `inletOutlet' command with a given pressure. This boundary condition allows the inlet pressure to float to value that satisfies the specified inlet velocity and outlet pressure. The temperature is specified as a constant $T_w = 573$~K at the $x$-walls as well as the inlet condition. The outlet condition of the temperature field is similarly given to be `inletOutlet' with OpenFOAM.
+
+The size of the CFD cells were chosen to be large enough to fit approximately 5 pebbles, for which the divided technique of computing void fraction is applicable (see \cref{sec:lag-eul-mapping}); the ratio of cell volume to particle volume was $V_\text{cell} / V_p = 7.46$. The helium, in this first model, used constant fluid properties. The values are given in Table~\ref{tab:cfd-properties}.
+
+The Koch-Hill-Ladd drag model is employed in the style of Model B with an Archimedes pressure for buoyancy term. The terminology of these CFD coupling drag models is discussed in Ref.~\cite{Zhou2010}. The Nusselt number correlation of Li \& Mason is used for the scalar transport simulation of energy. OpenFOAM's dummy turbulence model (which is nothing more than a laminar model) is used.
+
+An implicit time marching scheme is employed with a time step in the fluid domain of $\Delta t_f = 10^{-4}$ s. The small time step is not necessary to capture the fluid flow. The momentum equation is essentially not even transient as a steady-state laminar solution is achieved almost instantaneously in comparison to the long time span required to reach thermal steady state. The small time step is necessary for a relatively tight coupling to the pebble bed as the temperatures increase on the pebbles. Integration schemes of gradients, divergence terms, and laplacians are all Gauss linear or Gauss limitedLinear (as defined in OpenFOAM). The time step of the DEM is $\Delta t_f = 10^{-7}$ s which must be small for stability of the DEM explicit integration. The coupling between CFD and DEM domains occurs every 10 time steps of the fluid domain - equating to every 10000 in the pebble domain.
+
+The layout of the pebble bed inside the CFD domain is shown in Figs.~\ref{fig:cfdem-domain-z}, \ref{fig:cfdem-domain-z}, and~\ref{fig:cfdem-domain-z}. Notable of the layout is how we relax the size of the meshes in the direction of the periodic boundaries. The size is permitted as there are few variations in fluid or temperature in the periodic direction. The meshes are made much smaller in the direction between cooling boundaries. In this direction ($x$-direction), we need the meshes small enough to resolve a temperature profile across the bed between centerline and cooling boundaries. We also want to capture the behavior of near-wall arrangement of the pebble bed. 
+
+\begin {table}[htp] %
+\caption{Constant fluid properties of helium purge gas in CFD-DEM coupling.}
+\label {tab:cfd-properties} \centering %
+\begin {tabular}{ ccccc }
+\toprule %
+$\nu$				&	$\alpha$				&	$k$		&	$C_p$		& $\rho$		\\
+(m$^2$/s)			&	(m$^2$/s)				&	(W/m-K)	&	(J/kg-K)	& (kg/m$^3$)	\\\toprule
+$4.02\times 10^{-4}$&	$6.06\times 10^{-4}$	& 	0.2		& 	5192.8		& 	0.175		\\\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.4\textwidth]{chapters/figures/x-side-view}
+    \caption{Side view of the pebble bed as it resides in the CFD mesh. The meshes in the direction of the periodic faces are allowed to be larger than others.}\label{fig:cfdem-domain-x}
+\end{figure}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.4\textwidth]{chapters/figures/y-side-view}
+    \caption{Front view of the pebble bed as it resides in the CFD mesh. The meshes in the direction of cooling are chosen to be large enough to fit many pebbles but small enough to provide a resolved temperature profile.}\label{fig:cfdem-domain-y}
+\end{figure}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\singleimagewidth]{chapters/figures/z-top-view}
+    \caption{Top view of the pebble bed as it resides in the CFD mesh.}\label{fig:cfdem-domain-z}
+\end{figure}
+
+
+While the energy transport is the main concern of the pebble bed, we perform a simple validation of the CFD-DEM routine against known pressure-drop correlations to provide confidence in the overall coupling and volume-averaging technique. After pressure drop is shown to be consistent with empirical predictions, we can go through the thermal results.
+\FloatBarrier

@@ -1,7 +1,5 @@
 \section{Pebble Damage Modeling}\label{sec:failure-study}
 
-\subsection{Translating Experimental Results to Pebble Bed Interactions}\label{sec:theoryStrainEnergy}
-
 It is impractical, if not impossible, to accurately measure the contact forces between all the pebbles in a densely-packed, three-dimensional ensemble. In investigating the probability of pebbles becoming damaged (\textit{i.e.} crushed or cracked) in a packed bed, we therefore rely on the combined information gained from indirect measurements of the entire pebble bed, crush experiments of individual pebbles, and the predictive capabilities of DEM simulations. In this section I first employ observations of individual pebble crush experiments to create a metric (strain energy) to link the data to the contact forces measured in DEM to help predict when pebbles in the ensemble will become damaged. I then review some literature where similar efforts have been performed at other research institutions and point out why the method employed here is preferred. Finally I show some numerical recipes I have developed for modeling the fragmentation event of a crushed pebble in the DEM framework -- along with an evaluation of some fragmentation schemes. 
 
 \subsubsection{Experimental Measurements of Strain Energy}
@@ -171,7 +169,7 @@ where $\eta$ is the percent of crushed pebbles. Obviously then, the ratio of the
 \end{equation}
 and the energy deposited is not balanced between a virgin bed and one with crushed pebbles. We will attempt to address this issue.
 
-\subsection{Modeling Fragments of a Crushed Pebble}
+\subsection{Modeling Fragments of a Crushed Pebble}\label{sec:fragmentation}
 In the DEM framework, we are limited to modeling elastic spheres. If we strictly wish to conserve mass between a solid pebble of radius $R_p$ and the crushed fragments of radius $R_c$, then the number of crushed fragments (spheres) per crushed pebble is
 \begin{equation}\label{eq:nc-crushed-fragments}
 	N_c = \left(\frac{R_c}{R_p}\right)^{-3}

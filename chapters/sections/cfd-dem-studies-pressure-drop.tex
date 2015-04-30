@@ -1,7 +1,6 @@
 \subsection{Pressure Drop}
-Before analyzing thermal results from the CFD-DEM coupling, the system was run at various particle Reynolds numbers and the overall pressure drop of the packed bed was measured. This value was compared against the well-known Kozeny-Carman and Ergun equations. The Kozeny-Carman is known to fit better with experimental data at very small Reynolds numbers. In Fig.~\ref{fig:cfdem-pressure-drop} we see the CFD-DEM coupling model is providing bed-scale pressure drops that match very well with Kozeny-Carman over the Reynold’s numbers applicable to helium purge flow in fusion reactors.
 
-The flow is visualized in Fig.~\ref{fig:cfdem-streamlines}. The pebble bed is clipped at the centerline to allow viewing of the helium streamlines. Apparent in the figure is temperature profiles in the helium from centerline to wall that qualitatively mirror temperature profiles in the pebble bed.
+Before analyzing thermal results from the CFD-DEM coupling, the system was run at various particle Reynolds numbers and the overall pressure drop of the packed bed was measured with a varied constant inlet velocity. This value was compared against the well-known Kozeny-Carman and Ergun equations; however the Kozeny-Carman is known to fit better with experimental data at very small Reynolds numbers. In Fig.~\ref{fig:cfdem-pressure-drop} we see the CFD-DEM coupling model is providing bed-scale pressure drops that match very well with Kozeny-Carman over the Reynold’s numbers applicable to helium purge flow in fusion reactors. This is the sole validation effort performed on the CFD-DEM tool.
 
 \begin{figure}
         \centering
@@ -19,33 +18,4 @@ The flow is visualized in Fig.~\ref{fig:cfdem-streamlines}. The pebble bed is cl
                 \label{fig:pressure-drop-evap}
         \end{subfigure}
         \caption{Pressure drop calculations across packed beds, solved by CFD-DEM, fit well to the Kozeny-Carman empirical relation.}\label{fig:cfdem-pressure-drop}
-\end{figure}
-
-
-
-\begin{figure}[t]
-	\centering
-	\caption{Cut-away view of the pebble bed with streamlines of helium moving in generally straight paths from inlet to exit.}
-	\includegraphics[width=\singleimagewidth]{chapters/figures/cfd-dem-streamlines2}\label{fig:cfdem-streamlines}
-\end{figure}
-
-
-
-
-\begin{figure}
-        \centering
-        \begin{subfigure}[b]{0.5\textwidth}
-                \includegraphics[width=\textwidth]{chapters/figures/full-x-T-color}
-                \caption{Well-packed bed}
-                \label{fig:x-T-full}
-        \end{subfigure}%
-        
-          %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.5\textwidth}
-                \includegraphics[width=\textwidth]{chapters/figures/evap-x-T-color}
-                \caption{Re-settled bed}
-                \label{fig:x-T-evap}
-        \end{subfigure}
-        \caption{Scatter temperature profiles of pebbles in a bed that is: well-packed (left) and resettled after 10\% of pebbles were removed from crushing (right). The introduction of helium into the simulation contributes to both lower overall temperatures (higher effective conductivity) and the smoothing out of high temperatures of isolated pebbles.}\label{fig:cfdem-x-T}
 \end{figure}
