@@ -77,12 +77,12 @@ We have established throughout this dissertation that the contribution of helium
 
 Therefore, in this section we work to introduce one method of coupling the discrete element method to a thermo-fluid model of helium. This first approach is to consider the helium as a continuum with volume-averaged contributions of the pebbles in each computational cell. The numerical implementation of fluid-solid interaction was outlined in \cref{sec:modeling-cfd-dem}.
 
-\input{chapters/sections/cfd-dem-setup}
+\input{chapters/sections/cfd-dem-studies-setup}
 \input{chapters/sections/cfd-dem-studies-pressure-drop}
 \input{chapters/sections/cfd-dem-studies-effective-conductivity}
 
 \subsection{Conclusions}
-The CFD-DEM formulation maintains calculations of pebble-pebble interactions while dynamically coupling to the helium flow. The model demonstrates the ability of helium gas to smooth out any hot spots predicted by pure-conduction DEM formulations. Further, the lattice-Boltzmann simulation, while not fully coupled to DEM, revealed important features of helium flow in volumetrically heated pebble beds – mainly the smearing of temperature profiles along the paths of cooling.
+The CFD-DEM formulation maintains calculations of pebble-pebble interactions while dynamically coupling to the helium flow. The model demonstrates the ability of helium gas to smooth out any hot spots predicted by pure-conduction DEM formulations. 
 
 
 
@@ -96,9 +96,21 @@ The CFD-DEM formulation maintains calculations of pebble-pebble interactions whi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{3D Lattice-Boltzmann Models of the Complete Conjugate Heat Transfer of Helium Purge Gas and Ceramic Pebble Beds}\label{sec:lbm-studies}
 
-%\input{chapters/sections/lbm-studies-effective-conductivity.tex}
+\input{chapters/sections/lbm-studies.tex}
 
-\section{Discussion \& Conclusions}
+\subsection{Conclusions}
+Further, the lattice-Boltzmann simulation, while not fully coupled to DEM, revealed important features of helium flow in volumetrically heated pebble beds -- mainly the smearing of temperature profiles along the paths of cooling.
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary, Discussion, \& Conclusions}
 Single largest factor determining effective conductivity (in a pure conduction environment) is contact force
 In simple model of removed particles, a non-linear reduction in effective conductivity was observed
 Size and complexity of porous bed make it impractical for modeling conjugate heat transfer on pebble-scale with conventional CFD tools
@@ -109,3 +121,4 @@ Significant results from models of our test cases:
 Discovered laminar mixing in packed beds with volumetric heating and wall cooling broadens/flattens temperature profiles in the bed 
 ‘Rattlers’ have their temperatures regulated by helium
 Laminar mixing of energy has many promising features not expected from the helium purge gas in breeder blankets
+

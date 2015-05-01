@@ -134,8 +134,8 @@ Inserting the operator of Eq.~\ref{eq:bgk-operator} into the evolution of the de
 \end{equation}
 
 In spite of the relaxation time being a free parameter, there are limits to its value. The kinematic viscosity in the lattice is given as,
-\begin{equation}
-	\nu_\lb = c_s^2\left(\tau-\frac{1}{2}\right)
+\begin{equation}\label{eq:lbm-viscosity-relaxation-time}
+	\nu = c_s^2\left(\tau-\frac{1}{2}\right)
 \end{equation}
 which shows that $\tau$ can not shrink to an arbitrarily small number. Numerical instabilities appear as $\tau \rightarrow 0.5$ and the kinematic viscosity $\nu \rightarrow 0$. Furthermore, if $\tau > 1$, we have subrelaxation and the distribution function will never completely relax to equilibrium. When $\tau < 1$, we have overrelaxation and the system out of equilibrium will advance toward it at different rates. When $\tau$ is small, the relaxation to $f^\eq$ is fast and thus the viscosity of the lattice can be considered to be small. A negative viscosity occurs if $\tau < 1/2$ and is not allowed.\cite{Chopard2002,Chen1998a}
 
@@ -209,7 +209,7 @@ A multi-scale Champan-Enskog expansion of Eq.~\ref{eq:lbm-thermal-bgk} can show 
 
 The thermal diffusivity (analogous to the viscosity in the momentum lattice) is 
 \begin{equation}
-	\alpha_{lb} = c_{s,ad}^2(\tau_{ad} - \frac{1}{2})
+	\alpha = c_{s,ad}^2(\tau_{ad} - \frac{1}{2})
 \end{equation}
 % The coupling from temperature to density via the Boussinesq assumption is done with the addition of a body force term, $g_i$ to the Navier-Stokes' BGK equation,
 % \begin{equation}

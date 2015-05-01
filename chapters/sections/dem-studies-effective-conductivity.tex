@@ -57,11 +57,11 @@ At steady-state, the temperature of a material with constant temperature boundar
 	0 = \frac{\mathrm{d}^2T}{\mathrm{d}x^2} + \frac{q'''}{\keff}
 \end{equation}
 
-We introduce a non-dimensional temperature
+We introduce a nondimensional temperature
 \begin{equation}
 	\theta = \frac{T(x) - T_s}{T_0 - T_s}
 \end{equation}
-where $T_0$ is the temperature at the centerline of this slab (a value we will find momentarily). The length is non-dimensionalized as
+where $T_0$ is the temperature at the centerline of this slab (a value we will find momentarily). The length is nondimensionalized as
 \begin{equation}
 	x^* = \frac{x}{L}
 \end{equation}
@@ -75,11 +75,11 @@ where
 	G = \frac{q'''L^2}{\keff(T_0 - T_s)}
 \end{equation}
 
-In the non-dimensionalized form, the solution is revealed to be purely geometric,
+In the nondimensionalized form, the solution is revealed to be purely geometric,
 \begin{equation}\label{eq:continuum-temperature-nondim}
 	\theta = 1-x^{*2}
 \end{equation}. 
-as $T_0  - T_s = \frac{q'''L^2}{2\keff}$. We will use the non-dimensional temperature solution of Eq.~\ref{eq:continuum-temperature-nondim} to prove our one-dimensional assumption of heat transfer is justified for the pebble beds.
+as $T_0  - T_s = \frac{q'''L^2}{2\keff}$. We will use the nondimensional temperature solution of Eq.~\ref{eq:continuum-temperature-nondim} to prove our one-dimensional assumption of heat transfer is justified for the pebble beds.
 
 We note that in this continuum mechanics formulation, we are assuming that the nuclear source, $q'''$ term is applied evenly over the entire volume. In our DEM formulation, our source term applies to a single pebble. To find the effective thermal conductivity of our `slab' of pebble bed, we must reconcile this discrepency. This is accomplished with the exchange of
 \begin{equation}\label{eq:q-source-translation}
@@ -109,26 +109,26 @@ We will use this formulation of Eq.~\ref{eq:dem-effecitve-conductivity-formula} 
 \subsection{Results}
 The aim of this study was both to discover the impact of pebble failure on thermo-mechanical properties as well as determine the impact as a function of the number of failed pebbles. To satisfy the latter, we created beds with $\eta = 1\%$, $3\%$, $5\%$, $10\%$, and $15\%$ of pebbles failed. 
 
-We plot Eq.~\ref{eq:continuum-temperature-nondim} against the non-dimensionalized temperature profiles coming from the steady-state DEM simulation in Fig.~\ref{fig:temp-scatters}. We find that all our models had a nearly perfect match to a one-dimensional prediction, validating the calculation of effective thermal conductivity in this study. Furthmore, the profiles adhering to the one-dimensional curve also allows us to find the effective conductivity of each bed from applying Eq.~\ref{eq:dem-effecitve-conductivity-formula}, which was derived from the one-dimensional assumption.
+We plot Eq.~\ref{eq:continuum-temperature-nondim} against the nondimensionalized temperature profiles coming from the steady-state DEM simulation in Fig.~\ref{fig:temp-scatters}. We find that all our models had a nearly perfect match to a one-dimensional prediction, validating the calculation of effective thermal conductivity in this study. Furthmore, the profiles adhering to the one-dimensional curve also allows us to find the effective conductivity of each bed from applying Eq.~\ref{eq:dem-effecitve-conductivity-formula}, which was derived from the one-dimensional assumption.
 
 In a well-packed bed, most pebbles have a coordination number $Z > 6$. But even in a well-packed bed, there exist some `rattlers' -- pebbles that have only 1 or 2 contact points (aside from touching the floor or wall). These rattlers, without strong contact to neighbors, heat up arbitrarily high in the system. In a pebble bed that's resettling due to damage, increased numbers of rattlers appear in the bed. The isolated rattlers are apparent in the scatter plots of Fig.~\ref{fig:temp-scatters}. The temperatures of most pebbles are tightly grouped around the parabolic average. Though many data points are seen dotted all around the temperature scale. The phenomena of hot rattlers is only possible when we use DEM without consideration of the helium purge gas. If these hot rattlers persist even in the presence of helium, it could lead to an unfavorable performance of the ceramic solid breeder -- the hot rattlers would sinter and prevent the outgassing of tritium among other issues. The observation of these isolated pebbles is another motivator for the coupling of DEM to thermo-fluid models. Because the 10\% and 15\% cases have such high temperatures, we show only the 0-5\% crushed together in Fig.~\ref{fig:temp-scatters-zoomed}
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.65\textwidth]{chapters/figures/dem-evap-0-15-scatter-keff.png}
+	\includegraphics[width=\singleimagewidth]{chapters/figures/dem-evap-0-15-scatter-keff.png}
 	\caption{The nondimensional temperature profiles for each test case follow the theoretical shape of a one-dimensional, constant $k$, continuum solution.}
 \label{fig:temp-scatters}
 \end{figure}
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.65\textwidth]{chapters/figures/dem-evap-0-5-scatter-keff.png}
+	\includegraphics[width=\singleimagewidth]{chapters/figures/dem-evap-0-5-scatter-keff.png}
 	\caption{The nondimensional temperature profiles for the test cases up to 5\% crushed pebbles.}
 \label{fig:temp-scatters-zoomed}
 \end{figure}
 
 
-In order to calculate an effective conductivity of the pebble bed, we must find an average temperature profile through the bed to compare with Eq.~\ref{eq:continuum-temperature-nondim} and thus employ Eq.~\ref{eq:dem-effecitve-conductivity-formula}. We compare steady-state temperature profiles in the test beds against the one-dimensional, non-dimensional temperature profile. Average values of the bed, along the $x$ direction, are generated via averaging temperatures in bins. We create bins that are volumes slices of width $\Delta x$ that extend through the limits of the $y$- and $z$-directions. We then find the $n$ pebbles residing in the slices and take the mean value of their temperatures. The average, given by Eq.~\ref{eq:binned-T}, is also given in Fig.~\ref{fig:temp-scatters}. The binned average temperature is 
+In order to calculate an effective conductivity of the pebble bed, we must find an average temperature profile through the bed to compare with Eq.~\ref{eq:continuum-temperature-nondim} and thus employ Eq.~\ref{eq:dem-effecitve-conductivity-formula}. We compare steady-state temperature profiles in the test beds against the one-dimensional, nondimensional temperature profile. Average values of the bed, along the $x$ direction, are generated via averaging temperatures in bins. We create bins that are volumes slices of width $\Delta x$ that extend through the limits of the $y$- and $z$-directions. We then find the $n$ pebbles residing in the slices and take the mean value of their temperatures. The average, given by Eq.~\ref{eq:binned-T}, is also given in Fig.~\ref{fig:temp-scatters}. The binned average temperature is 
 \begin{equation}\label{eq:binned-T}
 	\langle T\rangle = \frac{1}{n}\sum_{i}^n T_i 	
 \end{equation}

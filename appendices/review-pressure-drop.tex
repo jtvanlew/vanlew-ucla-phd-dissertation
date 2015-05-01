@@ -50,7 +50,7 @@ Thus the average drag per particle in this flow is
 	\langle f \rangle = \frac{\Delta p}{L}\frac{\pi d_p^3}{6(1-\epsilon)}
 \end{equation}
 
-We will non-dimensionalize the average drag force based on the classic Stokes force, drag force of a single particle in unbounded fluid,
+We will nondimensionalize the average drag force based on the classic Stokes force, drag force of a single particle in unbounded fluid,
 
 \begin{equation}\label{eq:non-dim-drag}
 	F = \frac{\langle f \rangle}{3\pi \mu d_p U}
@@ -84,13 +84,13 @@ Another correlation that is perhaps more commonly used in general is the Ergun e
 	\frac{\Delta p}{L} = \frac{150 U \mu}{d_p^2} \frac{(1-\epsilon)^2}{\epsilon^3} + \frac{1.75 \rho U^2}{d_p}\frac{1-\epsilon}{\epsilon^3}
 \end{equation}
 
-We non-dimensionalize the Ergun equation of Eq.~\ref{eq:ergun-pressure} in the same form as Eq.~\ref{eq:K-C-non-dim} to find
+We nondimensionalize the Ergun equation of Eq.~\ref{eq:ergun-pressure} in the same form as Eq.~\ref{eq:K-C-non-dim} to find
 
 \begin{equation}\label{eq:ergun-non-dim}
 	F_e = 8.33 \, \frac{1-\epsilon}{\epsilon^3} + 0.18 \, \frac{\Re}{\epsilon^3}
 \end{equation}
 
-where we see the Reynolds number dependence in the second term on the right side of Eq.~\ref{eq:ergun-non-dim}. Comparing this to the non-dimensionalized drag force of the Kozeny-Carman relation (Eq.~\ref{eq:K-C-non-dim}), we see that the first term on the right hand side is essentially the same but Ergun's equation underpredicts Stokes flow by roughly 20\% (8.33 to 10.0). This is understandable as Ergun's equation was meant to fit a wide range of flow (finite-to-large $\Re$), including turbulent flow, whereas the Kozeny-Carman was meant specifically to apply to Stokes flow-type laminar packed beds.
+where we see the Reynolds number dependence in the second term on the right side of Eq.~\ref{eq:ergun-non-dim}. Comparing this to the nondimensionalized drag force of the Kozeny-Carman relation (Eq.~\ref{eq:K-C-non-dim}), we see that the first term on the right hand side is essentially the same but Ergun's equation underpredicts Stokes flow by roughly 20\% (8.33 to 10.0). This is understandable as Ergun's equation was meant to fit a wide range of flow (finite-to-large $\Re$), including turbulent flow, whereas the Kozeny-Carman was meant specifically to apply to Stokes flow-type laminar packed beds.
 
 \subsection{Koch-Hill-Lad Correlation for Pressure Drop}
 Koch, Hill, \& Ladd studied packed bed flow with high-precision lattice-Boltzmann simulations to develop correlations for drag in a packed bed over a wide range of packing fractions and Reynolds numbers.\cite{Koch2001,Hill2001a,Hill2001} They studied ordered arrays of spheres at various flow angles with dilute arrays (interstitial Reynolds number greater than particle Reynolds number), up to dense ordered arrays, and random arrays.
@@ -121,7 +121,7 @@ Koch, Hill, \& Ladd\cite{Hill2001, Koch2001, Gruber2012, Benyahia2006} compare t
 For Stokes-flow (and near-Stokes-flow), the drag force computed from their lattice-Boltzmann simulations were indistinguishable from experimental data over all ranges of packing fractions achievable in controlled experiments. The correlation fit to their data for small Reynolds number and large packing fraction is simply the Kozeny-Carman relationship -- which was itself generated with coefficients matching experimental data so it is no surprise their correlation fits that phase space of $\phi-\Re$.
 
 \subsection{Correlation Comparisons}
-We have given three correlations relating a non-dimensional drag force to packing fraction and Reynolds number. The first, the Kozeny-Carman equation, is applicable at small Reynolds number and broad range of packing fraction. The second, the Ergun equation, is applicable at a broad range of Reynolds number but is most accurate at higher packing fractions and also under-predicts drag at low Reynolds numbers. Finally, the third correlation by Koch, Hill, \& Ladd (KHL), extended the drag correlations over a much more broad packing fraction and Reynolds numbers than is possible with physical experiments. 
+We have given three correlations relating a nondimensional drag force to packing fraction and Reynolds number. The first, the Kozeny-Carman equation, is applicable at small Reynolds number and broad range of packing fraction. The second, the Ergun equation, is applicable at a broad range of Reynolds number but is most accurate at higher packing fractions and also under-predicts drag at low Reynolds numbers. Finally, the third correlation by Koch, Hill, \& Ladd (KHL), extended the drag correlations over a much more broad packing fraction and Reynolds numbers than is possible with physical experiments. 
 
 Here we simply provide a graphical comparison of the relationships that demonstrates when the classic correlations of Kozeny-Carman and Ergun match the correlation of KHL and when they diverge.
 \begin{figure}[!ht]
