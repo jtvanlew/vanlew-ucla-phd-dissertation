@@ -1,26 +1,30 @@
 \chapter{Remaining Work and Challenges}\label{sec:remaining}
 
-Complete the development of numerical tools
-Validate with experimental data \& analytically-based correlations of effective conductivity with stagnant gas (e.g. SBZ model)
+The initial results of the numerical tools developed for this dissertation show their promise and reach but much work remains to be completed to satisfy the objectives laid out in \cref{sec:intro-scope-of-work}. A description of the remaining work and development to achieve the goals is given here. 
 
-Augment pebble damage simulations with the crush-prediction algorithm
+\section{Remaining Work}
+\subsection{Validation of the Basic Governing Equations in Numerical Tools}
 
-Apply the complete set of tools to two different configurations of breeders designed for ITER
+The development of numerical tools shown in this dissertation are still incomplete. There has been some attempts to validate the results when possible, but some more simple validation can be done on the conductivity predictions of the DEM tools. A thorough review of correlations to model the packing structure and effective thermal conductivity in packed beds of spheres has been performed by van Antwerpen, du Toit, and Rousseau.\cite{VanAntwerpen2010} They show that, for packed beds similar to those under consideration for ceramic solid breeders, the correlation given by Schlunder\etal\cite{bauer1978effective,Zehner1972} are well-matched for stagnant interstitial gas. 
+
+The so-called SBZ (Schundler, Bauer, Zehner) correlation has been used in many previous packed bed studies for fusion solid breeders (for example, Ref.~\cite{Abou-Sena:2007ff}). Similar models, such as the one given by Bahrami, Yovanovich, and Culham have been fit from experimental measurements in vacuum.\cite{Bahrami20063691} I will attempt validation of the effective conductivity of several initially-packed pebble beds in DEM and in the limit of $\Re \rightarrow 0$ in the CFD-DEM numerical models. Currently, the effective conductivity of pebbles in vacuum (as modeled in DEM) appear to over-predict the amount of heat moved between pebble contacts. It is possible that a roughness parameter can fit the DEM results to the correlations in the well-packed conditions. A roughness parameter, $\kappa_r$, as a function of contact force can be introduced into Eq.~\ref{eq:dem-conductance} as,
+\begin{equation}
+	H_c = 2\kappa_rk^*\left[\frac{3F_{n,ij}R^*}{4E^*}\right]^{1/3}
+\end{equation}
+where $\kappa_r < 1$ and decreases the amount of heat transported through inter-particle contacts.
+
+\subsection{Augmenting Models with Crush-Prediction}
+I showed in \cref{sec:failure-study} how the DEM calculations of contact forces can be used with experimental data on single pebble crushing to predict crushing in pebble beds experiencing an external force. Though currently there is little-to-no experimental data with which to validate the crush modeling, I will create some representative beds and apply the crush-predicting algorithm with fusion-relevant conditions. The results will provide some insight to guide possible future experiments if pebble crushing remains an important driving feature of the ceramic pebble beds.
+
+\subsection{Overcome Stability Errors of LBM}
+In the lattice-Boltzmann streaming-collision operators, stability is governed by the magnitude of the relaxation parameters, $\tau$, and the time step, $\delta_t$. These parameters can not be uncoupled from the spatial resolution $\delta_x$ or the flow conditions, such as Reynolds number. The simulations performed thus far are conditionally stable in the thermal lattice. A more thorough understanding of the room for play in non-dimensional and lattice parameters will provide an ability to model more efficiently and stably. 
 
 
-Stability of LBM balanced with sufficiently high resolution of pebbles.
-
-\section{Remaining Issues to Address and Overcome}
-Discrete Element Method
-Conclude if conduction model requires a roughness coefficient to match experimental data
-
-Volume-averaged fluid coupling to DEM
-CFD-DEM simulations may not capture laminar mixing of energy as shown by LBM models, but are significantly faster to simulate. Quantify error against the ‘exact’ solution of LBM
-Lattice-Boltzmann Stability
-Discover nondimensional, lattice parameters in scaled packed bed with stronger stability
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Applications to Real Solid Breeder Blanket Designs}\label{sec:applied-studies}
 
-In this study we apply coupled computational fluid dynamics and discrete element method (CFD-DEM) modeling tools to study the combined effects of pebble crushing, packing restructuring due to both gravity and the unbalanced force network in the pebble bed, and convection from helium purge gas on subsequent temperature profiles in solid breeders for different breeding configurations. In typical solid breeder modules, coolant fluid runs through the containing structure surrounding the pebble bed. Heat is removed from the pebble bed predominately through inter-particle conduction and contact conductance of many pebbles pressed against the containing surface. As such, heat transfer out of the pebble bed relies on maintaining good pebble-pebble and pebble-wall contact. However, physical contact is interrupted to different degrees when a pebble bed responds to various amounts of individual crushed pebbles. Furthermore, the restructuring of the pebble bed after a pebble crushing event is, in part, dependent on gravity forces acting upon each pebble in the ensemble. We investigate two representative pebble bed configurations where heat is removed from the bed via inter-particle conduction, convection of purge gas, and contact between the pebble bed and its container. In the first, the coolant containing structural walls (heat transfer walls) are oriented parallel to the gravity force. In the second configuration, the heat transfer walls are perpendicular to the direction of gravity. To simulate a crushed pebble, we replace the pebble with many smaller, non-cohesive elements while maintaining mass-conservation between the original solid pebble and crushed fragments. The fragments are then free to resettle into interstitial gaps and the rest of the bed resettles as determined by forces from gravity, contact of neighboring particles, and even the small influence of the moving purge gas. The thermofluid interaction with the helium purge gas will be included with volume-averaged Navier-Stokes and energy equations. The representative solid breeder volumes will be compared with respect to their temperature peaks and profiles and how those temperatures vary as a function of the percentage of crushed pebbles in the ensemble. The results can be used to optimize solid breeder pebble bed designs through the choice of breeding zone orientation relative to the gravity vector.
+I will apply coupled computational fluid dynamics and discrete element method (CFD-DEM) modeling tools to study the combined effects of pebble crushing, packing restructuring due to both gravity and the unbalanced force network in the pebble bed, and convection from helium purge gas on subsequent temperature profiles in solid breeders for different breeding configurations. Heat transfer out of pebble bed relies on maintaining good pebble-pebble and pebble-wall contact. As we have seen, physical contact is interrupted to different degrees when a pebble bed responds to various amounts of individual crushed pebbles. Furthermore, the restructuring of the pebble bed after a pebble crushing event is, in part, dependent on gravity forces acting upon each pebble in the ensemble. I will investigate two representative pebble bed configurations where heat is removed from the bed via inter-particle conduction, convection of purge gas, and contact between the pebble bed and its container.
+
+In the first, the coolant containing structural walls (heat transfer walls) are oriented parallel to the gravity force. In the second configuration, the heat transfer walls are perpendicular to the direction of gravity. To simulate a crushed pebble, we replace the pebble with many smaller, non-cohesive elements while maintaining mass-conservation between the original solid pebble and crushed fragments (as in the process outlined in \cref{sec:fragmentation}). The fragments are then free to resettle into interstitial gaps and the rest of the bed resettles as determined by forces from gravity, contact of neighboring particles, and even the small influence of the moving purge gas. The thermofluid interaction with the helium purge gas will be included with our volume-averaged Navier-Stokes and energy equations. The representative solid breeder volumes will be compared with respect to their temperature peaks and profiles and how those temperatures vary as a function of the percentage of crushed pebbles in the ensemble. The results can be used to optimize solid breeder pebble bed designs through the choice of breeding zone orientation relative to the gravity vector.

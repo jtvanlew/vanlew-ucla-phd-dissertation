@@ -1,21 +1,8 @@
 \chapter{Initial Results, Validation, \& Discussions}\label{sec:dem-studies}
 
-Shown the usefulness of DEM for probing particle-scale information.
-Predicting pebble damage
-Modeling pebble fragments after crushing
-Understanding structural morphology of bed after crushing events
+Up to now, I have shown the usefulness of DEM for probing particle-scale information. The DEM computations provide an ability to predict pebble damage, modeling capabilities of the fragments and their resettling after crushing events, and an overall understanding of the structural morphology of pebble beds after crushing events. When the DEM tools are coupled to thermofluid models, be it volume-averaged CFD or the lattice Boltzmann, we retain the ability to interrogate particle-scale information (for the continued monitoring and predicting of pebble damage) and gain the knowledge of the interstitial flow on overall thermal characteristics of the pebble bed. In the volume-averaged CFD-DEM approach, we have the strength of rapid simulation times for the fluid flow and momentum-energy exchange with packed beds with simple closure laws. We saw that this approach can accurately model the pressure drop across packed beds as compared to the Kozeny-Carman correlation for pressure drop. Finally, we also saw the application of a new thermofluid modeling technique which captures the complete tortuous flow of fluid and energy with the lattice-Boltzmann formulation. While more computationally expensive than the CFD-DEM models, the LBM framework provides more computationally realizable models of the conjugate heat transfer between pebbles and helium purge with snapshots of packed beds
 
-Shown the coupling of DEM to a volume-averaged fluid model
-Retain particle-scale knowledge
-Rapid simulation of fluid flow and momentum-energy exchange with packed beds
-Accurately computed macroscopic values of pressure drop in packed bed
-Accurate modeling of conduction transverse to laminar flow?
-
-Shown new technique for modeling complete tortuous flow of fluid and energy with the lattice-Boltzmann formulation
-DEM continues to probe inter-particle forces and contacts
-Computationally realizable models of the conjugate heat transfer between pebbles and helium purge with snapshots of packed beds
-
-The numerical tools introduced in \cref{ch:modeling-development} are put to work for use on ceramic pebble beds in fusion reactors. In almost all cases, we have a representative volume of pebbles that is approximately $10000$ pebbles in size, confined in one direction by two primitive, rigid walls that act as heat sinks. Another direction employs periodic boundary conditions to represent an infinite length. The third direction is often in the gravity direction so we have an adiabatic, primitve, rigid roof/ceiling.
+At this point, the numerical tools introduced in \cref{ch:modeling-development} are put to work for use on ceramic pebble beds in fusion reactors. In almost all cases, we have a representative volume of pebbles that is approximately $10000$ pebbles in size, confined in one direction by two primitive, rigid walls that act as heat sinks. Another direction employs periodic boundary conditions to represent an infinite length. The third direction is often in the gravity direction so we have an adiabatic, primitve, rigid roof/ceiling.
 
 The first study considers the heat transfer in a pebble bed without the influence of helium purge gas. In this pebble bed, we use only the DEM tools to apply a nuclear heating source and allow the bed to reach a thermal steady-state with the cooling walls. In such a way we can determine an effective thermal conductivity of the bed. We then induce a fictitious damage to the bed and check the changes to effective thermal conductivity. The DEM tools allow interrogation of many micromechanical interactions in the pebble bed which we use to deduce the source of changes to the effective thermal conductivity.
 
@@ -111,13 +98,8 @@ Further, the lattice-Boltzmann simulation, while not fully coupled to DEM, revea
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary, Discussion, \& Conclusions}
-Single largest factor determining effective conductivity (in a pure conduction environment) is contact force
-In simple model of removed particles, a non-linear reduction in effective conductivity was observed
-Size and complexity of porous bed make it impractical for modeling conjugate heat transfer on pebble-scale with conventional CFD tools
-Introduced two efficient methods for modeling helium purge gas interacting with packed beds
-Directly coupled CFD-DEM for volume-averaged fluid-pebble and discrete pebble-pebble interactions
-DEM packing structures imported into LBM simulations for more detailed modeling of fluid flow and thermal transport
-Significant results from models of our test cases:
+Single largest factor determining effective conductivity (in a pure conduction environment) is contact force. In the simple model of removed particles in these first studies, a non-linear reduction in effective conductivity was observed. The size and complexity of porous bed make it impractical for modeling conjugate heat transfer on pebble-scale with conventional CFD tools and therefore I introduced two efficient methods for modeling helium purge gas interacting with packed beds: 1) directly coupled CFD-DEM for volume-averaged fluid-pebble and discrete pebble-pebble interactions and 2) DEM packing structures imported into LBM simulations for more detailed modeling of fluid flow and thermal transport.
+
 Discovered laminar mixing in packed beds with volumetric heating and wall cooling broadens/flattens temperature profiles in the bed 
 ‘Rattlers’ have their temperatures regulated by helium
 Laminar mixing of energy has many promising features not expected from the helium purge gas in breeder blankets
