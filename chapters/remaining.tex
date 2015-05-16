@@ -1,6 +1,15 @@
-\chapter{Remaining Work and Challenges}\label{sec:remaining}
+\chapter{Completed Work, Remaining Work, and Future Challenges}\label{sec:remaining}
 
-The initial results of the numerical tools developed for this dissertation show their promise and reach but much work remains to be completed to satisfy the objectives laid out in \cref{sec:intro-scope-of-work}. A description of the remaining work and development to achieve the goals is given here. 
+The majority of the objectives laid out in \cref{sec:intro-scope-of-work} have been satisfied at this point. To summarize, I set out to develop tools for modeling pebble bed interactions, to have predictive capabilities for pebble crushing, and analyze the thermal response to of a pebble bed with broken grains. I began with a framework of discrete element method code and amended a number of useful features in the application of the code to modeling ceramic pebble beds for fusion nuclear technology. In the development of my numerical tools, I used experimental measurements of single pebble compression to both validate the Hertzian assumption of mechanical interaction between two particles in the ensemble and derive a criteria for predicting pebble crushing in an ensemble.
+
+The first pebble damage model began with an approach where crushed pebbles were removed from the packed bed. Finally, I introduced more sophisticated pebble fragmentation models that conserved system mass before and after crush event and did not unrealistically interrupt the original packing, realizing the models while remaining computationally practical. 
+
+Two models of the flowing interstitial helium were coupled to the DEM models in the attempt to provide a more complete thermal model of the passage of nuclear heating through the pebbles and into the coolant. The first model efficiently coupled the pebbles to the fluid with volume-averaging theory. The convective heat transfer model assumed lumped capacitance of the pebbles and a correction factor was introduced into the Nusselt number correlation which allowed the lumped capacitance simplification for larger Biot numbers even considering nuclear heating on the solid. The second model used the newly-developed lattice-Boltzmann formulation of conservation laws to model the complete conjugate heat transfer during the tortuous flow of helium over the ceramic pebbles. The second method was computationally more expensive but revealed the impact on temperature profiles of transverse flow in the bed.
+
+
+Three numerical studies were performed to showcase the capabilities of the suite of computational tools now available.
+
+
 
 \section{Remaining Work}
 \subsection{Validation of the Basic Governing Equations in Numerical Tools}
