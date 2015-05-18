@@ -68,11 +68,6 @@ Therefore, in this section we work to introduce one method of coupling the discr
 \input{chapters/sections/cfd-dem-studies-pressure-drop}
 \input{chapters/sections/cfd-dem-studies-effective-conductivity}
 
-\subsection{Conclusions}
-The CFD-DEM formulation maintains calculations of pebble-pebble interactions while dynamically coupling to the helium flow. The model demonstrates the ability of helium gas to smooth out any hot spots predicted by pure-conduction DEM formulations. 
-
-
-
 
 
 
@@ -85,9 +80,6 @@ The CFD-DEM formulation maintains calculations of pebble-pebble interactions whi
 
 \input{chapters/sections/lbm-studies.tex}
 
-\subsection{Conclusions}
-Further, the lattice-Boltzmann simulation, while not fully coupled to DEM, revealed important features of helium flow in volumetrically heated pebble beds -- mainly the smearing of temperature profiles along the paths of cooling.
-
 
 
 
@@ -98,9 +90,11 @@ Further, the lattice-Boltzmann simulation, while not fully coupled to DEM, revea
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary, Discussion, \& Conclusions}
-Single largest factor determining effective conductivity (in a pure conduction environment) is contact force. In the simple model of removed particles in these first studies, a non-linear reduction in effective conductivity was observed. The size and complexity of porous bed make it impractical for modeling conjugate heat transfer on pebble-scale with conventional CFD tools and therefore I introduced two efficient methods for modeling helium purge gas interacting with packed beds: 1) directly coupled CFD-DEM for volume-averaged fluid-pebble and discrete pebble-pebble interactions and 2) DEM packing structures imported into LBM simulations for more detailed modeling of fluid flow and thermal transport.
 
-Discovered laminar mixing in packed beds with volumetric heating and wall cooling broadens/flattens temperature profiles in the bed 
-‘Rattlers’ have their temperatures regulated by helium
-Laminar mixing of energy has many promising features not expected from the helium purge gas in breeder blankets
+Three numerical studies were performed to showcase the capabilities of the suite of computational tools here-developed. The three studies demonstrated the effectiveness of the code to present information on the physics dictating heat transfer and force balance inside pebble beds. The conduction heat transfer in the bed was seen to be tightly dependent on the morphology of the packed bed - more complicated than the common descriptor of packing fraction. The single largest factor determining effective conductivity (in a pure conduction environment) is the normal forces in the contact force network in the bed. When the pebbles were modeled as broken and removed from the system, an increased fraction of the pebbles became hot rattlers which were much hotter than their neighboring pebbles. 
 
+The size and complexity of porous beds make it impractical for modeling conjugate heat transfer on pebble-scale with conventional CFD tools, I therefore introduced two efficient methods for modeling helium purge gas interacting with packed beds: 1) directly coupled CFD-DEM for volume-averaged fluid-pebble and discrete pebble-pebble interactions and 2) DEM packing structures imported into LBM simulations for more detailed modeling of fluid flow and thermal transport. After incorporation of helium into the thermal model, the isolated pebbles witnessed in the DEM heat transfer simulation had their temperatures equilibrate more readily with their local region; hot spots seen in DEM models essentially disappeared in both models which included helium flow. Finally, in the lattice-Boltzmann simulation, the heat transfer between the center of the bed toward the cooling walls was influenced strongly by even the slow tortuous flow of helium in that direction - a phenomena referred to as laminar mixing of energy.
+
+For a homogeneously packed bed, it is common practice to assign an effective thermal conductivity to the entire volume. Even in experiments measuring the effective thermal conductivity of a pebble bed in a helium environment, a constant value of $\keff$ is observed. The impact of laminar mixing will not emerge until the system has the specific characteristics of the fusion reaction, most importantly: volumetric heating and flowing helium. It is only in the combination of transverse flow in the direction of cooling that the phenomena arises. The effect of laminar mixing was seen to push the temperature profile of the packed bed away from the parabola defined by a constant effective thermal conductivity. Very advantageously, the maximum temperature in the flowing helium pebble bed is lowered and the temperature near the walls is increased as compared to a constant $\keff$ computation.
+
+The design margins of ceramic solid breeders is, in fact, quite narrow. The requirement on bed temperatures to be below the sintering temperature of the ceramic, in conjunction with low thermal conductivity of the bed, constricts the size of the power density allowable to bombard the lithium ceramic. Furthermore, the temperature-dependence of tritium release in the ceramic pushes them toward ideally operating in as high of temperature regimes as possible. The laminar mixing described in the pebble bed works to benefit both of the temperature requirements described here: lower maximum temperature for higher power density and higher near-wall temperatures for increased tritium release rates.

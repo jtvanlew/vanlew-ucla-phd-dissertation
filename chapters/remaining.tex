@@ -4,14 +4,13 @@ The majority of the objectives laid out in \cref{sec:intro-scope-of-work} have b
 
 The first pebble damage model began with an approach where crushed pebbles were removed from the packed bed. Finally, I introduced more sophisticated pebble fragmentation models that conserved system mass before and after crush event and did not unrealistically interrupt the original packing, realizing the models while remaining computationally practical. 
 
-Two models of the flowing interstitial helium were coupled to the DEM models in the attempt to provide a more complete thermal model of the passage of nuclear heating through the pebbles and into the coolant. The first model efficiently coupled the pebbles to the fluid with volume-averaging theory. The convective heat transfer model assumed lumped capacitance of the pebbles and a correction factor was introduced into the Nusselt number correlation which allowed the lumped capacitance simplification for larger Biot numbers even considering nuclear heating on the solid. The second model used the newly-developed lattice-Boltzmann formulation of conservation laws to model the complete conjugate heat transfer during the tortuous flow of helium over the ceramic pebbles. The second method was computationally more expensive but revealed the impact on temperature profiles of transverse flow in the bed.
+Two models of the flowing interstitial helium were coupled to the DEM models in the attempt to provide a more complete thermal model of the passage of nuclear heating through the pebbles and into the coolant. The first model efficiently coupled the pebbles to the fluid with volume-averaging theory. The convective heat transfer model assumed lumped capacitance of the pebbles and a correction factor was introduced into the Nusselt number correlation which allowed the lumped capacitance simplification for larger Biot numbers even considering nuclear heating on the solid. The second model used the newly-developed lattice-Boltzmann formulation of conservation laws to model the complete conjugate heat transfer during the tortuous flow of helium over the ceramic pebbles. The second method was computationally more expensive but revealed the impact on temperature profiles of transverse flow in the bed never before seen or predicted for the pebble beds.
+
+Nevertheless, there is some work which remains before completely satisfying the objectives set out for this dissertation. The tasks of the remaining work have been identified in detail and are given explicitly here.
 
 
-Three numerical studies were performed to showcase the capabilities of the suite of computational tools now available.
 
-
-
-\section{Remaining Work}
+\section{Remaining Development Work}
 \subsection{Validation of the Basic Governing Equations in Numerical Tools}
 
 The development of numerical tools shown in this dissertation are still incomplete. There has been some attempts to validate the results when possible, but some more simple validation can be done on the conductivity predictions of the DEM tools. A thorough review of correlations to model the packing structure and effective thermal conductivity in packed beds of spheres has been performed by van Antwerpen, du Toit, and Rousseau.\cite{VanAntwerpen2010} They show that, for packed beds similar to those under consideration for ceramic solid breeders, the correlation given by Schlunder\etal\cite{bauer1978effective,Zehner1972} are well-matched for stagnant interstitial gas. 
@@ -23,7 +22,7 @@ The so-called SBZ (Schundler, Bauer, Zehner) correlation has been used in many p
 where $\kappa_r < 1$ and decreases the amount of heat transported through inter-particle contacts.
 
 \subsection{Augmenting Models with Crush-Prediction}
-I showed in \cref{sec:failure-study} how the DEM calculations of contact forces can be used with experimental data on single pebble crushing to predict crushing in pebble beds experiencing an external force. Though currently there is little-to-no experimental data with which to validate the crush modeling, I will create some representative beds and apply the crush-predicting algorithm with fusion-relevant conditions. The results will provide some insight to guide possible future experiments if pebble crushing remains an important driving feature of the ceramic pebble beds.
+I showed in \cref{sec:failure-study} how the DEM calculations of contact forces can be used with experimental data on single pebble crushing to predict crushing in pebble beds experiencing an external force. Though currently there is little-to-no experimental data with which to validate the crush modeling, I will create some representative beds and apply the crush-predicting algorithm with fusion-relevant conditions. The results will provide some insight to guide the design and goals of future experiments if pebble crushing remains an important driving feature of the ceramic pebble beds.
 
 \subsection{Overcome Stability Errors of LBM}
 In the lattice-Boltzmann streaming-collision operators, stability is governed by the magnitude of the relaxation parameters, $\tau$, and the time step, $\delta_t$. These parameters can not be uncoupled from the spatial resolution $\delta_x$ or the flow conditions, such as Reynolds number. The simulations performed thus far are conditionally stable in the thermal lattice. A more thorough understanding of the room for play in non-dimensional and lattice parameters will provide an ability to model more efficiently and stably. 

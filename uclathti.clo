@@ -146,21 +146,22 @@
    \addtocounter{members}{1}
 }
 
-% Originally, \@signatureline drew a line for the committee member's
-% physical signature.
-% Since Grad Div does everything on line now,
-% the signature page is much simpler and just lists the committee's names.
+% The following definition for "\@signatureline" draws a line and puts
+% a name underneath the line.  If the standard "single" line spacing is
+% changed, it may be desirable to change the "\vskip" before the name.
 
-\newcommand\@signatureline[1]{#1\\}
+\newcommand\@signatureline[1]{
+   #1
+   
+}
 
 \newcommand\@makesignaturepage{
    \ColumnSave
    \noindent
    \renewcommand\baselinestretch{\@doublespacing}\@normalsize
    \normalsize \normalfont The \@thesisname\ of \@author\ is approved.
-   \vskip 18pt plus0pt minus18pt
-
-   \begin{center}
+   
+   {\centering
       \ifnum\c@members>5 \@signatureline{\@memberF}\fi
       \ifnum\c@members>4 \@signatureline{\@memberE}\fi
       \ifnum\c@members>3 \@signatureline{\@memberD}\fi
@@ -179,11 +180,12 @@
          \@signatureline{\@chairA, Committee Chair}
       \else\typeout{No committee chair.}
       \fi\fi\fi
-   \end {center}
-   \vskip 48 pt
-   \begin {center}
-      University of California, Los Angeles \\ \@degreeyear
-   \end {center}
+      \vskip 72pt
+      University of California, Los Angeles
+      
+      \@degreeyear
+      
+   }
    \ColumnRestore
    \renewcommand\baselinestretch{\@spacing}\@normalsize
 }
@@ -449,6 +451,8 @@
 \newcommand{\@makeabstractpage}[1]{
    \if@abstract
       \ColumnSave
+      \pagenumbering{roman}
+      \setcounter{page}{2}
       \par\pagestyle{plain}
       \begin{center}
          \textsc{\large Abstract of the \@Thesisname}\\[12pt]
@@ -514,18 +518,12 @@
     \pagebreak   % the back side of the title page
   \fi
   \@makecopyrightpage
-  \setcounter{page}{2}
-  \pagenumbering{roman}
   \@makeabstractpage{\@doublespacing}
   \@makesignaturepage
   \@makededication
   \tableofcontents
   \listoffigures
   \listoftables
-%----------------------------------------------------------------------------Ian
-\input{nomenclature.tex}
-\printglossary                 % Nomenclature Page
-%-----------------------------------------------------------------------------
   \@makeacknowledgments
   \@makevitapage
   \newpage \pagenumbering{arabic}

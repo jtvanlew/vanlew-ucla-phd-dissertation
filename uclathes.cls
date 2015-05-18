@@ -465,6 +465,7 @@
 % LIST OF FIGURES
 %
 \newif\if@figures
+\@figurestrue  % rbw did this in \makeintropages; I moved it here.  ---johnh 950825
 \def\listoffigures{
   \if@figures\chapter*{List of Figures\markboth
    {LIST OF FIGURES}{LIST OF FIGURES}}\@starttoc{lof}\fi}
@@ -474,6 +475,7 @@
 % LIST OF TABLES
 %
 \newif\if@tables
+\@tablestrue  % rbw did this in \makeintropages; I moved it here.  ---johnh 950825
 \def\listoftables{
   \if@tables\chapter*{List of Tables\markboth
    {LIST OF TABLES}{LIST OF TABLES}}\@starttoc{lot}\fi}
@@ -658,13 +660,9 @@
 \def\ftype@figure{1}
 \def\ext@figure{lof}
 \def\fnum@figure{Figure \thefigure}
-\def\figure{%
-    \write\@mainaux{\string\global\string\@figurestrue}%
-    \@float{figure}}
+\def\figure{\@figurestrue\@float{figure}}
 \let\endfigure\end@float
-\@namedef{figure*}{%
-    \write\@mainaux{\string\global\string\@figurestrue}%
-    \@dblfloat{figure}}
+\@namedef{figure*}{\@figurestrue\@dblfloat{figure}}
 \@namedef{endfigure*}{\end@dblfloat}
 
 % TABLE
@@ -676,13 +674,9 @@
 \def\ftype@table{2}
 \def\ext@table{lot}
 \def\fnum@table{Table \thetable}
-\def\table{%
-    \write\@mainaux{\string\global\string\@tablestrue}%
-    \@float{table}}
+\def\table{\@tablestrue\@float{table}}
 \let\endtable\end@float
-\@namedef{table*}{%
-    \write\@mainaux{\string\global\string\@tablestrue}%
-    \@dblfloat{table}}
+\@namedef{table*}{\@tablestrue\@dblfloat{table}}
 \@namedef{endtable*}{\end@dblfloat}
 
 
@@ -819,6 +813,3 @@
 
 % Generate thesis preliminary pages
 \input{uclathti.clo}
-
-
-\setlength{\paperheight}{11in}
