@@ -71,3 +71,4 @@ Temporary Items
 *.synctex.gz
 *.fdb_latexmk
 VanLew_PhDThesis2014.pdf
+*.gz(busy)
