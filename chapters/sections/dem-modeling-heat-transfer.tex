@@ -1,6 +1,6 @@
 \subsection{Granular Heat Transfer}\label{sec:dem-heat-transfer}
 
-In way analogous to that of handling the momentum of every particle in DEM with Newton's laws of motion, the Lagrangian tracking of energy of each particle is obtained via the first law of thermodynamics. We treat each particle is a single distinct object and thus do not consider any internal temperature gradients (a point which we alluded to in \cref{sec:ht-jeffreson-correction}). The temperature of particle $i$ is governed by
+In a way analogous to handling particle momentums with Newton's laws of motion, the Lagrangian tracking of energy of each particle is obtained via the first law of thermodynamics. Each particle is treated as a single distinct object and thus internal temperature gradients are assumed negligible. The temperature of particle $i$ is governed by
 
 \begin{equation}\label{eq:thermoFirstLaw}
 	m_iC_i\ddt{T_i} = Q_{s,i} + Q_{i}
@@ -10,7 +10,7 @@ where $m$ and $C$ are the mass and the specific heat of the solid, respectively.
 	Q_i = \sum_{j=1}^Z Q_{ij}
 \end{equation}
 
-The conductive heat transfer to neighboring particles comes from inter-particle conductance formulas (derived in \cref{sec:ht-pebble-conduction}). The heat conducted between two particles is,
+The conductive heat transfer to neighboring particles comes from inter-particle conductance formulas (the derivation is given in \cref{sec:ht-pebble-conduction}). The heat conducted between two particles is modeled as,
 \begin{equation}
 	Q_{ij} = H_c(T_i - T_j)
 \end{equation} 
@@ -19,13 +19,13 @@ where the conductance is
 	H_c= 2k^*\left[\frac{3F_{n,ij}R^*}{4E^*}\right]^{1/3}
 \end{equation}
 
-These equations are valid for perfectly smooth spheres that obey Hertzian contact laws. The validity of this heat conductance model will be tested.
+These equations are valid for perfectly smooth spheres that obey Hertzian contact laws. The validity of this heat conductance model for ceramic pebbles produced for fusion reactors will be tested.
 
 \subsubsection{Thermal Expansion}
-The stresses predicted to act upon the solid breeder volume during operation of the fusion reactor arise from the differential rate of thermal expansion from the highly heated ceramic volume and the relatively cool structural container. Moreover, thermal settling motion is observed in pebble beds with cyclic heating.\cite{Tanigawa:2010cr, Vargas2007, Chen2009, Divoux2008} Both of those phenomena origin from effects of thermal expansion of individual particles in the ensemble. Therefore, we introduce a thermal expansion formula that updates the diameter of each particle as,
+The stresses predicted to act upon the solid breeder volume during operation of the fusion reactor arise from the differential rate of thermal expansion from the highly heated ceramic volume and the relatively cool structural container. Moreover, thermal settling motion is observed in pebble beds with cyclic heating.\cite{Tanigawa:2010cr, Vargas2007, Chen2009, Divoux2008} Both of those phenomena originate from effects of thermal expansion of individual particles in the ensemble. Therefore, I introduce a custom thermal expansion method into the DEM structure that updates the diameter of each particle as,
 
 \begin{equation}
 	d_{p,i} = d_{p_0,i}\left[1+\beta_i\left(T_i - T_0\right)\right]
 \end{equation}
-where $\beta_i$ is the thermal expansion coefficient (in units of \si{1/K}), $T_i$ is the temperature of the pebble at the current step, and $d_{0,i}$ is the initial diameter of the pebble at temperature $T_0$. The update of pebble diameter based on thermal expansion could be computed at every time step as it is not computationally expensive. All the same, I have left flexibility in the code to allow the computation at an arbitrary interval of time steps (typically every $\frac{1}{10000\Delta t}$)
+where $\beta_i$ is the thermal expansion coefficient (in units of \SI{1}{\per\kelvin}), $T_i$ is the temperature of the pebble at the current step, and $d_{0,i}$ is the initial diameter of the pebble at temperature $T_0$. The update of pebble diameter based on thermal expansion could be computed at every time step as it is not computationally expensive. All the same, I have left flexibility in the code to allow the computation at an arbitrary interval of time steps (typically every $\frac{N}{\Delta t} = \frac{10^4}{10^{-7}}$ in most models of ceramic pebble beds).
 

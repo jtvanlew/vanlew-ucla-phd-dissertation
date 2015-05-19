@@ -1,4 +1,26 @@
-\chapter{Stability study}\label{sec:dem-stability}
+\chapter{DEM Time Integration and Stability}\label{sec:dem-stability}
+
+The force field defined by Eq.~\ref{eq:newton-translational} is rewritten in terms of the acceleration of the particle. Note that the per-particle subscripts ($i$, $j$, etc.) will be temporarily omitted and instead, time-varying quantities will have a subscript to refer to their temporal location $t$. Eq.~\ref{eq:newton-translational} becomes
+\begin{equation}\label{eq:newton-acceleration}
+	\vec{a}_t = \vec{g} + \frac{\vec{f}_t}{m}
+\end{equation}
+
+The first step in the velocity-Verlet algorithm is to integrate the position of the particle by a full time step based on the current time step's velocity and acceleration. Note that the initial condition of the particle must specify both position and velocity for this step to be evaluated at the start, from then on the velocity is explicitly updated.
+
+\begin{equation}
+	\vec{r}_{t+\Delta t} = \vec{r}_t + \vec{v}_t\Delta t + \frac{1}{2}\vec{a}_t\Delta t^2
+\end{equation}
+
+The particles at new positions interact as a function of their overlaps (see Eqs.~\ref{eq:dem-forces}). Acceleration at the full time step is then calculated from the updated forces (of Eq.~\ref{eq:newton-acceleration}). In the last computational step, the velocity at the full time step is found from an average acceleration,
+
+\begin{equation}
+	\vec{v}_{t+\Delta t} = \vec{v}_t + \frac{\vec{a}_t + \vec{a}_{t+\Delta t}}{2}\Delta t
+\end{equation}
+
+The velocity-Verlet algorithm is an efficient means of explicitly integrating the kinematic equations for all the particles in the ensemble. The algorithm is stable with a global error of approximately $O(\Delta t^2)$ for displacement.\cite{Grubmuller1991} But, as an explicit method, the size of the time step must be carefully chosen to avoid instabilities in the system.
+
+
+
 As mentioned when the integration algorithm was introduced in \cref{sec:particle-dynamics}, the velocity-Verlet algorithm is a computationally efficient, second-order accurate means of updating the kinematics of all the particles in the ensemble\cite{Kruggel-Emden2008}. The time step of the integration, however, must often be very small to ensure that it is less than the time taken for a pressure wave to propagate through the particle. The time step is further constrained by the quasistatic assumption used to derive the Hertzian contact force such that inertial and relaxation effects may be neglected\cite{Brilliantov1996}. We will also show that, in order to avoid heat energy to propagate further than a single pebble during a single time step, the thermal time step requirement is orders of magnitude larger than the mechanical time step equivalent. And that the overall minimum time step is thus driven by the mechanical stability.
 
 In tandem with the requirement on very small time step, the thermal time-constants in the ceramic breeder zones can be many hundreds of seconds. These two conditions seem to conspire to force an unacceptably large requirement on the number of time steps for a thermal DEM simulation and thus make numerical experiments impractical.
@@ -89,13 +111,13 @@ We allow for the particles in the system to have varying density, elastic modulu
 
 % It is apparent that simulations become less stable primarily as the pebble diameter decreases and then slightly less so for decreasing density and increasing the effective Young's modulus. It takes a rather large increase in the maximum contact force to cause the stable time step to decrease. This is a fortunate result as it is primarily material properties which dictate stability of a DEM simulation. If external pressures increase and cause increases in the maximum normal contact force in the ensemble, it is unlikely to cause instabilities in the model. The result also provides insight into scaling of physical parameters to allow larger time steps and thereby shorter overall duration of simulations.
 
-The ceramic materials identified for breeders have relatively high Young's moduli, on the order of \si{10^{10} Pa}. The smallest radius will be on the order of \si{10^{-4} m}. The ceramic density is approximately on the scale of \si{10^{4} kg/m^3}. These values lead to a necessary time step of
+The ceramic materials identified for breeders have relatively high Young's moduli, on the order of \SI{10e10}{\pascal}. The smallest radius will be on the order of \SI{10e-4}{\meter}. The ceramic density is approximately on the scale of \SI{10e4}{\kilogram\per\cubic\meter}. These values lead to a necessary time step of
 
 \begin{equation}
-	\delta t_c \propto 10^{-7} \si{s}
+	\delta t_c \propto \SI{10e-7}{s}
 \end{equation}
 
-For a simulation that may last several hundreds of seconds of real time, this then requires more than 10$^9$ time steps. If we have 10$^4$ particles in the simulation, each having their position integrated over a billion times, it becomes obvious that computational time is a major issue for our simulations of nuclear heating of ceramic breeder pebbles. If we are able to reduce the critical time step (while perhaps decreasing the simulation time), the simulations will be much more practical for research use.
+For a simulation that may last several hundreds of seconds of real time, this then requires more than \num{10e9} time steps. If we have \num{10e4} particles in the simulation, each having their position integrated over a billion times, it becomes obvious that computational time is a major issue for our simulations of nuclear heating of ceramic breeder pebbles. If we are able to reduce the critical time step (while perhaps decreasing the simulation time), the simulations will be much more practical for research use.
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 

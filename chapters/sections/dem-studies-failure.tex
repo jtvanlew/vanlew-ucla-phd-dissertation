@@ -1,12 +1,12 @@
 \section{Pebble Damage Modeling}\label{sec:failure-study}
 
-It is impractical, if not impossible, to accurately measure the contact forces between all the pebbles in a densely-packed, three-dimensional ensemble. In investigating the probability of pebbles becoming damaged (\textit{i.e.} crushed or cracked) in a packed bed, we therefore rely on the combined information gained from indirect measurements of the entire pebble bed, crush experiments of individual pebbles, and the predictive capabilities of DEM simulations. In this section I first employ observations of individual pebble crush experiments to create a metric (strain energy) to link the data to the contact forces measured in DEM to help predict when pebbles in the ensemble will become damaged. I then review some literature where similar efforts have been performed at other research institutions and point out why the method employed here is preferred. Finally I show some numerical recipes I have developed for modeling the fragmentation event of a crushed pebble in the DEM framework -- along with an evaluation of some fragmentation schemes. 
+It is impractical, if not impossible, to experimentally measure accurate contact forces between all the pebbles in a densely-packed, three-dimensional ensemble. In investigating the probability of pebbles becoming damaged (\textit{i.e.} crushed or cracked) in a packed bed, we therefore rely on the combined information gained from indirect measurements of the entire pebble bed, crush experiments of individual pebbles, and the predictive capabilities of DEM simulations. In this section I first employ observations of individual pebble crush experiments to create a metric (strain energy) to link the data to the contact forces measured in DEM to help predict when pebbles in the ensemble will become damaged. I then review some literature where similar efforts have been performed at other research institutions and point out why the method employed here is preferred. Finally I show some numerical recipes I have developed for modeling the fragmentation event of a crushed pebble in the DEM framework -- along with an evaluation of some fragmentation schemes. 
 
-\subsubsection{Experimental Measurements of Strain Energy}
+\subsection{Experimental Measurements of Strain Energy}
 \begin{figure}[!t]
 \centering
     \includegraphics[width=\doubleimagewidth]{chapters/figures/fzk-w-histogram.png}
-    \caption{Histogram of the absorbed strain energy at the moment of crushing for \lis pebbles as measured in single pebble crush experiments.}
+    \caption{Histogram of the absorbed strain energy at the moment of crushing for \lis~pebbles as measured in single pebble crush experiments.}
     \label{fig:fzk-w-hist}
 \end{figure}
 
@@ -23,40 +23,38 @@ It is impractical, if not impossible, to accurately measure the contact forces b
                 \caption{$\bar{d}_p = 1.5$ mm}
                 \label{fig:nfri-1.5-w-hist}
         \end{subfigure}
-        \caption{Histogram of the absorbed strain energy at the moment of crushing for \lit pebbles as measured in single pebble crush experiments.}\label{fig:nfri-w-hist}
+        \caption{Histogram of the absorbed strain energy at the moment of crushing for \lit~pebbles as measured in single pebble crush experiments.}\label{fig:nfri-w-hist}
 \end{figure}
 
-The normal force between two elastic objects is a function of the material properties of the interacting objects (see Eq.~\ref{eq:hertz-normal-force}). We cannot, therefore, directly compare the forces between pebble-test stand with pebble-pebble in an ensemble. An approached used by some solid breeder researchers is to relate the absorbed strain energy of the pebble\cite{Zhao2013,Annabattula2012a}. We integrate the Hertzian force along the overlap to find the strain energy, $W_\epsilon$, of that contact. 
+The normal force between two elastic objects is a function of the material properties of the interacting objects (see, \textit{e.g.}, Eq.~\ref{eq:hertz-normal-force}). We cannot, therefore, directly compare the forces between the pebble and test stand with pebble-pebble contacts in an ensemble. An approached used by some solid breeder researchers is to relate the total absorbed strain energy of the pebble.\cite{Zhao2013,Annabattula2012a}
 
+Integrating the Hertzian force along the overlap of contact to find the strain energy $W_\epsilon$, of a given contact,
 \begin{equation}\label{eq:strain-energy-integral}
 	W_\epsilon = \int_0^{\delta_c}\!F_n(\delta')\,\mathrm{d}\delta'
 \end{equation}
-where the upper limit of the integration is the critical overlap $\delta_c$. Inserting Eq.~\ref{eq:hertz-normal-force} into Eq.~\ref{eq:strain-energy-integral},
+where the upper limit of the integration is the critical overlap $\delta_c$. Inserting the Hertzian relation of Eq.~\ref{eq:hertz-normal-force} into Eq.~\ref{eq:strain-energy-integral} gives,
 \begin{align}
 	W_\epsilon& = \int_0^{\delta_c}\!  \frac{4}{3}E^*\sqrt{R^*}\,\delta'^{3/2} \,\mathrm{d}\delta' \\
 	%W_\epsilon & = \frac{4}{3}E^*\sqrt{R^*} \left[\frac{2}{5}\,{\delta_c}^{5/2}\right] \\
 	W_\epsilon & = \frac{8}{15}E^*\sqrt{R^*}\, {\delta_c}^{5/2}
 \end{align}
 
-We will call the strain energy of the pebble compressed between platens as the lab strain energy, $W_{\epsilon,L}$. In pebble crushing experiments, we record the strain energy absorbed up to the point of crushing, the data for \lis and \lit pebbles are given in Figs.~\ref{fig:fzk-w-hist} and~\ref{fig:nfri-w-hist}, respectively. Then the strain energy of two particles in contact will be $W_{\epsilon,B}$. The assumption we make is that, if each contact interaction is integrated to the proper critical overlap, the strain energies will be equal at that contact.
-
+I will call the strain energy of the pebble compressed between platens as the lab strain energy, $W_{\epsilon,L}$. In pebble crushing experiments, we record the strain energy absorbed up to the point of crushing, the data for \lis~and \lit~pebbles are shown in Figs.~\ref{fig:fzk-w-hist} and~\ref{fig:nfri-w-hist}, respectively. The strain energy of two particles in contact will be $W_{\epsilon,B}$. The assumption is made that, if each contact interaction is integrated to the proper critical overlap, the strain energies will be equal at that contact. The critical lab value is equated to the ensemble value,
 \begin{equation}
 	W_{\epsilon,L} = W_{\epsilon,B} = \frac{8}{15}E_B^*\sqrt{R_B^*}\, {\delta_{c,B}}^{5/2}
 \end{equation}
-
-We solve for the interacting pebble bed overlap as a function of the lab strain energy as
-
+which allows one to solve for the interacting pebble bed overlap as a function of the lab strain energy,
 \begin{equation}
 	\delta_{c,B} = \left[\frac{15W_{\epsilon,L}}{8E_B^*\sqrt{R_B^*}}\right]^{2/5}
 \end{equation}
 
-This overlap can be reinserted to the Hertz force of Eq.~\ref{eq:hertz-normal-force} to find the critical force (crush force) of the interacting particles as a function of the critical strain energy of the lab. Doing this, we find,
+This overlap can be reinserted to the Hertz force of Eq.~\ref{eq:hertz-normal-force} to find the critical force (crush force) of the interacting particles in the numeric ensemble as a function of the critical strain energy of the lab. Doing this, we find,
 \begin{equation}\label{eq:peb_hertz}
 	F_{c,B} = C{E_B^*}^{2/5}{R_B^*}^{1/5}W_{\epsilon,L}^{3/5}
 \end{equation}
 where $C = \frac{4}{3}\left(\frac{15}{8}\right)^{3/5}$.
 
-Equation~\ref{eq:peb_hertz} is a generic translation between lab materials and packed bed materials. We will use the equation as the basis for our pebble crushing prediction in DEM simulations.
+Equation~\ref{eq:peb_hertz} is a generic translation between lab materials and packed bed materials. We will use the equation as the basis for our pebble crushing prediction in DEM simulations. Before implementing a custom crush-predicting method into the DEM code, I will review other attempts at modeling and predicting crush behavior in packed beds.
 
 
 
@@ -64,7 +62,7 @@ Equation~\ref{eq:peb_hertz} is a generic translation between lab materials and p
 
 % FROM SOFT PAPER
 \subsection{Calculating Critical Strain Energy}
-With the rise of micro-mechanical tools and computing power, attempting to predict when ceramic pebbles will crush in an ensemble, based on inter-particle contact forces, has received considerable attention. In this section we will review literature studying granular crushing.
+With the rise of micro-mechanical tools and computing power, attempting to predict when ceramic pebbles will crush in an ensemble, based on inter-particle contact forces, has received considerable attention. In this section I review literature studying granular crushing.
 
 Probability and statistics were applied to the study of packed beds of brittle grains by Marketos and Bolton\cite{Marketos2007}. The fundamental assumption in their predictive method was the independence of crushing events. They used their model to predict the initiation of crushing as well as the evolution of the packing after crushing. They created somewhat arbitrary probability distributions of the strength of their granular particles,
 \begin{equation}
@@ -76,18 +74,18 @@ A common alternative distribution is to use a form first proposed by Weibull for
 \begin{equation}
 	P_s = 1 - \exp\left[-\left(\frac{W_c}{W_\text{mat}}\right)^m\right]
 \end{equation}
-where $W_c$ is the energy absorbed by the pebble and $W_\text{mat}$ and $m$ characterize the material. An important note is how to calculate the critical strain energy for the pebble. Refs.~\cite{Marketos2007} and \cite{Zhao2011} note the necessity to consider the coordination number dependence on total strain energy. In other words, the total strain energy is the cumulative total of strain energy at every contact. Zhao\etal~give strain as
+where $W_c$ is the energy absorbed by the pebble and $W_\text{mat}$ and $m$ characterize the material. An important note is how to calculate the critical strain energy for the pebble. Refs.~\cite{Marketos2007} and \cite{Zhao2011} note the necessity to consider the coordination number dependence on total strain energy. In other words, the total strain energy is the cumulative total of strain energy at every contact. Zhao\etal~give the critical strain as
 \begin{equation}
 	W_c = \sum_{i=1}^{Z_i}\left(\frac{9}{80 R_{ij}^*}\right)^{1/3} \left(\frac{1}{E_{ij}^*}\right)^{2/3} F_{n,ij}^{5/3}
 \end{equation}
 where $Z$ is the coordination number of pebble $i$. 
 
-However, Russell\etal, analyzed ideal granular assemblies for which they could find analytical solutions to stress distributions inside of pebbles.\cite{Russell2009} In their work, failure of a granular particle initiates at the location of maximum of the stress invariant ratios. In the contact of elastic spheres, the stress fields near the contact areas are highly localized. Because of the highly localized effects, Russell\etal~find that in granular assemblies the contributions to failure initiation are not additive. They discovered that the initiation of failure is always located adjacent to the largest force irrespective of the material properties or geometric size of the pebbles in an ensemble. Russell\etal\cite{Russell2009} conclude: the largest contact force acting upon a particle is the primary agent driving the damage of the individual. Based upon the failure criterion developed for brittle materials, crushing of an individual does not directly depend upon the presence or magnitude of any lesser contact forces acting on the particle or the material properties of the particle. Although their results were obtained for idealized assemblies, the results are generally true for any situation where multiple contact forces are present.
+However, Russell\etal, analyzed simple, ideal granular assemblies for which they could find analytical solutions to stress distributions inside of pebbles.\cite{Russell2009} In their work, failure of a granular particle initiates at the location of maximum of the stress invariant ratios. In the contact of elastic spheres, the stress fields near the contact areas are highly localized. Because of the highly localized effects, Russell\etal~find that in granular assemblies the contributions to failure initiation are not additive. They discovered that the initiation of failure is always located adjacent to the largest force irrespective of the material properties or geometric size of the pebbles in an ensemble. Russell\etal conclude: \emph{the largest contact force acting upon a particle is the primary agent driving the damage of the individual}.\cite{Russell2009} Based upon the failure criterion developed for brittle materials, crushing of an individual does not directly depend upon the presence or magnitude of any lesser contact forces acting on the particle or the material properties of the particle. Although their results were obtained for idealized assemblies, the results are generally true for any situation where multiple contact forces are present.
 
 \begin{figure}[!t]
 \centering
     \includegraphics[width=\doubleimagewidth]{chapters/figures/fzk-w-cdf-fit.png}
-    \caption{Fitting the strain energy with a Weibull distribution with shape parameter specific for the \lis pebbles.}
+    \caption{Fitting the strain energy with a Weibull distribution with shape parameter specific for the \lis~pebbles.}
     \label{fig:fzk-w-cdf}
 \end{figure}
 
@@ -104,30 +102,29 @@ However, Russell\etal, analyzed ideal granular assemblies for which they could f
                 \caption{$\bar{d}_p = 1.5$ mm}
                 \label{fig:nfri-1.5-w-cdf}
         \end{subfigure}
-        \caption{Fitting the strain energy with a Weibull distribution with shape parameter specific for the two batches of \lit pebbles.}\label{fig:nfri-w-cdf}
+        \caption{Fitting the strain energy with a Weibull distribution with shape parameter specific for the two batches of \lit~pebbles.}\label{fig:nfri-w-cdf}
 \end{figure}
 
-Based on the compelling arguments of Russell\etal, we will define our critical force as the maximum contact force on the pebble in our assembly,
+Based on the compelling arguments of Russell\etal, I define a critical force as the maximum contact force on the pebble in our assembly,
 \begin{equation}
 	F_{c} = \max F_{n,ij}
 \end{equation}
 
-Then we can say a pebble is crushed when the force on the pebble in the bed is greater than the critical bed force defined from Eq.~\ref{eq:peb_hertz},
-
+Then define a pebble crushing event as occurring when \textit{any} force on the pebble in the bed is greater than the critical bed force defined from Eq.~\ref{eq:peb_hertz},
 \begin{equation}\label{eq:crush-predict}
   F_{c} > F_{c,B} = \frac{4}{3}\left(\frac{15}{8}\right)^{3/5}{E_B^*}^{2/5}{R_B^*}^{1/5}W_{\epsilon,L}^{3/5}
 \end{equation}
 
-In the implementation into DEM, the probabilistic features appear naturally in this formulation from the measured probability distribution of $W_{\epsilon,L}$. In the experiments on crushing individual pebbles, the critical strain energy is measured strain energy at the point of crushing. This value follows a probability distribution and therefore imparts a distribution shape to the $F_{c,B}$ prediction. Cumulative distribution functions are generated for the strain energy data (see Figs.~\ref{fig:nfri-w-hist} and~\ref{fig:nfri-w-hist}). From that data, we fit Weibull distribution curves, of the form
+In the implementation into DEM, the probabilistic features appear naturally in this formulation from the measured $W_{\epsilon,L}$ of experiments. This value follows a probability distribution and therefore imparts a distribution shape to the $F_{c,B}$ prediction. Cumulative distribution functions are generated for the strain energy data (see Fig.~\ref{fig:nfri-w-hist}). From that data, we fit Weibull distribution curves, of the form
 \begin{equation}
 	\Xi = \lambda\left[-\ln(W_\epsilon)\right]^{1/\sigma}
 \end{equation}
-where the shape parameter, $\sigma$, is fit to the specific curve of each set of experimental data and the second parameter, $\lambda$ is
+where the shape parameter, $\sigma$, is fit to the specific curve of each set of experimental data and the second parameter, $\lambda$ is defined as
 \[
 \lambda = \bar{W}_\epsilon - \min W_\epsilon
 \]
 
-In Figs.~\ref{fig:fzk-w-cdf} and~\ref{fig:nfri-w-cdf} we show the experimental data and the Weibull fits specific to the ceramic material and batch. The Weibull distribution functions will be used again when we generate strength parameters to assign to pebbles in the discrete element simulations of pebble crushing, addressed in \cref{sec:failure-study}.
+In Figs.~\ref{fig:fzk-w-cdf} and~\ref{fig:nfri-w-cdf} we see the experimental data and the Weibull fits specific to the ceramic material and batch. The Weibull distribution functions are recreated numerically in the assignment of each pebbles `critical bed force' value.
 
 
 % \cite{Hiramatsu1966}
@@ -138,7 +135,7 @@ In Figs.~\ref{fig:fzk-w-cdf} and~\ref{fig:nfri-w-cdf} we show the experimental d
 Research on pebble damage has been taken up by others in the fusion community to predict the onset of pebble crushing as a function of an external pressure and the resulting changes to mechanical properties such as the stress-strain of the pebble bed.\cite{Annabattula2012a, Zhao2012, Zhao2013} Other fields of engineering have also employed DEM in studies of granular crushing with generally similar modeling approaches.\cite{Marketos2007,Pitchumani2004}
 
 
-In modeling pebble damage, there are two main tasks: predicting when the grain crushes and what happens when it does. For the former, the task is to develop a model for predicting a pebble crushing event; \textit{i.e.} what load (mechanical or thermal) will cause a pebble to crack, shatter, fracture, etc. To tackle the latter is to develop a model which simulates the damage of that pebble; \textit{i.e.} a scheme to treat a cracked, shattered, or crushed pebble in the assembly as small particles, removed particles, or particles with modified material properties.
+In modeling pebble damage, there are two main tasks: predicting when the grain crushes and what happens to the pebble during the crushing event. For the former, the task is to develop a model for predicting a pebble crushing event; \textit{i.e.} what external load (mechanical or thermal) will cause a pebble to crack, shatter, fracture, etc. To tackle the latter is to develop a model which simulates the damage of that pebble; \textit{i.e.} a scheme to treat a cracked, shattered, or crushed pebble in the assembly as small particles, removed particles, or particles with modified material properties.
 
 \begin{figure}[!t]
 \centering
@@ -154,13 +151,13 @@ In modeling pebble damage, there are two main tasks: predicting when the grain c
 	\label{fig:annabattula-stress-strain}
 \end{figure}
 
-This numerical study will focus on the `what happens' question. In work by Marketos and Bolton, they treated a crushed pebble very similar to Van Lew\etal~; when a pebble was damaged it was removed completely from the assembly.\cite{Marketos2007,VanLew2014} Marketos and Bolton study the stress-strain response of a pebble bed with a predictive crushing routine while we studied the effective thermal conductivity of a damaged pebble bed.
+The numerical study to follow will focus on the `what happens' question. In work by Marketos and Bolton, they treated a crushed pebble very similar to Van Lew\etal; when a pebble was damaged it was removed completely from the assembly.\cite{Marketos2007,VanLew2014} Marketos and Bolton study the stress-strain response of a pebble bed with a predictive crushing routine while Van Lew\etal~studied the effective thermal conductivity of a damaged pebble bed.
 
-However, the technique of removing a pebble is limited by the fact that energy input into two systems being studied is not comparable. Because we have volumetric energy deposition in our simulations, the total energy pouring into the non-damaged system would be
+However, in the case of Van Lew\etal, the technique of removing a pebble is limited by the fact that energy input into two systems being studied is not comparable. Because of volumetric energy deposition in the simulations, the total energy pouring into the non-damaged system would be
 \begin{equation}
 	E_h = \frac{q'''_\text{nuc} V_\text{peb} N}{V_\text{bed}}
 \end{equation}
-where $N$ is the total number of pebbles of volume $V_\text{peb}$ that exist in the pebble bed of volume $V_\text{bed}$. After a crushing event, when we remove pebbles, the total amount of energy is
+where $N$ is the total number of pebbles of volume $V_\text{peb}$ that exist in the pebble bed of volume $V_\text{bed}$. After a crushing event, when pebbles are removed, the total amount of energy is
 \begin{equation}
 	E_h' = \frac{q'''_\text{nuc} V_\text{peb} \eta N}{V_\text{bed}}
 \end{equation}
@@ -175,7 +172,7 @@ In the DEM framework, we are limited to modeling elastic spheres. If we strictly
 	N_c = \left(\frac{R_c}{R_p}\right)^{-3}
 \end{equation}
 
-Thus the number of fragments goes like the inverse of radius ratio to the third power and the number of crushed fragments to represent a single crushed pebble increases rapidly as the fragments shrink.
+Thus the number of fragments goes like the inverse of radius ratio to the third power and the number of crushed fragments to represent a single crushed pebble increases rapidly as the fragments shrink. The relationship between radius ratio and number of fragment particles is given in Fig.~\ref{fig:fragment-count}. Note that in the DEM simulation, it is impossible to insert fractions of a particle so the number of fragment pebbles is rounded to the nearest integer in the figure.
 
 
 \begin {table}[htp] %
@@ -192,7 +189,7 @@ $R_c/R_p$ 						& $N_c$  				\\\otoprule
 \end{tabular}
 \end{table}
 
-The relationship between radius ratio and number of fragment particles is given in Fig.~\ref{fig:fragment-count}. Note that in the DEM simulation, it is impossible to insert fractions of a particle so the number of fragment pebbles is rounded to the nearest integer in the figure.
+
 
 \begin{figure}[!t]
 \centering
@@ -201,13 +198,11 @@ The relationship between radius ratio and number of fragment particles is given 
     \label{fig:fragment-count}
 \end{figure}
 
-In typical DEM simulations that can run within reasonable amounts of time on the machines available to me in this dissertation, a reasonable number of particles is around 10~000. Many more and the run times become impractical for study. To show how quickly the number of particles can quickly get out of hand in a simulation, if we begin with 6~000 pebbles and only 2\% break, with a radius ratio of $R_c/R_p = 0.2$, the number of pebbles to be added would be 15~000. The new particle fragments (less the crushed particles) plus the original would require 21~000 particles in the system. In our simulations, we often test the effects on effective thermal conductivity at particle crush amounts of to 10\%. For the pebble bed mentioned here, that would mean 81~000 particles in the system and it would be computationally forbidding. The result is that, for computational times, the larger crush fragment radii are desired, \textit{i.e.} $R_c/R_p > 0.3$.
+In typical DEM simulations that can run within reasonable amounts of time on the machines available for this dissertation, a reasonable number of particles is on the order of \num{10000}. Significantly more and the run times become impractical for study. To show how quickly the number of particle fragments can quickly get out of hand in a simulation with small $R_c/R_p$, if we begin with \num{6000} pebbles and only 2\% break, with a radius ratio of $R_c/R_p = 0.2$, the number of pebbles to be added would be \num{15000}. The new particle fragments (less the crushed particles) plus the original would require \num{21000} particles in the system. In our simulations, we often test the effects on effective thermal conductivity at particle crush amounts of to 10\%. For the pebble bed mentioned here, that would mean \num{81000} particles in the system and it would be computationally taxing. The result is that, for the sake of computational times, the larger crush fragment radii are desired, \textit{i.e.} $R_c/R_p > 0.3$.
 
-However, aside from satisfying conservation of mass, we must physically insert the particle fragments into void space in the simulation domain. During the course of the simulation, when we choose to replace the pebble with the fragments, the only available room is the spherical void left over by the damaged pebble. Other constraint is the smallest sized sphere that will allow the given spheres at most dense packing. 
+However, aside from satisfying conservation of mass, we must physically insert the particle fragments into void space in the simulation domain. During the course of the simulation, when we choose to replace the pebble with the fragments, the only available room is the spherical void left over by the damaged pebble. Thus a constraint is the smallest sized sphere that will allow the given spheres at most dense packing. 
 
-Dense packing of spheres inside a larger sphere is an interesting mathematical problem. \href{http://www.randomwalk.de/sphere/insphr/spisbest.txt}{Hugh Pfoertner} keeps a compiled list of many solutions for a number of particles; many solutions are his are from Gensane.\cite{gensane2003dense}
-
-If we consider, for instance, that a radius ratio of $R_c/R_p = 0.3$ requires 37 particle fragments, then we can also find from Ref.~\cite{gensane2003dense} that 37 particles would have to be of radius 0.2406866 to fit into a single sphere of radius of unity. We defined the particle fragment radius as $R_c$, the original particle as $R_p$, and then radius of sphere necessary to hold the $N_c$ fragments will be $R_N$, we can find a relationship between the volume of sphere $V_p$ and necessary volume $V_N$,
+Dense packing of spheres inside a larger sphere is an interesting mathematical problem. \href{http://www.randomwalk.de/sphere/insphr/spisbest.txt}{Hugh Pfoertner} keeps a compiled list of many solutions for a number of particles; many solutions are his are from Gensane.\cite{gensane2003dense} If we consider, for instance, that a radius ratio of $R_c/R_p = 0.3$ requires 37 particle fragments, then we can also find from Ref.~\cite{gensane2003dense} that 37 particles would have to be of radius 0.2406866 to fit into a single sphere of radius of unity. We defined the particle fragment radius as $R_c$, the original particle as $R_p$, and then the radius of sphere necessary to hold the $N_c$ fragments will be $R_N$, we can find a relationship between the volume of sphere $V_p$ and necessary volume $V_N$,
 \begin{equation}
 	r_1^* = \frac{R_c}{R_p}
 \end{equation}
@@ -226,7 +221,9 @@ thus
 
 If we choose a linearly spaced distribution of $r_1^*$ between 0 and 1, we can then find how many $N_c$ particles are necessary to conserve mass, then from the $N_c$ particles we can find from the database of sphere packing solutions the size of sphere that would be necessary to fit the $N_c$ particles. The calculations are carried out and shown in Fig.\ref{fig:volume-ratio}. The data in Ref.~\cite{gensane2003dense} does not go above 72 spheres so we are limited to radius ratios above about $r_1^* > 0.24$.
 
-The plot shows that for particle fragments of reasonable numbers ($N_c\approx 20$ for $r_1^*\approx 0.3$), the volume necessary to fit the number of volume-conserving particles is greater than double the volume of the original sphere! 
+The plot of Fig.\ref{fig:volume-ratio} shows that for particle fragments of reasonable numbers ($N_c\approx 20$ for $r_1^*\approx 0.3$), the volume necessary to fit the number of volume-conserving particles is greater than double the volume of the original sphere! Therefore from the point of view of having the physical space to insert the fragments, smaller sized fragments are ideal. To insert the few number of large particles would require disrupting the packing in the region of the damaged particle.
+
+Thus we have competing results from the two requirements. Computationally, we desire larger crushed fragments yet we need smaller fragments in order to fit them into the system in a non-disruptive way.
 
 \begin{figure}[!t]
 \centering
@@ -235,9 +232,7 @@ The plot shows that for particle fragments of reasonable numbers ($N_c\approx 20
     \label{fig:volume-ratio}
 \end{figure}
 
-Therefore from the point of view of having the physical space to insert the fragments, smaller sized fragments is ideal. To insert the few number of large particles would require disrupting the packing in the region of the damaged particle.
 
-Thus we have competing results from the two requirements. Computationally, we desire larger crushed fragments yet we need smaller fragments in order to fit them into the system in a non-disruptive way.
 
 
 \begin{figure}[!ht]
@@ -301,7 +296,7 @@ Thus we have competing results from the two requirements. Computationally, we de
 \end{figure}
 \FloatBarrier
 
-Lastly, in this packing study we look at the displacement of the particle fragments after insertion into the system and as they come to rest in a steady state. We began with 6~875 particles and randomly crushed 1\%. This was done with a range of fragments of size $r_1^* = [0.20, 0.25, 0.35, 0.50]$. The number of particles inserted followed the from Eq.~\ref{eq:nc-crushed-fragments}. In the images of Figs.~\ref{fig:crush-settling-pictures-1},~\ref{fig:crush-settling-pictures-2},~\ref{fig:crush-settling-pictures-3}, and~\ref{fig:crush-settling-pictures-4}, we see the initial packing of new particle fragments (in blue) settle into the interstitial gaps of the packing structure of original pebbles (yellow).
+To study the effects on a pebble bed of different fragmentation schemes, I begin with a bed of \num{6875} particles and randomly crush 1\%. This was done with a range of fragments of size $r_1^* = [0.20, 0.25, 0.35, 0.50]$. The number of particles inserted for these different $r_1^*$ followed the from Eq.~\ref{eq:nc-crushed-fragments}. In the images of Figs.~\ref{fig:crush-settling-pictures-1},~\ref{fig:crush-settling-pictures-2},~\ref{fig:crush-settling-pictures-3}, and~\ref{fig:crush-settling-pictures-4}, we see the initial packing of new particle fragments (in blue) settle into the interstitial gaps of the packing structure of original pebbles (yellow).
 
 \begin{figure}[!t]
 \centering
@@ -310,7 +305,7 @@ Lastly, in this packing study we look at the displacement of the particle fragme
     \label{fig:displacement-scatter}
 \end{figure}
 
-The settling of crushing fragments is also visualized in Fig.~\ref{fig:displacement-scatter}. In this figure, the magnitude of displacement for all the crushed fragments is recorded based on the change between initial insertion location and final resting place. The displacement of the fragments is normalized against the height of the pebble bed, $H$. The fragments with $r_1^* = 0.2$ are seen to travel, on average, 10\% of the height of the pebble bed before coming to rest; some of them travel more than the entire height of the bed! In contrast, the particle fragments of size $r_1^* = 0.35$ and $r_1^* = 0.5$ travel only about 1\% of the height of the bed before coming to rest. 
+The settling of crushing fragments is also visualized in Fig.~\ref{fig:displacement-scatter}. For this figure, the magnitude of displacement for all the crushed fragments is recorded based on the change between initial insertion location and final resting place. The displacement of the fragments is normalized against the height of the pebble bed, $H$. The fragments with $r_1^* = 0.2$ are seen to travel, on average, 10\% of the height of the pebble bed before coming to rest; some of them travel more than the entire height of the bed -- as if in a game of Plinko. In contrast, the particle fragments of size $r_1^* = 0.35$ and $r_1^* = 0.5$ travel only about 1\% of the height of the bed before coming to rest. 
 
 \begin{figure}[!t]
 \centering
@@ -319,7 +314,7 @@ The settling of crushing fragments is also visualized in Fig.~\ref{fig:displacem
     \label{fig:fragment-packing-fraction}
 \end{figure}
 
-From Fig.~\ref{fig:displacement-scatter}, the impression then arises that the large displacement magnitudes of the small crush fragments would result in an overall less-dense bed with large increase in packing fraction near the floor where pebbles settle. However, there is no observable changes to the local packing fraction along the height of the pebble bed. In Fig.~\ref{fig:fragment-packing-fraction}, the packing fraction of the four different pebble beds is given. For this case where only 1\% of the ensemble crushed, there is virtually no change in the overall distribution of packing fraction. We look closely at the distribution within the first pebble diameter (see inset of Fig.~\ref{fig:fragment-packing-fraction}) and see the small crush fragments have a small change to the local packing fraction as they settled onto the floor of the container. However, for this amount of crushed percentage, the changes are insignificant to such things as the nuclear heating distribution in the bed. The small change in packing fraction would not affect the amount of nuclear energy deposited in the region.
+From Fig.~\ref{fig:displacement-scatter}, the impression then arises that the large displacement magnitudes of the small crush fragments would result in an overall less-dense bed with large increase in packing fraction near the floor where pebbles settle. For 1\% crushed pebbles, there is some observable changes to the local packing fraction near the floor of the pebble bed, but no appreciable changes elsewhere in the bulk. In Fig.~\ref{fig:fragment-packing-fraction}, the packing fractions of the four different pebble beds are given. We look closely at the distribution within the first pebble diameter (see inset of Fig.~\ref{fig:fragment-packing-fraction}) and see the small crush fragments have a small change to the local packing fraction as they settled onto the floor of the container. Simulations can be run with a greater percentage of failed pebbles to discern more clearly the settling impact on local packing fractions. This is discussed in the Remaining Work section.
 
 
 \begin{figure}[!ht]
@@ -351,12 +346,12 @@ From Fig.~\ref{fig:displacement-scatter}, the impression then arises that the la
 
 \FloatBarrier
 
-The last point to discuss is how the different size particles change the distribution of contact forces inside the ensemble. We plot the scatter of contact forces for all the pebbles in the ensemble in Fig.~\ref{fig:fragment-contact-forces}. We are most interested in the contact loads carried by the large particles that make up the force network after crush fragments are inserted into the ensemble. The small fragments, moving through the interstitial gaps, are not expected to carry much load. Therefore in the data processing for the subplot of Figs.~\ref{fig:fragment-contact-forces-20} and~\ref{fig:fragment-contact-forces-25}, we do not include the vast number of small forces on the fragments in the average value of contact force. Opposingly, the larger fragments, $r_1^*>0.4$, are expected to be inserted firmly into the contact network and their contribution to the average value is included.
+The last point to discuss is how the different size particles change the distribution of contact forces inside the ensemble. We plot the scatter of contact forces for all the pebbles in the ensemble in Fig.~\ref{fig:fragment-contact-forces}. We are most interested in the contact loads carried by the large particles that make up the force network after crush fragments are inserted into the ensemble. The small fragments, moving through the interstitial gaps, are not expected to carry much load. Therefore in the data processing for the subplot of Figs.~\ref{fig:fragment-contact-forces-20} and~\ref{fig:fragment-contact-forces-25}, I did not include the vast number of small forces on the fragments in the average value of contact force. Opposingly, the larger fragments, $r_1^*>0.4$, are expected to be inserted firmly into the contact network and their contribution to the average value is included.
 
-What we see in Fig.~\ref{fig:fragment-contact-forces} is that the average contact forces in the pebble bed remain mostly unchanged as a function of the size of the fragment radii. For all pebble beds, after the bed re-settles from the crushing event, the average contact forces (to the 1/3 power, which is the value important for heat transfer, see \cref{sec:dem-studies-effective-conductivity}) are approximately $4.9\ N^{1/3}$. None of the beds have a maximum value greater than $9\ N^{1/3}$. The contact forces are the most significant contributor to changes in effective conductivity (see \cref{sec:dem-studies-effective-conductivity}). We do not expect, therefore for the size of the fragment to contribute significantly to changes in effective thermal conductivity of the pebble bed.
+What we see in Fig.~\ref{fig:fragment-contact-forces} is that the average contact forces in the pebble bed remain mostly unchanged as a function of the size of the fragment radii. For all pebble beds, after the bed re-settles from the crushing event, the average contact forces (to the 1/3 power, which is the value important for heat transfer, see \cref{sec:dem-studies-effective-conductivity}) are approximately $4.9\ N^{1/3}$. None of the beds have a maximum value greater than $9\ N^{1/3}$.
 
 \subsection{Conclusions of Pebble Failure Modeling}
-
-In this section we introduce a method for introducing crushed pebble fragments into an ensemble after a pebble is damaged. The method was necessary to conserve mass between pebble beds before and after the crushing event which is necessary for also balancing the energy deposition into the bed from volumetric heating before and after the crushing event. We then showed that fragments increase the computational time as $(1/r_1^*)^{1/3}$ while the necessary minimum volume for inserting the particles follows roughly as $(r_1^*)^{1/3}$. For the optimization of fragment size, the most important feature is to represent realistic physics. From this point of view, disrupting the packing with a large fragments is least desirable. Therefore, from the plot of Fig.~\ref{fig:volume-ratio}, we somewhat arbitrarily recommend fragments of size $r_1^* < 0.4$ to keep the required volume small. In terms of computation time, now as a secondary concern, we recommend fragments of size $r_1^* > 0.3$; keeping in mind as computer power and ease of parallelizing increases every year, this recommendation can quickly be relaxed to smaller fragment sizes.
+[complete this!!!]
+In this section I introduced a method for introducing crushed pebble fragments into an ensemble after a pebble is damaged. The method was necessary to conserve mass between pebble beds before and after the crushing event which is necessary for also balancing the energy deposition into the bed from volumetric heating before and after the crushing event. We then showed that fragments increase the computational time as $(1/r_1^*)^{1/3}$ while the necessary minimum volume for inserting the particles follows roughly as $(r_1^*)^{1/3}$. For the optimization of fragment size, the most important feature is to represent realistic physics. From this point of view, disrupting the packing with a large fragments is least desirable. Therefore, from the plot of Fig.~\ref{fig:volume-ratio}, we somewhat arbitrarily recommend fragments of size $r_1^* < 0.4$ to keep the required volume small. In terms of computation time, now as a secondary concern, we recommend fragments of size $r_1^* > 0.3$; keeping in mind as computer power and ease of parallelizing increases every year, this recommendation can quickly be relaxed to smaller fragment sizes.
 
 The size of fragments may still influence the overall transport of energy in the system but in terms of localizing heat deposition due to settling fragments in interstitial regions, we showed that the local packing fraction was changed very little over the range of radius ratios we tested. Thus from the point of view of capturing proper thermo-physics of the system, there does not seem to be a strict sensitivity to choice of radius ratio. 
