@@ -47,37 +47,13 @@ As we saw in Fig.~\ref{fig:keff-pressure}, even when stagnant in a bed of cerami
 
 \section{Summary of CFD-DEM Modeling Development}
 
-Researchers of ceramic pebble beds for fusion reactors are concerned with damage to individual pebbles in the solid breeder volume; the accumulation of damage (\textit{e.g.} sintering, crushing) to many pebbles will ultimately have global effects on the tritium performance of the pebble bed volume.  The discrete element method provides us with the ability to probe particle-scale interactions so that we might understand, predict, and more importantly, avoid pebble damage and the morphological changes to the pebble bed associated with it. However, simulations with the DEM alone are only telling half of the story of the solid breeder. DEM models (as we are implementing them) are not able to capture the effects, neither on momentum nor energy, of an interstitial fluid. 
+[move this paragraph]Researchers of ceramic pebble beds for fusion reactors are concerned with damage to individual pebbles in the solid breeder volume; the accumulation of damage (\textit{e.g.} sintering, crushing) to many pebbles will ultimately have global effects on the tritium performance of the pebble bed volume.  The discrete element method provides us with the ability to probe particle-scale interactions so that we might understand, predict, and more importantly, avoid pebble damage and the morphological changes to the pebble bed associated with it. 
 
+Simulations of heat transfer in our DEM formulation are not able to caputre the effects of an interstitial fluid. The CFD-DEM approach began as an engineering tool to study fluidized beds and as such have been benchmarked against common jet-spout fluidized beds with light-to-medium packing. However, CFD-DEM as a research tool has not before been applied to packed beds with nuclear heating such as our breeder blanket volumes. The fluid-solid heat transfer correlation, as developed for non-heat-generation situations, will continue to be employed until modifications are deemed necessary after benchmark cases are tested in the future. For now, the lumped capacitance assumption is made in the development of the heat source term for the particles in the DEM governing equations.
 
-CFD-DEM begun as a tool to study fluidized beds
-Benchmarked against common jet-spout fluidized beds with light-to-medium packing
+I tested the validity of the lumped capacitance assumption when pebbles experience heat generation with a moderately large Biot number. Seeing the inaccuracies when the solid conductivity decreased, I incorporated the Jeffreson correction to the heat transfer coefficient and showed its accuracy even under the condition of volumetric heating of the solid. The CFD-DEM approach retains pebble-scale micromechanical interaction information necessary for pebble damage modeling while computational resources are conserved with volume-averaged treatment of the flowing interstitial fluid. Closure of coupled fluid conservation equations happens with the summed contributions of particles in the fluid computation space. The correlation accounts for internal temperature gradients with negligible computational overhead.
 
-CFD-DEM has not yet been applied to packed beds with nuclear heating such as our breeder blanket volumes
-Fluid-solid heat transfer correlation was developed for non-heat-generation situations
-The lumped capacitance assumption is made for the particles
-
-We test the validity of lumped capacitance assumption when pebbles experience heat generation \& introduce a correction
-
-
-Retains pebble-scale micromechanical interaction information necessary for pebble damage modeling
-
-Computational resources conserved with volume-averaged treatment of fluid
-Closure of particle-fluid heat transfer equations via experimental correlations for heat transfer coefficient on DEM particles
-
-A modified heat transfer coefficient is derived and introduced to account for not satisfying Biot number assumption in lumped-capacitance analysis
-Accounts for internal temperature gradients with negligible computational overhead
-
-Simplicity of model sacrifices simulation of complex flow fields – unclear if this is an acceptable simplification
-
-
-
-
-
-
-
-
-
+The CFD-DEM model is a powerful and efficient means of simulating helium flow through the packed bed. However the simplicity of the volume-averaging model sacrifices the ability to resolve the complex flow fields that develop in the pebble bed. It is unclear if this simplification is completely acceptable. Therefore, concurrent to the development of the dynamic coupling of DEM to CFD, I investigated the option of a static coupling of the DEM-computed packed bed to a complete flow-solving technique.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
