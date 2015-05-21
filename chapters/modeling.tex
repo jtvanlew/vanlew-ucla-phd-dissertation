@@ -24,10 +24,14 @@ The observable, macroscopic behavior of particulate, or granular, systems is a c
 
 
 \section{Summary of DEM Modeling Development}
-[this is incomplete!!]
-The DEM formulation of a pebble bed allows interrogation of the micromechanical interactions that lead to macroscopic, effective properties measurable in the lab. A modified Young's modulus (fit to a probabilistic distribution) is shown to be necessary to capture the observed behavior of ceramic pebbles. The modified Young's Modulus is realized in DEM simulations with a numeric random generator satisfying a Fisher-Snedecor distribution fit to the experimental data of the pebble batch. A crush prediction algorithm was developed and implemented into DEM with a numeric random generator satisfying a Weibull distribution which assigns a critical bed-force value to each pebble. The value is constantly compared to all the contact forces acting upon a pebble in the ensemble to check for crush events. In the case of a crushed pebble, a volume-conserving pebble fragmentation script is used to simulate a broken pebble.
 
-DEM, alone, neglects the thermal transport between pebbles and interstitial gas. Theoretically- and experimentally-based  correlations have been proposed to include stagnant gas heat transfer in DEM framework. We must address the helium influence on heat transfer within the pebble bed Ð two schemes are developed here
+In the preceding sections I introduced the philosophy behind choosing the discrete element method as a tool for researching ceramic pebble beds for solid breeders, the basic governing equations of the discrete element method, and a number of enhancements to the technique based on observations performed at UCLA on individual ceramic pebbles.
+
+Among the contributions to the field of DE modeling for ceramic breeders, a modified Young's modulus (fit to a probabilistic distribution) is shown to be necessary to capture the observed scatter of elasticity of ceramic pebbles. The modified Young's Modulus is realized in DEM simulations with a numeric random generator satisfying a Fisher-Snedecor distribution fit to the experimental data of the pebble batch. A crush prediction algorithm was developed and implemented into DEM with a numeric random generator satisfying a Weibull distribution which assigns a critical bed-force value to each pebble. The value is constantly compared to all the contact forces acting upon a pebble in the ensemble to check for crush events. In the case of a crushed pebble, a volume-conserving pebble fragmentation script is used to simulate a broken pebble.
+
+The power of applying the discrete element method to pebble beds - and especially pebble beds with a concern for pebble damage - is showcased in \cref{sec:dem-studies}. Before that point, the DEM model will be augmented in two different means in order to incorporate the helium purge gas and its influences on thermal transport. The modeling development of these two methods will be introduced in the next series of sections.
+
+% DEM, alone, neglects the thermal transport between pebbles and interstitial gas. Theoretically- and experimentally-based  correlations have been proposed to include stagnant gas heat transfer in DEM framework. We must address the helium influence on heat transfer within the pebble bed Ð two schemes are developed here
 
 
 

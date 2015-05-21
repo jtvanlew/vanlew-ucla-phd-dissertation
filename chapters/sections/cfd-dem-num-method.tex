@@ -129,8 +129,8 @@ The inter-phase momentum and energy exchange coefficients act as the communicato
 \subsection{Lagrangian-Eulerian Mapping Calculations of Porosity}\label{sec:lag-eul-mapping}
 \begin{figure}[t]
 	\centering
-	\caption{The dashed line represents a computational cell in which exist many particles. The particles with centroids inside the cell are shaded red.}
-	\includegraphics[width=\singleimagewidth]{chapters/figures/void-fraction-cell.pdf}\label{fig:centroid-void-fraction}
+	\includegraphics[width=\singleimagewidth]{chapters/figures/void-fraction-cell.pdf}
+	\caption{The dashed line represents a computational cell in which exist many particles. The particles with centroids inside the cell are shaded red.}\label{fig:centroid-void-fraction}
 \end{figure}
 The simplest method for calculating the porosity of a CFD computational cell is to map all the DEM particles into the Eulerian volume via their centroid. We refer to this simple technique as the particle centroid method; in spite of its simplicity it is often used for large cell-to-particle volume ratios.\cite{Xu1997} A two-dimensional demonstration of the centroid technique is given in Fig.~\ref{fig:centroid-void-fraction}. In this figure, we see a computational cell (dashed line) in which many particles exist either partially or fully. The particles shaded in red have their centers located inside the cell and therefore in the simple technique have their entire volume contribute to the calculation of the porosity. The porosity for the centroid method is calculated as,
 \begin{equation}
@@ -140,11 +140,11 @@ where $V_{p,i}$ is the volume of particle $i$. As the cell size begins to approa
 \begin{equation}
 	\epsilon_\text{cell} = 1-\frac{1}{V_\text{cell}}\sum_{i = A}^{i=L}f_iV_{p,i}
 \end{equation}
-where $f_i$ is the fraction of the particle residing in the Eulerian cell. A similar approach taken by Kloss\etal~and Zhao \& Shan is the divided technique.\cite{Kloss2012,Zhao2013a} In this technique, the spherical particle is artificially divided into a number of regions with markers indicating their location. For example, see now how particle $A$ is treated in Fig.~\ref{fig:centroid-void-fraction-divided}. Instead of searching for centroids of particles, each particle has a search through the marker points (the black markers drawn in particle $A$) and the volume of that section of the sphere is assigned to whichever cell it falls inside.
+where $f_i$ is the fraction of the particle residing in the Eulerian cell. A similar approach taken by Kloss\etal~and Zhao \& Shan is the divided technique.\cite{Kloss2012,Zhao2013a} In this technique, the spherical particle is artificially divided into a number of regions with markers indicating their location. For example, see now how particles at the boundary, such as particle $A$, are treated in Fig.~\ref{fig:centroid-void-fraction-divided}. Instead of searching for centroids of particles, each particle has a search through the marker points (the black markers drawn in particle $A$) and the volume of that section of the sphere is assigned to whichever cell it falls inside. Note that in the sketch of Fig.~\ref{fig:centroid-void-fraction-divided}, every particle is divided with markers but particles not near the cell boundary have not had them drawn for clarity and convenience.
 \begin{figure}[t]
 	\centering
-	\caption{The dashed line represents a computational cell in which exist many particles. The particles with centroids inside the cell are shaded red.}
-	\includegraphics[width=\singleimagewidth]{chapters/figures/void-fraction-divided-cell.pdf}\label{fig:centroid-void-fraction-divided}
+	\includegraphics[width=\singleimagewidth]{chapters/figures/void-fraction-divided-cell.pdf}
+	\caption{The dashed line represents a computational cell in which exist many particles. The divided portions of the particles with the sectional markers (dots) located in the cell are colored red.}\label{fig:centroid-void-fraction-divided}
 \end{figure}
 
 As the computational cell volume approaches the size of a single particle $V_\text{cell}\rightarrow V_p$, the centroid and divided techniques break down. A technique introduced by Link\etal~treats the particle as a porous cube and allows computations when a cell is completely occupied by only a single particle.\cite{Link2005} Peng\etal~offer an an analytic technique as well as guidelines for validity of either analytic or centroid techniques.\cite{Peng2014} However, in this work, I will always apply the divided technique of Kloss\etal~based on the geometry of our packed bed flow and the guidelines established by Peng\etal\cite{Kloss2012,Peng2014}
