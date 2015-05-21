@@ -46,6 +46,11 @@
     \def\@Thesisname{Dissertation}
     \def\@degreename{#1}
    }
+\newcommand{\prospectus}[1]
+   {\def\@thesisname{prospectus}
+    \def\@Thesisname{Prospectus}
+    \def\@degreename{#1}
+   }
 \dissertation{Doctor of Philosophy}	% default
 
 % The following commands set the year in which the degree will be
