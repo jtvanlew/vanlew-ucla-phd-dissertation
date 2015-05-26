@@ -94,6 +94,7 @@ As nuclear energy is deposited into the poorly-conductive ceramic breeder materi
 
  % the fusion reaction deposits   The nuclear heat generated in the pebble bed solid breeder will heat the ceramic pebbles to maximum temperatures of approximately 900~\celsius. The heat of the pebbles is transported through them via conduction through inter-particle contacts, conduction through the purge gas into neighboring particles, and ultimately through contact with the containing structure. The box structure surrounding the solid breeder will have high pressure (\si{8~MPa} in many current designs) 
 
+\section{Objectives}
 
 \section{Motivation}\label{sec:motivation}
 
@@ -113,15 +114,19 @@ As the thermophysical properties evolve, global or local bed temperatures change
 
 In light of the short discussion above, it is apparent that a thorough study of pebble damage, including the loads on the pebble bed that will lead to broken pebbles as well as the pebble bed's thermophysical responses to broken pebbles, is critically needed for solid breeder design. Unfortunately, pebble bed experiments are inadequate for this need. The majority of measurements are only available for macroscopic properties (\textit{e.g.} uniaxial compression tests for stress-strain responses) or give only maximum measurements of individual pebble responses (\text{e.g.} pressure sensitive layers giving pebble pressures on a wall). The inability of physical experiments to reliably look into the transient inner structure of the pebble bed has driven past solid breeder researchers to employ pebble-scale models. Increasingly reliable and accurate models are crucial in the design of operational solid breeder blanket technologies. In this dissertation, I attempt to advance the field of solid breeder pebble-scale modeling with the introduction of new techniques and tools to incorporate the many facets of pebble damage in a solid breeder.
 
-Briefly, I must consider why one would employ pebble-scale models versus those that are bed-scale. Afterall, the volume of a pebble in a tritium breeder is on the scale of 10$^{-9}$~m$^3$ while the typical container volume can be on the order of 10$^{-2}$~m$^3$\cite{Cho2008}.  Thus a single breeder volume will house upwards of $N = 10^7$ pebbles. Statistically then, it is reasonable to assume that continuum theory is applicable to the ensemble of pebbles. This assumption is the basis of development of finite element method (FEM) models for the breeder pebble beds. Constitutive equations are developed from experimental measurements of the macroscopic behavior of pebble beds which are fed into FEM models. The continuum assumption allows modeling the thermomechanical interaction of the entire pebble bed with the containing structure and coolant. The FEM models have been able to predict thermo-mechanical behavior with reasonable accuracy of some lab-scale experimental mock-ups of breeding units (A more thorough summary of the state of solid breeder modeling is given in \cref{sec:modeling-state}).\cite{DiMaio20081287,Zaccari20081282,Gan:2009vn} A notable result indicated by all the different FEM models is the indication that strong mechanical loads will arise throughout the pebble bed -- which will lead to many histrionic effects. 
+Briefly, I must consider why one would employ pebble-scale models versus those that are bed-scale. After all, the volume of a pebble in a tritium breeder is on the scale of \SI{10e-9}{\cubic\meter} while the typical container volume can be on the order of \SI{10e-2}{\cubic\meter}.\cite{Cho2008}  Thus a single breeder volume will house upwards of $N =$\num{10e7} pebbles. Statistically then, it is reasonable to assume that continuum theory is applicable to the ensemble of pebbles. This assumption is the basis of development of finite element method (FEM) models for the breeder pebble beds. Constitutive equations are developed from experimental measurements of the macroscopic behavior of pebble beds which are fed into FEM models. The continuum assumption allows modeling the thermomechanical interaction of the entire pebble bed with the containing structure and coolant. The FEM models have been able to predict thermo-mechanical behavior with reasonable accuracy of some lab-scale experimental mock-ups of breeding units (A more thorough summary of the state of solid breeder modeling is given in \cref{sec:modeling-state}).\cite{DiMaio20081287,Zaccari20081282,Gan:2009vn} A notable result indicated by all the different FEM models is the indication that strong mechanical loads will arise throughout the pebble bed -- which will lead to many histrionic effects. 
 
 Experiments on packed beds are generally limited to measurements of statistically averaged, macroscopic responses. Although, unlike continuous materials, packed beds as yet can not be described by any state variables. For instance, with an ideal gas if we know two properties such as temperature or pressure, the state of the gas is known and its behavior predictable. Conversely, two packed beds with the same temperature, packing fraction, average particle diameter, and stress state may react very differently to external loads. As researchers of pebble beds, we create empirical fits to experimental data on the particular packed bed under investigation but then might have to dubiously apply the relationships to beds of different packing states. 
 
 Because the FEM approach is, at present, incapable of modeling histrionic effects: pebble damage, resettling, and gap formation. And the focus of this dissertation is on the effect of individual damaged pebbles and the morphological changes they induce in the pebble bed writ large. Thus I am compelled to consider the models at the scale of the individual pebbles. DEM is emerging as a reliable method to remove speculation about the internal state of the packed bed as the simulations provide valuable information on the dynamics of particle interactions and how they relate to the macroscopic responses that are measured experimentally.
 
-\section{Scope of the Work}\label{sec:intro-scope-of-work}
 
-In our group we identify the need to predict pebble damage in an ensemble, understand of the evolution of pebble bed morphology due to pebble damage, and analyze the impact of morphological changes on thermophysical and thermomechanical properties. To satisfy these needs, the work of this dissertation is to develop tools for modeling pebble interactions, predict pebble crushing based on the interactions, and monitor the macroscopic changes to temperatures in the bed in response to damaged pebbles. On the path of pebble-scale modeling development, I will:
+
+
+\section{Objectives of this Study}\label{sec:intro-scope-of-work}
+The goal of this work is to develop predictive capabilities for the onset and repercussions of pebble damage in an ensemble; to understand of the evolution of pebble bed morphology and thermophysical properties dependent upon the morphological state. The specific objectives of this dissertation are therefore to develop tools for modeling pebble interactions, predict pebble crushing based upon the mechanical interactions, and monitor the macroscopic changes to temperatures in the bed in response to damaged pebbles. For the sake of a more comprehensive treatment of the thermodynamics in a ceramic pebble bed solid breeder, the model will encompass both the solid and fluid constituents and their thermal interactions.
+
+On the path of pebble-scale modeling development for the solid interacting bodies in the ensemble, I will:
 \begin{enumerate}
 	\item validate the Hertzian assumption for ceramic pebble interactions with single experiments on crushing pebbles,
 	\item derive a criteria for pebble crushing in our numeric ensemble based on single pebble experiments,
@@ -129,15 +134,21 @@ In our group we identify the need to predict pebble damage in an ensemble, under
 	\item calculate the evolving force network and its influence on the heat transport in the pebble bed.
 \end{enumerate}
 
-After implementing a sophisticated pebble-scale modeling tool, I will show the limitations of the micro-mechanical model when it comes to simulating the heat transfer of a ceramic pebble bed with a creeping helium purge gas. Thus I also implement some efficient bed-scale models of thermo-fluid flow coupled to/integrated with particle-scale mechanics. The steps toward achieving these models includes:
+%After implementing a sophisticated pebble-scale modeling tool, I will show the limitations of the micro-mechanical model when it comes to simulating the heat transfer of a ceramic pebble bed with a creeping helium purge gas. Thus 
+The pebble-scale model will be coupled to fluid flow with efficient bed-scale models of thermo-fluid flow. Two approaches will be concurrently implemented. The steps toward achieving these models includes:
 \begin{enumerate}
 	\item adapting and employing two numerical schemes to study packed bed energy transfer with interstitial gas,
-	\item analyze the reduction in $\keff$ due to broken pebbles,
 	\item study the lumped-capacitance assumption (innate to the particle-scale modeling approach) in a packed bed with high Biot number with nuclear heating.
-	\item address the overall impact of the helium purge gas on the thermal transport in a bed with evolving morphology,
 \end{enumerate}
 
-Finally, when the particle-scale model predicting and simulating pebble damage is coupled to thermo-fluid models of the helium purge through packed beds, I will use the numerical tools to judge the consequences of pebble damage on two ITER-relevant configurations of breeder volumes, applicable as guidance to solid breeder designers.
+Once the modeling development is complete, the computational tools will be implemented to:
+\begin{enumerate}
+	\item analyze the reduction in $\keff$ due to broken pebbles,
+	\item address the overall impact of the helium purge gas on the thermal transport in a bed with evolving morphology,
+	\item judge the consequences of pebble damage on two ITER-relevant configurations of breeder volumes.
+\end{enumerate}
+
+Successful satisfaction of the objectives of this work will see applicable as guidance to solid breeder designers.
 
 
 

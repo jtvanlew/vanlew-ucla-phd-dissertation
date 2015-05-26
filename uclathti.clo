@@ -150,6 +150,9 @@
 % a name underneath the line.  If the standard "single" line spacing is
 % changed, it may be desirable to change the "\vskip" before the name.
 
+% note: I found no horizontal lines being drawn and the spacing really 
+% thin (compiled with xelatex). I added some boxes with hrulefill lines
+% and some vertical spacing between each member name. JVL
 \newcommand\@signatureline[1]{
    #1
    
@@ -161,23 +164,23 @@
    \renewcommand\baselinestretch{\@doublespacing}\@normalsize
    \normalsize \normalfont The \@thesisname\ of \@author\ is approved.
    
-   {\centering
-      \ifnum\c@members>5 \@signatureline{\@memberF}\fi
-      \ifnum\c@members>4 \@signatureline{\@memberE}\fi
-      \ifnum\c@members>3 \@signatureline{\@memberD}\fi
-      \ifnum\c@members>2 \@signatureline{\@memberC}\fi
-      \ifnum\c@members>1 \@signatureline{\@memberB}\fi
-      \ifnum\c@members>0 \@signatureline{\@memberA}
+   {\vspace{2cm}\raggedleft
+      \ifnum\c@members>5 \@signatureline{\makebox[3.5in]{\hrulefill} \\ \@memberF \vspace{0.5cm}}\fi
+      \ifnum\c@members>4 \@signatureline{\makebox[3.5in]{\hrulefill} \\ \@memberE \vspace{0.5cm}}\fi
+      \ifnum\c@members>3 \@signatureline{\makebox[3.5in]{\hrulefill} \\ \@memberD \vspace{0.5cm}}\fi
+      \ifnum\c@members>2 \@signatureline{\makebox[3.5in]{\hrulefill} \\ \@memberC \vspace{0.5cm}}\fi
+      \ifnum\c@members>1 \@signatureline{\makebox[3.5in]{\hrulefill} \\ \@memberB \vspace{0.5cm}}\fi
+      \ifnum\c@members>0 \@signatureline{\makebox[3.5in]{\hrulefill} \\ \@memberA \vspace{0.5cm}}
          \else\typeout{No non-chair committee members.}\fi
       \ifnum\c@chairs>2
-         \@signatureline{\@chairC, Committee Co-chair}
-         \@signatureline{\@chairB, Committee Co-chair}
-         \@signatureline{\@chairA, Committee Co-chair}
+         \@signatureline{\makebox[3.5in]{\hrulefill} \\ \@chairC, Committee Co-chair \vspace{0.5cm}}
+         \@signatureline{\makebox[3.5in]{\hrulefill} \\ \@chairB, Committee Co-chair \vspace{0.5cm}}
+         \@signatureline{\makebox[3.5in]{\hrulefill} \\ \@chairA, Committee Co-chair \vspace{0.5cm}}
       \else\ifnum\c@chairs>1
-         \@signatureline{\@chairB, Committee Co-chair}
-         \@signatureline{\@chairA, Committee Co-chair}
+         \@signatureline{\makebox[3.5in]{\hrulefill} \\ \@chairB, Committee Co-chair \vspace{0.5cm}}
+         \@signatureline{\makebox[3.5in]{\hrulefill} \\ \@chairA, Committee Co-chair \vspace{0.5cm}}
       \else\ifnum\c@chairs>0
-         \@signatureline{\@chairA, Committee Chair}
+         \@signatureline{\makebox[3.5in]{\hrulefill} \\ \@chairA, Committee Chair \vspace{0.5cm}}
       \else\typeout{No committee chair.}
       \fi\fi\fi
       \vskip 72pt

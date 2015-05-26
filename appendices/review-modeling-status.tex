@@ -18,19 +18,17 @@ To study the temperature effect in Reimann's studies, the bed is freely heated t
 
 
 \begin{figure}[t!]
-	\begin{center}
+	\centering
 	\includegraphics[width=\singleimagewidth]{chapters/figures/Fig-1}
 	\caption{Example of uniaxial compression testing results for lithium metatitanate pebble bed \cite{vanderlaan2011}.}
 	\label{fig:mti}
-	\end{center}
 \end{figure}
 
 \begin{figure}[t!]
-	\begin{center}
+	\centering
 	\includegraphics[width=\singleimagewidth]{chapters/figures/Fig-2}
 	\caption{Example of uniaxial compression testing results compared with predictions from material constitutive equations for lithium orthosilicate pebble beds at different temperatures \cite{Gan:2008kx}.}
 	\label{fig:UCT}
-	\end{center}
 \end{figure}
 
 
@@ -59,14 +57,13 @@ The effect of packing factor, geometry of the assembly on the overall stress-str
 Recently, the effect of the pebble size distribution on the overall thermo-mechanical behavior of the pebble assembly is studied by Annabattula\etal\cite{Annabattula2011}. They consider the pebble size distribution of ceramic breeder pebbles (\lis) with a diameter range of $0.25\ \mathrm{mm}$-$0.65\ \mathrm{mm}$. Figure~\ref{fig:pebble-assembly-potential-energy} shows a binary pebble assembly in a periodic box. The colors indicate stored elastic strain energy of the pebble (red: maximum and blue: zero). The assembly has a maximum pebble radius $\rmax=0.25$ mm with the pebble size ratio $\rstar=\rmin/\rmax=0.6$, relative volume fraction $\vstar=\vmax/V=0.7$ and a packing factor $\eta=0.643$. The average stress in a granular assembly can be deduced from the contact forces between individual grains.
 
 \begin{figure}[!ht]
-	\begin{center}
+	\centering
 	\begin{minipage}{0.45\textwidth}
 	\includegraphics[width=6cm]{chapters/figures/Fig-3}
 	\begin{picture}(15,15)(340,-120)
 	\put(330,-80){\includegraphics[scale=1]{chapters/figures/Fig-3b}}
 	\end{picture}
 	\end{minipage}
-	\end{center}
 	\caption{A binary pebble assembly with $\rstar = 0.6$ and $\vstar=0.7$ showing the stored elastic energy of the pebbles at $\epsilon_{33}=1.5\%$; pebbles of radius $r_s$ (small) and $r_g$ (large).}
 	\label{fig:pebble-assembly-potential-energy}
 \end{figure}
@@ -76,9 +73,8 @@ Another aspect of interest in the study of mechanics of pebble beds is the crush
 A probabilistic method for analyzing the crush events of individual pebbles and a procedure with the combination of DEM and experimental data to obtain crush load probability has been reported by~\cite{Gan:2010kc}. Figure~\ref{fig:cdf_pebbles} shows the cumulative distribution function as a function of the hydrostatic pressure placed on the bed. The probability analysis, derived from DEM calculations, provides quantitative report of pebble crushing as a function of a specific hydrostatic pressure. The results of this analysis exemplify the growing strength of DEM techniques for analyses connecting global pebble bed loads to individual pebbles.
 
 \begin{figure}[!ht]
-  \begin{center}
+  \centering
 \includegraphics[width=\singleimagewidth]{chapters/figures/Fig-4}
-\end{center}
  \caption{Cumulative distribution functions for crushing of individual pebbles inside the bed for as-fabricated pebbles, calculated by (1) maximum contact forces and (2) all inter-particle contact forces~\cite{Gan:2010kc}.}
  \label{fig:cdf_pebbles}
 \end{figure}
@@ -88,9 +84,8 @@ However, it has been shown~\cite{Zhao2010,Zhao2011} that a criterion based on cr
 Figure.~\ref{fig:stress-strain-effect} shows the results for two types of damage law each with three different realizations. Each realization corresponds to a different random distribution of critical energies assigned to the pebbles in the assembly. The results do not show appreciable sensitivity to random distribution of energies. In the case of gradual damage law, the reduction of the elastic modulus of the pebble starts when the stored elastic energy reaches 50\% of the critical energy for that pebble and the elastic modulus reaches exponentially to its minimum value when the stored elastic energy reaches the critical energy prescribed. In the case of sudden damage this reduction starts at a much later stage when the stored elastic energy reaches 95\% of the critical energy of the pebble. Clearly, the assembly with a sudden damage accumulation shows a higher maximum strength compared to the gradual damage. In the case of the gradual damage, the pebbles start to degrade much earlier (at small strain) than in the case of sudden damage. Hence the critical number of pebbles to fail for the onset of maximum strength is reached earlier (at small strain) in gradual damage. It turns out that a mere 0.2\% pebbles is the critical number for the onset of maximum strength (stress plateau) observed.
 
 \begin{figure}[!ht]
-\begin{center}
+\centering
 \includegraphics[width=\singleimagewidth]{chapters/figures/Fig-5}
-\end{center}
 \caption{Stress-Strain response of a granular assembly under uniaxial compression for two different damage evolution laws (gradual and sudden). Each damage evolution criterion is simulated with three different realizations of randomly prescribed critical failure energy for individual pebbles following Weibull distribution.}
 \label{fig:stress-strain-effect}
 \end{figure}
@@ -149,20 +144,18 @@ However, it must be noted that the benchmarking efforts are incomplete and incon
 
 
 \begin{figure}[t!]
-\begin{center}
+\centering
 \includegraphics[width=\singleimagewidth]{chapters/figures/Fig-8}
 \caption{Exemplary results of the DIN benchmarking with HELICA: Temperature variations with time during a loading cycle at 100 mm from FW\cite{DellOrco:2007hc}.}
 \label{fig:DIN_HELICA}
-\end{center}
 \end{figure}
 
 
  \begin{figure}[t!]
-\begin{center}
+\centering
 \includegraphics[width=\singleimagewidth]{chapters/figures/Fig-9}
 \caption{Exemplary results of the DIN benchmarking with HEXCALIBER : Temperature variations with time during a loading cycle within the first lithium-orthosilicate cell\cite{DellOrco:2010zr}.}
 \label{fig:DIN_HEX}
-\end{center}
 \end{figure}
 
 
@@ -196,11 +189,10 @@ The effect of thermal cycling on the packing state is of interest; in particular
 A good deal of progress has been made in the field of ceramic pebble bed analysis. Owing to the multi-scale nature of pebble beds, it is unavoidable that multi-scale models are necessary. A framework has been envisioned by our group, shown in Fig.~\ref{fig:framework}, the following of which will contribute substantially to the success of the ceramic breeder blanket development. In this framework, the continuum modeling approach using FEM and empirically derived material constitutive equations is capable of correctly characterizing the stress load to which a breeder pebble bed unit may be subject during reactor operation. The DEM approach analyzes this load and determines the possibility of pebble bed morphological changes; i.e. pebble damage based on the crush load data of pebbles, the degree of sintering depending on the local contact stress and temperature fields, and creep relaxation of contacts. It is only with the combined analysis of particle-scale information from DEM and system-scale information from FEM that warrants a high confidence of success to the assembly and design of breeder units in a blanket.  Experiments should also be conducted to assess the manner of pebble relocations and packing rearrangement when morphological evolution of the pebble bed occurs. It is important to learn if the breeder unit will continue to function in accord with the original design goals under all complex operating conditions.  The ultimate objectives of the pebble bed thermo-mechanics are: to delineate a near-equilibrium packing state as the initial state, quantify breeder unit thermo-mechanics parameters during operations, understand how these properties evolve as topographical changes happen in the packing, and ensure breeder functions as it is intended to in the fusion operational phase spaces.
 
 \begin{figure}[t!]
-	\begin{center}
+	\centering
 	\includegraphics[width=\singleimagewidth]{chapters/figures/Fig-11}
 	\caption{Example Pebble Bed Thermo-mechanics Research Framework.}
 	\label{fig:framework}
-	\end{center}
 \end{figure}
 
 Lastly, no predictive tool is possible without solid validation attempts. The benchmark experiments performed up to now were either too limited in scope or practice. New experiments must be performed that can provide reliable data with which to compare numerical results. Fortunately, a new experimental effort out of KIT has been initiated.\cite{Hernandez2014} The experiment shows great promise at reproducing volumetric heating profiles with substantial data collection efforts. The preliminary results are very promising.

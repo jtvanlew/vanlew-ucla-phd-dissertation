@@ -62,11 +62,10 @@ The bulk void fraction is found from the correlation:
 The packing fractions as a function of distance from the container wall for two example sizes, diameters of 20$d_p$ and 5$d_p$, are plotted in Fig.~\ref{fig:packingDist}. This example is meant to demonstrate the varying packing fraction in a packed bed that is described with a single `bulk' or `global' packing fraction. The size of the discretized cell relative to the pebble will dictate how much of the void fraction variation is captured in the volume-averaged equations.
 
 \begin{figure}[htbp]
-\begin{center}
+\centering
 	\includegraphics[width = \singleimagewidth]{chapters/figures/annular-packing-fraction.png}
 	\caption{Showing the packing fraction approach the bulk value after a few pebble diameters when the pipe is 20$d_p$ and that when the pipe is only 5$d_p$, the packing fraction at any radius is not the same as the bed average.}
 	\label{fig:packingDist}
-\end{center}
 \end{figure}
 
 The correlation we have used here is just one possible option of many that have been developed historically for estimating the pressure drop / permeability / drag force of fluid in a packed bed. A short review of other correlations, their applicable ranges of fluid parameters, and other details is given in \cref{sec:modeling-pressure-drop}. The assumptions leading to Eq.~\ref{eq:K-C-non-dim} provide justification for our implementation of the KHL correlation for our packed beds of lithium ceramics.

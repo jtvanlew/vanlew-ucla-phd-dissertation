@@ -718,7 +718,7 @@
 % the right mark is changed by a \section command.  However, it does
 % produce somewhat anomalous results if two \bothmark's occur on the same page.
 % 
-
+\setlength{\paperheight}{11in}
 \mark{{}{}}   % Initializes TeX's marks
 
 % \def\ps@empty{\def\@oddhead{}
