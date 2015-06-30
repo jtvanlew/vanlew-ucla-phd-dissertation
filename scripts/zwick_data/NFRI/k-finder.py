@@ -194,11 +194,22 @@ plt.savefig('k-v-d')
 
 plt.figure(103)
 
-n, bins, patches = plt.hist(kpeb, histtype='stepfilled', normed=True)
+n, bins, patches = plt.hist(kpeb, bins=10, histtype='stepfilled', normed=True)
 plt.xlim((0,1))
 plt.setp(patches, 'facecolor', 'g', 'alpha', 0.75)
 plt.xlabel('Elasticity reduction factor')
 plt.ylabel('Count')
 plt.savefig('k_hist')
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# These made an f-distribution to fit kpeb -- but i'm not using it
+# from scipy.stats import f
+# dfn, dfd, loc, other = f.fit(kpeb, loc=min(kpeb))
+# x = np.linspace(0,1,100)
+# pdf = f.pdf(x, dfn, dfd, loc=loc, scale=other)
+# r = f.rvs(dfn, dfd, loc=loc,size=20)
+# plt.hist(r, bins=np.arange(loc, 1.1, 0.05), normed=False, alpha=0.4, color='k')
+# f.pdf(x, dfn, dfd, loc=loc, scale=other)
+# plt.plot(x,pdf)
+
 plt.show()

@@ -5,7 +5,7 @@ import sys, os
 #import pylab as P
 import matplotlib.cm as mplcm
 import matplotlib.colors as colors
-
+from scipy import polyfit
 if len(sys.argv)>2:
 	filenames = sys.argv[1:]
 else:
@@ -29,16 +29,20 @@ err_peb = np.zeros(len(filenames))
 E_rec = [[] for i in range(len(filenames))]
 for loadname in filenames:
 	# Open the file again to read the pebble diameter
-	print 'Finding diameter for: '+loadname
+	# print 'Finding diameter for: '+loadname
 	f = open(loadname)
-	print loadname
+	# print loadname
 	content = f.readlines()
 	dp1 = content[1]
 	dp[j] = float(dp1[15:(dp1.find("mm")-2)])/1000.
 	j +=1
 plt.figure(4)
 n, bins, patches = plt.hist(dp*1000, histtype='stepfilled')
+<<<<<<< HEAD
 plt.setp(patches, 'facecolor', 'k', 'alpha', 0.5)
+=======
+plt.setp(patches, 'facecolor', 'c', 'alpha', 0.75)
+>>>>>>> origin/master
 # plt.title('KIT pebbles (0.2 ~ 0.6 mm) at room temperature')
 plt.xlabel('Pebble diameter (mm)')
 plt.ylabel('Count')
@@ -47,7 +51,11 @@ plt.ylabel('Count')
 
 
 cm = plt.get_cmap('hot')
+<<<<<<< HEAD
 cNorm = colors.Normalize(vmin=min(dp)*1000, vmax=max(dp)*1000)
+=======
+cNorm = colors.Normalize(vmin=min(dp*1000), vmax=max(dp*1000))
+>>>>>>> origin/master
 scalarMap = mplcm.ScalarMappable(norm=cNorm, cmap=cm)
 fig, (ax1, ax2) = plt.subplots(1, 2)
 N = 15
@@ -58,10 +66,9 @@ ax1.set_axis_bgcolor('#D3D3D3')
 j = 0
 
 
-k = np.linspace(0.01,1,1000)
-
+slope = []
 for loadname in filenames:
-	print 'Calculating elasticity reduction factor for: '+loadname
+	print 'Loading : '+loadname
 
 	filedata = np.loadtxt(loadname,skiprows=6,delimiter=',')
 	s = filedata[:,0]
@@ -86,26 +93,28 @@ for loadname in filenames:
 	if s[-1] > endpoint:
 		endpoint = s[-1]
 	
+	# find the slope of the upper end of the curve
+	slogfit = s[np.where(s>10**-3)]
+	Flogfit = F[np.where(s>10**-3)]
 
-
-	# plot each individual curve and hertz fit
-	#plt.figure(j)
-	#lt.plot(s, F, color='g')
-	#plt.plot(s, Fhertz, color='k')
-	#plt.savefig('singles/epsFile'+str(j))
-
-	
+	slope_temp, intercept = np.polyfit(np.log(slogfit), np.log(Flogfit), 1)
+	slope.append(slope_temp)
 	normColorVal = (dp[j] - min(dp))/(max(dp)-min(dp))
 	color = cm(normColorVal)
-	ax1.plot(s,F,color=color)	
+	ax1.loglog(s,F,color=color)	
 
 	j+=1
 ax1.set_xlabel('Standard travel (mm)')
 ax1.set_ylabel('Standard force (N)')
-ax1.set_xlim((0, endpoint))
+ax1.set_xlim((10**-3, endpoint))
 ax1.set_ylim((0,50))
 cb1 = mpl.colorbar.ColorbarBase(ax2, cmap=cm,
                                     norm=cNorm,
                                     orientation='vertical')
-
+plt.figure(10)
+n, bins, patches = plt.hist(slope, histtype='stepfilled')
+plt.setp(patches, 'facecolor', 'c', 'alpha', 0.75)
+# plt.title('KIT pebbles (0.2 ~ 0.6 mm) at room temperature')
+plt.xlabel(r'n for $s^n$ in Hertzian contact')
+plt.ylabel('Count')
 plt.show()
