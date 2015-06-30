@@ -197,7 +197,7 @@ if len(filenames)>1:
 	plt.figure(102)
 
 	n, bins, patches = plt.hist(kpeb, histtype='stepfilled')
-	plt.setp(patches, 'facecolor', 'c', 'alpha', 0.75)
+	plt.setp(patches, 'facecolor', 'k', 'alpha', 0.75)
 	plt.xlabel('Elasticity reduction factor')
 	plt.ylabel('Count')
 

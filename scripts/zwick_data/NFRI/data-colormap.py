@@ -38,7 +38,7 @@ for loadname in filenames:
 	j +=1
 plt.figure(4)
 n, bins, patches = plt.hist(dp*1000, histtype='stepfilled')
-plt.setp(patches, 'facecolor', 'g', 'alpha', 0.75)
+plt.setp(patches, 'facecolor', 'k', 'alpha', 0.5)
 # plt.title('KIT pebbles (0.2 ~ 0.6 mm) at room temperature')
 plt.xlabel('Pebble diameter (mm)')
 plt.ylabel('Count')
@@ -46,14 +46,14 @@ plt.ylabel('Count')
 
 
 
-cm = plt.get_cmap('jet')
-cNorm = colors.Normalize(vmin=min(dp), vmax=max(dp))
+cm = plt.get_cmap('hot')
+cNorm = colors.Normalize(vmin=min(dp)*1000, vmax=max(dp)*1000)
 scalarMap = mplcm.ScalarMappable(norm=cNorm, cmap=cm)
 fig, (ax1, ax2) = plt.subplots(1, 2)
 N = 15
 ax1 = plt.subplot2grid((N,N), (0,0), colspan=N-2, rowspan=N)
 ax2 = plt.subplot2grid((N,N), (0,N-2), rowspan=N)
-ax1.set_axis_bgcolor('#595959')
+ax1.set_axis_bgcolor('#D3D3D3')
 
 j = 0
 

@@ -46,14 +46,14 @@ plt.ylabel('Count')
 
 
 
-cm = plt.get_cmap('jet')
-cNorm = colors.Normalize(vmin=min(dp), vmax=max(dp))
+cm = plt.get_cmap('hot')
+cNorm = colors.Normalize(vmin=min(dp)*1000, vmax=max(dp)*1000)
 scalarMap = mplcm.ScalarMappable(norm=cNorm, cmap=cm)
 fig, (ax1, ax2) = plt.subplots(1, 2)
 N = 15
 ax1 = plt.subplot2grid((N,N), (0,0), colspan=N-2, rowspan=N)
 ax2 = plt.subplot2grid((N,N), (0,N-2), rowspan=N)
-ax1.set_axis_bgcolor('#595959')
+ax1.set_axis_bgcolor('#D3D3D3')
 
 j = 0
 
