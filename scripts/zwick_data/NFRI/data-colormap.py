@@ -14,7 +14,7 @@ else:
 
 Estand = 220.e9
 nustand = 0.27
-Fn0 = 0.1
+
 nupeb = 0.24
 Epebbulk = 90.e9
 
@@ -38,12 +38,8 @@ for loadname in filenames:
 	j +=1
 plt.figure(4)
 n, bins, patches = plt.hist(dp*1000, histtype='stepfilled')
-<<<<<<< HEAD
 plt.setp(patches, 'facecolor', 'k', 'alpha', 0.5)
-=======
-plt.setp(patches, 'facecolor', 'c', 'alpha', 0.75)
->>>>>>> origin/master
-# plt.title('KIT pebbles (0.2 ~ 0.6 mm) at room temperature')
+
 plt.xlabel('Pebble diameter (mm)')
 plt.ylabel('Count')
 
@@ -51,11 +47,8 @@ plt.ylabel('Count')
 
 
 cm = plt.get_cmap('hot')
-<<<<<<< HEAD
 cNorm = colors.Normalize(vmin=min(dp)*1000, vmax=max(dp)*1000)
-=======
-cNorm = colors.Normalize(vmin=min(dp*1000), vmax=max(dp*1000))
->>>>>>> origin/master
+
 scalarMap = mplcm.ScalarMappable(norm=cNorm, cmap=cm)
 fig, (ax1, ax2) = plt.subplots(1, 2)
 N = 15
@@ -65,7 +58,7 @@ ax1.set_axis_bgcolor('#D3D3D3')
 
 j = 0
 
-
+k = np.linspace(0,1,1000)
 slope = []
 for loadname in filenames:
 	print 'Loading : '+loadname
@@ -73,6 +66,9 @@ for loadname in filenames:
 	filedata = np.loadtxt(loadname,skiprows=6,delimiter=',')
 	s = filedata[:,0]
 	F = filedata[:,1]
+	# to account for the initial force, find the starting value.
+	# the number was varied to make better fits to the overall curves
+	Fn0 = np.mean(F[0])*.5
 	
 	# Search for the maximum force, discard the rest of the plot
 	# after this point
@@ -93,20 +89,49 @@ for loadname in filenames:
 	if s[-1] > endpoint:
 		endpoint = s[-1]
 	
+
+	# find a k for every pebble
+	err = 1e5
+	for i in k:
+		# Using Hertz theory, find the predicted force for 
+		# given displacement
+		Epeb = i*Epebbulk
+		Estar = 1./((1.-nupeb**2)/Epeb + (1.-nustand**2)/Estand)
+		# in the experiment, there is overlap causing the pre-load
+		# use that preload to back-out the initial overlap
+		so = ((3*Fn0/Estar)**2*(1/dp[j]))**(1./3)
+
+		# Hertz force (with corrected initial strain)
+		Fhertz = (1./3)*Estar*np.sqrt(dp[j]*(so+sfit/1000.)**3)+Fn0
+		diff = Fhertz - Ffit
+		
+		erri = np.linalg.norm(diff)
+		
+		if erri < err:
+			err = erri
+			kpeb[j] = i
+			err_peb[j] = erri
+
+	Epeb = kpeb[j]*Epebbulk
+	E_rec[j] = "E = "+ str(Epeb/10**9) + " GPa"
+	Estar = 1./((1.-nupeb**2)/Epeb + (1.-nustand**2)/Estand)
+	Fhertz = (1./3)*Estar*np.sqrt(dp[j]*(so+s/1000.)**3)+Fn0
+
 	# find the slope of the upper end of the curve
 	slogfit = s[np.where(s>10**-3)]
 	Flogfit = F[np.where(s>10**-3)]
-
+	
 	slope_temp, intercept = np.polyfit(np.log(slogfit), np.log(Flogfit), 1)
 	slope.append(slope_temp)
 	normColorVal = (dp[j] - min(dp))/(max(dp)-min(dp))
 	color = cm(normColorVal)
-	ax1.loglog(s,F,color=color)	
-
+	ax1.loglog(s,F,color=color)
+	ax1.loglog(s,Fhertz, color='g')
+	#print F[0]
 	j+=1
 ax1.set_xlabel('Standard travel (mm)')
 ax1.set_ylabel('Standard force (N)')
-ax1.set_xlim((10**-3, endpoint))
+ax1.set_xlim((10**-5, endpoint))
 ax1.set_ylim((0,50))
 cb1 = mpl.colorbar.ColorbarBase(ax2, cmap=cm,
                                     norm=cNorm,
