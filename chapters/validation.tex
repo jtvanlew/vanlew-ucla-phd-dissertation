@@ -1,0 +1,398 @@
+\chapter{Initial Results, Validation, \& Discussions}\label{sec:dem-studies}
+
+This chapter demonstrates the usefulness of the numerical tools introduced in \cref{ch:modeling-development} in probing inter-particle contact information, pebble bed heat transfer, and bed morphology changes altering thermophysical properties. The DEM, CFD-DEM, and DEM-LBM tools are put to work examining representative volumes of pebble beds of ceramic breeders from fusion reactors. In almost all cases, the pebble bed volumes accommodate approximately \num{10000} pebbles. Typically, the bed is confined in one direction by two primitive, rigid walls that also are constant temperature boundaries to act as heat sinks. I also employ periodic boundary conditions to represent an infinite length in the given direction. The third direction is often in the gravity direction for which we have an adiabatic, primitve, and rigid roof and ceiling.
+
+The first study considers the heat transfer in a pebble bed purely through contact conduction of grains in the ensemble. In this pebble bed, I employ DEM tools to apply a nuclear heating source and allow the bed to reach a thermal steady-state with the cooling walls. In such a way, an effective thermal conductivity of the bed is determinable. I then induce a fictitious pebble damaging method to the bed and check the changes to effective thermal conductivity. The DEM tools are used to then interrogate many micromechanical interactions in the pebble bed which we use to deduce the source of changes to the effective thermal conductivity.
+
+In the second study, the same pebble bed is analyzed but this time the helium purge gas is included via the coupled CFD-DEM tools. I again induce some fictitious damage to the pebble bed and monitor changes to the thermophysical properties and their relationship to the cases when the helium purge gas was neglected. The study reveals important features of the helium influence on heat transfer in the bed.
+
+In the third study, I take snapshots of two beds (a standard bed and a damaged one) and load them into LBM models. With lattice-Boltzmann it is possible to analyze the tortuous path of helium moving through the pebble bed and discover interesting features of the purge gas thermal interaction that was masked by the simplifications of the volume-average approach of CFD-DEM.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{DEM Study on Effective Conductivity of Pebble Peds with Pebble Damage}\label{sec:dem-studies-effective-conductivity}
+% The discrete element method (DEM) is used by many ceramic breeder researchers to model the interaction of individual pebbles in an ensemble in an effort to obtain a more detailed understanding of pebble beds than is possible with experimental measurements of effective properties. For example see Refs.~\cite{An20071393, Lu2000, Zhao2010, Gan:2010uq, Annabattula2012a, VanLew2014}.
+
+% The discrete element method has been used for studies in a variety of fields for studying inter-particle forces and the homogeneously distributed force networks that arise in packed beds.\cite{Makse2000} 
+
+The discrete element method has been used by researchers in the fusion community to attempt modeling crushing initiation and propagation\cite{Annabattula2012a, Zhao2012, Zhao2013}. They observed that a relatively few number of high-force networks, distributed throughout the bed supported the external mechanical loads. The even distribution of the force networks was used to defend the development of a probability-based predictor for crushing by Zhao\etal.\cite{Zhao2013} The basic premise is that probability distributions of strength curves for pebble crushing have been observed (see, for example crush loads of Ref.~\cite{Tsuchiya1998}). Then in DEM models, a probability distribution of inter-particle forces are also observed. Overlaying the two probabilities resulted in seemingly random locations of pebbles satisfying the damage criteria -- not strictly along the high-force chains running through packed beds.
+
+To separate studies of crushing initiation from its downstream effects on mechanical and thermal properties, I make use of results of Zhao\etal~to create fictitiously damaged beds without consideration of the initiation of the damage. Zhao\etal~found that, with their predictive tool, pebbles are crushed in random locations. If this is the case, I may de-couple the task of predicting pebble damage (\textit{i.e.} finding the mechanical or thermal load that causes a pebble to fail) from the task of modeling the ramifications of pebble crushing. I am free to randomly assign pebble damage to mimic the random locations from predictions. This is how I will model pebble damage in this first model.
+
+As far as modeling the fragmentation, I begin with an extreme assumption of pulverization of the particle -- a not entirely unrealistic assumption. Experiments on crushing single, brittle pebbles reveal that there are a number of failure modes.\cite{Wu2004} At one extreme, the pebble may simply crack and continue to hold a load for some time. At the other extreme, a pebble may crush practically into a dust. The damage method used in this study is an extension of that latter extreme. When a pebble in our simulation has been flagged for damage, it is completely removed from the ensemble. The remaining pebbles are allowed to rearrange to compensate for the lack of equilibrium on their contact forces due to the missing pebbles. In later models I will use the fragmentation approach as outlined in \cref{sec:failure-study}.
+
+
+\subsection{Effective Thermal Conductivity from CFD-DEM}\label{sec:cfd-dem-effective-conductivity}
+
+The simulation is allowed to run to thermal steady-state with nuclear heating and wall cooling. After reaching a steady solution, I analyze the temperature profiles of the fluid and pebble bed. The temperature of the fluid volume from the simulation of the well-packed bed is shown in Fig.~\ref{fig:cfdem-complete-domain}. The flow field is also visualized in Fig.~\ref{fig:cfdem-streamlines}; in this figure the pebble bed is clipped at the centerline to allow viewing of the helium streamlines. Apparent in the figure is temperature profiles in the helium from centerline to wall that qualitatively mirror temperature profiles in the pebble bed. The two beds in our system, well-packed and resettled, were run to thermal steady-state with nuclear heating and wall cooling in both pure DEM and coupled CFD-DEM simulations for comparison. From steady-state temperature distributions, seen in the pebble scatter plots in Fig.~\ref{fig:cfdem-x-T}, an average profile is calculated and an effective thermal conductivity computed following the procedure shown in \cref{sec:keff-analogy}. The values are tabulated in Table~\ref{tab:cfdem-keff}. 
+
+In the case of pure DEM, energy is transported solely along conduction routes in the ensemble. When the packing of the bed is disturbed, this results in a substantial drop in effective conductivity (a drop of 31\%). Perhaps more important than the reduction in effective conductivity, is the growth in number of isolated rattlers. Because heat deposition is volumetrically applied, pebbles with poor conduction routes become much hotter than their neighbors. This is evident in the high temperatures seen in many of the pebbles in the Fig.~\ref{fig:x-T-evap}. Over-heating of isolated pebbles could induce sintering and impact their tritium release even when the average temperatures measured in the bed are well below sintering values.
+
+When CFD-DEM beds are analyzed, there is still a large reduction in effective conductivity (22\% drop), but interesting to note is the lack of high temperature rattlers. In the CFD-DEM scatter plot of Fig.~\ref{fig:x-T-evap}, there is evidence of the reduced heat transfer in the same region as the isolated pebbles from the DEM bed, but the temperatures are much closer to the average values of neighboring pebbles. The helium purge gas has locally smoothed out the temperatures and provided heat transport paths for pebbles that have loose physical contact with neighbors.
+
+In spite of the 22\% decrease in effective conductivity, the maximum temperature of the pebble bed only increased 6.2\% (from \SIlist{725;751}{\kelvin} when helium is included in the model. This result is significant for solid breeder designers. They may choose a solid breeder volume such that in the event of extensive pebble cracking, the maximum temperature of the bed would remain within the ideal windows dictate for the lithium ceramics.
+
+An accompanying result is the increased amount of energy carried out of the system by the helium purge gas. In Table I, the last column provides the ratio of energy carried out of the system to the nuclear energy deposited into the bed. The amount of energy carried out by the helium increased from \numlist{1.15;1.52}\% from the well-packed to damaged beds.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\singleimagewidth]{figures/full-cfd-dem-fluid-temp}
+    \caption{View of the complete fluid domain at thermal steady state.}\label{fig:cfdem-complete-domain}
+\end{figure}
+
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\singleimagewidth]{figures/cfd-dem-streamlines2}
+    \caption{Cut-away view of the pebble bed with streamlines of helium moving in generally straight paths from inlet to exit.}\label{fig:cfdem-streamlines}
+\end{figure}
+
+
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.5\textwidth}
+                \includegraphics[width=\textwidth]{figures/full-x-T-color}
+                \caption{Well-packed bed}
+                \label{fig:x-T-full}
+        \end{subfigure}%
+        
+          %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.5\textwidth}
+                \includegraphics[width=\textwidth]{figures/evap-x-T-color}
+                \caption{Re-settled bed}
+                \label{fig:x-T-evap}
+        \end{subfigure}
+        \caption{Scatter temperature profiles of pebbles in a bed that is: well-packed (left) and resettled after 10\% of pebbles were removed from crushing (right). The introduction of helium into the simulation contributes to both lower overall temperatures (higher effective conductivity) and the smoothing out of high temperatures of isolated pebbles.}\label{fig:cfdem-x-T}
+\end{figure}
+
+
+
+\begin {table}[htp] %
+\caption{Pebble bed values from the test matrix of the beds analyzed in this study.}
+\label {tab:cfdem-keff} \centering %
+\begin {tabular}{ rccccc }
+\toprule %
+			& 	\multicolumn{2}{c}{$\keff$}	&   \multicolumn{2}{c}{$T_\text{max}$}	&	$\frac{Q_h}{Q_\text{nuc}}$		\\
+			& 	\multicolumn{2}{c}{(\si{\watt\per\meter\per\kelvin})}			&	\multicolumn{2}{c}{(\si{\kelvin})}				&									\\
+			& 	DEM 		& 	CFD-DEM				&	DEM 		& 	CFD-DEM 			& 	CFD-DEM							\\\toprule
+Well-packed	& 	0.96		& 	1.09				& 	745			& 	725					& 	1.15							\\
+Resettled	& 	0.66		& 	0.85				& 	800			& 	751					& 	1.52							\\\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+
+
+\FloatBarrier
+
+
+
+\subsection{Conclusions}
+\label{sec:dem-conclusions}
+This first study established the power of DEM modeling and its use as a foundation for the later studies with augmentations of helium flow. I simulated a pebble bed with a specified fraction of the pebbles crushed during operation, then determined the repercussions of the missing pebbles as they affect the macroscopic property of effective thermal conductivity. I used the assumption of homogeneous, random locations of pebble failure to induce a failure routine without requiring external loads on the bed to actually induce the pebble crushing. After heating to a steady-state, an effective thermal conductivity was calculated for the pebble bed. The results show that large amounts of pebble failure correspond to large decreases in the conductive transport of energy through the pebble bed. The increase was due almost exclusively to a drop in the inter-particle forces which lead to a large increase in temperature differences between neighboring pebbles.
+
+As the first step in the modeling effort, there were many simplifications that had to be made. I will explain here the shortcomings of the assumptions and simplifications of this study before drawing any major conclusions from the results.
+
+First, the `container walls' surrounding the pebble bed in this model are completely rigid and do not react as the swelling pebble bed presses into them while heating. The confined thermal expansion leads to higher contact forces in the pebble bed than what may exist in reality. Furthermore, as pointed out in the results, the initial contact force is strongly dependent on the \textit{initial packing state} and the contact forces are the greatest determining factor in $\keff$ for a bed. The initial packing state of the bed in this study gave abnormally high initial contact forces and thus abnormally high initiall $\keff$. A different packing scheme was shown to result in the same initial packing fraction but with greatly reduced initial contact forces; this packing technique will be used in future models. 
+
+Second, we saw from Fig.\ref{fig:temp-scatters} that the majority of the pebbles in the ensemble have their temperatures close fitting to an average curve but a number of the pebbles had less thermal contact with neighboring particles and consequently had much larger temperatures. This was true even in the baseline case of a tightly packed ($\phi =$\num{0.64}) pebble bed. This phenomena is possible because the contribution to heat transfer of the interstitial gas was not considered in this model and the flowing helium gas is expected to prevent any runaway temperatures of individual pebbles as it provides another route of energy transfer in the bed. This will be addressed in \cref{sec:cfd-dem-studies}.
+
+Lastly, the pebble crushing did not conserve mass between pre- and post-crushing in the pebble beds. This is an issue we address in the fragmentation study of \cref{sec:fragmentation}. There was also no predictive tool used to determine when pebbles would crush based on their inter-particle contact forces. I simply allowed an arbitrary number of pebbles to remove from the system. A predictive tool may not have expected even 2\% of the pebbles to be damaged, much less the 15\% to which I pushed the pebble bed. The predictive tool is discussed in \cref{sec:failure-study} and will be applied to later models.
+
+In spite of the limitations mentioned, it is still worth drawing conclusions from the results of this study. The results shown in Figs.~\ref{fig:contact-forces-scatter} and~\ref{fig:coord-scatter} demonstrate that the heat transfer through a pebble bed is simultaneously a function of both the coordination number and inter-particle contact forces. The average values of both of these parameters reduced as pebbles in the bed were crushed. But by far the most important factor appears to be the inter-particle contact force. Between the baseline case and the bed with 15\% damage, the average inter-particle forces drop by an entire order of magnitude. The $\keff$ follow suit with a decrease to 10\% of the original value. Interestingly, when a pebble bed has lower overall inter-particle contact forces such as what we see when pebbles are crushed, we would predict fewer pebbles are likely to break. This result implies that pebble breakage is self-dampening; as pebbles begin to break the ensemble quickly relaxes and avoids future pebble failure. So while in this study we induced failure up to $\eta = 15\%$ without a concern for predicting if such a large amount would break, such large values may not occur in real beds during operation of a fusion reactor. 
+
+The most important conclusion to draw from the this DEM study is simply the usefulness of the DEM tools for opening a window into the micro-mechanical world of the pebble bed. The transient DEM simulations allowed us to explore the evolving packing structure and the manifestation of the packings into macroscopic properties such as the effective thermal conductivity. The DEM simulations revealed that some of the most negative effects nervously anticipated in the solid breeder did not emerge: bed detachment from the walls and bridge-jamming of regions to isolate groups of pebbles from heat transfer paths. There remain some features which must be addressed, but the DEM approach used in this dissertation has demonstrated its value as a tool for solid breeder designers. 
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Dynamically coupled CFD-DEM Study on Effective Conductivity of Pebble Peds with Pebble Damage}\label{sec:cfd-dem-studies}
+
+In this section I demonstrate the transient coupling between DEM models of particle conductive heat transfer and inter-particle contact forces with the helium models of volume-averaged conservation equations. Thermal models of the pebble beds of solid breeders for fusion reactors are incomplete without consideration of the helium purge gas and its interaction with the poorly conductive porous network of pebbles. The simulation setup, material parameters, results and important conclusions will be discussed.
+\subsection{Modeling Setup, Boundary Conditions, and Coupling}\label{sec:cfd-dem-setup}
+For this simulation, I begin with the same well-packed pebble bed set up in \cref{sec:dem-studies-effective-conductivity}. I will analyze a full-packed bed and a damaged bed with $\eta = 10$\% of broken pebbles. The random removal technique of inducing `damage' to the bed was again used (in the same manner as described in \cref{sec:dem-studies-effective-conductivity}). The intent is to deduce changes in thermophysical properties when helium is considered in the thermal transport network of the pebble bed -- and as a function of the morphological changes due to damaged pebbles.
+
+The domain of the pebble bed in this study is a clone of the DEM study done previously. The fluid domain is constructed to include an inlet and outlet region of fluid to permit development of the flow profiles. The inlet region is 5 pebble diameters in length and the outlet is 30 pebble diameters. No-slip boundary conditions are enforced at the walls at the $x$-limits of the region. To match the DEM domain, periodic boundary conditions are used in the $y$-limits. The inlet face of the fluid is specified at a constant $\vec{v} = (5, 0, 0)$ \si{\centi\meter\per\second}. The outlet face is specified with OpenFOAM's `inletOutlet' command with a given pressure. This boundary condition allows the inlet pressure to float to value that satisfies the specified inlet velocity and outlet pressure. The temperature is specified as a constant $T_w = $ \SI{573}{\kelvin} at the $x$-walls as well as the inlet. The outlet condition of the temperature field is similarly given to be `inletOutlet' with OpenFOAM.
+
+The size of the CFD cells were chosen to be large enough to fit approximately 5 pebbles, for which the divided technique of computing void fraction is applicable (see \cref{sec:lag-eul-mapping}); the ratio of cell volume to particle volume was $V_\text{cell} / V_p = 7.46$. The helium, in this first model, was modeled with constant fluid properties. The values are given in Table~\ref{tab:cfd-properties}.
+
+The Koch-Hill-Ladd drag model is employed in the style of Model B with an Archimedes pressure for buoyancy term. The terminology of these CFD coupling drag models is discussed in Ref.~\cite{Zhou2010} The Nusselt number correlation of Li \& Mason is used for calculating the Nusselt number. OpenFOAM's dummy turbulence model (which is nothing more than a laminar model) is used.
+
+An implicit time marching scheme is employed with a time step in the fluid domain of $\Delta t_f =$\SI{1e-4}{\second}. The small time step is not necessary to capture the fluid flow. The momentum equation is essentially not even transient as a steady-state laminar solution is achieved almost instantaneously in comparison to the long time span required to reach thermal steady state. The small time step is necessary for a relatively tight coupling to the pebble bed as the temperatures increase on the pebbles. Integration schemes of gradients, divergence terms, and laplacians are all Gauss linear or Gauss limitedLinear (as defined in OpenFOAM). The time step of the DEM is $\Delta t_s =$ \SI{1e-7}{\second} which must be small for stability of the DEM explicit integration. The coupling between CFD and DEM domains occurs every 10 time steps of the fluid domain - equating to every \num{10000} in the pebble domain.
+
+The layout of the pebble bed inside the CFD domain is shown in Figs.~\ref{fig:cfdem-domain-x}, \ref{fig:cfdem-domain-y}, and~\ref{fig:cfdem-domain-z}. Notable of the layout is the relaxation of the mesh size in the direction of the periodic boundaries. The size is permitted as there are few variations in fluid or temperature in the periodic direction. The meshes are made much smaller in the direction between cooling boundaries. In this direction ($x$-direction), we need the meshes small enough to resolve a temperature and velocity profiles across the bed between centerline and cooling boundaries. We also want to capture the behavior of near-wall arrangement of the pebble bed. 
+
+\begin {table}[htp] %
+\caption{Constant fluid properties of helium purge gas in CFD-DEM coupling.}
+\label {tab:cfd-properties} \centering %
+\begin {tabular}{ ccccc }
+\toprule %
+$\nu$				&	$\alpha$				&	$k$		&	$C_p$		& $\rho$		\\
+(\si{\meter\squared\per\second})			&	(\si{\meter\squared\per\second})				&	(\si{\watt\per\meter\per\kelvin})	&	(\si{\joule\per\kilogram\per\kelvin})	& (\si{\kilogram\per\cubic\meter})	\\\toprule
+\num{4.02e-4} &	\num{6.06e-4}	& 	\num{0.2}		& 	\num{5192.8}		& 	\num{0.175}		\\\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.4\textwidth]{figures/x-side-view}
+    \caption{Side view of the pebble bed as it resides in the CFD mesh. The meshes in the direction of the periodic faces are allowed to be larger than others.}\label{fig:cfdem-domain-x}
+\end{figure}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.4\textwidth]{figures/y-side-view}
+    \caption{Front view of the pebble bed as it resides in the CFD mesh. The meshes in the direction of cooling are chosen to be large enough to fit many pebbles but small enough to provide a resolved temperature profile.}\label{fig:cfdem-domain-y}
+\end{figure}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\singleimagewidth]{figures/z-top-view}
+    \caption{Top view of the pebble bed as it resides in the CFD mesh.}\label{fig:cfdem-domain-z}
+\end{figure}
+
+
+While the energy transport is the main concern of the pebble bed, I perform a simple validation of the CFD-DEM routine against known pressure-drop correlations to provide confidence in the overall coupling and volume-averaging technique. After pressure drop is shown to be consistent with empirical predictions, I proceed with the thermal analysis.
+\FloatBarrier
+
+
+\subsection{Pressure Drop}
+
+The CFD-DEM coupling was run at various particle Reynolds numbers and the overall pressure drop of the packed bed was measured. The pressure drop is compared against the well-known Kozeny-Carman and Ergun equations. The Kozeny-Carman is known to fit better with experimental data at very small Reynolds numbers while the Ergun equation is a more general equation meant to span a large range of Reynolds numbers. In Fig.~\ref{fig:cfdem-pressure-drop} we see the CFD-DEM coupling model is providing bed-scale pressure drops that match very well with Kozeny-Carman over the Reynold’s numbers applicable to helium purge flow in fusion reactors ($\Re_p \approx 1$). 
+
+Seki\etal experimentally studied the flow of helium purge gas in efforts to better understand tritium recovery.\cite{Seki2013a} They ran a representative volume of pebbles up to flow rates of \SI{100}{\liter\per\minute} and also found that Ergun's pressure drop prediction was highly accurate for the pebble beds as long as the viscous contribution (see the right-most term in Eq.~\ref{eq:ergun-pressure}) was small, \textit{e.g.} when the Reynolds number of the packed bed is small. This result is a strong validation of the macroscopic results of pressure drop as calculated by the CFD-DEM simulation of a packed bed.
+
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.7\textwidth}
+                \includegraphics[width=\textwidth]{figures/pressureDrops-full.png}
+                \caption{Well-packed bed}
+                \label{fig:pressure-drop-full}
+        \end{subfigure}%
+        
+          %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.7\textwidth}
+                \includegraphics[width=\textwidth]{figures/pressureDrops-evap.png}
+                \caption{Re-settled bed}
+                \label{fig:pressure-drop-evap}
+        \end{subfigure}
+        \caption{Pressure drop calculations across packed beds, solved by CFD-DEM, fit well to the Kozeny-Carman empirical relation.}\label{fig:cfdem-pressure-drop}
+\end{figure}
+
+
+
+\subsection{Effective Thermal Conductivity from CFD-DEM}\label{sec:cfd-dem-effective-conductivity}
+
+The simulation is allowed to run to thermal steady-state with nuclear heating and wall cooling. After reaching a steady solution, I analyze the temperature profiles of the fluid and pebble bed. The temperature of the fluid volume from the simulation of the well-packed bed is shown in Fig.~\ref{fig:cfdem-complete-domain}. The flow field is also visualized in Fig.~\ref{fig:cfdem-streamlines}; in this figure the pebble bed is clipped at the centerline to allow viewing of the helium streamlines. Apparent in the figure is temperature profiles in the helium from centerline to wall that qualitatively mirror temperature profiles in the pebble bed. The two beds in our system, well-packed and resettled, were run to thermal steady-state with nuclear heating and wall cooling in both pure DEM and coupled CFD-DEM simulations for comparison. From steady-state temperature distributions, seen in the pebble scatter plots in Fig.~\ref{fig:cfdem-x-T}, an average profile is calculated and an effective thermal conductivity computed following the procedure shown in \cref{sec:keff-analogy}. The values are tabulated in Table~\ref{tab:cfdem-keff}. 
+
+In the case of pure DEM, energy is transported solely along conduction routes in the ensemble. When the packing of the bed is disturbed, this results in a substantial drop in effective conductivity (a drop of 31\%). Perhaps more important than the reduction in effective conductivity, is the growth in number of isolated rattlers. Because heat deposition is volumetrically applied, pebbles with poor conduction routes become much hotter than their neighbors. This is evident in the high temperatures seen in many of the pebbles in the Fig.~\ref{fig:x-T-evap}. Over-heating of isolated pebbles could induce sintering and impact their tritium release even when the average temperatures measured in the bed are well below sintering values.
+
+When CFD-DEM beds are analyzed, there is still a large reduction in effective conductivity (22\% drop), but interesting to note is the lack of high temperature rattlers. In the CFD-DEM scatter plot of Fig.~\ref{fig:x-T-evap}, there is evidence of the reduced heat transfer in the same region as the isolated pebbles from the DEM bed, but the temperatures are much closer to the average values of neighboring pebbles. The helium purge gas has locally smoothed out the temperatures and provided heat transport paths for pebbles that have loose physical contact with neighbors.
+
+In spite of the 22\% decrease in effective conductivity, the maximum temperature of the pebble bed only increased 6.2\% (from \SIlist{725;751}{\kelvin} when helium is included in the model. This result is significant for solid breeder designers. They may choose a solid breeder volume such that in the event of extensive pebble cracking, the maximum temperature of the bed would remain within the ideal windows dictate for the lithium ceramics.
+
+An accompanying result is the increased amount of energy carried out of the system by the helium purge gas. In Table I, the last column provides the ratio of energy carried out of the system to the nuclear energy deposited into the bed. The amount of energy carried out by the helium increased from \numlist{1.15;1.52}\% from the well-packed to damaged beds.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\singleimagewidth]{figures/full-cfd-dem-fluid-temp}
+    \caption{View of the complete fluid domain at thermal steady state.}\label{fig:cfdem-complete-domain}
+\end{figure}
+
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\singleimagewidth]{figures/cfd-dem-streamlines2}
+    \caption{Cut-away view of the pebble bed with streamlines of helium moving in generally straight paths from inlet to exit.}\label{fig:cfdem-streamlines}
+\end{figure}
+
+
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.5\textwidth}
+                \includegraphics[width=\textwidth]{figures/full-x-T-color}
+                \caption{Well-packed bed}
+                \label{fig:x-T-full}
+        \end{subfigure}%
+        
+          %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.5\textwidth}
+                \includegraphics[width=\textwidth]{figures/evap-x-T-color}
+                \caption{Re-settled bed}
+                \label{fig:x-T-evap}
+        \end{subfigure}
+        \caption{Scatter temperature profiles of pebbles in a bed that is: well-packed (left) and resettled after 10\% of pebbles were removed from crushing (right). The introduction of helium into the simulation contributes to both lower overall temperatures (higher effective conductivity) and the smoothing out of high temperatures of isolated pebbles.}\label{fig:cfdem-x-T}
+\end{figure}
+
+
+
+\begin {table}[htp] %
+\caption{Pebble bed values from the test matrix of the beds analyzed in this study.}
+\label {tab:cfdem-keff} \centering %
+\begin {tabular}{ rccccc }
+\toprule %
+			& 	\multicolumn{2}{c}{$\keff$}	&   \multicolumn{2}{c}{$T_\text{max}$}	&	$\frac{Q_h}{Q_\text{nuc}}$		\\
+			& 	\multicolumn{2}{c}{(\si{\watt\per\meter\per\kelvin})}			&	\multicolumn{2}{c}{(\si{\kelvin})}				&									\\
+			& 	DEM 		& 	CFD-DEM				&	DEM 		& 	CFD-DEM 			& 	CFD-DEM							\\\toprule
+Well-packed	& 	0.96		& 	1.09				& 	745			& 	725					& 	1.15							\\
+Resettled	& 	0.66		& 	0.85				& 	800			& 	751					& 	1.52							\\\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+
+
+\FloatBarrier
+
+
+
+\subsection{Conclusions}
+
+In this study I extended the thermophysical analysis of damaged pebble beds begun in \cref{sec:dem-studies} to include the influence of helium in a volume-average sense. This study grew from the prior one and the pebble bed representation of damage suffered all the same limitations mentioned in the closing of the last study, they will not be mentioned again here for the sake of brevity.
+
+The CFD-DEM approach was validated, at least in terms of the volume-averaged Navier-Stokes equations, with a parametric study of pressure drop as a function of Reynolds number. When helium flowed over the DEM pebble beds, the pressure drop fit well to the well-established Kozeny-Carman correlation.
+
+Two representative pebble beds, one well-packed and one with 10\% damaged pebbles, were run to thermal steady state with nuclear heating and cooling at a pair of walls.  The pair of pebble beds were considered with only conduction heat transfer of DEM and also with the helium enhancements to heat transfer with CFD-DEM. In the DEM beds, we saw that there always exist hot rattlers in pebble beds -- even well-packed ones. These pebbles heat from the volumetric source but have no outlet for the energy as their contacts with neighbors are very light. However, with the inclusion of helium flow eliminated the hot rattlers from both pebble beds analyzed.
+
+When comparing the impact of pebble damage with and without the modeling of helium, the models including helium showed less of an impact on reduced effective thermal conductivity when the bed experienced the extensive 10\% damage of pebbles. Furthermore, the maximum bed temperature increased less due to pebble damage when helium was included, when compared to DEM-only beds.
+
+This study is a useful demonstration of the power of the dynamically coupled CFD-DEM approach. The DEM simulation was capable of continually monitoring inter-particle forces and individual particle temperatures such that any of the crush-prediction, fragmentation, and thermal expansion methods developed in this dissertation can continue to transiently alter the morphology of the pebble bed. Meanwhile, the volume-averaged approach to conservation equations of the fluid allow for an efficient overlaying of the fluid contribution to the thermophysical behavior of the pebble bed.
+
+There are simplifications to the fluid flow and its impact on the thermal transport in the pebble bed that are made in the volume-averaging technique. The simplifications may mask some important physical features of the flow and energy fields but nevertheless provide valuable information on the pebble bed in an efficient manner and should continue to be developed for solid breeder research.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{3D Lattice-Boltzmann Models of the Complete Conjugate Heat Transfer of Helium Purge Gas and Ceramic Pebble Beds}\label{sec:lbm-studies}
+
+In this section I apply the lattice-Boltzmann numerical modeling tools to study the complete interstitial flow of helium through a packed bed of lithium ceramics. Pebble packing structures are developed with the same DEM simulations that lead to packings input into the CFD-DEM demonstration study. However, instead of the fluid modeling dynamically coupling to DEM models of the evolving packing structure, I map snapshots of the DEM pebble bed into the LBM nodal grids. Once in LBM, the helium flow and thermal interaction between fluid and solid and internally in solid are fully modeled with lattice dynamics defined in the LBM framework. The LBM approach sacrifices dynamic coupling for complete models of the tortuous flow. Details of the lattice parameters and results of the simulation are provided.
+
+\subsection{Model Setup \& Methodology}
+
+For this lattice-Boltzmann simulation I use a resolution of $\text{res} = 10$ and a time step of $\delta_t = $\num{0.001}. The rest of the descriptions of our pebble bed are locked from the system and material properties. The other geometric values for the lattice are given in Table~\ref{tab:lbm-parameters}, the relaxation parameters defining the collision dynamics of the lattices are given in Table~\ref{tab:lbm-relaxations}, and the boundary conditions are given in Table~\ref{tab:lbm-boundaries}. The values are all unitless in the lattice framework and are translated from the physical values to match the model of pebbles and fluid from \cref{sec:cfd-dem-studies}
+
+\begin {table}[htp] %
+\caption{Physical description of the lattice (in lattice units).}
+\label{tab:lbm-parameters} \centering %
+\begin {tabular}{ cccccc }
+\toprule %
+$X^*$   &   $Y^*$  &   $Z^*$    &   res  & $\delta_x$   & $\delta_t$    \\\toprule
+25      &   15     &   94.5     &   10   &  0.1         &  0.001        \\\bottomrule
+\end{tabular}
+\end{table}
+
+\begin {table}[htp] %
+\caption{The momentum relaxation time for fluid (ns), thermal relaxation time for fluid (ad), and thermal relaxation time for the solid (cj) used in the simulation.}
+\label{tab:lbm-relaxations} \centering %
+\begin {tabular}{ cccccccc }
+\toprule %
+$\tau_{ns}$ &  $\tau_{ad}$  &   $\tau_{cj}$     \\\toprule
+0.7204      &  0.4375       &   0.9663          \\\bottomrule
+\end{tabular}
+\end{table}
+
+\begin {table}[htp] %
+\caption{Boundary conditions translated into lattice units.}
+\label{tab:lbm-boundaries} \centering %
+\begin {tabular}{ cccccccc }
+\toprule %
+$\vec{u}_\text{inlet}$    &  $T_\text{inlet}$   &  $T_\text{wall}$     \\\toprule
+(0.005, 0, 0)           &  131.79           &   131.79          \\\bottomrule
+\end{tabular}
+\end{table}
+
+
+% The physical properties of helium from \cref{sec:cfd-dem-setup} are used here to calculate the relaxation time, $\tau_{ns}$ as outlined in \cref{sec:physical-to-lattice}. The physical description of the pebble bed analyzed with LBM is identical to the beds described in \cref{sec:cfd-dem-studies}. The details for mapping from our DEM packing to the LBM lattice are given in \cref{sec:dem2lbm-mapping}. With the mechanisms described there we can define the lattice nodes definitions (being either solid or fluid) simply with specifying the resolution.
+
+The relaxation parameter describing the collisions of density distribution functions on the Navier-Stokes lattice (NS-lattice) allowed for achieving a stable and steady fluid velocity. Unfortunately, from the physical properties of ceramic pebbles and thermal properties of helium, the relaxation times on the thermal lattices would only allow the simulation to run until instabilities at the outlet propagates upstream and destroys the results of the entire thermal lattice. These preliminary results will therefore focus on the velocity results and the initial thermal results (it would not reach thermal steady-state before crashing). Even with this caveat on the results, what we do see from the LBM results are extremely encouraging for the use of the method in the future.
+
+
+
+
+
+
+\subsection{Laminar Mixing of Energy in Packed Beds with Volumetric Heating}
+
+In the plot of Fig.~\ref{fig:lbm-streamlines}, streamlines are created along the $y$-direction at the inlet. The streamlines show the inlet helium moving in a tortuous path as it winds through the pebble bed and picks up the energy which has been deposited into the pebbles from a volumetric heat source. The complete tortuous flow field solved in the LBM computations reveals an extremely important feature of the helium purge gas that has, up to now, not been realized.
+
+Moving up through the $x$ direction of the pebble bed (the direction of the mean flow), several temperature profiles of the fluid and solid are shown in Fig.~\ref{fig:lbm-temp-profiles}. The temperature profiles all demonstrate a profile that does not match predicted profiles through pebble beds when constant $\keff$ models are applied to the bed in its continuum treatment. For comparison, the dashed line in Fig.~\ref{fig:lbm-temp-profiles} is a parabolic curve with match $\Delta T$ to the profile from $x^* = 10$. 
+
+Let us explore further the deviation from a parabolic fit and the consequences on solid breeder design that appear from the LBM simulations. In the experimental quantifications of heat transport in pebble beds with interstitial helium, conduction is the only mode of heat transfer considered. The Grashoff number inside a packed bed is small enough that any natural convection cells will most certainly be negligible to heat transfer compared to the conduction through the fluid. Thus, experimentalists can describe the effective thermal conductivity of the combination of solid and gas. These are the values reported in, \textit{e.g.}, Fig.~\ref{fig:keff}. The DEM and CFD-DEM studies seemed to support these models as temperature profiles emerged from those simulations that fit nearly perfectly to parabolic profiles of varying $\keff$. Going the other way, if you had a constant $\keff$ of a pebble bed with helium, you could predict temperature profiles, and importantly maximum temperatures, in the solid breeder volume. 
+
+The $\keff$ value represents the rate at which the solid breeder volume can move energy into the cooling structure. When a perfect parabolic temperature profile is found (such as in the DEM and CFD-DEM results) the $\keff$ is calculated simply from the input volumetric heat source and the $\Delta T$ between centerline and wall. However, because the results from LBM do not fit into a perfect parabolic profile, I fit a parabola of a constant $\keff$ model to the \textit{amount of energy in the profile}. In other words, I integrate the temperature profile from LBM along the $y$ length and find a parabolic profile which, when integrated along the same direction, yields the same value,
+\begin{equation}
+    \int_0^{Y^*} T_{lbm}(y)\,\mathrm{d}y = \int_0^{Y^*} (1-y^2)T_{cl} + T_w y^2
+\end{equation}
+where $T_w$ is the constant temperature wall boundary condition and $T_{cl}$ is the centerline temperature. An iterative procedure is run through until a correct $T_{cl}$ is found which satisfies the equality. When this procedure is carried out, I find the parabola shown in Fig.~\ref{fig:lbm-temp-parabolas}.
+
+Reiterating, the parabola of Fig.~\ref{fig:lbm-temp-parabolas} is the shape of temperature profile at which the same amount of energy is removed from the system in a constant $\keff$ condition as is removed from the actual LBM result. What we see in the figure is the LBM result is showing a lower maximum temperature and higher temperature near the walls. This shows that for the amount of energy removed from a pebble bed with flowing helium, the maximum temperature is lower than what would be predicted from current models!
+
+The phenomena of the flowing helium lowering the maximum temperature in the centerline of the bed and raising the temperature on the edges is something I have given the name of \textit{laminar mixing of energy}. The low Reynolds number flow of helium remains laminar and thus energy transport perpendicular to the flow path of the fluid is still pure conduction. But the tortuous path of helium as it snakes through the pebble bed mixes the energy of hot pebbles in the center and comparatively cooler pebbles near the walls.
+
+% It is well known that a fluid moving through a packed bed will follow a path much longer than the length of the packed bed. The extended path is often reported as the tortuosity of the packed bed. In the ceramic breeder packed beds for tritium generation, the tortuosity of the helium flow modeled in LB resulted in 
+
+% \begin{figure}[t]
+%     \centering
+%     \includegraphics[width=\singleimagewidth]{figures/lbm/evap-u-profiles}
+%     \caption{Velocity profiles (in the $x$-direction) at varying pebble bed heights for the pebble bed with 10\% damaged pebbles.}\label{fig:lbm-evap-u-profile}
+% \end{figure}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\singleimagewidth]{figures/lbm/lbm-streamlines}
+    \caption{Demonstrating the meandering path -- importantly wandering in the $x$-direction -- of fluid flow in the pebble bed.}\label{fig:lbm-streamlines}
+\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\singleimagewidth]{figures/lbm/lbm-temp-profiles}
+    \caption{Temperature profiles (in the $x$-direction) at varying pebble bed heights for the pebble bed with 10\% damaged pebbles. Shown for comparison is a parabolic profile that had fit both DEM and CFD-DEM temperature results.}\label{fig:lbm-temp-profiles}
+\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\singleimagewidth]{figures/lbm/lbm-temp-profile_parabolic}
+    \caption{A parabolic fit to the integrated energy of a temperature profile compares to the temperature profile from LBM. The LBM temperature profile increases near the walls and is flattened near the centerline. The behavior is indicative of laminar mixing of energy in the bed.}\label{fig:lbm-temp-parabolas}
+\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\singleimagewidth]{figures/lbm/lbm-laminar-mixing}
+    \caption{Mean flow direction is in the positive $x$ direction. This $x$-$z$-plane slice shows the $y$ components of velocity as the fluid moves into/out of the plane - mixing the energy with laminar flow.}\label{fig:lbm-laminar-mixing}
+\end{figure}
+
+\FloatBarrier
+\subsection{Conclusions}
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary, Discussion, \& Conclusions}
+
+I showcased the three numerical tools developed for analyzing pebble-scale micro-mechanics in ceramic pebble beds for solid breeders. The three studies demonstrated the effectiveness of the code to present information on the physics dictating heat transfer and force balance inside pebble beds. The conduction heat transfer in the bed was seen to be tightly dependent on the morphology of the packed bed - more complicated than the common descriptor of packing fraction. The single largest factor determining effective conductivity (in a pure conduction environment) is the normal forces in the contact force network of a bed. When the pebbles were modeled as broken and removed from the system, an increased fraction of the pebbles became hot rattlers which were much hotter than their neighboring pebbles. 
+
+The size and complexity of porous beds make it impractical for modeling conjugate heat transfer on pebble-scale with conventional CFD tools, I therefore introduced two efficient methods for modeling helium purge gas interacting with packed beds: 1) directly coupled CFD-DEM for volume-averaged fluid-pebble and discrete pebble-pebble interactions and 2) DEM packing structures imported into LBM simulations for more detailed modeling of fluid flow and thermal transport. After incorporation of helium into the thermal model, the isolated pebbles witnessed in the DEM heat transfer simulation had their temperatures equilibrate more readily with their local region; hot spots seen in DEM models essentially disappeared in both models which included helium flow. Finally, in the lattice-Boltzmann simulation, the heat transfer between the center of the bed toward the cooling walls was influenced strongly by even the slow tortuous flow of helium in that direction - a phenomena referred to as laminar mixing of energy.
+
+For a homogeneously packed bed, it is common practice to assign an effective thermal conductivity to the entire volume. Even in experiments measuring the effective thermal conductivity of a pebble bed in a helium environment, a constant value of $\keff$ is observed. The impact of laminar mixing will not emerge until the system has the specific characteristics of the fusion reaction, most importantly: volumetric heating and flowing helium. It is only in the combination of transverse flow in the direction of cooling that the phenomena arises. The effect of laminar mixing was seen to push the temperature profile of the packed bed away from the parabola defined by a constant effective thermal conductivity. Very advantageously, the maximum temperature in the flowing helium pebble bed is lowered and the temperature near the walls is increased as compared to a constant $\keff$ computation.
+
+The design margins of ceramic solid breeders is, in fact, quite narrow. The requirement on bed temperatures to be below the sintering temperature of the ceramic, in conjunction with low thermal conductivity of the bed, constricts the size of the power density allowable to bombard the lithium ceramic. Furthermore, the temperature-dependence of tritium release in the ceramic pushes them toward ideally operating in as high of temperature regimes as possible. The laminar mixing described in the pebble bed works to benefit both of the temperature requirements described here: lower maximum temperature for higher power density and higher near-wall temperatures for increased tritium release rates.
