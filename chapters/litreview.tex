@@ -30,7 +30,7 @@ where $k_f$ is the fluid conductivity, $\kappa = k_s/k_f$ is the ratio of solid 
     \label{fig:kappa-series-parallel}
 \end{figure}
 
-One of the most widely-used correlations was put forth by Zehner and Schlunder in 1970 \cite{Zehner1970,Zehner1972}. They considered a cylindrically-shaped unit cell and made the analogy between heat and mass transfer to derive an empirical fit to data in the bulk of two-phase porous media. The Zehner-Schundler (ZS) correlation is
+One of the most widely-used correlations was put forth by Zehner and Schlunder in 1970 \cite{Zehner1970,Zehner1972}. They considered a cylindrically-shaped unit cell and made the analogy between heat and mass transfer to derive an empirical fit to data in the bulk of two-phase porous media. The Zehner-Schlunder (ZS) correlation is
 \begin{equation}
     \frac{k_e}{k_f} = \left(1-\sqrt{1-\epsilon}\right)+\frac{2\sqrt{1-\epsilon}}{1-B/\kappa}\left[\frac{(1-1/\kappa)B}{(1-B/\kappa)^2}\ln\left( \frac{\kappa}{B} \right) - \frac{B+1}{2} - \frac{B-1}{1-B/\kappa}\right]
 \end{equation}
@@ -105,7 +105,7 @@ where $B$ is no longer found from as a simple deformation parameter but is inste
 \end{split}
 \end{equation}
 
-Bauer and Schlunder \cite{bauer1978effective} also improved on the earlier model of Zehner and Schlunder to include the additional effects of thermal radiation, gas heat transfer in the Knudsen regime, and finite-sized contact areas. The combined model, often called the Zehner-Bauer-Schundler (ZBS) model is calculated as
+Bauer and Schlunder \cite{bauer1978effective} also improved on the earlier model of Zehner and Schlunder to include the additional effects of thermal radiation, gas heat transfer in the Knudsen regime, and finite-sized contact areas. The combined model, often called the Zehner-Bauer-Schlunder (ZBS) model is calculated as
 \begin{equation}
     \frac{k_e}{k_f} = \left(1-\sqrt{1-\epsilon}\right)\epsilon\left[\left(\epsilon-1+1/\kappa_G\right)^{-1} + \kappa_r\right]+\sqrt{1-\epsilon}\left(\phi\kappa + (1-\phi)k_c\right)
 \end{equation}
@@ -118,7 +118,7 @@ where
 \end{equation}
 and
 \begin{equation}
-    N = \frac{1}{\kappa_G}\left(1+\frac{\kappa_r-B\kappa_G}{\kappa} \right) + B(1-1/\kappa_G)(1+\kappa_r/\kappa)
+    N = \frac{1}{\kappa_G}\left(1+\frac{\kappa_r-B\kappa_G}{\kappa} \right) - B(1-1/\kappa_G)(1+\kappa_r/\kappa)
 \end{equation}
 and $B$ is given in \Cref{eq:zs-B}. Radiation is incorporated in $\kappa_r$ parameter, given as
 \begin{equation}
@@ -145,7 +145,7 @@ In \Cref{fig:kappa-series-parallel-zs-hsus}, we see comparisons of effective con
 \begin{figure}[!h]
     \centering
     \includegraphics[width=\textwidth]{figures/keff-kappa-series-parallel-zs-hsus}
-    \caption{Significant deviation between the Zehner-Schlunder correlation and Hsu\etal~correlations above occurs above $\kappa > 10^3$. All correlations are still bound by parallel and series approximations of the material.}
+    \caption{Models incorporating contact area demonstrate signficant deviation from the Zehner-Schlunder correlation above $\kappa > 10^3$. All correlations are still bound by parallel and series approximations of the material.}
     \label{fig:kappa-series-parallel-zs-hsus}
 \end{figure}
 
@@ -155,11 +155,78 @@ The ZSB model incorporates radiation heat transfer into the general expression a
 \end{equation} 
 where $F_E^*$ is a radiation exchange factor. Van Antwerpen\etal~describe many researchers' techniques for defining the radiation exchange factors and the simplifications that must appear to allow a closed solution to complicated equations. I will focus on one commonly-used correlation from Breitbach \& Barthels \cite{breitbach1980radiant}.
 
-Breitbach \& Barthels began with the unit cell defined by Zehner \& Schlunder, though noted that the closed cell precluded radiation from voids outside the cell volume. Therefore they modified the correlation via closing the bases of the unit cells with black surfaces instead of with surfaces of the same emissivity as the grains in the bed. The result is given as \cite{breitbach1980radiant}
+Breitbach \& Barthels began with the unit cell defined by Zehner \& Schlunder, though noted that the closed cell precluded radiation from voids outside the cell volume. Therefore they modified the correlation via closing the bases of the unit cells with black surfaces instead of with surfaces of the same emissivity as the grains in the bed. The result is given as the BB correlation,\cite{breitbach1980radiant}
 \begin{equation}
     F_E^* = \left[\left(1-\sqrt{1-\epsilon}\right)\epsilon + \frac{\sqrt{1-\epsilon}}{2/\epsilon_r - 1}\cdot\frac{B+1}{B}\cdot\frac{1}{1+\frac{1}{(2/\epsilon_r - 1)\Lambda_f}} \right]
 \end{equation}
 where $B$ is again given by \Cref{eq:zs-B}, and $\Lambda_f = \frac{k_s}{4d_p\sigma\bar{T}^3}$ is a dimensionless solid conductivity for the granular packing.
+
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% new subsection
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Correlations validated with experimental data}
+
+Van Antwerpen compiled data from numerous publications to compare the accuracy of effective conductivity correlations \cite{VanAntwerpen2010}. For our discussion, I have also plotted the experimental data with all the correlations discussed above, given in \Cref{fig:kappa-experimental}.
+
+Near $\kappa = 1$, all correlations collapse to predict a $\frac{k_e}{k_f} = 1$, and experiments naturally match predictions. From the range of $\kappa > 1$ to $\kappa <1000$, experimental data is well-bound by the predictions of the simple ZS model and the complex two-dimensional models of Hsu\etal. Above $\kappa > 1000$, the ZS model, not taking into account heat transfer through finite-sized contacts, is no longer reliable as a model for $\keff$. In high ranges of $\kappa$, the models incorporating contact-conduction in the granular material remain well-matched to experimental data. The results here show the worth of these general models for predictions of effective conductivity in some granular material.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=\textwidth]{figures/keff-kappa-experimental}
+    \caption{Comparison of $\keff$ correlations with compiled experimental data over a broad range of conductivity ratios, $\kappa$. Data compiled by \cite{VanAntwerpen2010} from many sources.}
+    \label{fig:kappa-experimental}
+\end{figure}
+
+
+An IAEA technical report provides effective conductivity measurements of $d_p =$~\SI{60}{\centi\meter} graphite pebble beds\cite{Report2000}. The data is used to compare against the combined correlations of ZS and BB. The $\keff$ measurements in Helium are given in \Cref{fig:keff-sana-he}, measurements in Nitrogen are given in \Cref{fig:keff-sana-n}. We see that the effective thermal conductivity correlations are significantly under-predicting, over the entire range of temperatures, when compared to experimental values. For the graphite pebble beds measured in the SANA report, we consider the Grashof number for the packing. The Grashof number is indicative of natural convection effects in the voids. The Grashof number is written as
+\begin{equation}
+    \Gr = \frac{g\beta(T_s-T_0)l^3}{\nu_f^2}
+\end{equation}
+where we estimate it in voids of size $l = \frac{d_p}{2}$, a temperature drop of $T_s-T_0 = $~\SI{10}{\kelvin} is an lower estimate. The kinematic viscosity, $\nu_f$ of the gases is known, and thermal expansion of an ideal gas is $\beta = \frac{1}{T}$. Let us assume a situation where temperatures and materials are all identical and the only variation is in length. Grashof numbers for these cases would be
+\begin{equation}
+    \frac{\Gr_1}{\Gr_2} = \left(\frac{l_1}{l_2}\right)^3
+\end{equation}
+
+Zehner \& Schlunder derived their correlation from mass-diffusion experiments of Curie \cite{Currie2002}. The data of Curie was done primarily on grains of around \SI{1}{\milli\meter}. Thus comparing $\frac{l_1}{l_2}$ between the size of particles for which the ZS correlation was derived and particles for which it was applied for SANA data yields
+\begin{equation}
+    \frac{\Gr_1}{\Gr_2} \sim 10^{-6}
+\end{equation}
+With a Grashof number significantly higher for the SANA experiments, it is indicative that the amount of natural convection present in the SANA experiment will have a much greater impact on heat transfer than the ZS correlation, derived on data for stagnant inter-stitial gas, is able to predict. This demonstrates limited applicability of effective conductivity correlations for packed bed conditions different from those for which the correlations were derived.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=\textwidth]{figures/keff-sana-he}
+    \caption{Comparison of SANA data in Helium gas with Zehner-Schlunder and Breitbach-Bartels correlations. Data from IAEA Tecdoc-1163\cite{Report2000}.}
+    \label{fig:keff-sana-he}
+\end{figure}
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=\textwidth]{figures/keff-sana-n}
+    \caption{Comparison of SANA data in Nitrogen gas with Zehner-Schlunder and Breitbach-Bartels correlations. Data from IAEA Tecdoc-1163\cite{Report2000}.}
+    \label{fig:keff-sana-n}
+\end{figure}
+
+As part of the Ceramic Optimal Material Experiments for Thermomechanics (COMET) project at UCLA, we measured the effective conductivity of $d_p = $~\SI{1}{\milli\meter} graphite (IG11) pebbles for \SIrange{135}{544}{\celsius}. The results will be discussed in more detail later, though the results will be presented here for comparison with the correlations; \Cref{fig:kappa-experimental-comet} shows the COMET data. The measured conductivity from COMET is well above the lower bounds of series approximation for effective conductivity, though is just below the lowest values predicted from Hsu\etal's square-cylinder two-dimensional model. As will be discussed in \Cref{sec:granular-contact-roughness}, we attribute the smaller values of effective conductivity on the surface roughness of the graphite pebbles in conjunction with their small size and small mass. In short, however, the measurements of COMET are also demonstrative of the inaccuracies in general predictions of granular material thermal properties.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=\textwidth]{figures/keff-kappa-experimental-comet}
+    \caption{Comparison of COMET data on IG11 graphite, $\keff$ correlations, and experimental data. Data compiled by \cite{VanAntwerpen2010} from many sources and measured data at UCLA.}
+    \label{fig:kappa-experimental-comet}
+\end{figure}
+
+\FloatBarrier
+
+
+
+
+
+
+
+
 
 
 
@@ -172,25 +239,18 @@ where $B$ is again given by \Cref{eq:zs-B}, and $\Lambda_f = \frac{k_s}{4d_p\sig
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Status of Ceramic Breeder Modeling and Analysis}\label{sec:modeling-state}
 
-
-A common problem plaguing the study of packed beds is the disconnect between the scale of physics influencing the behavior of the packed bed and the scale of quantifiable and measurable physics in experiments. In the laboratory we are limited to measurements such as the stress and strain of the entire packed bed and then are left to infer how the internal packing of the ensemble leads to the measurable values. Unfortunately, the stress-strain response of a packed bed is often not unique to a specific `state' such as one might use to describe an ideal gas. Nevertheless, considerable work has been done by experimenters at characterizing properties of a wide range of pebbles types and materials.
-
-% The solid breeder in many current designs feature sub-module units of packed beds. From the point of view of pebble bed thermomechanical properties, this has the advantage of producing units individually that can be tested and qualified to desired packing states (and therefore Thermomechanics) during the design phase. 
-
-% The thermophysical and thermomechanical properties of pebble beds have been studied extensively [cite many of the experimental papers]. From experimental measurements, and the assumption that a pebble bed can be treated as a continuous media, researchers have developed phenomenological formulas relating properties of pebble bed to other, measurable, macroscopic properties [cite many of the modeling papers]. For instance, an effective thermal conductivity can be given for the packed bed given a certain gas and stress on the bed. These effective material properties are useful for the design and qualification of tritium breeding modules. But it must be understood that the material properties of a pebble bed are a function of their history and will evolve in time as the morphological features of the pebble bed likewise evolve in time. Therefore there is a need to predict the morphological changes to the pebble bed and the subsequent impact on the bed's thermophysical properties so that solid breeder designers may have reliable temperature control of the pebble bed over the duration of the use of the breeder in the reactor. 
+Research efforts have been aimed at developing an understanding and characterization of thermomechanics of ceramic breeder pebble beds. Such an understanding is essential to providing confidence in performance and lifetime of ceramic breeder blanket designs. In particular, a significant effort of pebble bed thermomechanical studies is development of modeling simulation tools. In this section I will discuss the current state of modeling -- and experimental work feeding into modeling efforts -- for ceramic breeders of tritium.
 
 
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% new subsection
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Experiments to develop constitutive equations}
 
-% Ceramic breeders, by their nature, are brittle and prone to cracking under external mechanical loadings. These breeders, in the form of packed beds of pebbles, are loaded into a box-like structure for tritium fuel production in a fusion reactor. When subjected to nuclear heating in a reactor, a strong mechanical loading arises from the differential thermal expansion between breeder pebbles and their containing structure. 
+% Reimann and FZK experiments ~~~~~~~~~~~~~~~~~~
+Reimann\etal~have conducted an extensive experimental study of stress-strain relations of ceramic breeder pebble beds using an oedometric test apparatus \cite{Piazza2002811,Reimann:2002kl,Reimann:2003qc,Reimann:2002mi,Reimann:2001il}. The most significant macroscopic experimental phenomena witnessed in pebble beds is an irreversible plastic strain when load is removed, a non-linear elasticity, a pressure-dependent plasticity, and volumetric creep.  A particularly noticeable feature, clearly demonstrated in Fig.~\ref{fig:mti}, is the reduced amount of irreversible strain when subjected to additional loading cycles after the first unloading. This may suggest the existence of a semi-equilibrium packing state in the pebble bed which can be reached after applying a pre-load to account for the large strain in the first cycle of a pebble bed. This semi-equilibrium packing state is a feature which may be advantageous for use in a fusion reactor.
 
-Research efforts have been aimed at developing an understanding and characterization of the Thermomechanics of ceramic breeder pebble beds. Such an understanding is essential to providing confidence in the performance and lifetime of a ceramic breeder blanket design. In particular, a significant effort of the pebble bed Thermomechanics study is on the development of modeling simulation tools. We will describe, in brief, some of the major experimental findings as they relate to the modeling efforts for ceramic pebble beds.
-
-
-Reimann\etal~have conducted an extensive experimental study of the stress-strain relations of the ceramic breeder pebble beds using an oedometric test apparatus \cite{Piazza2002811,Reimann:2002kl,Reimann:2003qc,Reimann:2002mi,Reimann:2001il}. The most significant macroscopic experimental phenomena witnessed in the pebble bed are an irreversible plastic strain when the load is removed, a non-linear elasticity, a pressure-dependent plasticity, and a volumetric creep.  A particularly noticeable feature, clearly demonstrated in Fig.~\ref{fig:mti}, is the reduced amount of irreversible strain when subjected to additional loading cycles after the first unloading. This may suggest the existence of a semi-equilibrium packing state in the pebble bed which can be reached after applying a pre-load to account for the large strain in the first cycle of a pebble bed. This semi-equilibrium packing state is a feature which may be advantageous for use in a fusion reactor.
-
-Zhang\etal~ran similar cyclic pressure experiments to illuminate the existence of more steady stress-strain responses of packed beds under different pressures. 
-
-To study the temperature effect in Reimann's studies, the bed is freely heated to the desired working temperature before the pressure load is applied. Under the same loading condition, the bed behaves much softer at higher temperatures. The bed stiffens as the pressure increases. An illustration of this phenomenon is presented in Fig.~\ref{fig:UCT} for a lithium orthosilicate pebble bed between $50-850^\circ$C. At higher temperatures (such as $> 650^\circ$C), a creep-like behavior becomes apparent. The creep behavior allows the pebble bed to relax and sustain higher stresses, however one needs to avoid sintering. The data was used to correlate creep rate as a function of temperature, stress, and time for both lithium orthosilicate, lithium metatitanate, and beryllium pebble beds \cite{Buhler:2002qf,Reimann:2001il,Reimann2005}.
+To study temperature effects in Reimann's studies, beds are freely heated to desired working temperatures before pressure load is applied. Under the same loading condition, beds behave much softer at higher temperatures. The bed stiffens as the pressure increases. An illustration of this phenomenon is presented in Fig.~\ref{fig:UCT} for a lithium orthosilicate pebble bed between \SIrange{50}{850}{\celsius}. At higher temperatures (such as > \SI{650}{\celsius}), a creep-like behavior becomes apparent. Creep behavior allows the pebble bed to relax and sustain higher stresses, however at eleveated temperatures we must keep in mind issues of surface sintering of pebbles. The data was used to correlate creep rate as a function of temperature, stress, and time for both lithium orthosilicate, lithium metatitanate, and beryllium pebble beds \cite{Buhler:2002qf,Reimann:2001il,Reimann2005}.
 
 
 \begin{figure}[t!]
@@ -208,15 +268,47 @@ To study the temperature effect in Reimann's studies, the bed is freely heated t
 \end{figure}
 
 
-% Thus for packed beds of ceramics for tritium breeding, phenomenological models have been developed based on empirical observations from the controlled environment of laboratory experiments. 
-When we consider the pebble bed from the standpoint of engineering continuum mechanics, packed beds cannot be adequately described by traditional models of either solids or liquids alone. Under compression, a packed bed responds like a solid with non-linear elasticity and a plasticity that is history-dependent. At the same time, the packed bed can obviously not support any tensile pressure and will often behave as an extremely viscous liquid as it may fill in voids under just the force of gravity. Nevertheless, phenomenological models, derived from the volumes of collected data, have been developed, using effective material properties for the ceramic pebble bed, that describe the pebble beds in an Eulerian manner that provide reliable information on the initial states of breeder volumes in the fusion reactor environment and allow reasonable design predictions of the Thermomechanics of the breeding blanket. 
+
+% Japanese experiments~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Coming from the standpoint that strain in a pebble bed is induced by thermal expansion, an experiment was conducted to characterize the pebble bed thermal expansion coefficient \cite{Tanigawa:2007fc}.  The thermal expansion coefficient of a packed \lit~pebble bed is measured under a compressive load of 0.1MPa.  The study concludes that for beds with packing factors of 65.3 to 68.5\%, the average thermal expansion coefficient was $(1.4\pm0.2)\times10^{-5}K^{-1}$. This thermal expansion coefficient of the pebble bed was equal to 78\% of that for the bulk material under the conditions used in the study. The reduction in thermal expansion coefficient is less significant than that of the effective modulus, which is more than 2 orders of magnitude smaller than the bulk value. 
+
+
+The effect of thermal cycling on the packing state is of interest; in particular, it is foreseen that the ITER TBM will be subjected to such conditions. The question that arises is whether a void region will be created under thermal-cyclic loading due to the differential rates of expansion and contraction of the pebble bed and structural containing wall. This uncertainty was first addressed in an experimental set-up involving Li$_2$TiO$_3$ pebbles enclosed by two Kovar flanges while sandwiched between two commercial-grade CVD silicon carbide discs \cite{Calderoni:2006ye}. The set-up allows for generating a high stress through large differential in thermal expansion coefficients. The experimental results indicate that high thermal stresses and deformations are present during the initial thermal cycle of the assembled test article, but are successively alleviated due to a combination of pebble re-arrangement within the bed and creep induced deformation. This suggests that a few thermal cycles under a controlled atmosphere and a compressive load before final assembly of blanket sections would mitigate the severity of the thermal stresses during start-up. This is also shown in a later experiment, in which the increment of compression decreased with each heating cycle and became negligible after 30 cycles \cite{Tanigawa:2010cr}. Extrapolating the finding to a prototypical blanket breeder pebble bed design, the study concludes that for a height of 1 m long pebble bed, a 51 mm high cavity may be generated at the top of the bed with an initial packing of 65\% under thermal cyclic operations.  
+
+
+% UCLA experiments ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Zhang\etal~ran similar cyclic pressure experiments to illuminate the existence of more steady stress-strain responses of packed beds under different pressures. 
+
+
+
+\subsubsection{Post-irradiation experiments at Petten}
+The pebble bed assemblies (PBA) experiment is designed to study the effect of neutron irradiation on the thermomechanical behavior of a ceramic breeder pebble-bed under DEMO representative thermomechanical loads \cite{Magielsen2007}. This was accomplished via analysis of changes of the in-pile temperature profiles during irradiation as wall as from the post irradiation examination of the pebble bed in the Hot Cells. Within the assemblies, there are four test elements; each resembling a small-scale mock-up of a HCPB TBM with a ceramic breeder pebble bed sandwiched between two beryllium pebble beds. Before irradiation, the beds are pre-compacted with a compressive load of 3 MPa to ensure good settling and contact.  
+
+FEM analysis was performed to study pre-compaction procedures.  During progressive irradiation, temperatures are recorded at several locations in the ceramic breeder bed as well as other critical positions. Reviewing the recorded temperature data, when comparing the temperature in the center of the ceramic breeder pebble bed during later cycles and earlier cycles there appears to be a decrease in temperature for the exact same environmental conditions. Changes in the pebble beds and their characteristics are examined both in-pile by neutron radiography and out-of-pile by e.g. SEM during post-irradiation examination (PIE). The estimated bed height reduction from neutron radiographies over the course of the irradiation has shown 3\% of creep compaction. 
+
+A pebble bed experiencing creep compaction is both becoming more dense as well seeing more-developed inter-pebble conduction paths. The effective thermal conductivity for a creep-compacted ceramic pebble bed is thus expected to be higher than a standard ceramic pebble bed. This phenomenon results in lower temperature gradients and a lower overall temperature magnitude, which is precisely what was observed in the experiment over the course of the cycling. 
+
+During PIE, various microscopy preparation techniques are used to study the deformation state of the pebble beds (signs of creep compaction and sintering), formation of gas gaps between the pebble beds and structural materials, and the interaction layers between eurofer-ceramic and eurofer-beryllium. 
+
+Figure~\ref{fig:pba} shows the cross-section of \lit~pebbles (left) and \lis~pebbles (right) post irradiation. Evident in the images is sintering of the lithium titanite and significant fracturing of the lithium orthosilicate pebbles. Importantly, however, it must be noted that the pebble beds performed reliably in spite of the changes displayed in these images cite{magielsen2011}. 
+
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=\singleimagewidth]{figures/Fig-10}
+\caption{Notable features of irradiated Li$_2$TiO$_3$ and Li$_4$SiO$_4$ pebble beds from PBAcite{magielsen2011}. (Left) Demonstration of significant sintering of Li$_2$TiO$_3$ pebbles with no fracturing; the visible cracks originated from production and handling. (Right) Demonstration of cracking of Li$_4$SiO$_4$ pebbles.}
+\label{fig:pba}
+\end{figure}
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% new subsection
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Continuum modeling of granular material for solid breeders}
+When we consider beds of granular material from the standpoint of engineering continuum mechanics, packed beds cannot be adequately described by traditional models of either solids or liquids alone. Under compression, a packed bed responds like a solid with non-linear elasticity and a plasticity that is history-dependent. At the same time, the packed bed can obviously not support any tensile pressure and will often behave as an extremely viscous liquid as it may fill in voids under just the force of gravity. Nevertheless, phenomenological models, derived from the volumes of collected data, have been developed, using effective material properties for the ceramic pebble bed, that describe the pebble beds in an Eulerian manner that provide reliable information on the initial states of breeder volumes in the fusion reactor environment and allow reasonable design predictions of the Thermomechanics of the breeding blanket. 
 
 In spite of the shortcomings of a continuum approach, it is the only option which currently allows treatment of the pebble beds with standard finite element modeling (FEM) that can be scaled up to the breeder system. To employ FEM, mathematical models written in terms of average quantities and containing effective parameters are used. These models deduce a set of constitutive equations to be implemented in the framework of a finite element code.  There are two major variants of phenomenological modeling approaches developed among institutions, including: (1) A non-linear elastic model and a modified Drucker-Prager-Cap theory for plastic strain \cite{Gan2007189,fokkens2003}; and (2) A hyper-porous non-linear elastic model and a Gurson model for the plastic model \cite{DellOrco:2007hc,DellOrco:2010zr,DiMaio20081287}. Another approach was taken by Ref.\cite{fokkens2003} wherein the authors employed two different elasticity laws for the loading and unloading branches. Alongside the development of the modeling techniques, several large scale pebble bed Thermomechanics experiments were conducted. These experiments were intended to reveal the underlined thermomechanical characteristics of ceramic breeder pebble beds, and provide data for benchmarking the developed models. The vast amount of work done on modeling the pebble beds in the FEM framework can be found in literature. \cite{DellOrco:2007hc,DellOrco:2010zr,DiMaio20101234,Gan2007189,Gan2007189,Gan:2009vn,Gan:2010lh,Gan:2010kc,DellOrco:2007hc,DellOrco:2010zr,DiMaio20101234,Gan2007189,DellOrco:2007hc,DiMaio20101234} A study was also published in 2012 that summarized, compared, and highlighted features of the models under development at the time.\cite{ying2011isfnt}
-
-We will devote the rest of this chapter to the discussion of advances of an alternative modeling approach for solid breeder analysis. In this modeling strategy, we consider the pebble bed as a system of distinct interacting bodies that are subject to fundamental forces which result in independent motions. This modeling approach, called the discrete element method (DEM), is the framework upon which the work of this dissertation is laid, as such we will go into more detail on the history of DEM's use in fusion science and technology research.
-
-
-
 
 
 
@@ -281,14 +373,10 @@ However, it must be noted that the benchmarking efforts are incomplete and incon
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% new section
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Discrete Element Method for Solid Breeders of Tritium}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% new subsection
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Discrete Element Method for Solid Breeders of Tritium}
 
 A thorough review of the physics behind DEM will be given in \cref{sec:dem-studies}. For now, we will simply discuss some major results of the implementation of DEM in past solid breeder research.
 
@@ -349,70 +437,13 @@ The nature of damage evolution influences the maximum strength and strain at whi
 
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% new section
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Pebble Bed Thermomechanics Summary}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% new subsection
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Conclusions on solid breeder granular material literature review}
 A good deal of progress has been made in the field of ceramic pebble bed analysis. Owing to the multi-scale nature of pebble beds, it is unavoidable that multi-scale models are necessary. In this framework, the continuum modeling approach using FEM and empirically derived material constitutive equations is capable of correctly characterizing the stress load to which a breeder pebble bed unit may be subject during reactor operation. The DEM approach analyzes this load and determines the possibility of pebble bed morphological changes; i.e. pebble damage based on the crush load data of pebbles, the degree of sintering depending on the local contact stress and temperature fields, and creep relaxation of contacts. It is only with the combined analysis of particle-scale information from DEM and system-scale information from FEM that warrants a high confidence of success to the assembly and design of breeder units in a blanket.  Experiments should also be conducted to assess the manner of pebble relocations and packing rearrangement when morphological evolution of the pebble bed occurs. It is important to learn if the breeder unit will continue to function in accord with the original design goals under all complex operating conditions.  The ultimate objectives of the pebble bed Thermomechanics are: to delineate a near-equilibrium packing state as the initial state, quantify breeder unit Thermomechanics parameters during operations, understand how these properties evolve as topographical changes happen in the packing, and ensure breeder functions as it is intended to in the fusion operational phase spaces.
 
 
 Lastly, no predictive tool is possible without solid validation attempts. The benchmark experiments performed up to now were either too limited in scope or practice. New experiments must be performed that can provide reliable data with which to compare numerical results. Fortunately, a new experimental effort out of KIT has been initiated.\cite{Hernandez2014} The experiment shows great promise at reproducing volumetric heating profiles with substantial data collection efforts. The preliminary results are very promising.
-
-
-
-
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% new subsection
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Bed Resettling}
-
-The pebble bed assemblies (PBA) experiment is designed to study the effect of neutron irradiation on the thermomechanical behavior of a ceramic breeder pebble-bed under DEMO representative thermomechanical loads \cite{Magielsen2007}. This was accomplished via analysis of changes of the in-pile temperature profiles during irradiation as wall as from the post irradiation examination of the pebble bed in the Hot Cells. Within the assemblies, there are four test elements; each resembling a small-scale mock-up of a HCPB TBM with a ceramic breeder pebble bed sandwiched between two beryllium pebble beds. Before irradiation, the beds are pre-compacted with a compressive load of 3 MPa to ensure good settling and contact.  
-
-FEM analysis was performed to study pre-compaction procedures.  During progressive irradiation, temperatures are recorded at several locations in the ceramic breeder bed as well as other critical positions. Reviewing the recorded temperature data, when comparing the temperature in the center of the ceramic breeder pebble bed during later cycles and earlier cycles there appears to be a decrease in temperature for the exact same environmental conditions. Changes in the pebble beds and their characteristics are examined both in-pile by neutron radiography and out-of-pile by e.g. SEM during post-irradiation examination (PIE). The estimated bed height reduction from neutron radiographies over the course of the irradiation has shown 3\% of creep compaction. 
-
-A pebble bed experiencing creep compaction is both becoming more dense as well seeing more-developed inter-pebble conduction paths. The effective thermal conductivity for a creep-compacted ceramic pebble bed is thus expected to be higher than a standard ceramic pebble bed. This phenomenon results in lower temperature gradients and a lower overall temperature magnitude, which is precisely what was observed in the experiment over the course of the cycling. 
-
-During PIE, various microscopy preparation techniques are used to study the deformation state of the pebble beds (signs of creep compaction and sintering), formation of gas gaps between the pebble beds and structural materials, and the interaction layers between eurofer-ceramic and eurofer-beryllium. 
-
-Figure~\ref{fig:pba} shows the cross-section of \lit~pebbles (left) and \lis~pebbles (right) post irradiation. Evident in the images is sintering of the lithium titanite and significant fracturing of the lithium orthosilicate pebbles. Importantly, however, it must be noted that the pebble beds performed reliably in spite of the changes displayed in these images cite{magielsen2011}. 
-
-
-\begin{figure}[t!]
-\centering
-\includegraphics[width=\singleimagewidth]{figures/Fig-10}
-\caption{Notable features of irradiated Li$_2$TiO$_3$ and Li$_4$SiO$_4$ pebble beds from PBAcite{magielsen2011}. (Left) Demonstration of significant sintering of Li$_2$TiO$_3$ pebbles with no fracturing; the visible cracks originated from production and handling. (Right) Demonstration of cracking of Li$_4$SiO$_4$ pebbles.}
-\label{fig:pba}
-\end{figure}
-
-
-Experiments on individual particles betray the brittle nature of ceramic pebbles and their propensity to break at relatively low individual contact forces. An example histogram of the crush loads of a batch of 1~mm \lit~pebbles, as measured in our lab, is shown in Fig.~\ref{fig:fmax}. For these particular pebbles, the average crush load was less than \SI{40}{\newton}. For some \lis~pebbles, the average crush load is measured as low as \SI{10}{\newton}. The relatively low force required to crush, coupled with the strong macroscopic loads predicted by the FEM models, brings into question the survivability of the pebbles and packing of the solid breeder. [example of fragmentation from HELICA and Petten PBA experiment]
-
-% If individual pebbles in the packed bed ensemble begin to crush, it may result in a number of negative effects on the bed. First, from Fig.~\ref{fig:keff-pressure}, we can see that a significant amount of heat (roughly 20\%) is transported through the bed purely via contact conductance between pebbles. In response to damaged pebbles, the bed will resettle from the imbalance of inter-particle and gravity forces. Any disruption in the contact network will have an impact on the heat paths internally and at the bed-wall interface. A bed with damaged pebbles could have significantly different effective thermophysical properties than those predicted for the original bed, potentially increasing the overall temperature of the bed past the acceptable temperature windows described in the previous section. Furthermore, the neutron absorption/shielding function of the solid breeder is dependent on an assumption of homogeneous distributions of pebbles in the breeding unit volume. Broken pebble fragments will settle, in time, in the direction of gravity and accumulate at the floor of the pebble bed, concurrently the entire bed may be resettling and a physical gap at the top of the pebble bed can form. This would result in undesirable quantities of neutrons streaming past the solid breeder volume. 
-
-
-
-\subsubsection{Pebble Bed Assemblies Experiment}
-The pebble bed assemblies (PBA) experiment is designed to study the effect of neutron irradiation on the Thermomechanical behavior of a ceramic breeder pebble-bed under DEMO representative Thermomechanical loads \cite{Magielsen2007}. This was accomplished via analysis of changes of the in-pile temperature profiles during irradiation as wall as from the post irradiation examination of the pebble bed in the Hot Cells. Within the assemblies, there are four test elements; each resembling a small-scale mock-up of a HCPB TBM with a ceramic breeder pebble bed sandwiched between two beryllium pebble beds. Before irradiation, the beds are pre-compacted with a compressive load of 3 MPa to ensure good settling and contact.  
-
-
-\subsection{More thermomechanics Characterization Experiments}
-Coming from the standpoint that strain in a pebble bed is induced by thermal expansion, an experiment was conducted to characterize the pebble bed thermal expansion coefficient \cite{Tanigawa:2007fc}.  The thermal expansion coefficient of a packed \lit~pebble bed is measured under a compressive load of 0.1MPa.  The study concludes that for beds with packing factors of 65.3 to 68.5\%, the average thermal expansion coefficient was $(1.4\pm0.2)\times10^{-5}K^{-1}$. This thermal expansion coefficient of the pebble bed was equal to 78\% of that for the bulk material under the conditions used in the study. The reduction in thermal expansion coefficient is less significant than that of the effective modulus, which is more than 2 orders of magnitude smaller than the bulk value. 
-
-
-The effect of thermal cycling on the packing state is of interest; in particular, it is foreseen that the ITER TBM will be subjected to such conditions. The question that arises is whether a void region will be created under thermal-cyclic loading due to the differential rates of expansion and contraction of the pebble bed and structural containing wall. This uncertainty was first addressed in an experimental set-up involving Li$_2$TiO$_3$ pebbles enclosed by two Kovar flanges while sandwiched between two commercial-grade CVD silicon carbide discs \cite{Calderoni:2006ye}. The set-up allows for generating a high stress through large differential in thermal expansion coefficients. The experimental results indicate that high thermal stresses and deformations are present during the initial thermal cycle of the assembled test article, but are successively alleviated due to a combination of pebble re-arrangement within the bed and creep induced deformation. This suggests that a few thermal cycles under a controlled atmosphere and a compressive load before final assembly of blanket sections would mitigate the severity of the thermal stresses during start-up. This is also shown in a later experiment, in which the increment of compression decreased with each heating cycle and became negligible after 30 cycles \cite{Tanigawa:2010cr}. Extrapolating the finding to a prototypical blanket breeder pebble bed design, the study concludes that for a height of 1 m long pebble bed, a 51 mm high cavity may be generated at the top of the bed with an initial packing of 65\% under thermal cyclic operations.  
-
-
-
-As the thermophysical properties evolve, global or local bed temperatures change and ultimately the tritium release characteristics of the bed deviate from any prediction one may have had from the initial packing of the ceramic pebble bed. The ceramic solid breeder must continue operating despite the harsh effects of existing in the fusion reactor. And it must continue operating without being replaced or actively maintained. Its important that the solid breeder not simply survive the thermal and mechanical demands of the reactor environment but continue to release predictable and acceptable amounts of tritium. 
-
-
-
-In light of the short discussion above, it is apparent that a thorough study of pebble damage, including the loads on the pebble bed that will lead to broken pebbles as well as the pebble bed's thermophysical responses to broken pebbles, is critically needed for solid breeder design. Unfortunately, pebble bed experiments are inadequate for this need. The majority of measurements are only available for macroscopic properties (\textit{e.g.} uniaxial compression tests for stress-strain responses) or give only maximum measurements of individual pebble responses (\text{e.g.} pressure sensitive layers giving pebble pressures on a wall). The inability of physical experiments to reliably look into the transient inner structure of the pebble bed has driven past solid breeder researchers to employ pebble-scale models. Increasingly reliable and accurate models are crucial in the design of operational solid breeder blanket technologies. In this dissertation, I attempt to advance the field of solid breeder pebble-scale modeling with the introduction of new techniques and tools to incorporate the many facets of pebble damage in a solid breeder.
-
 
 

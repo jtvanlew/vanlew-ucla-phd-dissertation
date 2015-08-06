@@ -7,16 +7,40 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-color_idx = [[0./255,107./255,164./255], 
+color_idx = [[0./255,   107./255, 164./255], 
              [255./255, 128./255, 14./255], 
              [171./255, 171./255, 171./255], 
-             [89./255, 89./255, 89./255],
-             [207/255, 207/255, 207/255],
-             [200./255, 82./255, 0./255],
+             [89./255,  89./255,  89./255],
+             [207./255, 207./255, 207./255],
+             [200./255, 82./255,  0./255],
              [255./255, 152./255, 150./255],
-             [152/255, 223/255, 138/255],
-             [95./255, 158./255, 209./255]
+             [152./255, 223./255, 138./255],
+             [95./255,  158./255, 209./255]
              ]
+def load_digitized_csv(filename):
+    import csv
+    x = []
+    y = []
+    with open(filename) as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=',')
+        for row in spamreader:
+            x.append(row[0])
+            y.append(row[1])
+    x = np.array([float(i) for i in x])
+    y = np.array([float(i) for i in y])
+    return x, y
+
+def k_graphite(T):
+    T_fit = np.array([25,100,200,300,400,500,1000])
+    k_s_fit = np.array([110,100,92,85,79,75,50])
+    
+    func = np.polyfit(T_fit, k_s_fit, 1)
+    k_poly = np.poly1d(func)
+
+    k_solid = k_poly(T)
+
+    return k_solid
+
 def zs(epsilon, kappa):
     B = 1.25 * ((1.-epsilon)/epsilon)**(1.055)
 
@@ -133,12 +157,11 @@ def zsb(epsilon, kappa, epsilon_r, dp, Tave, P, k_f):
     B = 1.25 * ((1.-epsilon)/epsilon)**(1.055)
     sigma = 5.67e-8
     kappa_r = 4*sigma/(2/epsilon_r-1)*Tave**3*dp/k_f
-    kappa_g = 1/(1+(l/dp))
-    print(l/dp)
+    kappa_g = 1./(1.+(l/dp))
     phi = 0.01
-    N = (1/kappa_g)*(1+(kappa_r-B*kappa_g)/kappa)-B*(1/kappa_g-1)*(1+kappa_r/kappa)
+    N = (1./kappa_g)*(1.+((kappa_r-B)*kappa_g)/kappa)-B*(1./kappa_g-1.)*(1.+kappa_r/kappa)
     #print(N[31:34])
-    kc = 2/N*((B*kappa+kappa_r-1)/(N**2*kappa_g*kappa)*np.log((kappa+kappa_r)/(B*(kappa_g+(1-kappa_g)*(kappa+kappa_r))))
+    kc = 2/N*(B*(kappa+kappa_r-1)/(N**2.*kappa_g*kappa)*np.log((kappa+kappa_r)/(B*(kappa_g+(1-kappa_g)*(kappa+kappa_r))))
          +(B+1)/(2*B)*(kappa_r/kappa_g-B*(1+(1-kappa_g)/kappa_g*kappa_r))-(B-1)/(N*kappa_g))
     x = (B*kappa+kappa_r-1)
     y = (N**2*kappa_g*kappa)
@@ -149,22 +172,23 @@ def zsb(epsilon, kappa, epsilon_r, dp, Tave, P, k_f):
               np.sqrt(1-epsilon)*(phi*kappa+(1-phi)*kc)
     return ke_star
 
-def bb(epsilon, epsilon_r, T, d, k_s):
-    sigma = 5.67E-8 # W m−2 K−4
-    B = 1.25 * ((1.-epsilon)/epsilon)**(10./9)
-    Lambda = k_s / (4* sigma * T**3 * d)
-    lambda_e1 = (1-np.sqrt(1-epsilon))*epsilon
-    lambda_e2 = (np.sqrt(1-epsilon))/(2./epsilon_r - 1.)
-    lambda_e3 = (B+1.)/B
-    lambda_e4 = (1/(1+1/((2./epsilon_r - 1.)*Lambda)))
-    lambda_e = (lambda_e1 + lambda_e2*lambda_e3*lambda_e4)*4.*sigma*T**3*d
-    return lambda_e
 
-fig = plt.figure(1)
-ax = fig.gca()
-ax.grid(True)
+
 
 kappa = np.logspace(-1,5,100)
+
+
+fig = plt.figure(num=0, figsize=(12, 9), dpi=150, facecolor='w', edgecolor='k')
+ax = fig.gca()
+ax.grid(True)
+ax.set_yscale('log')
+ax.set_xscale('log')
+plt.xlabel(r'$\kappa$')
+plt.ylabel(r"$k_{eff}/k_g$")
+plt.xlim([min(kappa),max(kappa)])
+
+
+
 epsilon = 0.36
 
 k_parallel = epsilon + (1-epsilon)*kappa
@@ -178,7 +202,7 @@ k_hsu_zs = hsu_zs(epsilon, kappa)
 # material properties for ZSB (with radiation)
 k_s = 2.7
 k_f = 0.34 # average He k over 300 to 900 C
-dp = 3/1000 # m
+dp = 1./1000 # m
 Tave = 600+273 # K
 epsilon_r = 0.8
 P = 0.1013e6 # Pa (1 atm)
@@ -187,22 +211,34 @@ k_zsb = zsb(epsilon, kappa, epsilon_r, dp, Tave, P, k_f)
 
 ax.plot(kappa, k_parallel, color=color_idx[0], label='Parallel', linewidth=2)
 ax.plot(kappa, k_series, color=color_idx[1], label='Series', linewidth=2)
-ax.plot(kappa, k_zs, label='Zehner-Schlünder', color=color_idx[3], linewidth=2)
+plt.legend(loc='upper left')
+plt.savefig('../figures/keff-kappa-series-parallel', bbox_inches='tight')
+#ax.plot(kappa, k_zs, label='Zehner-Schlünder', color=color_idx[3], linewidth=2)
+ax.plot(kappa, k_zs, label='Zehner-Schlunder', color=color_idx[3], linewidth=2) # python 2 can't handle the ascii encoding of his name
+plt.legend(loc='upper left')
+plt.savefig('../figures/keff-kappa-series-parallel-zs', bbox_inches='tight')
 ax.plot(kappa, k_hsu_sc, label='Hsu et al, Sq. Cyl.', color=color_idx[4], linewidth=2)
 ax.plot(kappa, k_hsu_cc, label='Hsu et al, Circ. Cyl.', color=color_idx[5], linewidth=2)
 ax.plot(kappa, k_hsu_cubes, label='Hsu et al, Cubic', color=color_idx[6], linewidth=2)
 ax.plot(kappa, k_hsu_zs, label='Hsu et al, ZS corr.', color=color_idx[7], linewidth=2)
-ax.plot(kappa, k_zsb, label='Zehner-Bauer-Schlünder', color=color_idx[8], linewidth=2)
-ax.plot(kappa, k_bb, label='Breitbach-Bartels')
-
-
-ax.set_yscale('log')
-ax.set_xscale('log')
-plt.xlabel(r'$\kappa$')
-plt.ylabel(r"$k_{eff}/k_g$")
-plt.xlim([min(kappa),max(kappa)])
+# ax.plot(kappa, k_zsb, label='Zehner-Bauer-Schlünder', color=color_idx[8], linewidth=2)
+ax.plot(kappa, k_zsb, label='Zehner-Bauer-Schlunder', color=color_idx[8], linewidth=2) # python 2 can't handle the ascii encoding of his name
 plt.legend(loc='upper left')
+plt.savefig('../figures/keff-kappa-series-parallel-zs-hsus', bbox_inches='tight')
 
+kappa_dig, k_e_dig = load_digitized_csv('van-antwerpen-digitzed.csv')
+ax.scatter(kappa_dig, k_e_dig, color='k', s=20, zorder=9, label='Experimental data')
+plt.legend(loc='upper left')
+plt.savefig('../figures/keff-kappa-experimental', bbox_inches='tight')
 
+k_exp_graphite = [1.251, 1.462, 1.559, 1.629, 1.686, 1.744]
+T_exp_graphite = [135.6, 249, 339.1, 417, 484, 544]
+k_gas_exp = 0.0025*(np.asarray(T_exp_graphite)+273)**0.72
+k_s_exp = k_graphite(T_exp_graphite)
+kappa_exp = k_s_exp/k_gas_exp
+k_star = k_exp_graphite/k_gas_exp
+ax.scatter(kappa_exp, k_star, label='COMET data', marker='o', zorder=10, edgecolors='k', facecolors='none', s=20)
+plt.legend(loc='upper left')
+plt.savefig('../figures/keff-kappa-experimental-comet', bbox_inches='tight')
 
 plt.show()
