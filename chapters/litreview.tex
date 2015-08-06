@@ -13,30 +13,154 @@ Correlations for effective properties of heat transfer and the constitutive equa
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Generalized Studies of Heat Transfer in Granular Material}
-One of the earliest efforts to derive an effective thermal conductivity, $\keff$ in two-phase granular media was done by Deissler and Boegli in 1958 \cite{Deissler1958}. They noted that a maximum $\keff$ would happen for a case of collimated divisions of the solid and fluid phases; the effective conductivity between parallel layers is
+Deissler and Boegli, in 1958, proposed upper and lower bounds of effective thermal conductivity, $\keff$, in two-phase granular media to be given by alternating layers of the two phases arranged in parallel or series, respectively \cite{Deissler1958}. In the case of parallel layers, effective conductivity, normalized by fluid conductivity, is
 \begin{equation}\label{eq:keff-parallel}
-	\frac{k_e^{g,c}}{k_f} = \epsilon + (1-\epsilon)\kappa
+	\frac{k_e}{k_f} = \epsilon + (1-\epsilon)\kappa
 \end{equation}
 where $k_f$ is the fluid conductivity, $\kappa = k_s/k_f$ is the ratio of solid to fluid conductivity, and $\epsilon$ is the void fraction in the porous media. Similarly, the minimum effective conductivity is found in a serial layering of the solid and fluid phases,
 \begin{equation}\label{eq:keff-series}
-	\frac{k_e^{g,c}}{k_f} = \frac{1}{\epsilon + (1-\epsilon)/\kappa}
+	\frac{k_e}{k_f} = \frac{1}{\epsilon + (1-\epsilon)/\kappa}
 \end{equation}
-\Cref{eq:keff-paralle,eq:keff-series} act as theoretical upper and lower limits to true effective thermal conductivities of real material. The two effective conductivity correlations are given in \Cref{fig:kappa-series-parallel}
+\Cref{eq:keff-parallel,eq:keff-series} act as theoretical upper and lower limits to true effective thermal conductivities of real material. The two effective conductivity correlations are given in \Cref{fig:kappa-series-parallel}
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=\singleimagewidth]{figures/keff-kappa-series-parallel}
+    \includegraphics[width=\textwidth]{figures/keff-kappa-series-parallel}
     \caption{Upper and lower bounds of effective thermal conductivity in two-phase porous media are given by parallel and series approximations of the material, respectively.}
     \label{fig:kappa-series-parallel}
 \end{figure}
 
-An extensive review of correlations to determine effective thermal conductivity in granular media was done by van Antwerpen \etal \cite{VanAntwerpen2010}. 
-% Effective thermal conductivity correlation from Zehner and Schlunder[1], [2]. The ZS correlation is commonly used for packed beds of spheres without large external pressure or grains with low mass. The ZS correlation is
-% k_eff/k_f =[1-√(1-ϵ)]+(2√(1-ϵ))/(1-λB) [(1-λ)B/(1-λB)^2   ln⁡(1/λB)-(B+1)/2-(B-1)/(1-λB)]			(X5)
-% where λ=k_f/k_s , is the ratio of fluid to solid thermal conductivities, B=1.364(1-ϵ)/ϵ^1.055 , is a shape parameter of the packed bed, and ϵ is the void fraction of the bed. 
-% Van Antwerpen et al[2] reviewed a number of correlations for effective thermal conductivities and found the ZS model to agree well with materials of large values of λ. They used a parameter κ=1/λ, to compare a collection of experimental data from literature to many correlations, including ZS. Their collected experimental data, the experimental data of the graphite, and the ZS correlation given in Eq. X5 are plotted in Fig. X5. The gas conductivity of helium is found from 
-% k_g= 0.0025 (T+273)^0.72					(X6)
-% The thermal conductivity of the solid is taken from literature values of IG11 graphite; the conductivity is temperature dependent and, along with the gas conductivity from Eq. X6, is used to find a range of κ values for the experimental data.
+One of the most widely-used correlations was put forth by Zehner and Schlunder in 1970 \cite{Zehner1970,Zehner1972}. They considered a cylindrically-shaped unit cell and made the analogy between heat and mass transfer to derive an empirical fit to data in the bulk of two-phase porous media. The Zehner-Schundler (ZS) correlation is
+\begin{equation}
+    \frac{k_e}{k_f} = \left(1-\sqrt{1-\epsilon}\right)+\frac{2\sqrt{1-\epsilon}}{1-B/\kappa}\left[\frac{(1-1/\kappa)B}{(1-B/\kappa)^2}\ln\left( \frac{\kappa}{B} \right) - \frac{B+1}{2} - \frac{B-1}{1-B/\kappa}\right]
+\end{equation}
+where $B$ is a deformation parameter related to porosity as
+\begin{equation}\label{eq:zs-B}
+    B = 1.25\left(\frac{1-\epsilon}{\epsilon}\right)^{1.11}
+\end{equation}
+
+The Zehner-Schlunder correlation is added to a figure with the parallel and series bounds
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=\textwidth]{figures/keff-kappa-series-parallel-zs}
+    \caption{Zehner-Schlunder correlation fitting between the upper and lower bounds of effective thermal conductivity in two-phase porous media are given by parallel and series approximations of the material, respectively.}
+    \label{fig:kappa-series-parallel-zs}
+\end{figure}
+
+Following the success of the Zehner-Schlunder correlation, other researchers considered the specialized cases of high thermal conductivity ratio $\kappa \ge 10^3$ when loads on the grains in the bed (due to either an external pressure or the grains own weight) resulted in large contact areas. In these cases, Zehner-Schlunder correlations under-predicted the actual effective conductivity \cite{Aichlmayr2005a}. An extensive review of correlations for effective thermal conductivity with consideration of contact between grains is provided by van Antwerpen\etal \cite{VanAntwerpen2010}. Hsu\etal~considered three lumped parameters models of varying two-dimensional unit cells for which they derived an effective conductivity. The first was for contact square-cylinders. The effective conductivity for this model is
+\begin{equation}
+    \frac{k_e}{k_f} = \gamma_a\gamma_c\kappa + \frac{\gamma_a(1-\gamma_c)}{1+(1/\kappa-1)\gamma_a} + \frac{(1-\gamma_a)}{1+(1/\kappa-1)\gamma_a\gamma_c}
+\end{equation}
+where Hsu\etal~used the same fitting parameter of Nozad\etal, $\gamma_c$ \cite{nozad}; they found best agreement with experimental data when $\gamma_c = 0.01$. The other geometric parameter is related to $\gamma_c$ and $\epsilon$ as
+\begin{equation}
+    0=\gamma_a^2 + 2\gamma_a\gamma_c(1-\gamma_a) + \epsilon - 1
+\end{equation}
+Hsu\etal's second correlation had the square-cylinder unit cell replaced with circular-cylinders. The correlation is given with dependence on conductivity ratios. For $(1/\kappa-1)\gamma_a < 1$,
+\begin{equation}
+\begin{split}
+    \frac{k_e}{k_f} ={} &\gamma_c\gamma_a\kappa + \frac{1-\gamma_a\sqrt{1-\gamma_c^2}}{\gamma_a\gamma_c(1/\kappa-1)+1} + \frac{\kappa(\pi/2 - 2\theta_c)}{1-\kappa} - \frac{2\kappa}{(1-\kappa)\sqrt{1-(1/\kappa-1)^2\gamma_a^2}}\\
+    &\times\left[\tan^{-1}\left(\frac{\tan(\pi/4 - \theta_c/2)+(1/\kappa-1)\gamma_a}{\sqrt{1-(1/\kappa-1)^2\gamma_a^2}} \right) - \tan^{-1}\left(\frac{\tan(\theta_c/2)+(1/\kappa-1)\gamma_a}{\sqrt{1-(1/\kappa-1)^2\gamma_a^2}}\right) \right]
+\end{split}
+\end{equation}
+For $(1/\kappa-1)\gamma_a>1$,
+\begin{equation}
+\begin{split}
+    \frac{k_e}{k_f} ={} &\gamma_c\gamma_a\kappa + \frac{1-\gamma_a\sqrt{1-\gamma_c^2}}{\gamma_a\gamma_c(1/\kappa-1)+1} + \frac{\kappa(\pi/2 - 2\theta_c)}{1-\kappa} - \frac{\kappa}{(1-\kappa)\sqrt{(1/\kappa-1)^2\gamma_a^2-1}}\\
+    & \times\left[\ln\left(\frac{\tan(\pi/4 - \theta_c/2)+(1/\kappa-1)\gamma_a - \sqrt{(1/\kappa-1)^2\gamma_a^2-1}}{\tan(\pi/4-\theta_c/2) +(1/\kappa-1)\gamma_a+\sqrt{(1/\kappa-1)^2\gamma_a^2-1}} \right) \right.\\
+    & -\left.\ln\left(\frac{\tan(\theta_c/2)+(1/\kappa-1)\gamma_a - \sqrt{(1/\kappa-1)^2\gamma_a^2-1}}{\tan(\theta_c/2) +(1/\kappa-1)\gamma_a+\sqrt{(1/\kappa-1)^2\gamma_a^2-1}} \right) \right]
+\end{split}
+\end{equation}
+and for $(1/\kappa-1)\gamma_a=1$
+\begin{equation}
+    \frac{k_e}{k_f} = \frac{\gamma_c\gamma_a^2}{\gamma_a+1}+\frac{1-\gamma_a\sqrt{1-\gamma_c^2}}{\gamma_c+1}+\gamma_a(\pi/2-2\theta_c)-\tan(\pi/4-\theta_c/2)+\tan(\theta_c/2)
+\end{equation}
+where $\gamma_c = 0.01$ was again found to fit best to experimental data. And the other geometric parameter relationship became
+\begin{equation}
+    0 = 1-\gamma_a\gamma_c-\frac{\gamma_a^2}{2}\left(\frac{\pi}{2}-2\theta_c\right)
+\end{equation}
+where the contact angle is $\theta_c = \sin^{-1}(\gamma_c)$.
+The last correlation of Hsu\etal~came from three-dimensional unit cell extension of the square-cylinder to cubes,
+\begin{equation}
+    \frac{k_e}{k_f} = 1-\gamma_a^2 - 2\gamma_a\gamma_c + 2\gamma_a^2\gamma_c + \gamma_a^2\gamma_c^2\kappa + \frac{\gamma_a^2-\gamma_a^2\gamma_c^2}{1-\gamma_a + \gamma_a/\kappa} + \frac{2(\gamma_a\gamma_c - \gamma_a^2\gamma_c)}{1-\gamma_a\gamma_c+\gamma_a\gamma_c/\kappa}
+\end{equation}
+where $\gamma_c = 0.13$ fit best for cubes and the relationship between $\gamma_c$, $\epsilon$\ and $\gamma_a$ became
+\begin{equation}
+    0 = (1-3\gamma_c^2)\gamma_a^3 + 3\gamma_c^2\gamma_a^2 + \epsilon - 1
+\end{equation}
+
+Hsu\etal~also proposed a correction to the ZS model for conductivity ratios of $\kappa \ge 10^3$. The assumption built into Zehner-Schlunder's model was of a point contact between grains in the bed. Incorporating the effects of finite-sized contact area, Hsu\etal~corrected the ZS model as
+\begin{equation}
+\begin{split}
+    \frac{\kappa_e}{\kappa_f}={} &(1-\sqrt{1-\epsilon}) + \kappa\sqrt{1-\epsilon}\left(1-\frac{1}{(1+\alpha_0B)^2}\right) \\
+    & + \frac{2\sqrt{1-\epsilon}}{1-B/\kappa + (1-1/\kappa)\alpha_0B}\left[\frac{(1-1/\kappa)(1+\alpha_0)B}{(1-B/\kappa + (1-1/\kappa)\alpha_0B)^2}\ln\left[\frac{1+\alpha_0B}{(1+\alpha_0)B/\kappa}\right] \right.\\
+    & - \left.\frac{B+1+2\alpha_0B}{2(1+\alpha_0B)^2} - \frac{B-1}{(1-B/\kappa+(1-1/\kappa)\alpha_0B)(1+\alpha_0B)} \right]
+\end{split}
+\end{equation}
+where $B$ is no longer found from as a simple deformation parameter but is instead related to $\epsilon$ and $\alpha_0$. Hsu\etal~found best agreement with experimental data when $\alpha_0 = 0.002$ and $\epsilon=0.42$. $B$ can then be found from the solution of
+\begin{equation}
+\begin{split}
+    0 ={} & 1-\frac{B^2}{(1-B)^6(1+\alpha_0B)^2}\bigg[(B^2-4B+3)+2(1+\alpha_0)(1+\alpha_0B)\ln\left(\frac{(1+\alpha_0)B}{1+\alpha_0B}\right)\\
+    &+\alpha_0(B-1)(B^2-2B-1)\bigg]^2 - \epsilon
+\end{split}
+\end{equation}
+
+Bauer and Schlunder \cite{bauer1978effective} also improved on the earlier model of Zehner and Schlunder to include the additional effects of thermal radiation, gas heat transfer in the Knudsen regime, and finite-sized contact areas. The combined model, often called the Zehner-Bauer-Schundler (ZBS) model is calculated as
+\begin{equation}
+    \frac{k_e}{k_f} = \left(1-\sqrt{1-\epsilon}\right)\epsilon\left[\left(\epsilon-1+1/\kappa_G\right)^{-1} + \kappa_r\right]+\sqrt{1-\epsilon}\left(\phi\kappa + (1-\phi)k_c\right)
+\end{equation}
+where
+\begin{equation}
+\begin{split}
+    k_c ={} &\frac{2}{N}\left[\frac{B(\kappa+\kappa_r -1)}{N^2\kappa_G\kappa}\ln\left(\frac{\kappa+\kappa_r}{B(\kappa_G+(1-\kappa_G)(\kappa+\kappa_r))}\right) \right.\\
+    &+\left.\frac{B+1}{2B}\left(\frac{\kappa_r}{\kappa_G} - B\left(1+\frac{1-\kappa_G}{\kappa_G}\kappa_r\right) \right) - \frac{B-1}{N\kappa_G}\right]
+\end{split}
+\end{equation}
+and
+\begin{equation}
+    N = \frac{1}{\kappa_G}\left(1+\frac{\kappa_r-B\kappa_G}{\kappa} \right) + B(1-1/\kappa_G)(1+\kappa_r/\kappa)
+\end{equation}
+and $B$ is given in \Cref{eq:zs-B}. Radiation is incorporated in $\kappa_r$ parameter, given as
+\begin{equation}
+    \kappa_r = \frac{4\sigma}{2/\epsilon_r - 1}\bar{T}^3\frac{d_p}{k_f}
+\end{equation}
+where $\sigma$ is the Stefan-Boltzmann number ($\sigma = $~\SI{5.67e-8}{\watt\per\meter\squared\per\kelvin\tothe{4}}), $\epsilon_r$ is the emissivity of the material in the packing, $d_p$ is the packing diameter (assumed spherical), and $\bar{T}$ is the average, absolute temperature of the system (in \si{\kelvin}). 
+
+Effects due to interstitial gas in the Knudsen regime are defined by the term, $\kappa_G$ given as
+\begin{equation}
+    \kappa_G = \left[1 + \left(\frac{l}{d_p}\right)\right]^{-1}
+\end{equation}
+where $l$ is a modified mean free path of gas molecules,
+\begin{equation}
+    l = 2\frac{2-\alpha_T}{\alpha_T}\left(\frac{2\pi\tilde{R}\bar{T}}{M_g}\right)^{1/2}\cdot\frac{k_f}{P(2c_p - \tilde{R}/M_g)}
+\end{equation}
+where $P$ is the gas pressure (in \si{\pascal}), $\tilde{R}$ is the universal gas constant (in \si{\joule\per\mol\per\kelvin}), and $M_g$ is the molecular mass of the gas (in \si{\kilo\gram\per\mol}). The accommodation factor, $\alpha_T$ is given by Bahrami\etal~(originally given by Song \& Yovanovich) as \cite{Bahrami20063691,song1988relative}
+\begin{equation}
+    \alpha_T = \exp\left[-0.57T_r\right]\left(\frac{M^*}{6.8+M^*}\right) + \frac{2.4\mu}{(1+\mu)^2}\left[1-\exp\left(-0.57T_r\right)\right]
+\end{equation}
+where $T_r = \frac{T_s-\SI{273}{\kelvin}}{\SI{273}{\kelvin}}$, $M^* = M_g$ for monatomic gases or $M^* = 1.4M_g$ for diatomic gases, and $\mu = \frac{M_g}{M_s}$ is the ratio of gas and solid molecular masses. The $\alpha_T$ term, as described by Bahrami\etal~ represents the fraction of kinetic energy that a gas molecule leaves behind as thermal energy on a solid after collision.
+
+In \Cref{fig:kappa-series-parallel-zs-hsus}, we see comparisons of effective conductivity predictions by the three models of Hsu\etal~, Hsu\etal~ modification of ZS model, ZSB correction model, and their differences with the simple ZS correlation.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=\textwidth]{figures/keff-kappa-series-parallel-zs-hsus}
+    \caption{Significant deviation between the Zehner-Schlunder correlation and Hsu\etal~correlations above occurs above $\kappa > 10^3$. All correlations are still bound by parallel and series approximations of the material.}
+    \label{fig:kappa-series-parallel-zs-hsus}
+\end{figure}
+
+The ZSB model incorporates radiation heat transfer into the general expression and calculation of $k_c$ and $N$. Others have attempted to incorporate radiation into an effective thermal conductivity and typically it is done with a superposition of gas/solid conduction models (such as all those described above) with a separate radiation model. One common technique is to analyze a representative unit cell with a thermal radiative conductivity of a general form,
+\begin{equation}
+     k_e^r = 4 F_E^*\sigma d_p \bar{T}^3
+\end{equation} 
+where $F_E^*$ is a radiation exchange factor. Van Antwerpen\etal~describe many researchers' techniques for defining the radiation exchange factors and the simplifications that must appear to allow a closed solution to complicated equations. I will focus on one commonly-used correlation from Breitbach \& Barthels \cite{breitbach1980radiant}.
+
+Breitbach \& Barthels began with the unit cell defined by Zehner \& Schlunder, though noted that the closed cell precluded radiation from voids outside the cell volume. Therefore they modified the correlation via closing the bases of the unit cells with black surfaces instead of with surfaces of the same emissivity as the grains in the bed. The result is given as \cite{breitbach1980radiant}
+\begin{equation}
+    F_E^* = \left[\left(1-\sqrt{1-\epsilon}\right)\epsilon + \frac{\sqrt{1-\epsilon}}{2/\epsilon_r - 1}\cdot\frac{B+1}{B}\cdot\frac{1}{1+\frac{1}{(2/\epsilon_r - 1)\Lambda_f}} \right]
+\end{equation}
+where $B$ is again given by \Cref{eq:zs-B}, and $\Lambda_f = \frac{k_s}{4d_p\sigma\bar{T}^3}$ is a dimensionless solid conductivity for the granular packing.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -240,12 +364,6 @@ A good deal of progress has been made in the field of ceramic pebble bed analysi
 Lastly, no predictive tool is possible without solid validation attempts. The benchmark experiments performed up to now were either too limited in scope or practice. New experiments must be performed that can provide reliable data with which to compare numerical results. Fortunately, a new experimental effort out of KIT has been initiated.\cite{Hernandez2014} The experiment shows great promise at reproducing volumetric heating profiles with substantial data collection efforts. The preliminary results are very promising.
 
 
-\subsection{Experimental Pebble Bed thermomechanics Studies}
-\subsubsubsection{Out-of-pile experiments}
-The constitutive equations developed for finite element models were derived from the uniaxial compression experiments, which are not fully representative of fusion operating conditions. A more prototypical experiment should subject a pebble bed to isostatic loading. This could be generated by either an in-pile pebble bed experiment or by making use of differential thermal expansion between a pebble bed and its containing structure. The latter has been attempted with several out-of-pile experiments launched by the HE-FUS 3 facility at ENEA Brasimone. The experiments investigated the Thermomechanical behavior of pebble beds within geometry much more representative of current breeder designs. These include the medium-scale mock-up exercises of HELICA (HE-FUS3 Lithium Cassette) and HEXCALIBER (HE-FUS3 Experimental Cassette of Lithium Beryllium Pebble Beds) \cite{dellorco:2006,DiMaio20081287}. For those experiments, the pebble layers are heated by electric heaters, and temperature and displacement were measured.
-
-
-
 
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -292,15 +410,7 @@ The effect of thermal cycling on the packing state is of interest; in particular
 
 As the thermophysical properties evolve, global or local bed temperatures change and ultimately the tritium release characteristics of the bed deviate from any prediction one may have had from the initial packing of the ceramic pebble bed. The ceramic solid breeder must continue operating despite the harsh effects of existing in the fusion reactor. And it must continue operating without being replaced or actively maintained. Its important that the solid breeder not simply survive the thermal and mechanical demands of the reactor environment but continue to release predictable and acceptable amounts of tritium. 
 
-\subsection{Pebble Bed thermomechanics Summary}
-A good deal of progress has been made in the field of ceramic pebble bed analysis. Owing to the multi-scale nature of pebble beds, it is unavoidable that multi-scale models are necessary. A framework has been envisioned by our group, shown in Fig.~\ref{fig:framework}, the following of which will contribute substantially to the success of the ceramic breeder blanket development. In this framework, the continuum modeling approach using FEM and empirically derived material constitutive equations is capable of correctly characterizing the stress load to which a breeder pebble bed unit may be subject during reactor operation. The DEM approach analyzes this load and determines the possibility of pebble bed morphological changes; i.e. pebble damage based on the crush load data of pebbles, the degree of sintering depending on the local contact stress and temperature fields, and creep relaxation of contacts. It is only with the combined analysis of particle-scale information from DEM and system-scale information from FEM that warrants a high confidence of success to the assembly and design of breeder units in a blanket.  Experiments should also be conducted to assess the manner of pebble relocations and packing rearrangement when morphological evolution of the pebble bed occurs. It is important to learn if the breeder unit will continue to function in accord with the original design goals under all complex operating conditions.  The ultimate objectives of the pebble bed thermomechanics are: to delineate a near-equilibrium packing state as the initial state, quantify breeder unit thermomechanics parameters during operations, understand how these properties evolve as topographical changes happen in the packing, and ensure breeder functions as it is intended to in the fusion operational phase spaces.
 
-\begin{figure}[t!]
-	\centering
-	\includegraphics[width=\singleimagewidth]{chapters/figures/Fig-11}
-	\caption{Example Pebble Bed thermomechanics Research Framework.}
-	\label{fig:framework}
-\end{figure}
 
 In light of the short discussion above, it is apparent that a thorough study of pebble damage, including the loads on the pebble bed that will lead to broken pebbles as well as the pebble bed's thermophysical responses to broken pebbles, is critically needed for solid breeder design. Unfortunately, pebble bed experiments are inadequate for this need. The majority of measurements are only available for macroscopic properties (\textit{e.g.} uniaxial compression tests for stress-strain responses) or give only maximum measurements of individual pebble responses (\text{e.g.} pressure sensitive layers giving pebble pressures on a wall). The inability of physical experiments to reliably look into the transient inner structure of the pebble bed has driven past solid breeder researchers to employ pebble-scale models. Increasingly reliable and accurate models are crucial in the design of operational solid breeder blanket technologies. In this dissertation, I attempt to advance the field of solid breeder pebble-scale modeling with the introduction of new techniques and tools to incorporate the many facets of pebble damage in a solid breeder.
 

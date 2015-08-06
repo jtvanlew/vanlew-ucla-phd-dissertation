@@ -82,10 +82,9 @@ fig = plt.figure(1)
 ax = fig.gca()
 ax.grid(True)
 
-#ax.plot(kappa, k_tot, label='ZS Model', color='k')
-
 ax.plot(kappa, k_parallel, color=color_idx[1], label='Parallel', linewidth=2)
 ax.plot(kappa, k_series, color=color_idx[0], label='Series', linewidth=2)
+ax.plot(kappa, k_tot, label='Zehner-Schlünder', color=color_idx[3], linewidth=2)
 #ax.scatter(kappa_dig, keff_dig, label='lit. data', marker='o', edgecolors='k', facecolors='none', s=80)
 #ax.scatter(kappa_exp, k_star, label='graphite exp.', marker='s', edgecolors='k', facecolors='none', s=80)
 # the modified effective thermal conductivity given next is something done to appease Alice but doesn't have _much_
