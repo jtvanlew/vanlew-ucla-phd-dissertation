@@ -1,8 +1,6 @@
 \chapter{Literature Review}
 
-The volume of a pebble in a tritium breeder is on the scale of \SI{10e-9}{\cubic\meter} while the typical container volume can be on the order of \SI{10e-2}{\cubic\meter} \cite{Cho2008}.  Thus a single breeder volume will house upwards of $N =$\num{10e7} pebbles. Statistically then, it is reasonable to assume that a ceramic pebble bed can be treated as a fictitous granular material for which continuum theory is applicable. This assumption is the basis of many correlations for heat transfer in granular material. In the first part of this chapter I will review and discuss many current correlations for granulra heat transfer. The continuum assumption also underpins the application of finite element method (FEM) models for breeder pebble beds; constitutive equations are developed from experimental measurements of the macroscopic behavior of pebble beds which are fed into FEM models. In the second half of this chapter I will review the current state of modeling ceramic pebble beds for fusion reactors with FEM models and some benchmarking efforts which have been carried out for those models. 
 
-Correlations for effective properties of heat transfer and the constitutive equations derived from experiments are, however, still incapable of accurate modeling of granular thermomechanics as the granular material evolves in time (based on creep, granular crushing, sintering, \textit{etc.}), thus many researchers of ceramic pebble beds began modeling with the grain-scale discrete element method (DEM). The last part of this chapter revolves around discussion of historical efforts of applying DEM to solid breeders and important results obtained.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -12,7 +10,41 @@ Correlations for effective properties of heat transfer and the constitutive equa
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Generalized Studies of Heat Transfer in Granular Material}
+\section{General Studies of Heat Transfer in Granular Material}\label{sec:granular-ht-correlations}
+
+For packed beds of ceramic spheres filled into tritium breeding modules, we identify the following modes of simultaneous heat transfer:
+\begin{enumerate}
+\item Inter-granular conduction
+\begin{itemize}
+\item Conduction through the contact area between contacting particles.
+\item Conduction through the contact area between particles in contact with structural walls.
+\end{itemize}
+\item Granular-fluid interaction
+\begin{itemize}
+\item Conduction through the stagnant fluid between near, non-contacting particles.
+\item Conduction through the stagnant fluid between contacting particles.
+\item Smoluchowski effect of non-Knudsen fluid conduction in near-granular regions.
+\item Advection of energy by the fluid to contacting- and downstream particles.
+\end{itemize}
+\item{Radiation effects}
+\begin{itemize}
+\item Radiation between the surfaces of contacting particles.
+\item Radiation between the surfaces of particles through adjacent voids.
+\item Heat generation internally in the particle from incident neutron fluxes.
+\end{itemize}
+\end{enumerate}
+
+Historically, granular materials are treated as a fictitious continuous media for which effective properties or correlations are derived. In this section. The volume of a pebble in a tritium breeder is on the scale of \SI{10e-9}{\cubic\meter} while the typical container volume can be on the order of \SI{10e-2}{\cubic\meter} \cite{Cho2008}.  Thus a single breeder volume will house upwards of $N =$\num{10e7} pebbles. Statistically then, it is reasonable to assume that a ceramic pebble bed can be treated as a fictitious granular material for which continuum theory is applicable. This assumption is the basis of many correlations for heat transfer in granular material. The continuum assumption also underpins application of finite element method (FEM) models for breeder pebble beds; constitutive equations are developed from experimental measurements of the macroscopic behavior of pebble beds which are fed into FEM models.
+
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% new subsection
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Effective thermal conductivity of granular media}
+
+
 Deissler and Boegli, in 1958, proposed upper and lower bounds of effective thermal conductivity, $\keff$, in two-phase granular media to be given by alternating layers of the two phases arranged in parallel or series, respectively \cite{Deissler1958}. In the case of parallel layers, effective conductivity, normalized by fluid conductivity, is
 \begin{equation}\label{eq:keff-parallel}
 	\frac{k_e}{k_f} = \epsilon + (1-\epsilon)\kappa
@@ -21,14 +53,14 @@ where $k_f$ is the fluid conductivity, $\kappa = k_s/k_f$ is the ratio of solid 
 \begin{equation}\label{eq:keff-series}
 	\frac{k_e}{k_f} = \frac{1}{\epsilon + (1-\epsilon)/\kappa}
 \end{equation}
-\Cref{eq:keff-parallel,eq:keff-series} act as theoretical upper and lower limits to true effective thermal conductivities of real material. The two effective conductivity correlations are given in \Cref{fig:kappa-series-parallel}
+\Cref{eq:keff-parallel,eq:keff-series} act as theoretical upper and lower limits to true effective thermal conductivities of real material. %The two effective conductivity correlations are given in \Cref{fig:kappa-series-parallel}
 
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=\textwidth]{figures/keff-kappa-series-parallel}
-    \caption{Upper and lower bounds of effective thermal conductivity in two-phase porous media are given by parallel and series approximations of the material, respectively.}
-    \label{fig:kappa-series-parallel}
-\end{figure}
+% \begin{figure}[!h]
+%     \centering
+%     \includegraphics[width=\singleimagewidth]{figures/keff-kappa-series-parallel}
+%     \caption{Upper and lower bounds of effective thermal conductivity in two-phase porous media are given by parallel and series approximations of the material, respectively.}
+%     \label{fig:kappa-series-parallel}
+% \end{figure}
 
 One of the most widely-used correlations was put forth by Zehner and Schlunder in 1970 \cite{Zehner1970,Zehner1972}. They considered a cylindrically-shaped unit cell and made the analogy between heat and mass transfer to derive an empirical fit to data in the bulk of two-phase porous media. The Zehner-Schlunder (ZS) correlation is
 \begin{equation}
@@ -39,14 +71,14 @@ where $B$ is a deformation parameter related to porosity as
     B = 1.25\left(\frac{1-\epsilon}{\epsilon}\right)^{1.11}
 \end{equation}
 
-The Zehner-Schlunder correlation is added to a figure with the parallel and series bounds
+% The Zehner-Schlunder correlation is added to a figure with the parallel and series bounds
 
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=\textwidth]{figures/keff-kappa-series-parallel-zs}
-    \caption{Zehner-Schlunder correlation fitting between the upper and lower bounds of effective thermal conductivity in two-phase porous media are given by parallel and series approximations of the material, respectively.}
-    \label{fig:kappa-series-parallel-zs}
-\end{figure}
+% \begin{figure}[!h]
+%     \centering
+%     \includegraphics[width=\singleimagewidth]{figures/keff-kappa-series-parallel-zs}
+%     \caption{Zehner-Schlunder correlation fitting between the upper and lower bounds of effective thermal conductivity in two-phase porous media are given by parallel and series approximations of the material, respectively.}
+%     \label{fig:kappa-series-parallel-zs}
+% \end{figure}
 
 Following the success of the Zehner-Schlunder correlation, other researchers considered the specialized cases of high thermal conductivity ratio $\kappa \ge 10^3$ when loads on the grains in the bed (due to either an external pressure or the grains own weight) resulted in large contact areas. In these cases, Zehner-Schlunder correlations under-predicted the actual effective conductivity \cite{Aichlmayr2005a}. An extensive review of correlations for effective thermal conductivity with consideration of contact between grains is provided by van Antwerpen\etal \cite{VanAntwerpen2010}. Hsu\etal~considered three lumped parameters models of varying two-dimensional unit cells for which they derived an effective conductivity. The first was for contact square-cylinders. The effective conductivity for this model is
 \begin{equation}
@@ -144,10 +176,178 @@ In \Cref{fig:kappa-series-parallel-zs-hsus}, we see comparisons of effective con
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=\textwidth]{figures/keff-kappa-series-parallel-zs-hsus}
+    \includegraphics[width=\singleimagewidth]{figures/keff-kappa-series-parallel-zs-hsus}
     \caption{Models incorporating contact area demonstrate signficant deviation from the Zehner-Schlunder correlation above $\kappa > 10^3$. All correlations are still bound by parallel and series approximations of the material.}
     \label{fig:kappa-series-parallel-zs-hsus}
 \end{figure}
+
+Van Antwerpen compiled data from numerous publications to compare the accuracy of effective conductivity correlations \cite{VanAntwerpen2010}. For our discussion, I have also plotted the experimental data with all the correlations discussed above, given in \Cref{fig:kappa-experimental}.
+
+Near $\kappa = 1$, all correlations collapse to predict a $\frac{k_e}{k_f} = 1$, and experiments naturally match predictions. From the range of $\kappa > 1$ to $\kappa <1000$, experimental data is well-bound by the predictions of the simple ZS model and the complex two-dimensional models of Hsu\etal. Above $\kappa > 1000$, the ZS model, not taking into account heat transfer through finite-sized contacts, is no longer reliable as a model for $\keff$. In high ranges of $\kappa$, the models incorporating contact-conduction in the granular material remain well-matched to experimental data. The results here show the worth of these general models for predictions of effective conductivity in some granular material.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=\singleimagewidth]{figures/keff-kappa-experimental}
+    \caption{Comparison of $\keff$ correlations with compiled experimental data over a broad range of conductivity ratios, $\kappa$. Data compiled by \cite{VanAntwerpen2010} from many sources.}
+    \label{fig:kappa-experimental}
+\end{figure}
+
+As part of the Ceramic Optimal Material Experiments for Thermomechanics (COMET) project at UCLA, we measured the effective conductivity of $d_p = $~\SI{1}{\milli\meter} graphite (IG11) pebbles for \SIrange{135}{544}{\celsius}. The results will be discussed in more detail later, though the results will be presented here for comparison with the correlations; \Cref{fig:kappa-experimental-comet} shows the COMET data. The measured conductivity from COMET is well above the lower bounds of series approximation for effective conductivity, though is just below the lowest values predicted from Hsu\etal's square-cylinder two-dimensional model. As will be discussed in \Cref{sec:granular-contact-roughness}, we attribute the smaller values of effective conductivity on the surface roughness of the graphite pebbles in conjunction with their small size and small mass. In short, however, the measurements of COMET are also demonstrative of the inaccuracies in general predictions of granular material thermal properties.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=\singleimagewidth]{figures/keff-kappa-experimental-comet}
+    \caption{Comparison of COMET data on IG11 graphite, $\keff$ correlations, and experimental data. Data compiled by \cite{VanAntwerpen2010} from many sources and measured data at UCLA.}
+    \label{fig:kappa-experimental-comet}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% new subsection
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Convection in granular media}\label{sec:particle-convection}
+Historically, in the treatment of packed beds for heat transfer, engineers developed relationships between overall heat transfer coefficients to the log-mean temperature of the bed. The Nusselt number correlation was applicable to the bed overall rather than any discrete particle inside of the bed. The correlations will be useful for validating our models of helium flow through packed beds of lithium ceramics.
+
+Recently, however, experimental and numerical research has focused on the heat transfer at the scale of a particle as a component of dilute or dense packed beds. These correlations will be useful for applying to single discrete elements in our DEM framework.
+\begin{equation}
+    Q_\text{convection} = -hA_r(T_r-T_f)
+\end{equation}
+where $T_r$ is the temperature of the solid with surface area, $A_r$, and $T_f$ is the local bulk temperature of the passing fluid.
+
+In their analysis of solar thermal storage devices, Van Lew\etal~derived a form of heat transfer coefficient based on the Chilton-Colburn analogy.\cite{vanlew133} The form of their solution followed from the form used by Nellis and Klein \cite{Nellis2009} in heat exchangers. The heat transfer coefficient used by Van Lew\etal~reads
+% To determine the coefficient, the details of geometry are required.  Necessary values are the porosity, or void fraction, $\epsilon$, and the cross-sectional surface area of the storage tank, $A_t$.
+
+% The heat transfer coefficient correlation is offered in terms of the Colburn $j_h$ factor.
+% \begin{equation}
+% j_h=\frac{\bar{h}}{G c_f} Pr_f^{2/3}
+% \end{equation}
+% The mass flux, G, is evaluated in terms of the specific surface area and mass flow rate:
+% \begin{equation}
+% G=\frac{\dot{m}}{\epsilon A_t}
+% \end{equation}
+% where $c_f$ is the specific heat capacity of the fluid and $Pr_f$ the Prandtl number of the fluid.  A correlation between $j_h$ and Reynolds number is found.  For a packed bed of spheres a modified Reynolds number has been suggested by Kays and London (1984) and is defined as:
+% \begin{equation}
+% Re=\frac{4 G r_{char}}{\mu_f}
+% \end{equation}
+% where $\mu_f$ is the viscosity of the fluid.  The characteristic radius $r_{char}$ is given as:
+
+% where $d_p$ is the average diameter of the packed bed particle.
+
+% The relationship between Colburn $j_h$ factor and Reynolds number was provided in Nellis and Klein.  The data was replotted and an interpolation yielded a functional relationship as:
+% \begin{equation}
+% jh=0.191 Re^{-.278}
+% \end{equation}
+% Therefore, the heat transfer coefficient is found through rearranging the above relationships, providing Eqn.~\ref{eq:h}:
+
+\begin{equation}\label{eq:vanlew-htc}
+    \Nu =0.191 N_v Re_G^{-.278} Pr_f^{-2/3}
+\end{equation}
+where the dimensionless grouping $N_v = \frac{\dot{m}D_hc_f}{\epsilon A_tk_f}$ and they used a modified Reynolds number based on the mass flux and hydraulic diameter of their storage tank,
+\begin{equation}
+    Re_G=\frac{4 \dot{m} r_{char}}{\epsilon \pi R_t^2\mu_f}
+\end{equation}
+where $R_t$ is the radius of the storage tank and with $r_char$ a characteristic radius (or hydraulic radius) of their packing, 
+\begin{equation}
+    r_{char}=\frac{\epsilon d_p}{4(1-\epsilon)}
+\end{equation}
+and $d_p$ is the nominal diameter of filler material.
+
+While the simulations of thermoclines run by Van Lew\etal~predicted well the results of their experimental data\cite{vanlew133,Valmiki2012a} their correlation for heat transfer coefficient does not match theory as $\Re \rightarrow 0$. In a stationary fluid, $Nu = 2$ but in the correlation of \Cref{eq:vanlew-htc}, as $\Re \rightarrow 0$, $\Nu \rightarrow0$ and thus is not appropriate for the low-Reynolds flows inside the solid breeder volume.
+
+% \subsubsection{Packed beds correlation: Whitaker}
+
+% Definition of Reynolds number
+
+% \begin{equation}
+%   \Re = \frac{D_p G}{\mu_b(1-\epsilon)}
+% \end{equation}
+
+% Definition of Nusselt number
+
+% \begin{equation}
+%   \Nu = \frac{hD_p}{k_f}\frac{\epsilon}{1-\epsilon}
+% \end{equation}
+
+% Definition of h
+
+% \begin{equation}
+%   h_{\ln} = \frac{\dot{Q}}{a_v}V\Delta T_{\ln}
+% \end{equation}
+
+% where $a_v = (A_p/V_p)(1-\epsilon)$ is the surface area per unit volume. And $\delta T_{\ln}$ is the log-mean temperature difference.
+
+% Reference temp, $T^*$
+
+% \begin{equation}
+%   T^* = \frac{1}{2}(T_{f1} + T_{f2})
+% \end{equation}
+
+% Range of Reynolds number
+% $22-8 \times 10^3$
+
+% Range of Prandtl number
+% 0.7
+
+% Range of ($\mu_b/\mu_0$)
+% 1
+
+% Correlation,
+
+% \begin{equation}
+%   \Nu = \left( 0.5 \Re^{1/2} + 0.2\Re^{2/3} \right)\Pr^{1/3}
+% \end{equation}
+
+
+
+Wakao provides
+
+\begin{equation}
+    Nu = 2 + 1.1\Re_p^{0.6} \Pr^{1/3}
+\end{equation}
+
+Li \& Mason provide a correlation 
+\begin{equation}\label{eq:li-mason-correlation-appendix}
+    \Nu = \begin{cases}
+    2+ 0.6\epsilon^n\Re_p^{1/2}\Pr^{1/3}                                        & \Re_p < 200\\
+    2+ 0.5\epsilon^n\Re_p^{1/2}\Pr^{1/3} + 0.02 \epsilon^n \Re_p^{0.8}\Pr^{1/3} & 200 < \Re_p < 1500\\
+    2+ 0.000045\epsilon^n\Re_p^{1/2}                                            & \Re_p > 1500
+    \end{cases}
+\end{equation}
+where they found from experiments that $n=3.5$ was appropriate for 3~mm polymer pellets in dilute flows (small $\phi$). The coefficient needs to be evaluated experimentally for configurations of other particle sizes, packing fractions, or Reynolds numbers.\cite{Li2000}
+
+There are a few other correlations in literature for the Nusselt number. But they are not given as they are either well out of the operation space of our parameters; Bandrowski \& Kaczmarzyk\cite{Bandrowski1977}, that is only for extremely dilute flow at high Reynolds number ($180 < \Re_p < 1800$ and $0.00025 < \phi < 0.05$).
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% \subsubsection{Single pebble correlations}
+
+% For a sphere in an infinite, quiescent fluid where conduction is the only mode of heat transfer, the Nusselt number is identically 2. In all the single particle correlations, that value is the the limit as $\Re \rightarrow 0$. 
+
+% Ranz \& Marshall in 1952 
+
+% Zhou\etal~2009
+
+% \begin{equation}
+%   \Nu_i = 2.0 + 1.2\Re_i^{1/2}Pr^{1/3}
+% \end{equation}
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% new subsection
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Radiation in Granular Media}
+\cite{Romkes2003}
+The temperatures expected in the solid breeder are high enough that we can not a priori neglect radiation. The radiation exchange between contacting neighbors in a packed bed becomes extremely complex due to the local and semi-local nature of radiation. A standard approach to treat radiation exchange between surfaces is to consider the view factor between them. In a dense, randomly packed bed of spheres the computation of view factors between pebbles can be done via a method such as that proposed Feng and Han\cite{Feng2012}. Ideally, we could show this mode of heat transport is negligible compared to the others already discussed.
+
+
 
 The ZSB model incorporates radiation heat transfer into the general expression and calculation of $k_c$ and $N$. Others have attempted to incorporate radiation into an effective thermal conductivity and typically it is done with a superposition of gas/solid conduction models (such as all those described above) with a separate radiation model. One common technique is to analyze a representative unit cell with a thermal radiative conductivity of a general form,
 \begin{equation}
@@ -160,25 +360,6 @@ Breitbach \& Barthels began with the unit cell defined by Zehner \& Schlunder, t
     F_E^* = \left[\left(1-\sqrt{1-\epsilon}\right)\epsilon + \frac{\sqrt{1-\epsilon}}{2/\epsilon_r - 1}\cdot\frac{B+1}{B}\cdot\frac{1}{1+\frac{1}{(2/\epsilon_r - 1)\Lambda_f}} \right]
 \end{equation}
 where $B$ is again given by \Cref{eq:zs-B}, and $\Lambda_f = \frac{k_s}{4d_p\sigma\bar{T}^3}$ is a dimensionless solid conductivity for the granular packing.
-
-
-
-
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% new subsection
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Correlations validated with experimental data}
-
-Van Antwerpen compiled data from numerous publications to compare the accuracy of effective conductivity correlations \cite{VanAntwerpen2010}. For our discussion, I have also plotted the experimental data with all the correlations discussed above, given in \Cref{fig:kappa-experimental}.
-
-Near $\kappa = 1$, all correlations collapse to predict a $\frac{k_e}{k_f} = 1$, and experiments naturally match predictions. From the range of $\kappa > 1$ to $\kappa <1000$, experimental data is well-bound by the predictions of the simple ZS model and the complex two-dimensional models of Hsu\etal. Above $\kappa > 1000$, the ZS model, not taking into account heat transfer through finite-sized contacts, is no longer reliable as a model for $\keff$. In high ranges of $\kappa$, the models incorporating contact-conduction in the granular material remain well-matched to experimental data. The results here show the worth of these general models for predictions of effective conductivity in some granular material.
-
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=\textwidth]{figures/keff-kappa-experimental}
-    \caption{Comparison of $\keff$ correlations with compiled experimental data over a broad range of conductivity ratios, $\kappa$. Data compiled by \cite{VanAntwerpen2010} from many sources.}
-    \label{fig:kappa-experimental}
-\end{figure}
 
 
 An IAEA technical report provides effective conductivity measurements of $d_p =$~\SI{60}{\centi\meter} graphite pebble beds\cite{Report2000}. The data is used to compare against the combined correlations of ZS and BB. The $\keff$ measurements in Helium are given in \Cref{fig:keff-sana-he}, measurements in Nitrogen are given in \Cref{fig:keff-sana-n}. We see that the effective thermal conductivity correlations are significantly under-predicting, over the entire range of temperatures, when compared to experimental values. For the graphite pebble beds measured in the SANA report, we consider the Grashof number for the packing. The Grashof number is indicative of natural convection effects in the voids. The Grashof number is written as
@@ -198,27 +379,170 @@ With a Grashof number significantly higher for the SANA experiments, it is indic
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=\textwidth]{figures/keff-sana-he}
+    \includegraphics[width=\singleimagewidth]{figures/keff-sana-he}
     \caption{Comparison of SANA data in Helium gas with Zehner-Schlunder and Breitbach-Bartels correlations. Data from IAEA Tecdoc-1163\cite{Report2000}.}
     \label{fig:keff-sana-he}
 \end{figure}
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=\textwidth]{figures/keff-sana-n}
+    \includegraphics[width=\singleimagewidth]{figures/keff-sana-n}
     \caption{Comparison of SANA data in Nitrogen gas with Zehner-Schlunder and Breitbach-Bartels correlations. Data from IAEA Tecdoc-1163\cite{Report2000}.}
     \label{fig:keff-sana-n}
 \end{figure}
 
-As part of the Ceramic Optimal Material Experiments for Thermomechanics (COMET) project at UCLA, we measured the effective conductivity of $d_p = $~\SI{1}{\milli\meter} graphite (IG11) pebbles for \SIrange{135}{544}{\celsius}. The results will be discussed in more detail later, though the results will be presented here for comparison with the correlations; \Cref{fig:kappa-experimental-comet} shows the COMET data. The measured conductivity from COMET is well above the lower bounds of series approximation for effective conductivity, though is just below the lowest values predicted from Hsu\etal's square-cylinder two-dimensional model. As will be discussed in \Cref{sec:granular-contact-roughness}, we attribute the smaller values of effective conductivity on the surface roughness of the graphite pebbles in conjunction with their small size and small mass. In short, however, the measurements of COMET are also demonstrative of the inaccuracies in general predictions of granular material thermal properties.
+\FloatBarrier
 
-\begin{figure}[!h]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% new section
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Momentum transfer in packed beds with fluid flow} \label{sec:modeling-pressure-drop}
+Present three major correlations for pressure drop and drag force for fluid flow in packed beds and discuss their range of applicability.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Hill, Kock, \& Ladd\cite{Hill2001a}
+
+% small Reynolds numbers
+
+% simple cubic, face-centered cubic, random arrays
+
+% drag force phi --> close-packed limits
+
+% for small solid volume fraction, simulation similar to theory, therefore first inertial contribution to the drag force, when scaled with the Stokes drag force on a single sphere in open fluid, is proportional to the square of the Re #. Scaling persists --> close-packed limits.
+
+% Inertial contribution to the drag force decreases with increasing solid volume fraction.
+
+% Unsteady force is dominated by quasi-steady drag and added-mass forces.
+
+P.C. Carman\cite{Carman1997}, using Kozeny's Equation as a starting point, derived a formula for the average velocity of a laminar flow through a randomly packed beds at the close-packed limit,
+\begin{equation}\label{eq:K-C-velocity}
+    \bar{U} = \left(\frac{L}{L_e}\right)^2\frac{\epsilon^3}{k_0\mu S^2}\frac{\Delta p}{L}
+\end{equation}
+where $\mu$ is the viscosity, Carman called the tortuosity ($L_e/L$) the ratio of the actual path of a streamline through the pore space, $L_e$, to the length of packing, $L$. $S$ is the particle surface area per unit volume of the bed. For a bed of spheres this is $S = 6(1-\epsilon)/d_p$, $\epsilon$ is the void fraction, and constant, $k$, varies between materials and packings but for regular spheres is found experimentally to be $k\approx 5.0$. The pressure drop per unit length of flow is $\Delta p/L$.
+
+We rearrange \Cref{eq:K-C-velocity} as
+\begin{equation}\label{eq:K-C-pressure}
+    \frac{\Delta p}{L} = \frac{180 \bar{U} \mu}{d_p^2} \frac{(1-\epsilon)^2}{\epsilon^3}
+\end{equation}
+
+The pressure gradient acting upon the fluid in the packed bed must be balanced by the drag force of all the particles in the bed. If we assume some average force, $\langle f \rangle$, as the ensemble average of the particle drag forces, we can write
+\begin{equation}
+    \frac{\Delta p}{L} = n \langle f \rangle
+\end{equation}
+where $n$ is the number density of particles in the bed. We relate the number density in terms of the packing fraction as
+\begin{equation}
+    n = \frac{6\phi}{\pi d_p^3} = \frac{6(1-\epsilon)}{\pi d_p^3}
+\end{equation}
+
+Thus the average drag per particle in this flow is
+\begin{equation}\label{eq:average-drag}
+    \langle f \rangle = \frac{\Delta p}{L}\frac{\pi d_p^3}{6(1-\epsilon)}
+\end{equation}
+
+We will nondimensionalize the average drag force based on the classic Stokes force -- the drag force of a single particle in unbounded fluid,
+\begin{equation}\label{eq:non-dim-drag}
+    F = \frac{\langle f \rangle}{3\pi \mu d_p U}
+\end{equation}
+and when e plug in \Cref{eq:average-drag} to \Cref{eq:non-dim-drag} we have
+
+\begin{equation}
+    F_{kc} = \frac{\Delta p}{L}\frac{\pi d_p^3}{6(1-\epsilon)}\frac{1}{3\pi \mu d_p U}
+\end{equation}
+which, with the substitution of the Kozeny-Carman pressure (\Cref{eq:K-C-pressure}), becomes
+\begin{equation}
+    F_{kc} = \frac{180 U \mu}{d_p^2} \frac{(1-\epsilon)^2}{\epsilon^3}\frac{\pi d_p^3}{6(1-\epsilon)}\frac{1}{3\pi \mu d_p U}
+\end{equation}
+or simply
+\begin{equation}\label{eq:K-C-non-dim}
+    F_{kc} = 10\, \frac{1-\epsilon}{\epsilon^3}
+\end{equation}
+
+Carman himself\cite{Carman1956} points out the limitations of applicability of the Kozeny-Carman (KC) equation: built into the equation is the assumption that the range of pore size and shape is fairly isotropic and similarly the tortuosity through the packed bed is relatively uniform. In the form we have used with \Cref{eq:K-C-non-dim}, we have also assumed spherical particles in random packing near the close-packed limit ($\phi \rightarrow 0.64$) with laminar flow at low Reynolds numbers. Carman provided modifications to cases of extremely high porosity and non-spherical, non-regular packings in his book from 1956.\cite{Carman1956}
+
+Another correlation that is perhaps more commonly used in general is the Ergun equation \cite{ergun1952fluid}. Ergun's equation is an empirical fit to a vast amount of experimental data. His pressure drop per length is 
+\begin{equation}\label{eq:ergun-pressure}
+    \frac{\Delta p}{L} = \frac{150 U \mu}{d_p^2} \frac{(1-\epsilon)^2}{\epsilon^3} + \frac{1.75 \rho U^2}{d_p}\frac{1-\epsilon}{\epsilon^3}
+\end{equation}
+
+We nondimensionalize the Ergun equation of \Cref{eq:ergun-pressure} by Stokes flow solution, as done to derive \Cref{eq:K-C-non-dim}, to find
+\begin{equation}\label{eq:ergun-non-dim}
+    F_e = 8.33 \, \frac{1-\epsilon}{\epsilon^3} + 0.18 \, \frac{\Re}{\epsilon^3}
+\end{equation}
+where we see the Reynolds number dependence in the second term on the right side of \Cref{eq:ergun-non-dim}. Comparing this to the nondimensionalized drag force of the Kozeny-Carman relation (\Cref{eq:K-C-non-dim}), we see that the first term on the right hand side is essentially the same but Ergun's equation underpredicts Stokes flow by roughly 20\% (comparing the leading coefficient of 8.33 to 10.0). This is understandable as Ergun's equation was meant to fit a wide range of flow (finite-to-large $\Re$), including turbulent flow, whereas the Kozeny-Carman was meant specifically to apply to Stokes flow-type laminar packed beds.
+
+Koch, Hill, \& Ladd studied packed bed flow with high-precision lattice-Boltzmann simulations to develop correlations for drag in a packed bed over a wide range of packing fractions and Reynolds numbers \cite{Koch2001,Hill2001a,Hill2001}. They studied ordered arrays of spheres at various flow angles with dilute arrays (interstitial Reynolds number greater than particle Reynolds number), up to dense ordered arrays, and random arrays.
+
+They consider the drag force as a sum of viscous and inertial stresses. Based on scaling arguments, the viscous and inertial contributions to $F$ are expected to be independent of $\Re$ and linearly proportional to $\Re$, respectively (in much the same form as Ergun's empirical fit of \Cref{eq:ergun-non-dim}). Thus their numerical results were fit to the form
+\begin{equation}\label{eq:khl-non-dim}
+    F = F_0(\phi) + F_3(\phi)\Re
+\end{equation}
+where, from their lattice-Boltzmann simulations they found,
+\begin{equation}\label{eq:khl-f0}
+F_0 = \begin{cases}
+    \frac{1+3(\phi/2)^{1/2} + (135/64)\phi\ln\phi + 16.14\phi}{1 + 0.681\phi - 8.48 \phi^2 + 8.16\phi^3} & \text{if $\phi < 0.4$}\\
+    10.0\,\frac{\phi}{(1-\phi)^3} & \text{if $\phi > 0.4$} 
+    \end{cases}
+\end{equation}
+and
+\begin{equation}\label{eq:khl-f3}
+    F_3 = 0.0673 + 0.212\phi + 0.0232 \frac{1}{(1-\phi)^5}
+\end{equation}
+
+Koch, Hill, \& Ladd\cite{Hill2001, Koch2001, Gruber2012, Benyahia2006} also compared their results with data from experiments. They found that at smaller Reynolds number and larger solid volume fractions, the rate of increase of drag force increases with the Reynolds number in much the same way predicted by Ergun’s equation. However, at solid volume fractions smaller than those that can be achieved in physical experiments, at the largest Reynolds numbers, the rate of drag force increase is significantly smaller than the value predicted by Ergun's equation.
+
+For Stokes-flow (and near-Stokes-flow), the drag force computed from their lattice-Boltzmann simulations were indistinguishable from experimental data over all ranges of packing fractions achievable in controlled experiments. Their correlation for small Reynolds number and large packing fraction is simply the Kozeny-Carman relationship -- which was itself generated with coefficients matching experimental data so it is no surprise their correlation fits that phase space of $\phi-\Re$.
+
+
+Three correlations relating a nondimensional drag force to packing fraction and Reynolds number have been presented. The first, the Kozeny-Carman equation, \Cref{eq:K-C-non-dim}, was derived assuming small Reynolds numbers with a broad range of packing fraction. The second, the Ergun equation, \Cref{eq:ergun-non-dim}, is meant to be applicable over a broad range of Reynolds number due to its origins as an empirical fit from experimental data but, by the same token, is limited to experimentally attainable packing fractions. Finally, the third correlation by Koch, Hill, \& Ladd (KHL), \Cref{eq:khl-non-dim,eq:khl-f0,eq:khl-f3} was numerically developed to provide drag correlations over a much more broad packing fraction and Reynolds numbers than is possible with physical experiments. 
+
+Here I provide a graphical comparison of the relationships that compares the three correlations: KC, Ergun, and KHL.
+\begin{figure}[!ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/keff-kappa-experimental-comet}
-    \caption{Comparison of COMET data on IG11 graphite, $\keff$ correlations, and experimental data. Data compiled by \cite{VanAntwerpen2010} from many sources and measured data at UCLA.}
-    \label{fig:kappa-experimental-comet}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/pressure-drop-correlations/Re0.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/pressure-drop-correlations/Re10.png}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/pressure-drop-correlations/Re20.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/pressure-drop-correlations/Re30.png}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/pressure-drop-correlations/Re40.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/pressure-drop-correlations/Re50.png}
+    \end{subfigure}
+    \caption{Comparison of pressure drop correlations over a range of packing fractions and Reynolds numbers.}
+\label{fig:p-drop-correlations}
 \end{figure}
 
 \FloatBarrier
+
+
+
+
+
+
+
+
+
 
 
 
@@ -355,18 +679,18 @@ However, it must be noted that the benchmarking efforts are incomplete and incon
 
 
 \begin{figure}[t!]
-\centering
-\includegraphics[width=\singleimagewidth]{figures/Fig-8}
-\caption{Exemplary results of the DIN benchmarking with HELICA: Temperature variations with time during a loading cycle at 100 mm from FW\cite{DellOrco:2007hc}.}
-\label{fig:DIN_HELICA}
+    \centering
+    \includegraphics[width=\singleimagewidth]{figures/Fig-8}
+    \caption{Exemplary results of the DIN benchmarking with HELICA: Temperature variations with time during a loading cycle at 100 mm from FW\cite{DellOrco:2007hc}.}
+    \label{fig:DIN_HELICA}
 \end{figure}
 
 
- \begin{figure}[t!]
-\centering
-\includegraphics[width=\singleimagewidth]{figures/Fig-9}
-\caption{Exemplary results of the DIN benchmarking with HEXCALIBER : Temperature variations with time during a loading cycle within the first lithium-orthosilicate cell\cite{DellOrco:2010zr}.}
-\label{fig:DIN_HEX}
+\begin{figure}[t!]
+    \centering
+    \includegraphics[width=\singleimagewidth]{figures/Fig-9}
+    \caption{Exemplary results of the DIN benchmarking with HEXCALIBER : Temperature variations with time during a loading cycle within the first lithium-orthosilicate cell\cite{DellOrco:2010zr}.}
+    \label{fig:DIN_HEX}
 \end{figure}
 
 
@@ -377,6 +701,8 @@ However, it must be noted that the benchmarking efforts are incomplete and incon
 % new subsection
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \subsection{Discrete Element Method for Solid Breeders of Tritium}
+
+Correlations for effective properties of heat transfer and the constitutive equations derived from experiments are, however, still incapable of accurate modeling of granular thermomechanics as the granular material evolves in time (based on creep, granular crushing, sintering, \textit{etc.}), thus many researchers of ceramic pebble beds began modeling with the grain-scale discrete element method (DEM). The last part of this chapter revolves around discussion of historical efforts of applying DEM to solid breeders and important results obtained.
 
 A thorough review of the physics behind DEM will be given in \cref{sec:dem-studies}. For now, we will simply discuss some major results of the implementation of DEM in past solid breeder research.
 
@@ -396,7 +722,7 @@ Recently, the effect of the pebble size distribution on the overall thermomechan
 
 \begin{figure}[!ht]
     \centering
-    \begin{minipage}{0.45\textwidth}
+    \begin{minipage}{0.45\singleimagewidth}
     \includegraphics[width=6cm]{figures/Fig-3}
     \begin{picture}(15,15)(340,-120)
     \put(330,-80){\includegraphics[scale=1]{figures/Fig-3b}}
