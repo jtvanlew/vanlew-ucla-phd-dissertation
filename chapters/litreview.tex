@@ -216,106 +216,94 @@ As part of the Ceramic Optimal Material Experiments for Thermomechanics (COMET) 
 % new subsection
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \subsection{Convection in granular media}\label{sec:particle-convection}
-Historically, in the treatment of packed beds for heat transfer, engineers developed relationships between overall heat transfer coefficients to the log-mean temperature of the bed. The Nusselt number correlation was applicable to the bed overall rather than any discrete particle inside of the bed. The correlations will be useful for validating our models of helium flow through packed beds of lithium ceramics.
+For a sphere in an infinite, quiescent fluid where conduction is the only mode of heat transfer, the Nusselt number is identically 2. In all the single particle correlations, that value is the the limit as $\Re \rightarrow 0$.
 
-Recently, however, experimental and numerical research has focused on the heat transfer at the scale of a particle as a component of dilute or dense packed beds. These correlations will be useful for applying to single discrete elements in our DEM framework.
+Whitaker in 1972 \cite{Whitaker1972}
+Definition of Reynolds number
 \begin{equation}
-    Q_\text{convection} = -hA_r(T_r-T_f)
+  \Re = \frac{D_p G}{\mu_b(1-\epsilon)}
 \end{equation}
-where $T_r$ is the temperature of the solid with surface area, $A_r$, and $T_f$ is the local bulk temperature of the passing fluid.
-
-In their analysis of solar thermal storage devices, Van Lew\etal~derived a form of heat transfer coefficient based on the Chilton-Colburn analogy.\cite{vanlew133} The form of their solution followed from the form used by Nellis and Klein \cite{Nellis2009} in heat exchangers. The heat transfer coefficient used by Van Lew\etal~reads
-% To determine the coefficient, the details of geometry are required.  Necessary values are the porosity, or void fraction, $\epsilon$, and the cross-sectional surface area of the storage tank, $A_t$.
-
-% The heat transfer coefficient correlation is offered in terms of the Colburn $j_h$ factor.
-% \begin{equation}
-% j_h=\frac{\bar{h}}{G c_f} Pr_f^{2/3}
-% \end{equation}
-% The mass flux, G, is evaluated in terms of the specific surface area and mass flow rate:
-% \begin{equation}
-% G=\frac{\dot{m}}{\epsilon A_t}
-% \end{equation}
-% where $c_f$ is the specific heat capacity of the fluid and $Pr_f$ the Prandtl number of the fluid.  A correlation between $j_h$ and Reynolds number is found.  For a packed bed of spheres a modified Reynolds number has been suggested by Kays and London (1984) and is defined as:
-% \begin{equation}
-% Re=\frac{4 G r_{char}}{\mu_f}
-% \end{equation}
-% where $\mu_f$ is the viscosity of the fluid.  The characteristic radius $r_{char}$ is given as:
-
-% where $d_p$ is the average diameter of the packed bed particle.
-
-% The relationship between Colburn $j_h$ factor and Reynolds number was provided in Nellis and Klein.  The data was replotted and an interpolation yielded a functional relationship as:
-% \begin{equation}
-% jh=0.191 Re^{-.278}
-% \end{equation}
-% Therefore, the heat transfer coefficient is found through rearranging the above relationships, providing Eqn.~\ref{eq:h}:
-
-\begin{equation}\label{eq:vanlew-htc}
-    \Nu =0.191 N_v Re_G^{-.278} Pr_f^{-2/3}
-\end{equation}
-where the dimensionless grouping $N_v = \frac{\dot{m}D_hc_f}{\epsilon A_tk_f}$ and they used a modified Reynolds number based on the mass flux and hydraulic diameter of their storage tank,
+Definition of Nusselt number
 \begin{equation}
-    Re_G=\frac{4 \dot{m} r_{char}}{\epsilon \pi R_t^2\mu_f}
+  \Nu = \frac{hD_p}{k_f}\frac{\epsilon}{1-\epsilon}
 \end{equation}
-where $R_t$ is the radius of the storage tank and with $r_char$ a characteristic radius (or hydraulic radius) of their packing, 
+Definition of h
 \begin{equation}
-    r_{char}=\frac{\epsilon d_p}{4(1-\epsilon)}
+  h_{\ln} = \frac{\dot{Q}}{a_v}V\Delta T_{\ln}
 \end{equation}
-and $d_p$ is the nominal diameter of filler material.
-
-While the simulations of thermoclines run by Van Lew\etal~predicted well the results of their experimental data\cite{vanlew133,Valmiki2012a} their correlation for heat transfer coefficient does not match theory as $\Re \rightarrow 0$. In a stationary fluid, $Nu = 2$ but in the correlation of \Cref{eq:vanlew-htc}, as $\Re \rightarrow 0$, $\Nu \rightarrow0$ and thus is not appropriate for the low-Reynolds flows inside the solid breeder volume.
-
-% \subsubsection{Packed beds correlation: Whitaker}
-
-% Definition of Reynolds number
-
-% \begin{equation}
-%   \Re = \frac{D_p G}{\mu_b(1-\epsilon)}
-% \end{equation}
-
-% Definition of Nusselt number
-
-% \begin{equation}
-%   \Nu = \frac{hD_p}{k_f}\frac{\epsilon}{1-\epsilon}
-% \end{equation}
-
-% Definition of h
-
-% \begin{equation}
-%   h_{\ln} = \frac{\dot{Q}}{a_v}V\Delta T_{\ln}
-% \end{equation}
-
-% where $a_v = (A_p/V_p)(1-\epsilon)$ is the surface area per unit volume. And $\delta T_{\ln}$ is the log-mean temperature difference.
-
-% Reference temp, $T^*$
-
-% \begin{equation}
-%   T^* = \frac{1}{2}(T_{f1} + T_{f2})
-% \end{equation}
-
-% Range of Reynolds number
-% $22-8 \times 10^3$
-
-% Range of Prandtl number
-% 0.7
-
-% Range of ($\mu_b/\mu_0$)
-% 1
-
-% Correlation,
-
-% \begin{equation}
-%   \Nu = \left( 0.5 \Re^{1/2} + 0.2\Re^{2/3} \right)\Pr^{1/3}
-% \end{equation}
+where $a_v = (A_p/V_p)(1-\epsilon)$ is the surface area per unit volume. And $\delta T_{\ln}$ is the log-mean temperature difference.
+Reference temp, $T^*$
+\begin{equation}
+  T^* = \frac{1}{2}(T_{f1} + T_{f2})
+\end{equation}
+Range of Reynolds number
+$22-8 \times 10^3$
+Range of Prandtl number
+0.7
+Range of ($\mu_b/\mu_0$)
+1
+Correlation,
+\begin{equation}
+  \Nu = \left( 0.5 \Re^{1/2} + 0.2\Re^{2/3} \right)\Pr^{1/3}
+\end{equation}
 
 
+
+
+
+Gao\etal used thermal lattice-Boltzmann simulations to develop Nusselt number correlations in porous media with natural convection\cite{Gao2014}
+
+
+
+
+
+In a CFD-DEM study of \cite{Swasdisevi2005}, the Ranz-Marshall correlation 
+\begin{equation}
+    \Nu = 2.0 + 0.6\Pr^{1/3}\Re^{1/2}
+\end{equation}
+
+
+
+
+In a CFD-DEM study by Rickelt\etal,\cite{Rickelt2013} they used correlations from Gnielinski (whcih is also used by Achenbach\cite{Achenbach199517}) which covers $\Re$ up to \num{10e5} and $\Pr$ from \numrange{0.7}{7e4}
+\begin{equation}
+    \Nu_p = 2 + \sqrt{\Nu^2_{lam} + \Nu^2_{tur}}
+\end{equation}
+where
+\begin{equation}
+    \Nu_{lam} = 0.664\Re^{1/2}\Pr^{1/3}
+\end{equation}
+and
+\begin{equation}
+    \Nu_{turb} = \frac{0.037 \Re^{0.8}\Pr}{1 + 2.443\Re^{-0.1}(\Pr^{2/3}-1)}
+\end{equation}
+then
+\begin{equation}
+    \Nu = f_\epsilon\Nu_p
+\end{equation}
+where
+\begin{equation}
+    f_\epsilon = 1 + 1.5(1-\epsilon)
+\end{equation}
+
+
+
+
+Yang \& Garimella, studying solar thermal energy storage used the correlation from Wakao Kaguei. They have\cite{Yang2010}
+\begin{equation}
+    \Nu = 6(1-\epsilon)(2 + 1.1\Re_L^{0.6}\Pr_L^{1/3})
+\end{equation}
+where $\Re_L$ and $\Pr_L$ are the local Reynolds and Prandtl numbers.
 
 Wakao provides
-
 \begin{equation}
     Nu = 2 + 1.1\Re_p^{0.6} \Pr^{1/3}
 \end{equation}
 
-Li \& Mason provide a correlation 
+
+
+
+Li \& Mason compared many correlations for Nusselt number for a single particle. They use Ranz \& Marshall correlation up to $\Re = 200$. Then the middle range is a modified form of Kemp and the last case for large Reynolds number is from a modified Frantz
 \begin{equation}\label{eq:li-mason-correlation-appendix}
     \Nu = \begin{cases}
     2+ 0.6\epsilon^n\Re_p^{1/2}\Pr^{1/3}                                        & \Re_p < 200\\
@@ -325,26 +313,102 @@ Li \& Mason provide a correlation
 \end{equation}
 where they found from experiments that $n=3.5$ was appropriate for 3~mm polymer pellets in dilute flows (small $\phi$). The coefficient needs to be evaluated experimentally for configurations of other particle sizes, packing fractions, or Reynolds numbers.\cite{Li2000}
 
-There are a few other correlations in literature for the Nusselt number. But they are not given as they are either well out of the operation space of our parameters; Bandrowski \& Kaczmarzyk\cite{Bandrowski1977}, that is only for extremely dilute flow at high Reynolds number ($180 < \Re_p < 1800$ and $0.00025 < \phi < 0.05$).
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% \subsubsection{Single pebble correlations}
-
-% For a sphere in an infinite, quiescent fluid where conduction is the only mode of heat transfer, the Nusselt number is identically 2. In all the single particle correlations, that value is the the limit as $\Re \rightarrow 0$. 
-
-% Ranz \& Marshall in 1952 
-
-% Zhou\etal~2009
-
-% \begin{equation}
-%   \Nu_i = 2.0 + 1.2\Re_i^{1/2}Pr^{1/3}
-% \end{equation}
 
 
+
+
+In their analysis of solar thermal storage devices, Van Lew\etal~derived a form of heat transfer coefficient based on the Chilton-Colburn analogy\cite{vanlew133}. The form of their solution followed from the form used by Nellis and Klein \cite{Nellis2009} in heat exchangers. The heat transfer coefficient used by Van Lew\etal~reads
+\begin{equation}\label{eq:vanlew-htc}
+    \Nu =0.191 N_v Re_G^{-.278} Pr_f^{-2/3}
+\end{equation}
+where the dimensionless grouping $N_v = \frac{\dot{m}D_hc_f}{\epsilon A_tk_f}$. They used a modified Reynolds number based on the mass flux and hydraulic diameter of their storage tank,
+\begin{equation}
+    Re_G=\frac{4 \dot{m} r_{char}}{\epsilon \pi R_t^2\mu_f}
+\end{equation}
+where $R_t$ is the radius of the container and with $r_char$ a characteristic radius (or hydraulic radius) of their packing, 
+\begin{equation}
+    r_{char}=\frac{\epsilon d_p}{4(1-\epsilon)}
+\end{equation}
+and $d_p$ is the nominal diameter of filler material.
+
+While the simulations of thermoclines run by Van Lew\etal~predicted well the results of their experimental data\cite{vanlew133,Valmiki2012a} their correlation for heat transfer coefficient does not match theory as $\Re \rightarrow 0$. In a stationary fluid, $Nu = 2$ but in the correlation of \Cref{eq:vanlew-htc}, as $\Re \rightarrow 0$, $\Nu \rightarrow0$ and thus is not appropriate for the low-Reynolds flows inside the solid breeder volume.
+
+
+
+
+
+
+
+Bandrowski \& Kaczmarzyk\cite{Bandrowski1977} investigated gas-to-particle heat transfer for pneumatically conveyed spherical particles, their data fit the relationship
+\begin{equation}
+     \Nu = 0.00114\epsilon^{-0.5984}\Re_p^{0.8159}
+\end{equation}
+Although Bandrowski \& Kaczmarzyk\cite{Bandrowski1977} is only for extremely dilute flow at high particle Reynolds number ($180 < \Re_p < 1800$ and $0.00025 < \phi < 0.05$).
+
+
+
+
+
+
+Romkes\etal~ show generalized forms of Nusselt number of the form
+\begin{equation}
+    \Nu = c_1 + c_2\Re^{n}\Pr^{1/3}
+\end{equation}
+where the constants are defined based on the style of packing. They consider
+\begin{enumerate}
+\item particle-to-fluid heat transfer of a single free sphere in a static infinite medium
+\item particle-to-fluid heat transfer of a single free sphere in a flowing fluid
+\item wall-to-fluid heat transfer of an empty channel with laminar flow
+\item wall-to-fluid heat transfer of an empty channel with turbulent flow
+\item particle-to-fluid heat transfer of a tube filled with catalyst particles
+\end{enumerate}
+
+For (1), $\Nu = 2$ in steady-state. For (3), in a fully-developed region, $\Nu = 3.66$ for constant temperature boundary conditions and $\Nu = 4.36$ for constant heat flux boundary conditions. 
+
+Romkes\etal~give Ranz \& Marshall, Whitaker, and Achenbach correlations, respectively, as correlations for (2) when there is an infinite medium surrounding a single sphere
+\begin{equation}
+    \Nu = 2 + 0.66\Re^{0.5}\Pr^{0.33}
+\end{equation}
+for $\Re$ in the range \numrange{10}{1e4}, and $\Pr > 0.7$. (assuming $\Pe \gg 1$).
+\begin{equation}
+    \Nu = 2 + (0.4\Re^{0.5}+0.06\Re^{0.67})\Pr^{0.4}
+\end{equation}
+for $\Re$ in the range \numrange{3.5}{7.6e4}, and $\Pr$ in the range \numrange{0.7}{380}
+\begin{equation}
+    \Nu = 2.0 + \left(\frac{1}{4}\Re + \num{3e-4}\Re^{1.6}\right)
+\end{equation}
+for $\Re$ in the range \numrange{1e2}{2e5}
+
+Romkes\etal~give a `conventional engineering relation' for heat transfer in a randomly packed bed as
+\begin{equation}
+    \Nu = (1.8\pm 0.3)\Re^{1/2}\Pr^{1/3}
+\end{equation}
+for $\epsilon = 0.4$, $\Re$ in the range \numrange{30}{3e3}, and $\Pr \ge 1$. And he sites that $c_1$ in the above equation is dropped as in ERG Eckert from 1956 transactions of ASME 56, and Gnielinksi in a 1978 publication.
+
+
+Visser's thesis notes \cite{Visser2007} that the correlation of Gnielinksi is valid for $\Re$ in \numrange{500}{1000}, for $\epsilon$ \numrange{0.26}{1.0}. Achenbach correlation is for $\Re > 1$ and $\epsilon = 0.387$. So he uses Gunn 
+\begin{equation}
+    \Nu_p = (7-10\epsilon+5\epsilon^2)(1+0.7\Re_p^{0.2}\Pr^{1/3})+(1.33-2.4\epsilon+1.2\epsilon^2)\Re_p^{0.7}\Pr^{1/3}
+\end{equation}
+Amritkar\etal also used\cite{Amritkar2014} a form given by Gunn in 1978
+\begin{equation}
+    \Nu = (7-10\epsilon+5\epsilon^2)(1+0.7\Re_p^{0.2}\Pr^{1/3})+(1.33-2.4\epsilon+1.2\epsilon^2)\Re_p^{0.7}\Pr^{1/3}
+\end{equation}
+
+
+Zhou\etal\cite{Zhou2009} use the form
+\begin{equation}
+    \Nu_i = 2+a\Re_i^b\Pr^{1/3}
+\end{equation}
+then from Kunii and Levenspiel, choose $b =0.5$ and hvae $a$ in the range of 0.6 to 1.8. They cite literate of bed conditions similar to their own to choose $a = 1.2$, thus
+\begin{equation}
+    \Nu_i = 2 + + 0.2\Re_i^{1/2}\Pr^{1/3}
+\end{equation}
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % new subsection
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \subsection{Radiation in Granular Media}
-\cite{Romkes2003}
+
 The temperatures expected in the solid breeder are high enough that we can not a priori neglect radiation. The radiation exchange between contacting neighbors in a packed bed becomes extremely complex due to the local and semi-local nature of radiation. A standard approach to treat radiation exchange between surfaces is to consider the view factor between them. In a dense, randomly packed bed of spheres the computation of view factors between pebbles can be done via a method such as that proposed Feng and Han\cite{Feng2012}. Ideally, we could show this mode of heat transport is negligible compared to the others already discussed.
 
 
