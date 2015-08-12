@@ -36,7 +36,7 @@ fig, (ax1, ax2) = plt.subplots(1, 2)
 N = 10
 ax1 = plt.subplot2grid((N,N), (0,0), colspan=N-1, rowspan=N)
 ax2 = plt.subplot2grid((N,N), (0,N-1), rowspan=N)
-ax1.set_axis_bgcolor((120./255,120./255,120./255))
+#ax1.set_axis_bgcolor((78./255,78./255,78./255))
 
 
 

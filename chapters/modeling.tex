@@ -1,6 +1,6 @@
 \chapter{Development of Discrete Element Method for Pebble Bed Solid Breeders}\label{ch:modeling-development}
 
-In this chapter I will cover the background of the discrete element method (DEM), the physics governing interactions of the distinct grains in the numerical framework, and 
+In this chapter I walk through the physics governing granular interaction in our discrete element method model. I begin with the kinematics framework which simply states that physical granular interactions obey Newton's laws of motion -- which we integrate in time. Contact mechanics models dictate the normal and tangential forces of interacting grains that feed into the generic kinematic equations; the choice of contact model thus largely dictates the overall behavior of the granular material. I will then introduce the granular heat conductance model implemented in DEM which too is reliant upon the chosen contact model. The contact model we use is based on Hertz's solution for elastic bodies -- thus the Young's modulus of the grain is an important property for our models and I spend some time exposing a new phenomenological model for the ceramic pebble elasticities. Lastly, I take advantage of single-pebble experiments of crush loads to develop a predictive model for granular crushing as well as fragmentation modeling techniques in a numerical ensemble.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -11,8 +11,7 @@ In this chapter I will cover the background of the discrete element method (DEM)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Grain-scale Modeling} \label{sec:modeling-dem}
 
-The observable, macroscopic behavior of particulate, or granular, systems is a complex function of myriad particle interactions. Historically, empirical relationships have been used to describe these systems as if a continuous media, \textit{e.g.} the correlations for heat transfer discussed in \cref{sec:granular-ht-correlations}. But with the advent of the discrete element method by Cundall and Strack and the acceleration of computing power, it became practical to investigate these particulate systems at the particle scale without continuum assumptions \cite{Cundall1979}. With DEM, we track all the particles in the system in a Lagrangian manner. In the ensemble, the kinematics of each particle is tracked and updated based on balances (or imbalances) of forces or energy acting upon the particle. In this section I will work through equations governing interaction of particles in the DEM framework, the methods of computation, and the code used for implementation.
-
+The observable, macroscopic behavior of particulate, or granular, systems is a complex function of myriad particle interactions. Historically, empirical relationships have been used to describe these systems as if continuous media, \textit{e.g.} the correlations for heat transfer discussed in \Cref{sec:granular-ht-correlations}. But with the advent of the discrete element method by Cundall \& Strack and the acceleration of computing power, it became practical to investigate these granular materials at the particle scale without continuum assumptions \cite{Cundall1979}. With DEM, we track all the particles in the system in a Lagrangian manner. In the ensemble, the kinematics of each particle is tracked and updated based on balances (or imbalances) of forces or energy acting upon the particle. 
 
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -20,9 +19,7 @@ The observable, macroscopic behavior of particulate, or granular, systems is a c
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \subsection{Particle Dynamics}\label{sec:particle-dynamics}
 
-The grains in our system are allowed translational and rotational degrees of freedom. In a packed bed, we can restrict our attention to local forces between particles; neglecting, say, non-contact forces such as van der Waals or electrostatic forces. In the first construct of momentum and temperature consideration, the particles are treated as if in vacuum. However a derivation of fluid interaction forces will be given in \cref{sec:modeling-cfd-dem}.
-
-Assuming we know the contact forces acting upon particle $i$, Newton's equations of motion are sufficient to describe the particle kinematics. For translation and rotational degrees of freedom, the equations are:,
+The grains in our system are allowed translational and rotational degrees of freedom. In a packed bed, we can restrict our attention to local forces between particles; neglecting, say, non-contact forces such as, van der Waals, electrostatic, or for the time being any fluid interaction forces. Assuming we know the contact forces acting upon particle $i$, Newton's equations of motion are sufficient to describe the particle kinematics. For translation and rotational degrees of freedom, the equations are:,
 \begin{subequations}
 \label{eq:newtons-second}
 \begin{align}
@@ -41,7 +38,7 @@ and the net torque, $\vec{T}_i$, is similarly,
 	\vec{T}_i = -\frac{1}{2}\sum_{j=1}^{Z} \vec{r}_{ij} \times \vec{f}_{t,ij}
 \end{equation}
 
-When Cundall and Strack first proposed the discrete element method, they used a linear spring-dashpot structure which saw the normal and tangential forces written as,
+When Cundall \& Strack first proposed the discrete element method, they used a linear spring-dashpot structure which saw the normal and tangential forces written as,
 \begin{subequations}
 \label{eq:dem-forces}
 \begin{align}
@@ -49,7 +46,7 @@ When Cundall and Strack first proposed the discrete element method, they used a 
 	\vec{f}_{t,ij} &= k_{t,ij} \delta_{t,ij}\vec{t}_{ij} - \gamma_{t,ij} \vec{u}_{t,ij} 	\label{eq:tangential-force}
 \end{align}
 \end{subequations}
-where Cundall and Strack defined the stiffness coefficients $k$ as constants and local damping coefficients $\gamma$ were proportional to them, $\gamma \propto k$, to allow dissipation of energy and the system to reach an equilibrium. 
+where Cundall \& Strack defined the stiffness coefficients $k$ as constants and local damping coefficients $\gamma$ were proportional to them, $\gamma \propto k$, to allow dissipation of energy and the system to reach an equilibrium. 
 
 Relative normal and tangential velocities, respectively, are decomposed from particle velocities,
 \begin{subequations}
@@ -61,7 +58,7 @@ Relative normal and tangential velocities, respectively, are decomposed from par
 \end{subequations}
 with the unit vector $\vec{n}_{ij}$ pointing from particle $j$ to $i$
 
-Similarly to the approach of Hertz (see \cref{sec:hertz-theory}), the surfaces of the two particles are allowed to virtually pass through each other (no deformation) resulting in normal and tangential overlaps of,
+As in the solution of Hertzian interaction (see \Cref{sec:hertz-theory}), the surfaces of the two particles are allowed to virtually pass through each other (no deformation) resulting in normal and tangential overlaps of,
 \begin{subequations}
 \label{eq:dem-overlaps}
 \begin{align}
@@ -71,9 +68,9 @@ Similarly to the approach of Hertz (see \cref{sec:hertz-theory}), the surfaces o
 \end{subequations}
 where the fictive tangential overlap, $\delta_{t,ij}$, is truncated to so the tangential and normal forces obey Coulomb's Law, $\vec{f}_{t,ij} \le \mu_i \vec{f}_{n,ij}$ with $\mu$ as the coefficient of friction of the particle.
 
-The result is a relatively simple approach of calculating interaction forces between particles with \Cref{eq:dem-forces} based on the kinematics of velocity and position of interacting particles from \Cref{eq:dem-velocities} and \Cref{eq:dem-overlaps}, respectively. As DEM evolved and drew attention of more researchers, more complex formulas governing the spring-dashpot coefficients of \Cref{eq:dem-forces} emerged. But the core approach remained the same and the models all fall into the same family of so-called `soft particle' models of DEM. A well-composed summary of the different DEM force models is given by Zhu\etal.\cite{Zhu2007}
+Thus the approach of DEM is relatively simple: calculate interaction forces between particles with \Cref{eq:dem-forces} based on the kinematics of velocity and position of interacting particles from \Cref{eq:dem-velocities} and \Cref{eq:dem-overlaps}, respectively, then update the positions based on the forces. As DEM evolved and drew attention of more researchers, more complex formulas governing the spring-dashpot coefficients of \Cref{eq:dem-forces} emerged. But the core approach remained the same and the models all fall into the same family of so-called `soft particle' models of DEM. A well-composed summary of the different DEM force models is given by Zhu\etal.\cite{Zhu2007}
 
-The method used in this work fits into the computational skeleton of Cundall and Strack's method but with non-linear spring-dashpot coefficients defined by simplified Hertz-Mindlin-Deresiewicz model. In this model, normal-direction stiffness coefficient of \Cref{eq:normal-force} is based on the Hertzian contact law (derived explicitly in \cref{sec:hertz-theory}). The tangential-direction stiffness coefficient follows from Brilliantov \cite{Brilliantov1996, Zhu2007, Langston1995}. Together, the spring coefficients are,
+The method used in this work fits into the computational skeleton of Cundall and Strack's method but with non-linear spring-dashpot coefficients defined by simplified Hertz-Mindlin-Deresiewicz model. In this model, the normal-direction stiffness coefficient of \Cref{eq:normal-force} is based on the Hertzian contact law (derived explicitly in \Cref{sec:hertz-theory}). The tangential-direction stiffness coefficient follows from Brilliantov \cite{Brilliantov1996, Zhu2007, Langston1995}. Together, the spring coefficients are,
 \begin{subequations}
 \begin{align}
 	k_{n,ij} &= \frac{4}{3}E_{ij}^*\sqrt{R_{ij}^*\delta_{n,ij}} \\
@@ -89,7 +86,7 @@ where $E_{ij}^*$ is the pair Young's modulus, $G_{ij}^*$ is the pair bulk modulu
 \end{align}
 \end{subequations}
 
-Similar to Cundall \& Strack's formulation, damping coefficients, $\gamma$, are included to account for energy dissipated from the collision of two particles \cite{DiRenzo2004, Tsuji1992, Tsuji1993}. Whether the damping coefficient is local or global and the exact form of the coefficient is more important for loosely confined granular systems and dictates the way the system approaches an equilibrium state.\cite{Makse2004} For the case of our tightly packed pebble beds, it suffices to use the efficient form of Refs.\cite{Dippel1996, Makse2004, Brilliantov1996, Zhang2005, Zhu2007},
+Similar to Cundall \& Strack's formulation, damping coefficients, $\gamma$, are included to account for energy dissipated from the collision of two particles \cite{DiRenzo2004, Tsuji1992, Tsuji1993}. Whether the damping coefficient is local or global and the exact form of the coefficient is more important for loosely confined granular systems and dictates the way the system approaches an equilibrium state \cite{Makse2004}. For the case of our tightly packed pebble beds, it suffices to use the efficient form of Refs.\cite{Dippel1996, Makse2004, Brilliantov1996, Zhang2005, Zhu2007},
 \begin{subequations}
 \begin{align}
 	\gamma_n &= \sqrt{5}\beta_\text{diss}\sqrt{m^*k_{n,ij}} \\
@@ -103,7 +100,7 @@ with $\beta_\text{damp}$ as the damping ratio, and the pair mass, $\frac{1}{m^*}
 
 Systems to be solved by DEM models are therefore well-defined after specifying the few material properties of $E$, $\nu$, $\rho$, and $R_p$ and the interaction properties of $\mu$ and $e$.
 
-Having expressed the contact mechanics of the discrete element method, we now must integrate the kinematic equations of the particles to resolve their evolutions. The most common means of marching in time with DEM is the velocity-Verlet algorithm \cite{Kruggel-Emden2008}. In this algorithm, \Cref{eq:newtons-second} are integrated with half-steps in velocity, full steps in position, and then finally the full step in velocity. In practice, the two half-steps in velocity are often compressed into a single, full step. The computational time integration steps are given in explicit detail in \cref{sec:dem-stability}. Owing to the explicit nature of the velocity-Verlet algorithm, stability is a constant concern with DEM simulations. Stable, critical time steps and means of circumventing unreasonably small time steps will also be addressed in \cref{sec:dem-stability}.
+Having expressed the contact mechanics of the discrete element method, we now must integrate the kinematic equations of the particles to resolve their evolutions. The most common means of marching in time with DEM is the velocity-Verlet algorithm \cite{Kruggel-Emden2008}. In this algorithm, \Cref{eq:newtons-second} are integrated with half-steps in velocity, full steps in position, and then finally the full step in velocity. In practice, the two half-steps in velocity are often compressed into a single, full step. The computational time integration steps are given in explicit detail in \Cref{sec:dem-stability}. Owing to the explicit nature of the velocity-Verlet algorithm, stability is a constant concern with DEM simulations. Stable, critical time steps and practical means of circumventing unreasonably small time steps are discussed in \Cref{sec:dem-stability}.
 
 A last note. Throughout this work, I required a fully quiesced bed to act as a starting point or demarcate a mechanically steady-state bed. To determine when this occurs, the total kinetic energy of the entire ensemble is monitored and a packed bed is considered to have completely settled once the kinetic energy of the system is less than $10^{-8}$. A similar process was independently determined in a similar matter in the work of Ref.~\cite{Silbert2002}. 
 
@@ -112,9 +109,9 @@ A last note. Throughout this work, I required a fully quiesced bed to act as a s
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % new subsection
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Granular Heat Transfer}\label{sec:dem-heat-transfer}
+\subsection{Granular heat transfer in DEM}\label{sec:dem-heat-transfer}
 
-In a way analogous to handling particle momentums with Newton's laws of motion, Lagrangian tracking of energy of each particle is obtained via the first law of thermodynamics. Each particle is treated as a single distinct object and thus internal temperature gradients are assumed negligible. The temperature of particle $i$ is governed by
+In a way analogous to handling particle momentums with Newton's laws of motion, Lagrangian tracking of particle energy is obtained via the first law of thermodynamics. Each particle is treated as a single distinct object and thus internal temperature gradients are assumed negligible. The temperature of particle $i$ is governed by
 \begin{equation}\label{eq:thermoFirstLaw}
 	m_iC_i\ddt{T_i} = Q_{s,i} + Q_{i}
 \end{equation}
@@ -128,27 +125,27 @@ Assuming the particles are spherical, smooth, elastic, in vacuum, and we neglect
     Q_{ij} = H_{c}(T_i - T_j)
 \end{equation}
 
-Batchelor and O'Brien\cite{Batchelor1977} developed a formulation of similar form and then made the brilliant observation that the temperature fields in the near-region of contacting spheres are analogous to the velocity potential of an incompressible, irrotational fluid passing from from one reservoir to another through a circular hole in a planar wall separating the two reservoirs. With the analogy, they could make use of the fluid flow solution to write the total heat flux across the circle of contact as \Cref{eq:pebble-conduction-heat-transfer} with heat conductance 
+Batchelor \& O'Brien\cite{Batchelor1977} developed a formulation of similar form and then made the brilliant observation that the temperature fields in the near-region of contacting spheres are analogous to the velocity potential of an incompressible, irrotational fluid passing from from one reservoir to another through a circular hole in a planar wall separating the two reservoirs. With the analogy, they could make use of the fluid flow solution to write the total heat flux across the circle of contact as \Cref{eq:pebble-conduction-heat-transfer} with heat conductance 
 \begin{equation}\label{eq:batchelor-pebble-conductance}
     H_c = 2k_sa
 \end{equation}
-where $k_s$ is the conductivity of the contacting solids and $a$ is the radius of contact. Because we have assumed smooth, elastic, spherical solids, with Hertz theory (see \cref{sec:hertz-theory}), contact radius can be found as a function of contact normal force, $F_n$,
+where $k_s$ is the conductivity of the contacting solids and $a$ is the radius of contact. Because we have assumed smooth, elastic, spherical solids, with Hertz theory (see \Cref{sec:hertz-theory}), contact radius can be found as a function of contact normal force, $F_n$,
 \begin{equation}
     a =  \left(\frac{3}{4}\frac{R^*}{E^*}\right)^{1/3}F_n^{1/3} 
 \end{equation}
 where, as before, $\frac{1}{E^*} = \frac{1-\nu_1^2}{E_1} + \frac{1-\nu_2^2}{E_2}$ and $\frac{1}{R^*} = \frac{1}{R_1} + \frac{1}{R_2}$. 
 
-In the development of \Cref{eq:batchelor-pebble-conductance}, Batchelor and O'Brien had assumed the two contacting spheres to be of equal conductivity, $k_s$. Cheng\etal\cite{Cheng19994199} proposed a slightly modified conductance which allows for contacting materials of different thermal conductivity. They give,
+In the development of \Cref{eq:batchelor-pebble-conductance}, Batchelor \& O'Brien had assumed the two contacting spheres to be of equal conductivity, $k_s$. Cheng\etal\cite{Cheng19994199} proposed a slightly modified conductance which allows for contacting materials of different thermal conductivity. They give,
 \begin{equation}\label{eq:cheng-modification-batchelor}
     H_c = 2k^*a = 2k^* \left(\frac{3}{4}\frac{R^*}{E^*}\right)^{1/3}F_n^{1/3}
 \end{equation}
 where $\frac{1}{k^*} = \frac{1}{k_i} + \frac{1}{k_j}$. As well as being a more general, flexible formulation, the models analyzed by Cheng\etal\cite{Cheng19994199} are in good agreement with experiments.
 
-Batchelor and O'Brien developed \Cref{eq:batchelor-pebble-conductance} with the assumption of two contacting particles in vacuum but, once developed, showed\cite{Batchelor1977} that this form is still valid when immersed in a fluid providing that the thermal conductivity ratio, $\kappa = \frac{k_s}{k_f}$, of solid and fluid is well above unity. The condition is expressed as,
+Batchelor \& O'Brien developed \Cref{eq:batchelor-pebble-conductance} with the assumption of two contacting particles in vacuum but, once developed, showed\cite{Batchelor1977} that this form is still valid when immersed in a fluid providing that the thermal conductivity ratio, $\kappa = \frac{k_s}{k_f}$, of solid and fluid is well above unity. The condition is expressed as,
 \begin{equation}\label{eq:conductance-validity-fluid}
     \frac{a}{R^*} \kappa \gg 1
 \end{equation}
-The term $\frac{a}{R^*}$, from \cref{sec:hertz-theory}, is necessarily less than 1 for Hertz theory to be applicable. Thus for fluid in vacuum, the condition is identically satisfied but we must consider inaccuracies if we introduce an interstitial fluid with low conductivity ratios; for lithium ceramics in helium, the ratio is approximately $\kappa \approx 10$.
+The term $\frac{a}{R^*}$, from \Cref{sec:hertz-theory}, is necessarily less than 1 for Hertz theory to be applicable. Thus for fluid in vacuum, the condition is identically satisfied but we must consider inaccuracies if we introduce an interstitial fluid with low conductivity ratios; for lithium ceramics in helium, the ratio is approximately $\kappa \approx 10$.
 
 We step back from contact of a single pair of particles and consider a particle in an ensemble with many contacts. We must again consider the validity of applying \Cref{eq:cheng-modification-batchelor} at each contact. Vargas and McCarthy\cite{Vargas2002a}, propose introducing a conduction Biot number to relate resistance of heat transfer internal to a particle with resistance between particles,
 \begin{equation}
@@ -160,11 +157,74 @@ Then if $\Bi_c \ll 1$, the individual energy transferred between each point of c
     Q_i = \sum_j^Z Q_{ij}
 \end{equation}
 
-Conductive heat transfer to neighboring particles comes from inter-particle conductance formulas. The form of contact conductance we use, from \Cref{eq:cheng-modification-batchelor}, which is built upon the solution of Batchelor and O'Brien\cite{Batchelor1977}, has been implemented by others in a variety of DEM studies\cite{Vargas2001, Chaudhuri2006, Zhou2009,Cheng19994199}. However, it should noted that in many other fields, the researchers are interested in such things as the parallel conduction through a stagnant interstitial gas\cite{Bu2013} or the temporary conduction during impact of fluidized beds\cite{Zhu2008,Zhang2011,Wu2011,Li2000}. In such cases, the formula for conductance can be quite different but are not appropriate for the physics of our packed beds. 
+For the case when we do \textit{not} have a perfectly smooth elastic sphere, we use the approach of Bahrami\etal, introducing a joint thermal resistance to develop a modified heat conductance term. Bahrami\etal\cite{Bahrami2004} use a joint thermal resistance of the superposition of macroscopic and microscopic influences; the thermal joint resistance is
+\begin{equation}
+	R_j = R_s + R_L
+\end{equation}
+where the subscript $L$ refers to macroscopic variables and $s$ refers to microscopic ones. Bahrami\etal~ used the constriction formulation of Yovanovich\etal~ to express the macroscopic resistance as\cite{Yovanovich1976}
+\begin{equation}
+	R_L = \frac{(1-a/R^*)^{3/2}}{2k^*a}
+\end{equation}
+If the contact of the two materials obeys Hertz contact law, then $a/R^* \ll 1$ and the above becomes
+\begin{equation}\label{eq:macro-thermal-resistance}
+	R_L = \frac{1}{2k^*a}
+\end{equation}
+which matches the heat conduction form of Batchelor \& O'Brien\cite{Batchelor1977}, \Cref{eq:batchelor-pebble-conductance}.
+
+To determine the thermal resistance of the asperities in contact, Bahrami~\etal used a superposition of many cylindrical constrictions inside of the contact area. The result is given in \cite{Bahrami2004} as
+\begin{equation}
+	\psi_s^* = \begin{cases}
+	\left(\frac{\pi H'R^{*2}}{F} \right)^s 										& F_c = 0\\
+	(R^*/a)^2(H'/P_0)^s(1+s\gamma) 										& F \le F_c\\
+	(H'/P_{0,c})^s(1+s\gamma_c)+\left[\frac{\pi H'R^{*2}}{(F-F_c)}\right]^s				& F\ge F_c
+	\end{cases}
+\end{equation}
+where $\psi_s^*$ is a non-dimensional form of the surface roughness thermal resistance, defined as $\psi_s^* = 1.25\pi R^{*2}k^*(m/\sigma)\psi_s$, $k^*$ is the harmonic mean of contact grains thermal conductivity, $H'$ is the Vicker's hardness value, $F$ is the contact force, $P_0$ is the maximum pressure of contact, $s$ is a parameter based on the hardness constants, $\gamma = 1.5(P_0/P_{0,H})(a/a_H)^2-1$, $F_c$ is the critical force where $a = R^*$, $\gamma_c$ is the value of $\gamma$ at the critical force, $m$ is the mean absolute surface slope, and $\sigma$ is the root-mean-square (rms) surface roughness. For Hertzian contact, $\gamma = 0.5$.
+
+Antonetti\etal~ proposed a correlation for mean absolute surface slope related to surface asperities as\cite{Antonetti1984}
+\begin{equation}\label{eq:m-of-sigma}
+	m = 0.125(\sigma\times10^6)^{0.402}
+\end{equation}
+where the range of applicability of surface roughness is \SI{0.216E-6}{\meter}$\le \sigma <$ \SI{9.6E-6}{\meter}. Thus the term $\sigma/m = 0.031\sigma^{0.598}$
+
+For Hertzian contacts of the non-conforming ceramic materials, $F \ll F_c$, thus we consider only that case to write
+\begin{equation}
+	R_s = \frac{(R^*/a)^2(H'/P_0)^s(1+s/2)}{1.25\pi R^{*2}k^*(0.031\sigma^{0.598})}
+\end{equation}
+or
+\begin{equation}\label{eq:thermal-resistance-pressure}
+	R_s = \frac{(H'/P_0)^s(1+s/2)}{1.25\pi a^2k^*}\left(0.031\sigma^{0.598}\right)
+\end{equation}
+For Hertzian contact, the maximum pressure is given by \Cref{eq:hertzian-pressure}. It is
+\begin{equation*}
+	P_0 = \frac{2E^*\delta_n}{\pi a}
+\end{equation*}
+Furthermore, as noted by Bahrami\etal, the parameter $s$ is in the range of $0.95\le s\le 0.97$. Therefore it is be approximated as $s=0.96$ here. The thermal resistance of \Cref{eq:thermal-resistance-pressure} is rewritten in a simplified form,
+% \begin{equation}
+% 	R_s = \frac{\pi^{s-1}}{1.25(2^s)}\left(\frac{H'}{E^*}\right)^s\frac{1+s/2}{k^*\delta_n^s}\left(\frac{\sigma}{m}\right)a^{s-2}
+% \end{equation}
+\begin{equation}\label{eq:micro-thermal-resistance}
+	R_s = \left(\frac{H'}{E^*\delta_n}\right)^{0.96}\left(\frac{\sigma}{m}\right)\frac{1}{1.720k^*a^{1.04}}
+\end{equation}
+
+The macroscopic and microscopic thermal resistances given in \Cref{eq:macro-thermal-resistance} and \Cref{eq:micro-thermal-resistance}, respectively, are combined to give the total joint thermal resistance of
+\begin{equation}
+	R_j = \left(\frac{H'}{E^*\delta_n}\right)^{0.96}\frac{0.031\sigma^{0.598}}{1.720k^*a^{1.04}} + \frac{1}{2k^*a}
+\end{equation}
+and the total thermal conductance between the two grains, $H_j = 1/R_J$, is
+\begin{equation}\label{eq:micro-macro-conductance}
+	H_j = \left[\left(\frac{H'}{E^*\delta_n}\right)^{0.96}\frac{0.031\sigma^{0.598}}{1.720k^*a^{1.04}} + \frac{1}{2k^*a}\right]^{-1}
+\end{equation}
+
+In the limit of zero roughness, the first term inside the bracket tends to 0 and the conductance is simply the Batchelor \& O'Brien form with Hertzian assumptions of perfectly smooth elastic spheres. In our DEM model, we employ a flag to choose between the simple smooth assumption for heat conductance, \Cref{eq:batchelor-pebble-conductance}, or the more advanced conductance equation, \Cref{eq:micro-macro-conductance}, if we have known hardness and roughness properties for ceramics.
+
+%In the LIGGGHTS source code file `fix\_heat\_gran\_conduction.cpp', the macroscopic thermal resistance is incorporated into the heat conductance term. To include the microscopic term, we simply need information on the $H'$, $\sigma$, and $m$. All other terms of \Cref{eq:micro-macro-conductance} are available to the code.
+
+
 
 
 \subsubsection{Thermal Expansion}
-The stresses predicted to act upon the solid breeder volume during operation of the fusion reactor arise from the differential rate of thermal expansion from the highly heated ceramic volume and the relatively cool structural container. Moreover, thermal settling motion is observed in pebble beds with cyclic heating \cite{Tanigawa:2010cr, Vargas2007, Chen2009, Divoux2008}. Both of those phenomena originate from effects of thermal expansion of individual particles in the ensemble. Therefore, I introduce a simple thermal expansion method into the DEM structure that updates the diameter of each particle as,
+The stresses which will act upon the solid breeder volume during operation of the fusion reactor arise from the differential rate of thermal expansion from the highly heated ceramic volume and the relatively cool structural container. Moreover, thermal settling motion is observed in pebble beds with cyclic heating \cite{Tanigawa:2010cr, Vargas2007, Chen2009, Divoux2008}. Both of those phenomena originate from effects of thermal expansion of individual grains in the ensemble. Therefore, I introduce a simple thermal expansion method into the DEM structure that updates the diameter of each particle as,
 \begin{equation}
 	d_{p,i} = d_{p_0,i}\left[1+\beta_i\left(T_i - T_0\right)\right]
 \end{equation}
@@ -195,9 +255,25 @@ Briefly, some notable features that LIGGGHTS brings to the LAMMPS environment in
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Young's Modulus Implementation in DEM for Ceramic Pebbles}\label{sec:exp-reduction-factor}
 
-In all past DEM efforts for ceramic breeders, the validity of Hertz theory (see \cref{sec:hertz-theory} and \cref{sec:modeling-dem}) for describing the inter-particle contact force as a function of fictitious overlap is assumed. In our experimental test stand for crushing individual pebbles, our equipment was able to record accurate measurements of the force-travel relationship for each pebble, providing us with an opportunity to study the validity of the Hertzian contact laws. 
+In all past DEM efforts for ceramic breeders, the validity of Hertz theory for describing the inter-particle contact force as a function of fictitious overlap is assumed (see \Cref{sec:modeling-dem}). In our experimental test stand for crushing individual pebbles, shown in \Cref{fig:nfri-fmax}, our equipment was able to record accurate measurements of the force-travel relationship for each pebble, providing us with an opportunity to study the validity of the Hertzian contact laws. 
 
-The derivation of the Hertz force can be found on page~\pageref{eq:hertz-normal-force} but the result is given again here for reference:
+\begin{figure}[!h]
+        \centering
+        \begin{subfigure}[b]{\doubleimagewidth}
+                \includegraphics[width=\textwidth]{figures/nfri-1mm-fmax-histogram.png}
+                \caption{$\bar{d}_p = 1$ mm}
+                \label{fig:nfri-1-exp-fmax}
+        \end{subfigure}
+        ~
+        \begin{subfigure}[b]{\doubleimagewidth}
+                \includegraphics[width=\textwidth]{figures/nfri-1.5mm-fmax-histogram.png}
+                \caption{$\bar{d}_p = 1.5$ mm}
+                \label{fig:nfri-1.5-exp-fmax}
+        \end{subfigure}
+        \caption{Crush forces of \lit~pebbles display probability distributions around mean values for each average diameter batch.}\label{fig:nfri-fmax}
+\end{figure}
+
+The derivation of the Hertz force can be found on page~\pageref{eq:hertz-normal-force}. The result is given again here for reference:
 \begin{equation*}
   F_{n,ij} = \frac{4}{3}E_{ij}^* \sqrt{R_{ij}^*} \, \delta_{n,ij}^{3/2}
 \end{equation*}
@@ -212,17 +288,9 @@ In experiments where we press a ceramic pebble between two anvils, we measure th
         F = \left[\frac{1}{3}\frac{\sqrt{d_p}}{\frac{1-\nu_p^2}{E_p} + \frac{1-\nu_s^2}{E_s}}\right] s^{3/2}
 \end{equation}
 
+The Young's modulus and Poisson ratio of the test stand are known values that do not vary between pebble experiments. Similarly, in the application of Hertz theory, we also assume the Young's modulus and Poisson ratio of the ceramic are also known and constant. In that case, for any given pebble diameter, the term inside $[\quad]$ ought to be composed entirely of constants for any given pebble; there would therefore be a single force-travel response possible -- based only on $s$. Using material properties given in Ref.~\cite{Gierszewski1998} for \lit, we plot a set of parametric curves based on diameter over a range of travel. The properties we have used for the nickel-alloy anvil of our test stand and \lit~are given in \Cref{tab:hertz-dp-study-props}. The curves are given in \Cref{fig:hertz-dp-dependence}.
 
-\begin{figure}[!t]
-\centering
-\includegraphics[width = \singleimagewidth]{figures/hertz-dp-dependence}
-\caption{Hertzian responses of \lit~pebbles compressed between platens. The colormap shows pebble diameters in \si{m}. The diameters span an order of magnitude from $d_p = \si{0.2 mm}$ to $d_p = \si{2 mm}$.}\label{fig:hertz-dp-dependence}
-\end{figure}
-
-
-The Young's modulus and Poisson ratio of the test stand are known values that do not vary between pebble experiments. Similarly, in the application of Hertz theory, we also assume the Young's modulus and Poisson ratio of the ceramic are also known, constant values. In that case, for any given pebble diameter, the term inside $[\quad]$ ought to be composed entirely of constants for any given pebble; there would therefore be a single force-travel response possible -- based only on $s$. Using the material properties given in Ref.~\cite{Gierszewski1998} for \lit, we plot a set of parametric curves based on diameter over a range of travel. The properties we have used for the nickel-alloy anvil of our test stand and \lit~are given in Table~\ref{tab:hertz-dp-study-props}. The curves are given in Fig.~\ref{fig:hertz-dp-dependence}.
-
-\begin {table}[htp] %
+\begin {table}[h] %
 \caption{Material properties used for \lit~and nickel-alloy platen}
 \label {tab:hertz-dp-study-props} \centering %
 \begin {tabular}{ cccccc }
@@ -233,71 +301,74 @@ $E_\text{peb}$      &     $\nu_\text{peb}$  &   $E_\text{stand}$        &     $\
 \end{tabular}
 \end{table}
 
-Figure~\ref{fig:hertz-dp-dependence} shows that, for a given pebble diameter, that is strictly obeying Hertz theory, there is only a single force-displacement curve it can follow. However, when experiments are performed on single pebbles of \lis~we see responses such as shown in the dashed lines of Fig.~\ref{fig:fzk-exp-colormap}. Similarly for the dashed lines of \lit~in Fig.~\ref{fig:nfri-exp-curves}. The diameters of the pebbles are mapped to the given colormap.
-
-Contrary to the diameter dependence seen in Fig.~\ref{fig:hertz-dp-dependence}, the curves of Figs.~\ref{fig:fzk-exp-colormap}, and~\ref{fig:nfri-exp-curves} do not demonstrate a pure relationship between diameter and force. For comparison, the solid lines on the figures for each ceramic show the predicted Hertzian response as calculated by \Cref{eq:contact-force} based on the measured diameter of each pebble. For both the \lis~and \lit~pebbles, there are very few pebbles that show a measured force-travel response that is similar to the Hertzian prediction based on the material properties reported in literature. I conclude that variations in pebble diameter can not alone account for the variations in the force curves measured for the pebbles in our experiments. I hypothesize instead that variation in measured curves is due to each pebble having a Young's modulus that is reduced from the values measured from sintered blocks as reported in literature. Therefore each pebble displays a different apparent Young's modulus in the single pebble experiments. 
-
-The apparent Young's modulus of each pebble is rooted in the manufacture which yields pebbles with slightly different internal structures. The differences in internal structure then cause the pebble to behave with different stiffnesses than the value expected from measurements of sintered pellets of lithium ceramics. In fact, the solid lines in Figs.~\ref{fig:fzk-exp-colormap}, and~\ref{fig:nfri-exp-curves}, as calculated from the measurements of sintered pellets, appear to be an upper limit to the pebbles. Therefore I consider pebbles will emerge with values less than the value from literature, $E_\text{lit}$ by some factor between 0 and 1. To quantify the deviation of each pebble's $E_\text{peb}$ from the sintered pellet, I introduce a $\kappa$ factor, which I define as the softening coefficient:
-
-\begin{equation}
-\kappa = \frac{E_\text{peb}}{E_\text{lit}}
-\end{equation}
-where
-\[
-\kappa \in [0,1]
-\]
-
-If each pebble has a unique $\kappa$ value, it would quantify the spread in elastic responses seen in the experiments. The values are found by assuming that the pebbles are, in fact, behaving in a Hertzian manner and I can fit a Hertzian curve to our experimental measurements. This permits backing-out a $\kappa$ value, or in other words the unique $E_\text{peb}$ of that pebble. The sintered pebble value of Young's modulus for \lis~is taken to be $E_\text{lit} = \si{90~GPa}$ and the value for \lit~to be $E_\text{lit}= \si{124~GPa}$. Then I iterate over all values of $\kappa\in[0,1]$ and compare the Hertzian response to that pebbles force-displacement curve. At each iteration, the L2-norm of the difference between Hertzian and experimental curves is used as the `error'. The L2 norm, $A$ for a given array, $a$ is 
-
-\begin{equation}
-||A||_F = \left[\sum_{i,j}\textrm{abs}(a_{i,j})^2\right]^{1/2}
-\end{equation}
-
-This is a convenient way to compare the error at every point along the force-displacement curves. When the error is minimized, the softening coefficient value corresponding to the minimum is recorded for that pebble. The Hertzian curves (in black) for the \lis~and \lit~pebbles are plotted in green against the experimental curves in Figs.~\ref{fig:fzk-exp-hertz}, and~\ref{fig:nfri-exp-hertz}, respectively. 
-
-Many of the curves for \lis~in Fig.~\ref{fig:fzk-exp-hertz} seem to be fit well with a Hertzian curve using a modified Young's modulus. The value of Young's modulus found for each pebble is ordered and plotted in Fig.~\ref{fig:fzk-E-plot}; the Young's modulus of pebble numbers 0 to 4 are the very soft pebbles seen with very low forces over the range of travel seen in Fig.~\ref{fig:fzk-exp-hertz}. The majority of pebbles, however, behave with a Young's modulus between 30 and 70 \si{GPa}. On the upper end, a few pebbles acted very similar to their sintered pellet counterpart with approximate value of 90 \si{GPa}. 
-
-The two batches of \lit~pebbles analyzed (Fig.~\ref{fig:nfri-exp-hertz}) are similarly fit well to pebbles with modified Hertzian curves. The apparent Young's modulii of the \lit~pebbles are given in Fig.~\ref{fig:nfri-E-plot}. These \lit~pebbles have a large distribution of stiffness, from between 20 to 120~GPa for the 1~mm pebbles and roughly 2 to 80~GPa for the 1.5~mm pebbles.
-
-
-The $\kappa$ factor for this batch of \lis~pebbles is also given as a histogram in Fig.~\ref{fig:fzk-kappa-hist}. For the \lis~pebbles, the histogram resembles a normal distribution but for the large spike in pebbles with very small $\kappa$. The four softest pebbles mentioned previously display relatively flat responses to travel before reaching a point where there is a sharp increase in the $F-s$ slope. In the experiments, the flat sections of the curve occurred when the pebbles in the anvil were not perfectly spherical and rotated slightly under the application of a small load. Once the pebbles rotated into a flat spot that could take a normal load without any angular moment, the force increased quickly under further travel. In light of this, it is unreasonable to consider their $\kappa$ values as representing their true stiffness which was only measured near the end of the F-s compression trial. Neglecting the four outliers in the histogram of Fig.~\ref{fig:fzk-kappa-hist}, we are then left with a distribution much more closely resembling a normal probability distribution.
-
-The histograms for the two batches of \lit~are given in Fig.~\ref{fig:nfri-kappa-hist}. The distributions for both batches of \lit~pebbles more closely resemble Snedecor's F distribution with many pebbles behaving with a very small $\kappa$, then a long tail of few pebbles with large $\kappa$.
-
-In Figs.~\ref{fig:fzk-kappa-dp-scatter} and~\ref{fig:nfri-kappa-dp-scatter} we see scatter plots of the pebble diameters against $\kappa$ values for the different batches of lithium ceramic pebbles. A Pearson Correlation value was calculated for each of the batches to quantify a correlation between diameter and $\kappa$. For the \lis~pebbles, we find $R = 0.198$ which is a weak positive correlation. For the \lit~pebbles we have $R = -0.385$ for $\bar{d}_p = 1$~mm and $R = -0.201$ for $\bar{d}_p = 1.5$~mm. Both of these are weakly negatively correlated. 
-
-The results of these single pebble experiments indicate that the Young's modulus traditionally used in DEM simulations for ceramic pebble beds in solid breeders is incorrect. Numerical recreations of the probability distribution curves will be used to apply $\kappa$ to pebbles in the ensemble. From the weak correlations between diameter and $\kappa$, we are free to ignore any diameter dependence when assigning $\kappa$ values in the DEM framework especially in light of the current implementation of monodisperse pebble beds. Therefore, numerically, when assigning Young's modulii to the particles in the ensemble, the $\kappa$ distribution will be applied in a random fashion.
-
-\begin{figure}[!t]
-\centering
-    \includegraphics[width=\doubleimagewidth]{figures/fzk-data-w-ideal-hertz.png}
-    \caption{Dashed lines are \lis~pebbles of approximately \si{0.5 mm} diameter. Solid lines are the Hertzian (Eq.\ref{eq:contact-force}) responses based on each pebble's measured diameter.}
-    \label{fig:fzk-exp-colormap}
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width = \singleimagewidth]{figures/hertz-dp-dependence}
+	\caption{Hertzian responses of \lit~pebbles compressed between platens. The colormap shows pebble diameters in \si{m}. The diameters span an order of magnitude from $d_p = \si{0.2 mm}$ to $d_p = \si{2 mm}$.}\label{fig:hertz-dp-dependence}
 \end{figure}
 
-\begin{figure}
+\Cref{fig:hertz-dp-dependence} shows that, for a given pebble, that is strictly obeying Hertz theory, there is only a single force-displacement curve it can follow. However, during our experiments on \lit~pebbles, we observed behavior such as the curves shown in \Cref{fig:nfri-exp-curves}. The diameters of the pebbles are mapped to the colormap on the right side of the figures. These pebbles are responding much different than the expected Hertzian curve, predicted by \Cref{eq:contact-force}. The first test is to plot the data on log-log plots. From the slope of the line in a log-log plot, we can find the power-dependence of force on travel. Hertzian prediction says this should be $F\propto s^{1.5}$, from \Cref{eq:contact-force}. The loglog plots are given in \Cref{fig:nfri-exp-curves-loglog}. The slope of the response is calculated for each experimental curve and a histogram is collected in \Cref{fig:nfri-loglog-slopes}. For both sets of \lit~pebbles, the data is heavily centered around a slope of $n=1.5$, validating the dependence of force on travel to be fitting Hertzian predictions.
+
+\begin{figure}[!h]
         \centering
         \begin{subfigure}[b]{\doubleimagewidth}
-                \includegraphics[width=\textwidth]{figures/nfri-1mm-data-w-ideal-hertz.png}
+                \includegraphics[width=\textwidth]{figures/nfri-1mm-data.png}
                 \caption{$\bar{d}_p = 1$ mm}
                 \label{fig:nfri-1-exp-colormap}
         \end{subfigure}
         ~
         \begin{subfigure}[b]{\doubleimagewidth}
-                \includegraphics[width=\textwidth]{figures/nfri-1.5mm-data-w-ideal-hertz.png}
+                \includegraphics[width=\textwidth]{figures/nfri-1.5mm-data.png}
                 \caption{$\bar{d}_p = 1.5$ mm}
                 \label{fig:nfri-1.5-exp-colormap}
         \end{subfigure}
-        \caption{Dashed lines are \lit~pebbles. Solid lines are the Hertzian (Eq.\ref{eq:contact-force}) responses based on each pebble's measured diameter.}\label{fig:nfri-exp-curves}
+        \caption{Experimental measurements of pebble force as a function of cross-head travel.}\label{fig:nfri-exp-curves}
 \end{figure}
 
-
-\begin{figure}[!t]
-\centering
-    \includegraphics[width=\doubleimagewidth]{figures/fzk-hertz-colormap.png}
-    \caption{Force-displacement curves for \lis~pebbles (in color) along with their Hertzian fits (in black) calculated with each pebble having a unique Young's modulus.}
-    \label{fig:fzk-exp-hertz}
+\begin{figure}[!h]
+        \centering
+        \begin{subfigure}[b]{\doubleimagewidth}
+                \includegraphics[width=\textwidth]{figures/nfri-1mm-data-loglog.png}
+                \caption{$\bar{d}_p = 1$ mm}
+                \label{fig:nfri-1-exp-loglog}
+        \end{subfigure}
+        ~
+        \begin{subfigure}[b]{\doubleimagewidth}
+                \includegraphics[width=\textwidth]{figures/nfri-1.5mm-data-loglog.png}
+                \caption{$\bar{d}_p = 1.5$ mm}
+                \label{fig:nfri-1.5-exp-loglog}
+        \end{subfigure}
+        \caption{Log-log plots of experimental measurements of pebble force as a function of cross-head travel.}\label{fig:nfri-exp-curves-loglog}
 \end{figure}
+
+\begin{figure}[!h]
+        \centering
+        \begin{subfigure}[b]{\doubleimagewidth}
+                \includegraphics[width=\textwidth]{figures/nfri-1mm-loglog-slope.png}
+                \caption{$\bar{d}_p = 1$ mm}
+                \label{fig:nfri-1-exp-slope}
+        \end{subfigure}
+        ~
+        \begin{subfigure}[b]{\doubleimagewidth}
+                \includegraphics[width=\textwidth]{figures/nfri-1.5mm-loglog-slope.png}
+                \caption{$\bar{d}_p = 1.5$ mm}
+                \label{fig:nfri-1.5-exp-slope}
+        \end{subfigure}
+        \caption{Slopes from the log-log plots of experimental measurements of pebble force as a function of cross-head travel show the relation is approximately $F\propto s^{1.5}$.}\label{fig:nfri-loglog-slopes}
+\end{figure}
+
+The question then remains, if the force-travel response is fitting Hertzian predictions, why are the experimental curves so different than Hertzian predictions? The phenomena leading to the variation of crush forces seen in \Cref{fig:nfri-max}, we hypothesize, is also behind variation in travel-force curves of \Cref{fig:nfri-exp-curves}. The process of manufacture of pebbles leads to slightly different internal structures in the ceramic. Those differences yield stronger or weaker pebbles in a probability around a mean value, as seen in \Cref{fig:nfri-1-exp-fmax}. Different internal structure is likely also causing each pebble to behave with different stiffness. Thus if the Young's modulus in \Cref{eq:contact-force} for the batch of pebbles had a probability distribution, rather than a single value, we can account for the variations in responses of \Cref{fig:nfri-exp-curves}. 
+
+I introduce an `apparent' Young's modulus for each pebble which is iteratively found to be best fits between \Cref{eq:contact-forces} with pebbles from experiments. The reported value is normalized against the \lit~Young's modulus from literature, $E_\text{lit}$, 
+\begin{equation}
+	\kappa = \frac{E_\text{peb}}{E_\text{lit}}
+\end{equation}
+where I will call $\kappa$ the softening coefficient. The sintered pebble value of Young's modulus for \lit~is taken from Ref.\cite{gnielinski1982berechnung} to be $E_\text{lit}= \si{124~GPa}$. Iterating over apparent Young's modulus, the L2-norm of the difference between Hertzian and experimental curves is used as the `error'. The L2 norm, $A$ for a given array, $a$ is 
+\begin{equation}
+	||A||_F = \left[\sum_{i,j}\textrm{abs}(a_{i,j})^2\right]^{1/2}
+\end{equation}
+
+This is a convenient way to compare the error at every point along the force-displacement curves. When the error is minimized, the apparent Young's modulus is recorded and a softening coefficient is calculated. A Hertzian curve (in black), using the apparent Young's modulus inserted in \Cref{eq:contact-forces}, is plotted alongside its respective experimental curve in \Cref{fig:nfri-exp-hertz}
 
 \begin{figure}
         \centering
@@ -315,12 +386,7 @@ The results of these single pebble experiments indicate that the Young's modulus
         \caption{Force-displacement curves for \lit~pebbles (in color) along with their Hertzian fits (in black) calculated with each pebble having a unique Young's modulus.}\label{fig:nfri-exp-hertz}
 \end{figure}
 
-\begin{figure}[!t]
-\centering
-    \includegraphics[width=\doubleimagewidth]{figures/fzk-E-plot.png}
-    \caption{Distribution of modified Young's modulus for a batch of \lis~pebbles. Most pebbles responded to compression with a Young's modulus well below the sintered pellet value of \si{90 GPa}.}
-    \label{fig:fzk-E-plot}
-\end{figure}
+The majority of the curves for two batches of \lit~pebbles analyzed (\Cref{fig:nfri-exp-hertz}) fit well to Hertzian curves with apparent Young's modulii. Apparent Young's modulii of the \lit~pebbles are given in \Cref{fig:nfri-E-plot}. Histograms of $\kappa$ for two batches of \lit~are given in \Cref{fig:nfri-kappa-hist}. The distributions for both batches of \lit~pebbles more closely resemble Snedecor's F distribution with many pebbles behaving with a very small $\kappa$, then a long tail of few pebbles with large $\kappa$.
 
 \begin{figure}
         \centering
@@ -338,13 +404,40 @@ The results of these single pebble experiments indicate that the Young's modulus
         \caption{Distribution of modified Young's modulus for a batch of \lit~pebbles. All pebbles responded to compression with a Young's modulus well below the sintered pellet value of \si{126 GPa}.}\label{fig:nfri-E-plot}
 \end{figure}
 
+In \Cref{fig:nfri-kappa-dp-scatter} we see scatter plots of the pebble diameters against $\kappa$ values for the different batches of lithium ceramic pebbles. A Pearson Correlation value was calculated for each of the batches to quantify a correlation between diameter and $\kappa$. For the \lis~pebbles, we find $R = 0.198$ which is a weak positive correlation. For the \lit~pebbles we have $R = -0.385$ for $\bar{d}_p = 1$~mm and $R = -0.201$ for $\bar{d}_p = 1.5$~mm. Both of these are weakly negatively correlated. 
 
-\begin{figure}[!t]
-\centering
-    \includegraphics[width=\doubleimagewidth]{figures/fzk-kappa-histogram.png}
-    \caption{Histogram of $\kappa$ for a batch of \lis~pebbles. Most pebbles responded to compression with a Young's modulus well below the sintered pellet value of \si{90 GPa}.}
-    \label{fig:fzk-kappa-hist}
-\end{figure}
+The results of these single pebble experiments indicate that the Young's modulus traditionally used in DEM simulations for ceramic pebble beds in solid breeders is incorrect. Numerical recreations of the probability distribution curves will be used to apply $\kappa$ to pebbles in the ensemble. From the weak correlations between diameter and $\kappa$, we are free to ignore any diameter dependence when assigning $\kappa$ values in the DEM framework especially in light of the current implementation of monodisperse pebble beds. Therefore, numerically, when assigning Young's modulii to the particles in the ensemble, the $\kappa$ distribution will be applied in a random fashion.
+
+% \begin{figure}[!t]
+% \centering
+%     \includegraphics[width=\doubleimagewidth]{figures/fzk-data-w-ideal-hertz.png}
+%     \caption{Dashed lines are \lis~pebbles of approximately \si{0.5 mm} diameter. Solid lines are the Hertzian (Eq.\ref{eq:contact-force}) responses based on each pebble's measured diameter.}
+%     \label{fig:fzk-exp-colormap}
+% \end{figure}
+
+
+% \begin{figure}[!t]
+% \centering
+%     \includegraphics[width=\doubleimagewidth]{figures/fzk-hertz-colormap.png}
+%     \caption{Force-displacement curves for \lis~pebbles (in color) along with their Hertzian fits (in black) calculated with each pebble having a unique Young's modulus.}
+%     \label{fig:fzk-exp-hertz}
+% \end{figure}
+
+
+% \begin{figure}[!t]
+% \centering
+%     \includegraphics[width=\doubleimagewidth]{figures/fzk-E-plot.png}
+%     \caption{Distribution of modified Young's modulus for a batch of \lis~pebbles. Most pebbles responded to compression with a Young's modulus well below the sintered pellet value of \si{90 GPa}.}
+%     \label{fig:fzk-E-plot}
+% \end{figure}
+
+
+% \begin{figure}[!t]
+% \centering
+%     \includegraphics[width=\doubleimagewidth]{figures/fzk-kappa-histogram.png}
+%     \caption{Histogram of $\kappa$ for a batch of \lis~pebbles. Most pebbles responded to compression with a Young's modulus well below the sintered pellet value of \si{90 GPa}.}
+%     \label{fig:fzk-kappa-hist}
+% \end{figure}
 
 \begin{figure}
         \centering
@@ -363,12 +456,12 @@ The results of these single pebble experiments indicate that the Young's modulus
 \end{figure}
 
 
-\begin{figure}[!ht]
-\centering
-    \includegraphics[width=\doubleimagewidth]{figures/fzk-kappa-dp-scatter.png}
-    \caption{Scatter of $\kappa$ against pebble diameter for a batch of \lis~pebbles showing almost no relationship between apparent stiffness and diameter.}
-    \label{fig:fzk-kappa-dp-scatter}
-\end{figure}
+% \begin{figure}[!ht]
+% \centering
+%     \includegraphics[width=\doubleimagewidth]{figures/fzk-kappa-dp-scatter.png}
+%     \caption{Scatter of $\kappa$ against pebble diameter for a batch of \lis~pebbles showing almost no relationship between apparent stiffness and diameter.}
+%     \label{fig:fzk-kappa-dp-scatter}
+% \end{figure}
 
 \begin{figure}
         \centering
@@ -394,9 +487,9 @@ The results of these single pebble experiments indicate that the Young's modulus
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \subsection{Comparison of Young's Modulii Used in DEM Simulations}\label{sec:dem-studies-youngs-modulus}
 
-The discrete element method is used by many ceramic breeder researchers to model the interaction of individual pebbles in an ensemble.\cite{An20071393, Lu2000, Zhao2010, Gan:2010uq, Annabattula2012a, VanLew2014} In the past studies, the Young's modulus of the ceramic materials used in DEM simulations was taken from historical data, for instance lithium metatitanate from Ref.~\cite{Gierszewski1998}. However, in the previous section I proposed a modification of the Young's modulus to be used in DEM simulations for a batch of ceramic pebbles based on the `softening' seen of most pebbles in experiments. The force-displacement curves of Figs~\ref{fig:fzk-exp-hertz} and~\ref{fig:nfri-exp-hertz} demonstrate how far from the ideal Hertzian curves the majority of of ceramic pebbles behave.
+The discrete element method is used by many ceramic breeder researchers to model the interaction of individual pebbles in an ensemble.\cite{An20071393, Lu2000, Zhao2010, Gan:2010uq, Annabattula2012a, VanLew2014} In the past studies, the Young's modulus of the ceramic materials used in DEM simulations was taken from historical data, for instance lithium metatitanate from Ref.~\cite{Gierszewski1998}. However, in the previous section I proposed a modification of the Young's modulus to be used in DEM simulations for a batch of ceramic pebbles based on the `softening' seen of most pebbles in experiments. The force-displacement curves of \Cref{fig:fzk-exp-hertz,fig:nfri-exp-hertz} demonstrate how far from the ideal Hertzian curves the majority of of ceramic pebbles behave.
 
-The Hertzian force is linearly proportional to the pair Young's modulus of contacting spheres. Based on the $\kappa$ values found in \cref{sec:exp-reduction-factor}, the apparent Young's modulii of \lis~and \lit~are, on average, less than half the values given for sintered materials in literature. For the case of \lit, the average value was closer to only 10\% of the value from literature. Thus the actual contact forces in pebble beds may be 10\% of the values found from DEM simulations with incorrect Young's modulus! The contact force is a critical value for determining the conduction heat transport between pebbles as well as damage prediction. It is crucial to use proper material properties in our simulations in order to have dependable predictions of pebble crushing events and heat transfer. In this section, I will compare a number of pebble beds under numerical simulations of uniaxial compression tests. One set of beds will be composed of pebbles with the single Young's modulus from literature and the other set will be composed of pebbles with a distribution of Young's modulii that fit the distribution from experiments.
+The Hertzian force is linearly proportional to the pair Young's modulus of contacting spheres. Based on the $\kappa$ values found in \Cref{sec:exp-reduction-factor}, the apparent Young's modulii of \lis~and \lit~are, on average, less than half the values given for sintered materials in literature. For the case of \lit, the average value was closer to only 10\% of the value from literature. Thus the actual contact forces in pebble beds may be 10\% of the values found from DEM simulations with incorrect Young's modulus! The contact force is a critical value for determining the conduction heat transport between pebbles as well as damage prediction. It is crucial to use proper material properties in our simulations in order to have dependable predictions of pebble crushing events and heat transfer. In this section, I will compare a number of pebble beds under numerical simulations of uniaxial compression tests. One set of beds will be composed of pebbles with the single Young's modulus from literature and the other set will be composed of pebbles with a distribution of Young's modulii that fit the distribution from experiments.
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -404,7 +497,7 @@ The Hertzian force is linearly proportional to the pair Young's modulus of conta
 %In pebble bed breeder units, the stresses on the pebble regions are a result of thermal expansion of the relatively hot pebbles contained by relatively cool container walls. This process is a function of the coefficient of thermal expansion of the pebbles and their elevated temperature; the confined strain relates to a stress. 
 The pebble beds are modeled as undergoing a standard uniaxial compression up to 6 MPa while measuring the macroscopic stress-strain for some parametrically varied pebble beds. At the moment of maximum stress, we can investigate the differences in contact forces of the different pebble beds.
 
-Our pebble ensemble is composed of \SI{0.5}{\milli\meter} diameter \lis~pebbles. The pebble beds are initiated and packed in the same manner as \cref{sec:dem-studies-effective-conductivity} (more details can be found in that section). There are two main bed groups. Set A: three beds (A.1-3) containing a single type of pebble with $E$ = \si{90 GPa}. Set B: four beds (B.1-4) containing ten types of pebbles with their Young's modulus assigned in a discrete, random way to satisfy the distribution seen from experimental data. For the DEM study, I fit the \lis~pebbles with a Weibull distribution of shape parameter $\sigma = 1.6$ where the average stiffness was $\bar{E} = 49$~GPa. The description of the two sets of pebble beds is visually represented in Fig.~\ref{fig:dem-types}. The pebble bed geometry was also the same used in the study of Ref.~\cite{VanLew2014}~: two virtual walls in the x-direction located at $x_\text{lim} = \pm 20 R_p$, periodic boundaries at the limits of $y_\text{lim} = \pm 15 R_p$, and a total of 8000 pebbles packed into the volume to an approximate height of $z_\text{lim} = 20 R_p$.
+Our pebble ensemble is composed of \SI{0.5}{\milli\meter} diameter \lis~pebbles. The pebble beds are initiated and packed in the same manner as \Cref{sec:dem-studies-effective-conductivity} (more details can be found in that section). There are two main bed groups. Set A: three beds (A.1-3) containing a single type of pebble with $E$ = \si{90 GPa}. Set B: four beds (B.1-4) containing ten types of pebbles with their Young's modulus assigned in a discrete, random way to satisfy the distribution seen from experimental data. For the DEM study, I fit the \lis~pebbles with a Weibull distribution of shape parameter $\sigma = 1.6$ where the average stiffness was $\bar{E} = 49$~GPa. The description of the two sets of pebble beds is visually represented in \Cref{fig:dem-types}. The pebble bed geometry was also the same used in the study of Ref.~\cite{VanLew2014}~: two virtual walls in the x-direction located at $x_\text{lim} = \pm 20 R_p$, periodic boundaries at the limits of $y_\text{lim} = \pm 15 R_p$, and a total of 8000 pebbles packed into the volume to an approximate height of $z_\text{lim} = 20 R_p$.
 
 Among both sets, a parametric study was done on pebble radius and coefficient of friction. The radii of pebbles in beds A.1, A.2, B.1, and B.2 were constant at $R_p$=.25 mm. The radii of pebbles in beds A.3, B.3, and B.4 followed a Gaussian distribution about $\bar{R}_p$ = 0.25 mm: $\mu_d = R_p$ and $\sigma_d = R_p$. The coefficient of friction was set at $\mu = 0.2$ for beds A.1, A.3, B.1, and B.3; the coefficient of friction was $\mu = 0.3$ for beds A.2, B.2, and B.4.
 
@@ -421,7 +514,7 @@ Among both sets, a parametric study was done on pebble radius and coefficient of
 \subsubsection{Results from Uniaxial Compression}
 
 
-A constant-velocity, uniaxial compression was applied to the pebble beds. A single cycle up to \SI{6}{\mega\pascal} then down to \SI{0}{\mega\pascal} was used on all the beds. The macroscopic measurements of stress-strain are shown for all the pebble beds in Fig.~\ref{fig:stress-strain}.
+A constant-velocity, uniaxial compression was applied to the pebble beds. A single cycle up to \SI{6}{\mega\pascal} then down to \SI{0}{\mega\pascal} was used on all the beds. The macroscopic measurements of stress-strain are shown for all the pebble beds in \Cref{fig:stress-strain}.
 
 \begin{figure}[t]
   \centering
@@ -435,7 +528,7 @@ Naturally, the pebble beds with smaller Young’s modulus (with circle markers) ar
 The parametric study here shows that the largest contributor to stress-strain response is the Young’s modulus. The coefficient of friction and radius distribution had comparatively insignificant influence. A pebble bed geometry more directly comparable to oedometric compression experiments should be used to allow direct comparison and validation of the numerical models.
 
 
-At the point of peak stress for each bed, I use DEM results to visualize the distribution of contact forces among all pebbles in the ensemble. A plot of the probability distributions of all the beds together, Fig.~\ref{fig:all-contact-forces}, shows that the majority of the contacts in all the beds are equally small. There are a few overall trends we observe from the results however. The pebble beds with the constant Young's modulus are always higher for their comparable version with distributed Young's modulus. For pebble beds with comparable Young's modulii and radii, higher coefficients of friction generally have higher peak contact forces. Pebble beds' radius distributions have much less impact on peak contact forces than either coefficient of friction or Young’s modulus. Another method of comparing overall contact force distributions is to consider predictions on pebble cracking which assigns a strength value at random to pebbles in the bed (details are given in \cref{sec:exp-reduction-factor}). At the point of maximum stress, this is done and the results are shown in Table~\ref{tab:num-crush-percent}.
+At the point of peak stress for each bed, I use DEM results to visualize the distribution of contact forces among all pebbles in the ensemble. A plot of the probability distributions of all the beds together, \Cref{fig:all-contact-forces}, shows that the majority of the contacts in all the beds are equally small. There are a few overall trends we observe from the results however. The pebble beds with the constant Young's modulus are always higher for their comparable version with distributed Young's modulus. For pebble beds with comparable Young's modulii and radii, higher coefficients of friction generally have higher peak contact forces. Pebble beds' radius distributions have much less impact on peak contact forces than either coefficient of friction or Young’s modulus. Another method of comparing overall contact force distributions is to consider predictions on pebble cracking which assigns a strength value at random to pebbles in the bed (details are given in \Cref{sec:exp-reduction-factor}). At the point of maximum stress, this is done and the results are shown in \Cref{tab:num-crush-percent}.
 
 While overall the predicted number of broken pebbles is small, we compare similar parameteric pebble beds and in each case pebble beds with modified Young’s modulus overall predict smaller percentages of broken pebbles. Pebble crushing is a major topic for the overall evaluation of the feasibility of ceramic pebble beds in fusion reactors. This study reveals that past DEM work on pebble crushing, such as Ref.~\cite{Annabattula2012a,Annabattula2014,Zhao2013}, were likely over-predicting the extent of crushing if the Young's modulus used in the study was much larger than the realistic response of individual pebbles.
 
@@ -530,7 +623,7 @@ where the upper limit of the integration is the critical overlap $\delta_c$. Ins
 	W_\epsilon & = \frac{8}{15}E^*\sqrt{R^*}\, {\delta_c}^{5/2}
 \end{align}
 
-I will call the strain energy of the pebble compressed between platens as the lab strain energy, $W_{\epsilon,L}$. In pebble crushing experiments, we record the strain energy absorbed up to the point of crushing, the data for \lis~and \lit~pebbles are shown in Figs.~\ref{fig:fzk-w-hist} and~\ref{fig:nfri-w-hist}, respectively. The strain energy of two particles in contact will be $W_{\epsilon,B}$. The assumption is made that, if each contact interaction is integrated to the proper critical overlap, the strain energies will be equal at that contact. The critical lab value is equated to the ensemble value,
+I will call the strain energy of the pebble compressed between platens as the lab strain energy, $W_{\epsilon,L}$. In pebble crushing experiments, we record the strain energy absorbed up to the point of crushing, the data for \lis~and \lit~pebbles are shown in \Cref{fig:fzk-w-hist} and~\Cref{fig:nfri-w-hist}, respectively. The strain energy of two particles in contact will be $W_{\epsilon,B}$. The assumption is made that, if each contact interaction is integrated to the proper critical overlap, the strain energies will be equal at that contact. The critical lab value is equated to the ensemble value,
 \begin{equation}
 	W_{\epsilon,L} = W_{\epsilon,B} = \frac{8}{15}E_B^*\sqrt{R_B^*}\, {\delta_{c,B}}^{5/2}
 \end{equation}
@@ -545,7 +638,7 @@ This overlap can be reinserted to the Hertz force of \Cref{eq:hertz-normal-force
 \end{equation}
 where $C = \frac{4}{3}\left(\frac{15}{8}\right)^{3/5}$.
 
-Equation~\ref{eq:peb_hertz} is a generic translation between lab materials and packed bed materials. We will use the equation as the basis for our pebble crushing prediction in DEM simulations. Before implementing a custom crush-predicting method into the DEM code, I will review other attempts at modeling and predicting crush behavior in packed beds.
+\Cref{eq:peb_hertz} is a generic translation between lab materials and packed bed materials. We will use the equation as the basis for our pebble crushing prediction in DEM simulations. Before implementing a custom crush-predicting method into the DEM code, I will review other attempts at modeling and predicting crush behavior in packed beds.
 
 
 
@@ -608,7 +701,7 @@ Then define a pebble crushing event as occurring when \textit{any} force on the 
   F_{c} > F_{c,B} = \frac{4}{3}\left(\frac{15}{8}\right)^{3/5}{E_B^*}^{2/5}{R_B^*}^{1/5}W_{\epsilon,L}^{3/5}
 \end{equation}
 
-In the implementation into DEM, the probabilistic features appear naturally in this formulation from the measured $W_{\epsilon,L}$ of experiments. This value follows a probability distribution and therefore imparts a distribution shape to the $F_{c,B}$ prediction. Cumulative distribution functions are generated for the strain energy data (see Fig.~\ref{fig:nfri-w-hist}). From that data, we fit Weibull distribution curves, of the form
+In the implementation into DEM, the probabilistic features appear naturally in this formulation from the measured $W_{\epsilon,L}$ of experiments. This value follows a probability distribution and therefore imparts a distribution shape to the $F_{c,B}$ prediction. Cumulative distribution functions are generated for the strain energy data (see \Cref{fig:nfri-w-hist}). From that data, we fit Weibull distribution curves, of the form
 \begin{equation}
 	\Xi = \lambda\left[-\ln(W_\epsilon)\right]^{1/\sigma}
 \end{equation}
@@ -617,7 +710,7 @@ where the shape parameter, $\sigma$, is fit to the specific curve of each set of
 \lambda = \bar{W}_\epsilon - \min W_\epsilon
 \]
 
-In Figs.~\ref{fig:fzk-w-cdf} and~\ref{fig:nfri-w-cdf} we see the experimental data and the Weibull fits specific to the ceramic material and batch. The Weibull distribution functions are recreated numerically in the assignment of each pebbles `critical bed force' value.
+In \Cref{fig:fzk-w-cdf} and~\Cref{fig:nfri-w-cdf} we see the experimental data and the Weibull fits specific to the ceramic material and batch. The Weibull distribution functions are recreated numerically in the assignment of each pebbles `critical bed force' value.
 
 
 % \cite{Hiramatsu1966}
@@ -665,7 +758,7 @@ In the DEM framework, we are limited to modeling elastic spheres. If we strictly
 	N_c = \left(\frac{R_c}{R_p}\right)^{-3}
 \end{equation}
 
-Thus the number of fragments goes like the inverse of radius ratio to the third power and the number of crushed fragments to represent a single crushed pebble increases rapidly as the fragments shrink. The relationship between radius ratio and number of fragment particles is given in Fig.~\ref{fig:fragment-count}. Note that in the DEM simulation, it is impossible to insert fractions of a particle so the number of fragment pebbles is rounded to the nearest integer in the figure.
+Thus the number of fragments goes like the inverse of radius ratio to the third power and the number of crushed fragments to represent a single crushed pebble increases rapidly as the fragments shrink. The relationship between radius ratio and number of fragment particles is given in \Cref{fig:fragment-count}. Note that in the DEM simulation, it is impossible to insert fractions of a particle so the number of fragment pebbles is rounded to the nearest integer in the figure.
 
 
 \begin {table}[htp] %
@@ -712,9 +805,9 @@ thus
 	\frac{V_N}{V_p} = \left(\frac{r_1^*}{r_2^*}\right)^3
 \end{equation}
 
-If we choose a linearly spaced distribution of $r_1^*$ between 0 and 1, we can then find how many $N_c$ particles are necessary to conserve mass, then from the $N_c$ particles we can find from the database of sphere packing solutions the size of sphere that would be necessary to fit the $N_c$ particles. The calculations are carried out and shown in Fig.\ref{fig:volume-ratio}. The data in Ref.~\cite{gensane2003dense} does not go above 72 spheres so we are limited to radius ratios above about $r_1^* > 0.24$.
+If we choose a linearly spaced distribution of $r_1^*$ between 0 and 1, we can then find how many $N_c$ particles are necessary to conserve mass, then from the $N_c$ particles we can find from the database of sphere packing solutions the size of sphere that would be necessary to fit the $N_c$ particles. The calculations are carried out and shown in \Cref{fig:volume-ratio}. The data in Ref.~\cite{gensane2003dense} does not go above 72 spheres so we are limited to radius ratios above about $r_1^* > 0.24$.
 
-The plot of Fig.\ref{fig:volume-ratio} shows that for particle fragments of reasonable numbers ($N_c\approx 20$ for $r_1^*\approx 0.3$), the volume necessary to fit the number of volume-conserving particles is greater than double the volume of the original sphere! Therefore from the point of view of having the physical space to insert the fragments, smaller sized fragments are ideal. To insert the few number of large particles would require disrupting the packing in the region of the damaged particle.
+The plot of \Cref{fig:volume-ratio} shows that for particle fragments of reasonable numbers ($N_c\approx 20$ for $r_1^*\approx 0.3$), the volume necessary to fit the number of volume-conserving particles is greater than double the volume of the original sphere! Therefore from the point of view of having the physical space to insert the fragments, smaller sized fragments are ideal. To insert the few number of large particles would require disrupting the packing in the region of the damaged particle.
 
 Thus we have competing results from the two requirements. Computationally, we desire larger crushed fragments yet we need smaller fragments in order to fit them into the system in a non-disruptive way.
 
@@ -787,7 +880,7 @@ Thus we have competing results from the two requirements. Computationally, we de
 \end{figure}
 \FloatBarrier
 
-To study the effects on a pebble bed of different fragmentation schemes, I begin with a bed of \num{6875} particles and randomly crush 1\%. This was done with a range of fragments of size $r_1^* = [0.20, 0.25, 0.35, 0.50]$. The number of particles inserted for these different $r_1^*$ followed the from \Cref{eq:nc-crushed-fragments}. In the images of Figs.~\ref{fig:crush-settling-pictures-1},~\ref{fig:crush-settling-pictures-2},~\ref{fig:crush-settling-pictures-3}, and~\ref{fig:crush-settling-pictures-4}, we see the initial packing of new particle fragments (in blue) settle into the interstitial gaps of the packing structure of original pebbles (yellow).
+To study the effects on a pebble bed of different fragmentation schemes, I begin with a bed of \num{6875} particles and randomly crush 1\%. This was done with a range of fragments of size $r_1^* = [0.20, 0.25, 0.35, 0.50]$. The number of particles inserted for these different $r_1^*$ followed the from \Cref{eq:nc-crushed-fragments}. In the images of \Cref{fig:crush-settling-pictures-1},~\Cref{fig:crush-settling-pictures-2},~\Cref{fig:crush-settling-pictures-3}, and~\Cref{fig:crush-settling-pictures-4}, we see the initial packing of new particle fragments (in blue) settle into the interstitial gaps of the packing structure of original pebbles (yellow).
 
 \begin{figure}[!t]
 \centering
@@ -796,7 +889,7 @@ To study the effects on a pebble bed of different fragmentation schemes, I begin
     \label{fig:displacement-scatter}
 \end{figure}
 
-The settling of crushing fragments is also visualized in Fig.~\ref{fig:displacement-scatter}. For this figure, the magnitude of displacement for all the crushed fragments is recorded based on the change between initial insertion location and final resting place. The displacement of the fragments is normalized against the height of the pebble bed, $H$. The fragments with $r_1^* = 0.2$ are seen to travel, on average, 10\% of the height of the pebble bed before coming to rest; some of them travel more than the entire height of the bed -- as if in a game of Plinko. In contrast, the particle fragments of size $r_1^* = 0.35$ and $r_1^* = 0.5$ travel only about 1\% of the height of the bed before coming to rest. 
+The settling of crushing fragments is also visualized in \Cref{fig:displacement-scatter}. For this figure, the magnitude of displacement for all the crushed fragments is recorded based on the change between initial insertion location and final resting place. The displacement of the fragments is normalized against the height of the pebble bed, $H$. The fragments with $r_1^* = 0.2$ are seen to travel, on average, 10\% of the height of the pebble bed before coming to rest; some of them travel more than the entire height of the bed -- as if in a game of Plinko. In contrast, the particle fragments of size $r_1^* = 0.35$ and $r_1^* = 0.5$ travel only about 1\% of the height of the bed before coming to rest. 
 
 \begin{figure}[!t]
 \centering
@@ -805,7 +898,7 @@ The settling of crushing fragments is also visualized in Fig.~\ref{fig:displacem
     \label{fig:fragment-packing-fraction}
 \end{figure}
 
-From Fig.~\ref{fig:displacement-scatter}, the impression then arises that the large displacement magnitudes of the small crush fragments would result in an overall less-dense bed with large increase in packing fraction near the floor where pebbles settle. For 1\% crushed pebbles, there is some observable changes to the local packing fraction near the floor of the pebble bed, but no appreciable changes elsewhere in the bulk. In Fig.~\ref{fig:fragment-packing-fraction}, the packing fractions of the four different pebble beds are given. We look closely at the distribution within the first pebble diameter (see inset of Fig.~\ref{fig:fragment-packing-fraction}) and see the small crush fragments have a small change to the local packing fraction as they settled onto the floor of the container. Simulations can be run with a greater percentage of failed pebbles to discern more clearly the settling impact on local packing fractions. This is discussed in the Remaining Work section.
+From \Cref{fig:displacement-scatter}, the impression then arises that the large displacement magnitudes of the small crush fragments would result in an overall less-dense bed with large increase in packing fraction near the floor where pebbles settle. For 1\% crushed pebbles, there is some observable changes to the local packing fraction near the floor of the pebble bed, but no appreciable changes elsewhere in the bulk. In \Cref{fig:fragment-packing-fraction}, the packing fractions of the four different pebble beds are given. We look closely at the distribution within the first pebble diameter (see inset of \Cref{fig:fragment-packing-fraction}) and see the small crush fragments have a small change to the local packing fraction as they settled onto the floor of the container. Simulations can be run with a greater percentage of failed pebbles to discern more clearly the settling impact on local packing fractions. This is discussed in the Remaining Work section.
 
 
 \begin{figure}[!ht]
@@ -837,9 +930,9 @@ From Fig.~\ref{fig:displacement-scatter}, the impression then arises that the la
 
 \FloatBarrier
 
-The last point to discuss is how the different size particles change the distribution of contact forces inside the ensemble. We plot the scatter of contact forces for all the pebbles in the ensemble in Fig.~\ref{fig:fragment-contact-forces}. We are most interested in the contact loads carried by the large particles that make up the force network after crush fragments are inserted into the ensemble. The small fragments, moving through the interstitial gaps, are not expected to carry much load. Therefore in the data processing for the subplot of Figs.~\ref{fig:fragment-contact-forces-20} and~\ref{fig:fragment-contact-forces-25}, I did not include the vast number of small forces on the fragments in the average value of contact force. Opposingly, the larger fragments, $r_1^*>0.4$, are expected to be inserted firmly into the contact network and their contribution to the average value is included.
+The last point to discuss is how the different size particles change the distribution of contact forces inside the ensemble. We plot the scatter of contact forces for all the pebbles in the ensemble in \Cref{fig:fragment-contact-forces}. We are most interested in the contact loads carried by the large particles that make up the force network after crush fragments are inserted into the ensemble. The small fragments, moving through the interstitial gaps, are not expected to carry much load. Therefore in the data processing for the subplot of \Cref{fig:fragment-contact-forces-20} and~\Cref{fig:fragment-contact-forces-25}, I did not include the vast number of small forces on the fragments in the average value of contact force. Opposingly, the larger fragments, $r_1^*>0.4$, are expected to be inserted firmly into the contact network and their contribution to the average value is included.
 
-What we see in Fig.~\ref{fig:fragment-contact-forces} is that the average contact forces in the pebble bed remain mostly unchanged as a function of the size of the fragment radii. For all pebble beds, after the bed re-settles from the crushing event, the average contact forces (to the 1/3 power, which is the value important for heat transfer, see \cref{sec:dem-studies-effective-conductivity}) are approximately $4.9\ N^{1/3}$. None of the beds have a maximum value greater than $9\ N^{1/3}$.
+What we see in \Cref{fig:fragment-contact-forces} is that the average contact forces in the pebble bed remain mostly unchanged as a function of the size of the fragment radii. For all pebble beds, after the bed re-settles from the crushing event, the average contact forces (to the 1/3 power, which is the value important for heat transfer, see \Cref{sec:dem-studies-effective-conductivity}) are approximately $4.9\ N^{1/3}$. None of the beds have a maximum value greater than $9\ N^{1/3}$.
 
 
 
@@ -870,6 +963,6 @@ In the preceding sections I introduced the philosophy behind choosing the discre
 
 Among the contributions to the field of DE modeling for ceramic breeders, a modified Young's modulus (fit to a probabilistic distribution) is shown to be necessary to capture the observed scatter of elasticity of ceramic pebbles. The modified Young's Modulus is realized in DEM simulations with a numeric random generator satisfying a Fisher-Snedecor distribution fit to the experimental data of the pebble batch. A crush prediction algorithm was developed and implemented into DEM with a numeric random generator satisfying a Weibull distribution which assigns a critical bed-force value to each pebble. The value is constantly compared to all the contact forces acting upon a pebble in the ensemble to check for crush events. In the case of a crushed pebble, a volume-conserving pebble fragmentation script is used to simulate a broken pebble.
 
-The power of applying the discrete element method to pebble beds - and especially pebble beds with a concern for pebble damage - is showcased in \cref{sec:dem-studies}. Before that point, the DEM model will be augmented in two different means in order to incorporate the helium purge gas and its influences on thermal transport. The modeling development of these two methods will be introduced in the next series of sections.
+The power of applying the discrete element method to pebble beds - and especially pebble beds with a concern for pebble damage - is showcased in \Cref{sec:dem-studies}. Before that point, the DEM model will be augmented in two different means in order to incorporate the helium purge gas and its influences on thermal transport. The modeling development of these two methods will be introduced in the next series of sections.
 
 % DEM, alone, neglects the thermal transport between pebbles and interstitial gas. Theoretically- and experimentally-based  correlations have been proposed to include stagnant gas heat transfer in DEM framework. We must address the helium influence on heat transfer within the pebble bed Ð two schemes are developed here

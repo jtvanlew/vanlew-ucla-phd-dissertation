@@ -126,7 +126,7 @@ for loadname in filenames:
 	normColorVal = (dp[j] - min(dp))/(max(dp)-min(dp))
 	color = cm(normColorVal)
 	ax1.loglog(s,F,color=color)
-	ax1.loglog(s,Fhertz, color='g')
+	#ax1.loglog(s,Fhertz, color='g')
 	#print F[0]
 	j+=1
 ax1.set_xlabel('Standard travel (mm)')

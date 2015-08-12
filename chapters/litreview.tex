@@ -216,202 +216,220 @@ As part of the Ceramic Optimal Material Experiments for Thermomechanics (COMET) 
 % new subsection
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \subsection{Convection in granular media}\label{sec:particle-convection}
-For a sphere in an infinite, quiescent fluid where conduction is the only mode of heat transfer, the Nusselt number is identically 2. In all the single particle correlations, that value is the the limit as $\Re \rightarrow 0$.
-
-Whitaker in 1972 \cite{Whitaker1972}
-Definition of Reynolds number
+Before discussing the correlations for Nusselt number of particles with forced convection in two-phase porous media, I will consider a simple case of an axisymmetric sphere completely immersed in a quiescent fluid. The steady-state energy equation of the fluid surrounding the sphere is 
 \begin{equation}
-  \Re = \frac{D_p G}{\mu_b(1-\epsilon)}
+    \frac{\partial}{\partial}(k_fr^2T) = 0
 \end{equation}
-Definition of Nusselt number
+for which the solution is 
 \begin{equation}
-  \Nu = \frac{hD_p}{k_f}\frac{\epsilon}{1-\epsilon}
+    T = -\frac{C_1}{r} + C_2
 \end{equation}
-Definition of h
+subjected to a boundary condition of
 \begin{equation}
-  h_{\ln} = \frac{\dot{Q}}{a_v}V\Delta T_{\ln}
+    k_f\frac{\partial T}{\partial r}\Bigg|_R = -h(T_R - T_f)
 \end{equation}
-where $a_v = (A_p/V_p)(1-\epsilon)$ is the surface area per unit volume. And $\delta T_{\ln}$ is the log-mean temperature difference.
-Reference temp, $T^*$
+where $T_R$ is the temperature of the fluid in contact of the sphere of radius $R$ and $T_f$ is the temperature of the fluid infinitely far away from the sphere -- which naturally leads to the second boundary condition of $T(r\rightarrow\infty) = T_f$. These two boundary conditions yield a temperature solution of 
 \begin{equation}
-  T^* = \frac{1}{2}(T_{f1} + T_{f2})
+    T = \frac{hR}{k_f}\frac{R}{r}(T_R -T_f) + T_f
 \end{equation}
-Range of Reynolds number
-$22-8 \times 10^3$
-Range of Prandtl number
-0.7
-Range of ($\mu_b/\mu_0$)
-1
-Correlation,
+We can also say $T(r = R) = T_R$ to show,
 \begin{equation}
-  \Nu = \left( 0.5 \Re^{1/2} + 0.2\Re^{2/3} \right)\Pr^{1/3}
+    T_R = \frac{hR}{k_f}\frac{R}{R}(T_R -T_f) + T_f
 \end{equation}
-
-
-
-
-
-Gao\etal used thermal lattice-Boltzmann simulations to develop Nusselt number correlations in porous media with natural convection\cite{Gao2014}
-
-
-
-
-
-In a CFD-DEM study of \cite{Swasdisevi2005}, the Ranz-Marshall correlation 
+or simply
 \begin{equation}
-    \Nu = 2.0 + 0.6\Pr^{1/3}\Re^{1/2}
+    \frac{hR}{k_f} = 1
 \end{equation}
-
-
-
-
-In a CFD-DEM study by Rickelt\etal,\cite{Rickelt2013} they used correlations from Gnielinski (whcih is also used by Achenbach\cite{Achenbach199517}) which covers $\Re$ up to \num{10e5} and $\Pr$ from \numrange{0.7}{7e4}
+The Nusselt number for a sphere is defined as
 \begin{equation}
+    \Nu_p = \frac{hd_p}{k_f}
+\end{equation}
+which is simply
+\begin{equation}
+    \Nu_p = 2\frac{hR}{k_f} = 2
+\end{equation}
+showing that in the limit of $\Re_p \rightarrow 0$, the Nusselt number for a sphere in fluid will asymptotically approach $\Nu_p = 2$. This value is a natural limit for a Nusselt number correlation for particle-to-fluid heat transfer. 
+
+\subsubsection{Nusselt number correlations for an individual sphere}
+For a particle falling through a fluid or a fluid moving past a single particle, a number of correlations exist for the Nusselt number of that individual sphere. One common correlation is from Ranz \& Marshall\cite{Ranz1952}, developed from heat and mass transfer analogies with experiments on evaporating drops. Their correlation is
+\begin{equation}\label{eq:ranz_marshall}
+    \Nu_p = 2.0 + 0.6\Pr^{1/3}\Re_p^{1/2}
+\end{equation}
+Generally considered valid for $\Re_p< 200$. The Ranz \& Marshall correlation is used by Sasdisevi\etal~ in a CFD-DEM study of heat transfer in 2D fluidized spouts \cite{Swasdisevi2005}. Romkes\etal~ did direct CFD studies of particle-to-fluid heat transfer and validated against Ranz \& Marshall \cite{Romkes2003}; though they noted the correlation was valid over particle Reynolds numbers of $10 < \Re_p < 10^4$. Wu\etal~ also employed the correlation in a DEM study of granular material\cite{Wu2011}. Li \& Mason studied the correlation against their CFD-DEM studies \cite{Li2003a}, they found the RM correlation to be adequate for small $\Re_p < 200$ also. 
+
+
+
+Gnielinski\cite{gnielinski1982berechnung} developed a semi-empirical method where the Nusselt number for an arbitrary shape is related to the solution for a flat plate with appropriate transformations of the length scale. The solution is a function of the asymptotic laminar, turbulent, and $\Re_p\rightarrow 0$ solutions,
+\begin{equation}\label{eq:gnielinski}
     \Nu_p = 2 + \sqrt{\Nu^2_{lam} + \Nu^2_{tur}}
 \end{equation}
 where
 \begin{equation}
-    \Nu_{lam} = 0.664\Re^{1/2}\Pr^{1/3}
+    \Nu_{lam} = 0.664\Re_p^{1/2}\Pr^{1/3}
 \end{equation}
 and
 \begin{equation}
-    \Nu_{turb} = \frac{0.037 \Re^{0.8}\Pr}{1 + 2.443\Re^{-0.1}(\Pr^{2/3}-1)}
+    \Nu_{turb} = \frac{0.037 \Re_p^{0.8}\Pr}{1 + 2.443\Re_p^{-0.1}(\Pr^{2/3}-1)}
 \end{equation}
-then
+
+
+The two single-particle correlations are shown over a range of Reynolds numbers in \Cref{fig:Nu-single}. The two correlations are in good agreement near low Reynolds number.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=\singleimagewidth]{figures/Nusselt-single}
+    \caption{Comparison of correlations for Nusselt number of a single spherical particle in forced flow.}
+    \label{fig:Nu-single}
+\end{figure}
+
+
+
+
+
+\subsubsection{Nusselt number correlations for a sphere as part of a packing}
+However, this correlation was developed from measurements of a single particle in flow. The influence of neighboring grains will disrupt the flow field and result in a different Nusselt number. Thus, for the Nusselt number for a single grain in a packed bed, $\Nu_i$, is often related to the Nusselt number of a single particle (alone in an infinite fluid), $\Nu_p$, via the packing fraction. The subscripts $i$ and $p$ will be used consistently below to signify the Nusselt for a particle in a packing or a correlation for a single particle. 
+
+The data of Ranz suggested the following for spherical particles in a fixed bed
+\begin{equation}\label{eq:ranz-packing}
+    \Nu_i = 2 + 1.8\Re_p^{0.6} \Pr^{1/3}
+\end{equation}
+
+Another commonly-cited correlation is that of Wakao\etal~\cite{Wakao1978,wakao1982heat}. Combining a large amount of data over a broad range of particle Reynolds numbers and Prandlt numbers found a fitting function of
+\begin{equation}\label{eq:wakao}
+    \Nu_i = 2 + 1.1\Re_p^{0.6} \Pr^{1/3}
+\end{equation}
+Flueckiger\etal \cite{Flueckiger2014,Flueckiger2011a,Flueckiger2011} as well as Yang \& Garimella\cite{Yang2010}, both implemented the Wakao\etal~ correlation in their studies of heat transfer in solar thermal storage tanks. 
+
+Zhou\etal\cite{Zhou2009} used a modified form from Kunii and Levenspiel, to fit their experimental data. They gave
+\begin{equation}\label{eq:kunii}
+    \Nu_i = 2 + 1.2\Re_p^{1/2}\Pr^{1/3}
+\end{equation}
+
+In another study, Li \& Mason\cite{Li2000} also employed a modified form of Ranz \& Marshall to account for the packing in the assembly with a function of void fraction in front of the Reynolds and Prandtl terms,
+\begin{equation}\label{eq:modified-ranz}
+    \Nu_i = 2+ 0.6\epsilon^n\Re_p^{1/2}\Pr^{1/3}
+\end{equation}
+where they found $n= 3.5$ fitting for \SI{3}{\milli\meter} pellets in dilute flows\cite{Li2000}. Kloss\etal~\cite{Kloss2012} and Di Maoi\etal\cite{DiMaio2009} also use the modified Ranz \& Marshall correlation provided by Li \& Mason in their CFD-DEM studies. This correlation, however, conflicts with the correlations of Ranz, Wakao, and the Kunii \& Levenspiel. In the asymptotic limit of $\epsilon \rightarrow 1$, the correlation correctly approaches the single particle correlation of Ranz \& Marshall, \Cref{eq:ranz_marshall}. For a dense packing, $\epsilon = 0.36$, the correlation gives
 \begin{equation}
-    \Nu = f_\epsilon\Nu_p
+    \Nu_i = 2+ 0.0168\Re_p^{1/2}\Pr^{1/3}
 \end{equation}
-where
-\begin{equation}
-    f_\epsilon = 1 + 1.5(1-\epsilon)
+which is significantly less than any of the correlations of \Cref{eq:ranz-packing,eq:wakao,eq:kunii}
+
+
+Achenbach defined an empirical arrangement factor, $f(\epsilon) = 1+1.5(1-\epsilon)$ to related the single particle $\Nu$ of Gnielinski, \Cref{eq:gnielinski}, to a sphere in a packing,
+\begin{equation}\label{eq:modified-gnielinski}
+    \Nu_i = \left(1 + 1.5(1-\epsilon)\right)\Nu_p
 \end{equation}
-
-
-
-
-Yang \& Garimella, studying solar thermal energy storage used the correlation from Wakao Kaguei. They have\cite{Yang2010}
-\begin{equation}
-    \Nu = 6(1-\epsilon)(2 + 1.1\Re_L^{0.6}\Pr_L^{1/3})
+The modified form of Achenbach was used in a CFD-DEM study by Rickelt\etal \cite{Rickelt2013}, which covers $\Re_p$ up to \num{10e5} and $\Pr$ from \numrange{0.7}{7e4}. The Gnielinski correlation\cite{gnielinski1982berechnung} is also used in the ANSYS calculations of helium-cooled pebble bed breeders, reported by Hernandez\etal\cite{Hernandez2013}, Cismondi\etal\cite{Cismondi2009}, Poitevin\etal\cite{Poitevin2010}, \textit{etc.} However, Visser notes \cite{Visser2007} that the correlation of Gnielinksi is valid for $\Re_p$ in \numrange{500}{1000}, for $\epsilon$ in the range \numrange{0.26}{1.0}. Thus he uses the correlation of Gunn for his situation of lower Reynolds number\cite{Gunn1978}
+\begin{equation}\label{eq:gunn}
+    \Nu_i = (7-10\epsilon+5\epsilon^2)(1+0.7\Re_p^{0.2}\Pr^{1/3})+(1.33-2.4\epsilon+1.2\epsilon^2)\Re_p^{0.7}\Pr^{1/3}
 \end{equation}
-where $\Re_L$ and $\Pr_L$ are the local Reynolds and Prandtl numbers.
+which Gunn developed to be valid for: heat transfer to particles at low and high Reynolds number, at low and high porosities; single particle at low Reynolds number, particles and particles in ensembles with high Reynolds number and moderate Prandtl. Amritkar\etal~also employ the Gunn correlation in their simulations of spout-fluidized flow \cite{Amritkar2014}.
 
-Wakao provides
-\begin{equation}
-    Nu = 2 + 1.1\Re_p^{0.6} \Pr^{1/3}
-\end{equation}
+The correlations are given as functions of $\Re$ at a specified value of $\epsilon = 0.36$ and $\Pr = 0.7$ in \Cref{fig:Nu-packed}. We see the correlation from Li \& Mason (a modified form of Ranz \& Marshall), from \Cref{eq:modified-ranz}, predicts very small Nusselt numbers over this entire range of Reynolds number. Additionally, the modified Gnielinski of \Cref{eq:modified-gnielinski} and the correlation of Gunn in \Cref{eq:gunn} predict much higher Nusselt numbers at low Reynolds number than any other correlation, and are well above the single particle limit of $\Nu = 2$ when $\Re \rightarrow 0$. In the studies of Achenbach and Rickelt, which employed the modified Gnielinski studies, the authors were interested in larger Reynolds number regimes. Above $\Re > 10$, Gnielinski correlation is similar to Wakao and Ranz correlations, thus the over-prediction at very small $\Re$ may not have been observed. Gunn rejects the notion that the Nusselt number should approach 2 in the no-flow limit \cite{Gunn1978}. The discrepancy appears to arise because of definitions of either particle or bed heat transfer coefficients. It seems Gunn's definition was meant for representative cross sections of packed beds with voidage defined by the void fraction rather than for an individual particle communicating with forced flow in a packed bed. 
 
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=\singleimagewidth]{figures/Nusselt-packing}
+    \caption{Comparison of correlations for Nusselt number of a single spherical particle in forced flow.}
+    \label{fig:Nu-packed}
+\end{figure}
 
+After discussing many popular correlations for Nusselt number in packed beds, considering the very small Reynolds number ($\Re \sim 1$) and packing fraction expected with the purge gas of helium in tritium breeders, the correlation of Wakao\etal, as given in \Cref{eq:wakao}, is sufficient. However, we note the debate that still exists in literature for determining Nusselt number for a specific particle in a packed bed. If experimental validation shows the Wakao correlation to be inaccurate, we will revisit the implementation in our modeling.
 
-
-Li \& Mason compared many correlations for Nusselt number for a single particle. They use Ranz \& Marshall correlation up to $\Re = 200$. Then the middle range is a modified form of Kemp and the last case for large Reynolds number is from a modified Frantz
-\begin{equation}\label{eq:li-mason-correlation-appendix}
-    \Nu = \begin{cases}
-    2+ 0.6\epsilon^n\Re_p^{1/2}\Pr^{1/3}                                        & \Re_p < 200\\
-    2+ 0.5\epsilon^n\Re_p^{1/2}\Pr^{1/3} + 0.02 \epsilon^n \Re_p^{0.8}\Pr^{1/3} & 200 < \Re_p < 1500\\
-    2+ 0.000045\epsilon^n\Re_p^{1/2}                                            & \Re_p > 1500
-    \end{cases}
-\end{equation}
-where they found from experiments that $n=3.5$ was appropriate for 3~mm polymer pellets in dilute flows (small $\phi$). The coefficient needs to be evaluated experimentally for configurations of other particle sizes, packing fractions, or Reynolds numbers.\cite{Li2000}
-
-
-
-
-
-In their analysis of solar thermal storage devices, Van Lew\etal~derived a form of heat transfer coefficient based on the Chilton-Colburn analogy\cite{vanlew133}. The form of their solution followed from the form used by Nellis and Klein \cite{Nellis2009} in heat exchangers. The heat transfer coefficient used by Van Lew\etal~reads
-\begin{equation}\label{eq:vanlew-htc}
-    \Nu =0.191 N_v Re_G^{-.278} Pr_f^{-2/3}
-\end{equation}
-where the dimensionless grouping $N_v = \frac{\dot{m}D_hc_f}{\epsilon A_tk_f}$. They used a modified Reynolds number based on the mass flux and hydraulic diameter of their storage tank,
-\begin{equation}
-    Re_G=\frac{4 \dot{m} r_{char}}{\epsilon \pi R_t^2\mu_f}
-\end{equation}
-where $R_t$ is the radius of the container and with $r_char$ a characteristic radius (or hydraulic radius) of their packing, 
-\begin{equation}
-    r_{char}=\frac{\epsilon d_p}{4(1-\epsilon)}
-\end{equation}
-and $d_p$ is the nominal diameter of filler material.
-
-While the simulations of thermoclines run by Van Lew\etal~predicted well the results of their experimental data\cite{vanlew133,Valmiki2012a} their correlation for heat transfer coefficient does not match theory as $\Re \rightarrow 0$. In a stationary fluid, $Nu = 2$ but in the correlation of \Cref{eq:vanlew-htc}, as $\Re \rightarrow 0$, $\Nu \rightarrow0$ and thus is not appropriate for the low-Reynolds flows inside the solid breeder volume.
-
-
-
-
+% Whitaker in 1972 \cite{Whitaker1972}
+% Definition of Reynolds number
+% \begin{equation}
+%   \Re = \frac{D_p G}{\mu_b(1-\epsilon)}
+% \end{equation}
+% Definition of Nusselt number
+% \begin{equation}
+%   \Nu = \frac{hD_p}{k_f}\frac{\epsilon}{1-\epsilon}
+% \end{equation}
+% Definition of h
+% \begin{equation}
+%   h_{\ln} = \frac{\dot{Q}}{a_v}V\Delta T_{\ln}
+% \end{equation}
+% where $a_v = (A_p/V_p)(1-\epsilon)$ is the surface area per unit volume. And $\delta T_{\ln}$ is the log-mean temperature difference.
+% Reference temp, $T^*$
+% \begin{equation}
+%   T^* = \frac{1}{2}(T_{f1} + T_{f2})
+% \end{equation}
+% Range of Reynolds number
+% $22-8 \times 10^3$
+% Range of Prandtl number
+% 0.7
+% Range of ($\mu_b/\mu_0$)
+% 1
+% Correlation,
+% \begin{equation}
+%   \Nu = \left( 0.5 \Re^{1/2} + 0.2\Re^{2/3} \right)\Pr^{1/3}
+% \end{equation}
 
 
 
-Bandrowski \& Kaczmarzyk\cite{Bandrowski1977} investigated gas-to-particle heat transfer for pneumatically conveyed spherical particles, their data fit the relationship
-\begin{equation}
-     \Nu = 0.00114\epsilon^{-0.5984}\Re_p^{0.8159}
-\end{equation}
-Although Bandrowski \& Kaczmarzyk\cite{Bandrowski1977} is only for extremely dilute flow at high particle Reynolds number ($180 < \Re_p < 1800$ and $0.00025 < \phi < 0.05$).
+
+
+% Gao\etal used thermal lattice-Boltzmann simulations to develop Nusselt number correlations in porous media with natural convection\cite{Gao2014}
 
 
 
 
 
 
-Romkes\etal~ show generalized forms of Nusselt number of the form
-\begin{equation}
-    \Nu = c_1 + c_2\Re^{n}\Pr^{1/3}
-\end{equation}
-where the constants are defined based on the style of packing. They consider
-\begin{enumerate}
-\item particle-to-fluid heat transfer of a single free sphere in a static infinite medium
-\item particle-to-fluid heat transfer of a single free sphere in a flowing fluid
-\item wall-to-fluid heat transfer of an empty channel with laminar flow
-\item wall-to-fluid heat transfer of an empty channel with turbulent flow
-\item particle-to-fluid heat transfer of a tube filled with catalyst particles
-\end{enumerate}
-
-For (1), $\Nu = 2$ in steady-state. For (3), in a fully-developed region, $\Nu = 3.66$ for constant temperature boundary conditions and $\Nu = 4.36$ for constant heat flux boundary conditions. 
-
-Romkes\etal~give Ranz \& Marshall, Whitaker, and Achenbach correlations, respectively, as correlations for (2) when there is an infinite medium surrounding a single sphere
-\begin{equation}
-    \Nu = 2 + 0.66\Re^{0.5}\Pr^{0.33}
-\end{equation}
-for $\Re$ in the range \numrange{10}{1e4}, and $\Pr > 0.7$. (assuming $\Pe \gg 1$).
-\begin{equation}
-    \Nu = 2 + (0.4\Re^{0.5}+0.06\Re^{0.67})\Pr^{0.4}
-\end{equation}
-for $\Re$ in the range \numrange{3.5}{7.6e4}, and $\Pr$ in the range \numrange{0.7}{380}
-\begin{equation}
-    \Nu = 2.0 + \left(\frac{1}{4}\Re + \num{3e-4}\Re^{1.6}\right)
-\end{equation}
-for $\Re$ in the range \numrange{1e2}{2e5}
-
-Romkes\etal~give a `conventional engineering relation' for heat transfer in a randomly packed bed as
-\begin{equation}
-    \Nu = (1.8\pm 0.3)\Re^{1/2}\Pr^{1/3}
-\end{equation}
-for $\epsilon = 0.4$, $\Re$ in the range \numrange{30}{3e3}, and $\Pr \ge 1$. And he sites that $c_1$ in the above equation is dropped as in ERG Eckert from 1956 transactions of ASME 56, and Gnielinksi in a 1978 publication.
 
 
-Visser's thesis notes \cite{Visser2007} that the correlation of Gnielinksi is valid for $\Re$ in \numrange{500}{1000}, for $\epsilon$ \numrange{0.26}{1.0}. Achenbach correlation is for $\Re > 1$ and $\epsilon = 0.387$. So he uses Gunn 
-\begin{equation}
-    \Nu_p = (7-10\epsilon+5\epsilon^2)(1+0.7\Re_p^{0.2}\Pr^{1/3})+(1.33-2.4\epsilon+1.2\epsilon^2)\Re_p^{0.7}\Pr^{1/3}
-\end{equation}
-Amritkar\etal also used\cite{Amritkar2014} a form given by Gunn in 1978
-\begin{equation}
-    \Nu = (7-10\epsilon+5\epsilon^2)(1+0.7\Re_p^{0.2}\Pr^{1/3})+(1.33-2.4\epsilon+1.2\epsilon^2)\Re_p^{0.7}\Pr^{1/3}
-\end{equation}
 
 
-Zhou\etal\cite{Zhou2009} use the form
-\begin{equation}
-    \Nu_i = 2+a\Re_i^b\Pr^{1/3}
-\end{equation}
-then from Kunii and Levenspiel, choose $b =0.5$ and hvae $a$ in the range of 0.6 to 1.8. They cite literate of bed conditions similar to their own to choose $a = 1.2$, thus
-\begin{equation}
-    \Nu_i = 2 + + 0.2\Re_i^{1/2}\Pr^{1/3}
-\end{equation}
+
+
+
+
+% Romkes\etal~ show generalized forms of Nusselt number of the form
+% \begin{equation}
+%     \Nu = c_1 + c_2\Re^{n}\Pr^{1/3}
+% \end{equation}
+% where the constants are defined based on the style of packing. They consider
+% \begin{enumerate}
+% \item particle-to-fluid heat transfer of a single free sphere in a static infinite medium
+% \item particle-to-fluid heat transfer of a single free sphere in a flowing fluid
+% \item wall-to-fluid heat transfer of an empty channel with laminar flow
+% \item wall-to-fluid heat transfer of an empty channel with turbulent flow
+% \item particle-to-fluid heat transfer of a tube filled with catalyst particles
+% \end{enumerate}
+
+% For (1), $\Nu = 2$ in steady-state. For (3), in a fully-developed region, $\Nu = 3.66$ for constant temperature boundary conditions and $\Nu = 4.36$ for constant heat flux boundary conditions. 
+
+% Romkes\etal~give Ranz \& Marshall, Whitaker, and Achenbach correlations, respectively, as correlations for (2) when there is an infinite medium surrounding a single sphere
+% \begin{equation}
+%     \Nu = 2 + 0.66\Re^{0.5}\Pr^{0.33}
+% \end{equation}
+% for $\Re$ in the range \numrange{10}{1e4}, and $\Pr > 0.7$. (assuming $\Pe \gg 1$).
+% \begin{equation}
+%     \Nu = 2 + (0.4\Re^{0.5}+0.06\Re^{0.67})\Pr^{0.4}
+% \end{equation}
+% for $\Re$ in the range \numrange{3.5}{7.6e4}, and $\Pr$ in the range \numrange{0.7}{380}
+% \begin{equation}
+%     \Nu = 2.0 + \left(\frac{1}{4}\Re + \num{3e-4}\Re^{1.6}\right)
+% \end{equation}
+% for $\Re$ in the range \numrange{1e2}{2e5}
+
+% Romkes\etal~give a `conventional engineering relation' for heat transfer in a randomly packed bed as
+% \begin{equation}
+%     \Nu = (1.8\pm 0.3)\Re^{1/2}\Pr^{1/3}
+% \end{equation}
+% for $\epsilon = 0.4$, $\Re$ in the range \numrange{30}{3e3}, and $\Pr \ge 1$. And he sites that $c_1$ in the above equation is dropped as in ERG Eckert from 1956 transactions of ASME 56, and Gnielinksi in a 1978 publication.
+
+
+
+
+
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % new subsection
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \subsection{Radiation in Granular Media}
 
-The temperatures expected in the solid breeder are high enough that we can not a priori neglect radiation. The radiation exchange between contacting neighbors in a packed bed becomes extremely complex due to the local and semi-local nature of radiation. A standard approach to treat radiation exchange between surfaces is to consider the view factor between them. In a dense, randomly packed bed of spheres the computation of view factors between pebbles can be done via a method such as that proposed Feng and Han\cite{Feng2012}. Ideally, we could show this mode of heat transport is negligible compared to the others already discussed.
-
-
+The temperatures expected in the solid breeder are high enough radiation between grains may be important. The radiation exchange between contacting neighbors in a packed bed becomes extremely complex due to the local and semi-local nature of radiation. A standard approach to treat radiation exchange between surfaces is to consider the view factor between them. In a dense, randomly packed bed of spheres the computation of view factors between pebbles can be done via a method such as that proposed Feng and Han \cite{Feng2012}. 
 
 The ZSB model incorporates radiation heat transfer into the general expression and calculation of $k_c$ and $N$. Others have attempted to incorporate radiation into an effective thermal conductivity and typically it is done with a superposition of gas/solid conduction models (such as all those described above) with a separate radiation model. One common technique is to analyze a representative unit cell with a thermal radiative conductivity of a general form,
 \begin{equation}
