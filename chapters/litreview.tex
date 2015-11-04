@@ -1,6 +1,17 @@
 \chapter{Literature Review}
 
+Ceramic pebble beds in solid breeders can be seen as belonging to a larger class of generalized granular material, and specifically dry granular material. A deceivingly simple definition of a granular material is one for which the medium cannot be described in terms of traditional Brownian motion.\cite{duran2012sands} Granular materials can also be described as a aggregation of discrete, macroscopic particles (mean size greater than \SI{100}{\micro\meter}) that are characterized with energy dissipation during interaction. The study of ceramic pebble bed thermomechanics for tritium breeding have their roots connnected to historical treatment of granular material and it is instructive to begin with a short review of this field. Following that, I will compile many generalized studies of heat and momentum transfer, specifically correlations that have been developed in the classical continuum treatment of pebble beds. The correlations will not only be instructive by view of their limitations, but they will help inform the numerical modeling of coupling fluid and pebble bed conservation equations. Finally, I will focus the literature review specifically on the progress that has been made in temperature predictions from numerical models of tritium breeders for fusionr eactors.
 
+\section{Brief History of Granular Material Research}
+The science and modeling of granular materials has a long and rich history. Coulomb proposed ideas of static friction in 1773, Faraday in 1831 discovered the convective movement of powders, and even Reynolds in 1885 introduced notions on granular expansion and shear.\cite{Jaeger1996a} Yet despite the diverse fields interested in granular materials, the description of them with classic continuum mechanics is still far from complete; quite different from the conclusively described constitutive equations of elastic theory, hydrodynamics, and gas dynamics that have existed for two centuries.\cite{Sadovskaya2012} Granular materials are only second two water in terms of most-used industrial material. Granular materials play in important role in civil, geotechnical, chemical, and mechanical engineering in industries as diverse as pharmacy, automative, agriculture, and construction to name just a few.\cite{Hill,duran2012sands} A resurgence of interest in granular materials has also happened in the fields of applied mathematics and physics as metaphors for other dynamical systems.\cite{Jaeger1996a}
+
+Even if we restrict our consideration to static packings of non-cohesive granular materials (neglecting the complex, unusual granular hydro- and gas dynamics), modeling is complicated by the heterogeneity of contact forces running through the packed grains and the packing structure of the grains. The granular medium introduces complexity to modeling, in part, due to its significant different between compression and tension experiments; under compression the granular medium behaves as if an elastic or elasto-plastic body but offers no resistance to tension. Furthermore, when an external excitation, such as vibration, is introduced into the metastable packing state of a granular system, the packing is unlocked to slowly travel through packing phase space at a logarithmically slow pace[barker and mehta 1993, mehta 1994, knight 1995]. 
+
+Nonetheless, many material models have been developed in an attempt to describe the mechanics of a granular system as a fictitious continuum with varying success and applicability. Researchers in geophysics have long viewed granular materials as continuous materials for which they painstakingly developed equations as if the granular material obeyed laws of classical mechanics.\cite{duran2012sands}[cite drucker and prager, etc. see \cite{Hill}]. Heat transfer in granular materials has also been treated in a continuum manner and the correlations will be covered in explicit detail in \Cref{sec:granular-ht-correlations}. 
+
+Granular system became important to fusion power reactors after the introduction of a solid, non-mobile tritium breeding blanket design concept by Abdou\etal\cite{Abdou1975} in 1975, the so-called `solid breeder' or `ceramic breeder' beds of lithium ceramics. Because of the large size scale and complex interactive physics of solid breeders, it is desirable to employ the continuum-based models on the packed beds of ceramics with effective thermomechanical properties derived from experiments on granular beds. In \Cref{sec:modeling-state}, the status and success of early continuum-based models will be discussed in more detail.
+
+In 1979, Cundall \& Strack opened a new avenue for studying granular materials when they introduced the distinct element method (later renamed by the community as the \textit{discrete} element method).\cite{Cundall1979} Since then, grain-scale descriptions of granular systems have taken prominence for their ability to enrich the macrosopic models when they are insufficient to describe the rheology of a granular material. In the approach of Cundall \& Strack, all of the individual grains in a system are described as rigid elements for which the equations of motion can each be simultaneously integrated based on the (typically localized) interacting forces.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -42,7 +53,7 @@ Historically, granular materials are treated as a fictitious continuous media fo
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % new subsection
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Effective thermal conductivity of granular media}
+\subsection{Effective Thermal Conductivity of Granular Media}
 
 
 Deissler and Boegli, in 1958, proposed upper and lower bounds of effective thermal conductivity, $\keff$, in two-phase granular media to be given by alternating layers of the two phases arranged in parallel or series, respectively \cite{Deissler1958}. In the case of parallel layers, effective conductivity, normalized by fluid conductivity, is
@@ -215,7 +226,7 @@ As part of the Ceramic Optimal Material Experiments for Thermomechanics (COMET) 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % new subsection
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Convection in granular media}\label{sec:particle-convection}
+\subsection{Convection in Granular Media}\label{sec:particle-convection}
 Before discussing the correlations for Nusselt number of particles with forced convection in two-phase porous media, I will consider a simple case of an axisymmetric sphere completely immersed in a quiescent fluid. The steady-state energy equation of the fluid surrounding the sphere is 
 \begin{equation}
     \frac{\partial}{\partial}(k_fr^2T) = 0
@@ -483,7 +494,7 @@ With a Grashof number significantly higher for the SANA experiments, it is indic
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Momentum transfer in packed beds with fluid flow} \label{sec:modeling-pressure-drop}
+\section{Momentum Transfer in Packed Beds with Fluid Flow} \label{sec:modeling-pressure-drop}
 Present three major correlations for pressure drop and drag force for fluid flow in packed beds and discuss their range of applicability.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -651,7 +662,30 @@ Research efforts have been aimed at developing an understanding and characteriza
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % new subsection
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Experiments to develop constitutive equations}
+\subsection{Experiments to Develop Constitutive Equations for Pebble Beds}
+
+
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{\doubleimagewidth}
+                \includegraphics[width=\textwidth]{figures/keff-pressure}
+                \caption{Effective conductivity of ceramic pebble beds is dependent on the pressure of the interstitial gas, a minimum of about $\keff = $\SI{0.2}{\watt\per\meter\per\kelvin} in vacuum.}
+                \label{fig:keff-pressure}
+        \end{subfigure}%
+        
+          %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{\doubleimagewidth  }
+                \includegraphics[width=\textwidth]{figures/lit-keff-exp}
+                \caption{The effective conductivity of pebble beds is weakly dependent on external mechanical pressure and is always approximately $\keff = $\SI{1}{\watt\per\meter\kelvin} in helium.}
+                \label{fig:keff-lit}
+        \end{subfigure}
+        \caption{Effective conductivity of lithium ceramics. Results from Ref.~\cite{Abou-Sena2005}}\label{fig:keff}
+\end{figure}
+
+Many experiments have been run to measure the effective thermal conductivity of a volume of ceramic pebbles. In \Cref{fig:keff}, the effective conductivity is seen to be strongly affected by the interstitial gas but weakly affected by the mechanical loads on the bed. The main conclusions to bear in mind from \Cref{fig:keff} are that: 1) the interstitial gas is an important transporter of heat in the bed and 2) the effective thermal conductivity of the pebble bed is low and will limit the size of the ceramic pebble bed volume to satisfy the temperature window mentioned above.
+
+
 
 % Reimann and FZK experiments ~~~~~~~~~~~~~~~~~~
 Reimann\etal~have conducted an extensive experimental study of stress-strain relations of ceramic breeder pebble beds using an oedometric test apparatus \cite{Piazza2002811,Reimann:2002kl,Reimann:2003qc,Reimann:2002mi,Reimann:2001il}. The most significant macroscopic experimental phenomena witnessed in pebble beds is an irreversible plastic strain when load is removed, a non-linear elasticity, a pressure-dependent plasticity, and volumetric creep.  A particularly noticeable feature, clearly demonstrated in Fig.~\ref{fig:mti}, is the reduced amount of irreversible strain when subjected to additional loading cycles after the first unloading. This may suggest the existence of a semi-equilibrium packing state in the pebble bed which can be reached after applying a pre-load to account for the large strain in the first cycle of a pebble bed. This semi-equilibrium packing state is a feature which may be advantageous for use in a fusion reactor.
@@ -711,7 +745,7 @@ Figure~\ref{fig:pba} shows the cross-section of \lit~pebbles (left) and \lis~peb
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % new subsection
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Continuum modeling of granular material for solid breeders}
+\subsection{Continuum Modeling of Granular Material for Solid Breeders}
 When we consider beds of granular material from the standpoint of engineering continuum mechanics, packed beds cannot be adequately described by traditional models of either solids or liquids alone. Under compression, a packed bed responds like a solid with non-linear elasticity and a plasticity that is history-dependent. At the same time, the packed bed can obviously not support any tensile pressure and will often behave as an extremely viscous liquid as it may fill in voids under just the force of gravity. Nevertheless, phenomenological models, derived from the volumes of collected data, have been developed, using effective material properties for the ceramic pebble bed, that describe the pebble beds in an Eulerian manner that provide reliable information on the initial states of breeder volumes in the fusion reactor environment and allow reasonable design predictions of the Thermomechanics of the breeding blanket. 
 
 In spite of the shortcomings of a continuum approach, it is the only option which currently allows treatment of the pebble beds with standard finite element modeling (FEM) that can be scaled up to the breeder system. To employ FEM, mathematical models written in terms of average quantities and containing effective parameters are used. These models deduce a set of constitutive equations to be implemented in the framework of a finite element code.  There are two major variants of phenomenological modeling approaches developed among institutions, including: (1) A non-linear elastic model and a modified Drucker-Prager-Cap theory for plastic strain \cite{Gan2007189,fokkens2003}; and (2) A hyper-porous non-linear elastic model and a Gurson model for the plastic model \cite{DellOrco:2007hc,DellOrco:2010zr,DiMaio20081287}. Another approach was taken by Ref.\cite{fokkens2003} wherein the authors employed two different elasticity laws for the loading and unloading branches. Alongside the development of the modeling techniques, several large scale pebble bed Thermomechanics experiments were conducted. These experiments were intended to reveal the underlined thermomechanical characteristics of ceramic breeder pebble beds, and provide data for benchmarking the developed models. The vast amount of work done on modeling the pebble beds in the FEM framework can be found in literature. \cite{DellOrco:2007hc,DellOrco:2010zr,DiMaio20101234,Gan2007189,Gan2007189,Gan:2009vn,Gan:2010lh,Gan:2010kc,DellOrco:2007hc,DellOrco:2010zr,DiMaio20101234,Gan2007189,DellOrco:2007hc,DiMaio20101234} A study was also published in 2012 that summarized, compared, and highlighted features of the models under development at the time.\cite{ying2011isfnt}
@@ -783,6 +817,9 @@ However, it must be noted that the benchmarking efforts are incomplete and incon
 % new subsection
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \subsection{Discrete Element Method for Solid Breeders of Tritium}
+However, current continuum models will be shown to be insufficient for capturing the evolving thermomechanics of the packed bed as bed resettling, individual grain crushing, and the helium purge influence the packing structure and inter-particle force networks in the bed. Thus in this dissertation I will approach the pebble bed from the microscopic scale of individual grains via the discrete element method to enable predictive capabilities for temperature profiles in ceramic breeder pebble beds with a helium purge gas -- even those experiencing bed resettling and grain crushing. Along the way, new constitutive relationships for material properties are discovered, fragmentation models are created, and new heat transfer models are incorporated.
+
+
 
 Correlations for effective properties of heat transfer and the constitutive equations derived from experiments are, however, still incapable of accurate modeling of granular thermomechanics as the granular material evolves in time (based on creep, granular crushing, sintering, \textit{etc.}), thus many researchers of ceramic pebble beds began modeling with the grain-scale discrete element method (DEM). The last part of this chapter revolves around discussion of historical efforts of applying DEM to solid breeders and important results obtained.
 
@@ -848,7 +885,7 @@ The nature of damage evolution influences the maximum strength and strain at whi
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % new subsection
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Conclusions on solid breeder granular material literature review}
+\subsection{Conclusions on Solid Breeder Granular Material Literature Review}
 A good deal of progress has been made in the field of ceramic pebble bed analysis. Owing to the multi-scale nature of pebble beds, it is unavoidable that multi-scale models are necessary. In this framework, the continuum modeling approach using FEM and empirically derived material constitutive equations is capable of correctly characterizing the stress load to which a breeder pebble bed unit may be subject during reactor operation. The DEM approach analyzes this load and determines the possibility of pebble bed morphological changes; i.e. pebble damage based on the crush load data of pebbles, the degree of sintering depending on the local contact stress and temperature fields, and creep relaxation of contacts. It is only with the combined analysis of particle-scale information from DEM and system-scale information from FEM that warrants a high confidence of success to the assembly and design of breeder units in a blanket.  Experiments should also be conducted to assess the manner of pebble relocations and packing rearrangement when morphological evolution of the pebble bed occurs. It is important to learn if the breeder unit will continue to function in accord with the original design goals under all complex operating conditions.  The ultimate objectives of the pebble bed Thermomechanics are: to delineate a near-equilibrium packing state as the initial state, quantify breeder unit Thermomechanics parameters during operations, understand how these properties evolve as topographical changes happen in the packing, and ensure breeder functions as it is intended to in the fusion operational phase spaces.
 
 
