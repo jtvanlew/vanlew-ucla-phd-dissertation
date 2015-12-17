@@ -775,21 +775,13 @@ Note, too, that the physical limits of our system are describable in terms of th
 
 % The last thing we need before converting the variables of \Cref{eq:non-dim-ns} into lattice units are the lattice spacing and lattice time step, $\delta_x$ and $\delta_t$. We will define the lattice spacing based on the resolution of our pebble diameter, as described above.
 
-The manner of description I will follow next will match the method in which the values are actually programmed in my DEM-to-LBM script. I begin by defining the pebble diameter, limits, and resolution ($\text{res}$); the script returns $\delta_x$, $N_x$, $N_y$, and $N_z$ where the $N$ values represent the total number of nodes in a given direction. The values are calculated as,
-\begin{subequations}
-\begin{align}
-	\delta_x = \delta_y = \delta_z & = \frac{1}{\text{res}} \\
-	N_x & = \text{res}\cdot X^* \\
-	N_y & = \text{res}\cdot Y^* \\
-	N_z & = \text{res}\cdot Z^*
-\end{align}
-\end{subequations}
+% The manner of description I will follow next will match the method in which the values are actually programmed in my DEM-to-LBM script. I begin by defining the pebble diameter, limits, and resolution ($\text{res}$); the script returns $\delta_x$, $N_x$, $N_y$, and $N_z$ where the $N$ values represent the total number of nodes in a given direction. 
 
-Recalling that the description of the lattice evolution equations requires a relaxation time that is based on the lattice viscosity, the property is defined on the lattice as,
-\begin{equation}
+Next, the dimensionless kinematic viscosity, $\nu^* = 1/\Re$, is converted into a lattice viscosity as
+\begin{equation}\label{eq:fluid-nu}
 	\nu = \frac{\delta_t}{\delta_x^2}\frac{1}{\Re}
 \end{equation}
-from which, the relaxation time for our single-relaxation-time, D3Q19 lattice is calculated from \Cref{eq:lbm-viscosity-relaxation-time} as,
+from which, we can finally calculate the relaxation time for our single-relaxation-time, D3Q19 lattice (calculated from \Cref{eq:lbm-viscosity-relaxation-time}) as,
 \begin{equation}
 	\tau_{ns} = \frac{\nu}{c_s^2} + \frac{1}{2}
 \end{equation}
@@ -805,6 +797,16 @@ Translating from physical to lattice units is done via,
 	u = \frac{\delta_t}{\delta_x}\frac{\hat{\vec{u}}}{\hat{\vec{u}}_i}
 \end{equation}
 and the translation is used, for instance, when defining the boundary velocity in the lattice based on the predefined physical velocity.
+
+The spatial discretization of the lattice is defined in terms of the resolution of our sphere in the discretization process. The values of lattice spacing, $\delta x$, and the total lattice nodes are calculated as,
+\begin{subequations}
+\begin{align}
+	\delta_x = \delta_y = \delta_z & = \frac{1}{\text{res}} \\
+	N_x & = \text{res}\cdot X^* \\
+	N_y & = \text{res}\cdot Y^* \\
+	N_z & = \text{res}\cdot Z^*
+\end{align}
+\end{subequations}
 
 The only lattice parameter not defined at this point is the lattice time step, $\delta_t$. In lattice-Boltzmann, $\delta_t$ and $\delta_x$ are linked via the incompressibility constraint in the lattice. At the same time, from \Cref{eq:lbm-u}, the lattice velocity is directly related to the lattice time step size; and the magnitude of $\vec{u}$ may not be larger than the speed of sound on the lattice, $c_s$. The time step is further constrained when enforcing incompressibility of our fluid. The LB model is a quasi-compressible fluid solver which permits slight compressible regimes to enter the system to solve the pressure equation of the fluid. Compressibility effects will impact the numerical accuracy and should therefore be minimized. As these effects scale like the square Mach-number, $\Ma^2$, compressibility effects can be minimized by enforcing a small Mach number. In LBM, the lattice Mach number is simply,
 \begin{equation}
@@ -829,34 +831,36 @@ In the LBM model, we only treat the energy as a passive scalar transported by th
 
 The temperature will be nondimensionalized based on a characteristic temperature of volumetric heating,
 \begin{equation}
-	T^* = \frac{\hat{T}}{\hat{q}''' \hat{d}_p^2/\hat{k}_s}
+	T^* = \frac{\hat{T} - \hat{T}_c}{\Delta \hat{T}}
 \end{equation}
 and the time and length scales are nondimensionalized as in the Navier-Stokes equations. Thus the nondimensional energy equation is
 \begin{equation}\label{eq:non-dim-energy}
-	\frac{\partial T^*_f}{\partial t^*} + \nabla^*(u^*T^*_f) = -\frac{1}{\Pe_f} \nabla^{*2}T^*_f
+	\frac{\partial T^*_f}{\partial t^*} + \nabla^*(u^*T^*_f) = \frac{1}{\Pe_f} \nabla^{*2}T^*_f
 \end{equation}
 where $\Pe$ is the Peclet number ($\Pe = \Re\cdot \Pr$). The Peclet number for the fluid and solid will be unique, hence we must distinguish them with a fluid/solid subscript.
 
 To discretize the dimensionless energy system into the lattice, we recognize the similarities between \Cref{eq:non-dim-ns} and \Cref{eq:non-dim-energy} to directly write the lattice thermal diffusivity of the fluid as
-\begin{equation}
+\begin{equation}\label{eq:fluid-alpha}
 	\alpha_f = \frac{\delta_t}{\delta_x^2}\frac{1}{\Pe_f}
 \end{equation}
 
 For the solid, the energy equation in dimensional units is
 \begin{equation}
-	\frac{\partial \hat{T}_s}{\partial \hat{t}} = -\hat{\alpha}_s\hat{\nabla}^2\hat{T}_s + \frac{\hat{q}'''}{\hat{\rho}_s\hat{C}_{ps}}
+	\frac{\partial \hat{T}_s}{\partial \hat{t}} = \hat{\alpha}_s\hat{\nabla}^2\hat{T}_s + \frac{\hat{q}'''}{\hat{\rho}_s\hat{C}_{ps}}
 \end{equation}
 
 which similarly nondimensionalizes to,
 \begin{equation}\label{eq:non-dim-energy-solid}
-	\frac{\partial T^*_s}{\partial t^*} = -\frac{1}{\Pe_s} \nabla^{*2}T^*_s + \frac{1}{\Pe_s}
+	\frac{\partial T^*_s}{\partial t^*} = -\alpha_s^* \nabla^{*2}T^*_s + Q^{'''*}
 \end{equation}
-where the solid Peclet number is defined in terms of the fluid velocity and viscosity. For this Peclet number, the Reynolds number is $\Re = \frac{\hat{u}_i \hat{d}_p}{\hat{\nu}_f}$ and the Prandtl number is an awkward $\Pr = \frac{\hat{\nu}_f}{\hat{\alpha}_s}$. 
+where the dimensionless thermal diffusivity of the solid is $\alpha_s^* = \frac{\hat{\alpha_s}}{\hat{d}_p\hat{u}_i}$ and the dimensionless nuclear heating rate is $Q^{'''*} = \frac{\hat{q}'''\hat{d}_p}{\hat{u}_{i}\hat{\rho}_s\hat{C}_{ps}\Delta\hat{T}}$.
 
 We can now directly write the lattice thermal diffusivity of the solid as
-\begin{equation}
-	\alpha_s = \frac{\delta_t}{\delta_x^2}\frac{1}{\Pe_s}
+\begin{equation}\label{eq:solid-alpha}
+	\alpha_s = \frac{\delta_t}{\delta_x^2}\frac{1}{\alpha_s}
 \end{equation}
+
+The lattice heat rate is $Q = \delta_tQ^{'''*}$
 
 On the thermal lattice, we need only use a D3Q7 to satisfy isotropy, for which the lattice speed of sound is only $c_s^2 = \frac{1}{2}$ (I will refer to it as $c_{s,ad}$ to distinguish). On this lattice, we are solving the energy equation for both the fluid and solid, so each material has a unique relaxation time. I will refer to them as the advection-diffusion (ad) and conjugate (cj) relaxation times, for short. They are,
 \begin{subequations}
@@ -867,13 +871,43 @@ On the thermal lattice, we need only use a D3Q7 to satisfy isotropy, for which t
 \end{subequations}
 and the size of lattice spacing and time steps are equal to those of the Navier-Stokes lattice.
 
-To summarize the unit conversion process described above, our lattice needs to be defined in terms of lattice spacing and time step. These values can be determined from considerations of fidelity and error minimization. The physics of the system are encompassed in the relaxation time -- values which can be determined completely from lattice spacing and nondimensional values of the Reynolds number and Peclet number. Physical boundary conditions of velocity and temperature can be enforced in the lattice with translations into lattice variables as given above. %Perhaps not obvious from this discussion is that we could be free to model a fictitious fluid that allows for high numeric accuracy and stability provided that the nondimensional variables be translatable to proper physical ones.
+To summarize the unit conversion process described above, our lattice needs to be defined in terms of lattice spacing and time step. The physics of the system are encompassed in the relaxation time -- values which can be determined completely from lattice spacing and nondimensional values of the Reynolds, Peclet, and solid diffusivity values. Physical boundary conditions of velocity and temperature can be enforced in the lattice with translations into lattice variables as given above. 
+
+Below, the lattice diffusivity values given in \Cref{eq:fluid-nu}, \Cref{eq:fluid-alpha}, and \Cref{eq:solid-alpha}, respectively, are summarized together,
+\begin{align*}
+	\nu &= \frac{\delta_t}{\delta_x^2}\frac{1}{\Re} \\
+	\alpha_f &= \frac{\delta_t}{\delta_x^2}\frac{1}{\Pe_f} \\
+	\alpha_s &= \frac{\delta_t}{\delta_x^2}\frac{1}{\alpha_s}
+\end{align*}
+
+From which we can find the relaxation times, 
+\begin{align*}
+	\tau_{ns} &= \frac{\nu}{c_s^2} + \frac{1}{2} \\
+	\tau_{ad} &= \frac{\alpha_f}{c_{s,ad}^2} + \frac{1}{2} \\
+	\tau_{cj} &= \frac{\alpha_s}{c_{s,ad}^2} + \frac{1}{2}
+\end{align*}
+
+And the relaxation constants,
+\begin{align*}
+	\omega_{ns} &= \frac{1}{\tau_{ns}} \\
+	\omega_{ad} &= \frac{1}{\tau_{ad}} \\
+	\omega_{cj} &= \frac{1}{\tau_{cj}}
+\end{align*}
+
+%Perhaps not obvious from this discussion is that we could be free to model a fictitious fluid that allows for high numeric accuracy and stability provided that the nondimensional variables be translatable to proper physical ones.
 
 
 
 
-\subsection{Mapping DEM Pebbles onto LBM Nodes}\label{sec:dem2lbm-mapping}
 
+
+
+
+
+
+
+
+\subsection{DEM Mapping to LBM \& Realizing Proper Hydrodynamics}
 Unlike the dynamic coupling between DEM and the volume-averaged CFD where information passed back and forth between fluid and particle, in the LBM construction I am simply translating a static packing structure from DEM into the LBM framework. The lattices of the LBGK solver use equally spaced nodes that discretize our volume into regular spacing. The pebble data from DEM is mapped onto the LBM nodes with a script via knowledge of the centroid and radius of each pebble. To demonstrate, in \Cref{fig:dem-2-lbm-example1}, we see a two-dimensional slice of a pebble projected onto a section of an LBM lattice. If the distance from a node to the centroid is less than the radius of the pebble, the node is assigned as a solid. All other nodes are assigned as fluids.
 
 \begin{figure}[ht]
@@ -881,40 +915,200 @@ Unlike the dynamic coupling between DEM and the volume-averaged CFD where inform
 	\includegraphics[width=\singleimagewidth]{figures/lbm/dem-to-lbm-mapping.pdf}
 	\caption{An example of the mapping process from DEM to LBM structures. Nodes are assigned as fluid or solid based on relative location of pebble centroid and radius. Here we have a resolution of 9 (\textit{i.e.} 9 nodes per pebble diameter).}\label{fig:dem-2-lbm-example1}
 \end{figure}
+
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=\doubleimagewidth]{figures/lbm/lbm-pebble-res25.png}
 	\caption{A three-dimensional DEM pebble as imported into the LBM lattice with a resolution of 25.}\label{fig:dem-2-lbm-example2}
 \end{figure}
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=\doubleimagewidth]{figures/lbm/crossSection0024.jpg}
-	\caption{A two-dimensional slice of a DEM pebble bed as imported into the LBM lattice with a resolution of 25.}\label{fig:dem-2-lbm-example3}
+
+\begin{figure}[h]
+        \centering
+        \begin{subfigure}[b]{0.2\textwidth}
+                \includegraphics[width=\textwidth]{figures/lbm/2d-res20-k050.png}
+                \caption{$\phi = 0.181$ in pebble bed section with $k = 0.50$.}
+                \label{fig:2d-res20-k050}
+        \end{subfigure}%
+        ~
+        \begin{subfigure}[b]{0.2\textwidth}
+                \includegraphics[width=\textwidth]{figures/lbm/2d-res20-k075.png}
+                \caption{$\phi = 0.389$ in pebble bed section with $k = 0.75$.}
+                \label{fig:2d-res20-k075}
+        \end{subfigure}%
+        ~
+          %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.2\textwidth}
+                \includegraphics[width=\textwidth]{figures/lbm/2d-res20-k090.png}
+                \caption{$\phi = 0.555$ in pebble bed section with $k = 0.90$.}
+                \label{fig:2d-res20-k090}
+        \end{subfigure}
+        ~
+        \begin{subfigure}[b]{0.2\textwidth}
+                \includegraphics[width=\textwidth]{figures/lbm/2d-res20-k100.png}
+                \caption{$\phi = 0.667$ in pebble bed section with $k = 1.00$.}
+                \label{fig:2d-res20-k100}
+        \end{subfigure}
+        \caption{For a given resolution, the scaling parameter $k$ will result in different packing fractions. These mappings were generated from a pebble bed with $\phi =0.64$; only a specific $k$ will yield that void fraction after mapping into LBM.}\label{fig:2d-dem-lbm-mapping}
 \end{figure}
+
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=\textwidth]{figures/lbm/palabos_packing_fraction}
 	\caption{The digital packing fraction was measured at all slices through the height of the pebble bed. When the average value equaled the expected value, the mapping from DEM to LBM was considered consistent.}\label{fig:dem-2-lbm-packing-fraction}
 \end{figure}
 
-In the example of \Cref{fig:dem-2-lbm-example1}, the resolution is only 9. Thus 9 nodes are needed to span the diameter of a single pebble and the lattice spacing is $\delta_x = 1/9$. In the second example shown in \Cref{fig:dem-2-lbm-example2}, we see a pebble in three dimensions that has been mapped onto the LBM nodes with a resolution of 25 (thus $\delta_x = 1/25$). The trade-off between a small lattice spacing is in the ability to resolve the spherical surface of the pebble, stability, and even the ability to resolve a proper packing fraction in the pebble bed. 
+In the example of \Cref{fig:dem-2-lbm-example1}, the resolution is only 9. Thus 9 nodes are needed to span the diameter of a single pebble and the lattice spacing is $\delta_x = 1/9$. In the second example shown in \Cref{fig:dem-2-lbm-example2}, we see an individual pebble in three dimensions that has been mapped onto the LBM nodes with a resolution of 25 (thus $\delta_x = 1/25$). The trade-off between a small lattice spacing is in the ability to resolve the spherical surface of the pebble, stability, and even the ability to resolve a proper packing fraction in the pebble bed. In the process of digitizing DEM onto lattice sites, the size of the sphere is often over-represented and the LBM lattice does not faithfully reproduce the correct void fraction from DEM. In order to capture proper macroscopic values of porosity on the lattice sites, a radius-reduction factor was introduced into the digitization process. The radius that was mapped into LBM would then be $r_{lbm} = k r_{dem}$. The effects of the radius reduction factor can be seen in \Cref{fig:2d-dem-lbm-mapping}, where the void fraction is calculated as discussed below.
 
-Shown in \Cref{fig:dem-2-lbm-example3} is a single slice of a pebble bed with a resolution of 25 as it is mapped into LBM. Here, black pixels represent solid and white pixels are fluid. Because we are representing the surfaces of curved objects with straight lines, at the point of contact between pebbles, the mapping from DEM to LBM would occasionally over-predict the overlap between pebbles. This was measured numerically by comparing the number of white pixels to black pixels in each slice -- the digital equivalent of a packing fraction,
+A digital void fraction for each mapping was measured numerically by comparing the number of white pixels to black pixels in each bitmap slice,
 \begin{equation}
 	\phi_{d,j} = \frac{N_\text{black}}{N_\text{white}}
 \end{equation}
 
-The total digital packing fraction of the ensemble, as mapped into LBM, is simply
+Then the total digital packing fraction of the ensemble, as mapped into LBM, is simply
 \begin{equation}
 	\phi_d = \frac{1}{J}\sum_j^J\phi_{d,j}
 \end{equation}
 
-where there are $J$ total slices. For example, we see in \Cref{fig:dem-2-lbm-packing-fraction} a plot of the digital packing fraction moving through the pebble bed. The digital mapping of DEM onto LBM was tweaked with a radius magnification parameter until the digital packing fraction matched the calculated packing fraction from DEM. When the error between digital and continuous packing fractions was small, as calculated by
-\begin{equation}
-	\Phi_{err} = \frac{|\phi_d - \phi|}{\phi} < 10^{-4}
-\end{equation}
-I considered the mapping from DEM to LBM to be consistent.
+where there are $J$ total slices. For example, we see in \Cref{fig:dem-2-lbm-packing-fraction} a plot of the digital packing fraction moving through a particular pebble bed. Digital packing fractions changed as a function of the radius-reduction factor and can be seen in \Cref{fig:2d-dem-lbm-mapping}. The DEM packing from which these slices originated was a $\phi =0.64$ initial packing of \Cref{sec:isfnt-12}.
+
+To model proper hydrodynamics with the lattice-Boltzmann method there are still several measures the lattice must satisfy. Several numerical experiments by Succi\etal~have shown proper hydrodynamics of Pouiselle flow in channels requires 4 lattice sites for fluid in pores of porous media.\cite{succi2001lattice} When spherical packings are digitized onto LBM lattices, constricted pores are consistently observed when resolutions are low. Taking DEM packings from \Cref{sec:isfnt-12}, we analyze the pore size distributions of different resolutions. The important pore size for a flow in the $x$-direction is the transverse $y-z$-plane. Thus taking a digitized bitmap of the $\phi = 0.64$  DEM packings, we measure the pore size sweeping along the $y$- and $z$-axes to generate \Cref{fig:res-pore-sizes}. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/lbm/res-pore-sizes}
+    \caption{Normalized histogram of pore sizes with increasing resolution. Hydrodynamic fidelity is violated with average pore sizes less than 4 nodes on the LBM lattice.}\label{fig:res-pore-sizes}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/lbm/percent-pores-under-4px}
+    \caption{For small resolutions, the number of pore openings smaller than 4 lattice nodes is 87.5\%. Increasing the resolution to 80 reduces this percentage to 26.2\%.}\label{fig:percent-pores-under-4px}
+\end{figure}
+
+\Cref{fig:res-pore-sizes} shows the distribution of pore sizes in pixels (or lattice nodes) for various resolutions. Following, \Cref{fig:percent-pores-under-4px}, shows the percentage of pore openings in the lattices that are less than the 4 nodes recommended for proper hydrodynamics. It is obvious that the lattice resolution of 10 is unacceptable in terms of faithful reproduction of packed bed flow hydrodynamics, nearly 90\% of the pores in the lattice are less than 4 nodes wide. It is less evident if the violation of 4-node recommendation of other resolutions are allowable. We turn to the Knudsen number of our system to help answer this question.
+
+The Knudsen number, the ratio of the gas mean free path to a characteristic geometric length, is a key nondimensional parameter indicating when continuum assumptions, free molecule solutions, or rarefaction take place in a gas flow. A classification for different flow regimes dictates that must be $\Kn < 10^{-2}$ for the continuum assumption to hold.\cite{karniadakis2006microflows} The Knudsen number is calculated as a function or pore size and temperature in \Cref{fig:Knudsen_limits}. Adhering to the classification, to satisfy the $\Kn$ criteria, pore sizes must be larger than \SI{50}{\micro\meter} for helium at \SI{400}{\celsius} and greater than \SI{100}{\micro\meter} at \SI{900}{\celsius}. In packed beds of spheres, a large range of pore sizes appears. Near the contact points of two pebbles, pore sizes can be extremely small. Simultaneously, pore sizes between some pebbles in the packing can be on the order of pebble diameters. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/lbm/Knudsen_limits}
+    \caption{Knudsen number for helium at \SI{400}{\celsius} and \SI{900}{\celsius} as a function of characteristic pore size.}\label{fig:Knudsen_limits}
+\end{figure}
+
+We can measure pore size distribution from a digitized DEM packing structure with an extremely fine resolution, res = \num{10000}. The pore size is converted into micro-meters from the translation between resolution and pebble diameter (resolution = pixels/mm). The result is shown in \Cref{fig:res10000-pore-size-distributions}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/lbm/res10000-pore-size-distributions}
+    \caption{Measured pore sizes from digitized DEM packings at $\phi = 0.64$, determined from a lattice with res = \num{10000}.}\label{fig:res10000-pore-size-distributions}
+\end{figure}
+
+Analysis of the pore size distribution tells us that this packed bed has 41.2\% of its pores smaller than \SI{100}{\micro\meter} and 22.5\% of the pore openings are smaller than \SI{50}{\micro\meter}. In other words, based on the Knudsen number of helium, at \SI{400}{\celsius}, nearly a quarter of the gaseous space in the pebble bed is violating the assumption necessary for continuum treatment of the fluid. As the temperature increases to \SI{900}{\celsius}, almost half of the gaseous space is in violation of the continuum assumption. Comparing these results to those of \Cref{fig:percent-pores-under-4px} and we see a resolution of 40 may still have an acceptable level of pore size distribution in light of the Knudsen violation of the true pebble bed porosity. In the next section we will explore the effects of these resolutions on actual LBM models.
+
+
+
+
+
+
+
+\subsection{DEM to LBM Mapping, Stability, and Lattice Parameters}\label{sec:dem2lbm-mapping}
+The void fraction and resolution of the slices have a direct impact on the lattice stability and the faithful reproduction of hydrodynamics on the lattice. To study stability we choose several two-dimensional slices (similar to \Cref{fig:2d-dem-lbm-mapping}) to simulate with realistic input parameters but, for now, without consideration for the error of the steady-state solution. Lattices were generated with varying values of $k$ and $\res$. Using simple boundary conditions of no-slip on the left and right walls, a Neumann boundary condition at the outlet (top) and constant velocity at the inlet (bottom), all latices were tested to find the stability of the resolutions and packings. To determine if a steady-state condition was reached, the velocity of the entire lattice was integrated. The value has units of $\psi = [m/s][lu^2]$, with dimensionless lattice spacing units. The value of $\psi$ is plotted in \Cref{fig:2d-lbm-settings-velocity}. From \Cref{fig:2d-lbm-settings-velocity}, we see a steady-state velocity is reached in all of the low-packing fraction lattices. As the packing fraction increased, following the increase of $k$, we see the system velocity slowly become unstable. When $k$ = 0.9, with a packing fraction of $\phi = 0.555$, the system approximately linearly increases into unstable values. Note, for the case when $k=1$, the density calculated in this system blew up to $\infty$ in less than 300 steps, so the velocity profile does not have a chance to demonstrate the unstable increase. For that bed, the packing fraction was high enough that there was not a continuous path available between inlet and outlet.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/lbm/2d-lbm-settings-velocity}
+    \caption{Integrated system velocity shows stable lattice configurations in two dimensions.}\label{fig:2d-lbm-settings-velocity}
+\end{figure}
+
+The two-dimensional study shows settings that lead to a stable lattice but, because of the limitations of two-dimensional lattices, such as rapid instability in such cases as $k=1$, an additional study was done on a scaled-down pebble bed in three-dimensions (again, temporarily without consideration for the error of the modeled hydrodynamics). The simplified system considers a pebble bed with width of $6d_p$, periodic depth of $1d_p$, and height of approximately $6d_p$. The pebble bed is discretized using the same numeric schemes and loaded onto three-dimensional lattices. The pebble bed, as visualized from DEM data, is shown in \Cref{fig:3d-bed-lbm}. When the simplified pebble bed is mapped onto discrete LBM nodes, we see the effects of resolution in \Cref{fig:3d-dem-lbm-mapping}. Here we have chosen resolutions of 10, 20, and 40, respectively. For each resolution, the coarseness of discretization requires varying radius reduction factors in order to achieve a consistent digital packing fraction; k = 0.92, 0.947, and 0.97, respectively. Details of the lattices are given below in \Cref{tab:3d-simp-lbm-parameters}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{figures/lbm/3d-bed}
+    \caption{Simplified three-dimensional pebble bed, packing generated with DEM.}\label{fig:3d-bed-lbm}
+\end{figure}
+
+\begin{figure}[h]
+        \centering
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth, trim={200pt, 150pt, 200pt, 200pt},clip]{figures/lbm/k092res10}
+                \caption{Pebble bed with $k = 0.92$, $\res = 10$.}
+                \label{fig:k092res10}
+        \end{subfigure}%
+        ~
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth, trim={200pt, 150pt, 200pt, 200pt},clip]{figures/lbm/k0947res20}
+                \caption{Pebble bed with $k = 0.947$, $\res = 20$.}
+                \label{fig:k0947res20}
+        \end{subfigure}%
+        ~
+          %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth, trim={200pt, 150pt, 200pt, 200pt},clip]{figures/lbm/k097res40}
+                \caption{Pebble bed with $k = 0.97$, $\res = 40$.}
+                \label{fig:k097res40}
+        \end{subfigure}
+        \caption{For a specified packing fraction, 62.4\%, different resolution lattices require different radius scaling factors. The increased resolution is seen in increasing accuracy of spherical modeling on the discretized lattice.}\label{fig:3d-dem-lbm-mapping}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/lbm/3d-lbm-settings-velocity}
+    \caption{Averaged system velocity shows pebble beds with the same digital packing fraction and different resolutions will have different average system velocities.}\label{fig:3d-lbm-settings-velocity}
+\end{figure}
+
+In \Cref{fig:3d-lbm-settings-velocity}, the lattices shown in \Cref{fig:3d-dem-lbm-mapping} and others have their overall average velocity plotted. In this case, the magnitude of steady-state velocity is important so the integrated velocity has been divided by the total fluid space in the simulation. We see from \Cref{fig:3d-lbm-settings-velocity} that a lattice with the same packing fraction will have slightly different rates at which steady-state is approached. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/lbm/3d-bed-v-profiles}
+    \caption{Low resolution lattices show qualitatively similar behavior but have insufficient resolution to capture jet velocity magnitudes.}\label{fig:3d-bed-v-profiles}
+\end{figure}
+
+At a location along the axial midpoint, velocity profiles across the pebble bed are shown in \Cref{fig:3d-bed-v-profiles}. The velocity jets in the near-wall region, caused by low packing fraction from ordered packing, are not well-captured by the low resolution ($\res = 10$) lattice. Other features of velocity are qualitatively seen in the low resolution packing, such as the velocity near $x = 2$~lu, but the $\res=20$ shows much greater correspondence with the profiles predicted by the highest resolution packing. 
+
+Considerations of the velocity in the packed bed are important because the impact of tortuous velocity pathlines are what we seek to understand with implementation of the DEM-LBM study. However, hydrodynamically, an important measure of the physical fidelity of the packing simulation is the pressure drop across the bed. In \Cref{fig:3d-study-pressure-drop}, the pressure drop between inlet and outlet as a function of time are given for the three packings with equal packing fraction (the beds of \Cref{fig:3d-dem-lbm-mapping}). The pressure drop predicted by the Kozen-Carman relationship is approximately \SI{66}{\pascal}. The steady state value of the $\res=40$ lattice is \SI{61}{\pascal}. The lower resolution, $\res=20$, lattice comes close to the KC prediction; the steady-state pressure drop is \SI{64}{\pascal}. The low resolution pebble bed lattice is unstable and the density blows up shortly after \SI{200}{\sec}.
+
+The last aspect to consider in the execution of the LBM model is the duration of a complete simulation. The last row in \Cref{tab:3d-simp-lbm-parameters} shows the product of total timesteps (to reach 200 s) and total lattice nodes. Assuming a perfect scalability of the simulation, this value is approximately the number of calculations performed to solve for steady-state on the lattice. Normalizing against the $\res=10$ lattice, we see that it requires 16 times longer to run the $\res =20$ lattice and more than 255 times longer to run the $\res = 40$ lattice. The same scaling rules will apply to the full pebble bed lattices that we wish to study. Thus, like most models of packed beds, we are forced to concede some accuracy in physics of the model for simplifications that allow reasonable computational times. For this reason, we conclude that the $\res = 20$ lattice, with $k$ chosen to satisfy digital porosity, is the appropriate setting to continue pebble bed simulations. The $\res = 20$ lattice had reasonable accuracy on hydrodynamic measurements of pressure drop and showed acceptable ability to capture features of the flow velocity such as the near-wall jets.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/lbm/3d-study-pressure-drop}
+    \caption{Pressure drops across the simplified pebble bed approaching steady-state in time. The low resolution pebble bed greatly over-predicts the pressure drop. Increased resolution appears to converge to approximately \SI{61}{\pascal}.}\label{fig:3d-study-pressure-drop}
+\end{figure}
+
+\begin {table}[h] %
+\caption{Comparison of lattice parameters for simplified pebble bed model.}
+\label{tab:3d-simp-lbm-parameters} \centering %
+\begin{tabular}{@{}lccc@{}}
+\toprule %
+$\res$   &   10  &   20    &   40  \\\midrule
+$N_x$   &   60  &   120 &   240 \\
+$N_y$   &   10  &   20  &   40 \\
+$N_z$   &   138 &   276 &   553 \\
+$N_\text{tot}$  &   \num{82.8e3}     &   \num{662.4e3}    & \num{5308.8e3} \\
+$\omega_{ns}$     &   1.131   &   0.789   &   0.491   \\
+$\delta_x$  &   0.1     & 0.05  & 0.025 \\
+$\delta_t$  & 0.001     &   0.0005  & 0.00025   \\
+$N_t$   &   \num{200e3} &    \num{400e3}  & \num{800e3} \\
+$N_\text{tot} \times N_t$ & \num{16.6e9} & \num{264.9e9}     & \num{4247.0e9} \\\bottomrule
+\end{tabular}
+\end{table}
+
+
 \FloatBarrier
+
+
+
+
+
+
+
+
+
+
 
 
 \subsection{Numerical Implementation of LBM and DEM Coupling}\label{sec:lbm-solver}

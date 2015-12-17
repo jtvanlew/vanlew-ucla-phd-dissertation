@@ -1,7 +1,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{3D Lattice-Boltzmann Models of the Complete Conjugate Heat Transfer of Helium Purge Gas and Ceramic Pebble Beds}\label{sec:lbm-studies}
-
+\chapter{Lattice-Boltzmann Method Modeling of Temperature Distributions in Pebble Beds}\label{sec:lbm-studies}
+%3D Lattice-Boltzmann Models of the Complete Conjugate Heat Transfer of Helium Purge Gas and Ceramic Pebble Beds
 In this section I apply the relatively new techniques of lattice-Boltzmann method (LBM) numerical modeling to study the complete interstitial flow of helium through a packed bed of lithium ceramics. A discussion on the development of the LBM method was given in \Cref{sec:modeling-lbm}. In that section, the advantages of LBM for porous flow simulations were made apparent, namely the potential for extreme parallelization due to the highly local calculations on lattice nodes as well as the straightforward implementation of boundary conditions for the complex geometry of porous networks.
 
 For the implementation of DEM and LBM coupling, pebble packing structures are generated with DEM simulations then mapped into the LBM nodal grids where the thermofluid and conjugate heat transfer models solve momentum and thermal conservation equations. The DEM-LBM approach is a one-way coupled approach in that LBM results are not currently fed back into DEM simulations for future packing evolution. The sacrifice of two-way coupling (that is present in the volume-averaged CFD-DEM model) offers instead to understand the tortuous helium flow and its impact on thermal transport in the tritium breeding ceramic pebble beds.
@@ -9,127 +9,7 @@ For the implementation of DEM and LBM coupling, pebble packing structures are ge
 The first part of this section will discuss the process of determining certain numerical techniques needed in mapping DEM data into LBM nodes. Once the characteristics of the pebble bed parameters are understood, sample models of pebble beds from \Cref{sec:isfnt-12} are loaded into the DEM-LBM solver and analyzed.
 
 
-\section{DEM Mapping and Lattice Parameters}
-In the process of mapping DEM data into LBM nodes, several computational choices must be made. The first is the resolution of the LBM lattice. That is, how many lattice nodes per pebble diameter are desired. The resolution will ultimately determine the size of the lattice spacing and lattice time step. The larger the resolution, the smaller the step size and smaller the time step. The second choice relates to digitalizing the DEM `sphere' into a discretized lattice. When a pebble of radius $R_p$ is mapped onto a lattice with discrete steps, the size of the sphere is over-represented and the LBM lattice does not faithfully reproduce the correct void fraction from DEM.
 
-\begin{figure}[h]
-        \centering
-        \begin{subfigure}[b]{0.2\textwidth}
-                \includegraphics[width=\textwidth]{figures/lbm/2d-res20-k050.png}
-                \caption{$\phi = 0.181$ in pebble bed section with $k = 0.50$.}
-                \label{fig:2d-res20-k050}
-        \end{subfigure}%
-        ~
-        \begin{subfigure}[b]{0.2\textwidth}
-                \includegraphics[width=\textwidth]{figures/lbm/2d-res20-k075.png}
-                \caption{$\phi = 0.389$ in pebble bed section with $k = 0.75$.}
-                \label{fig:2d-res20-k075}
-        \end{subfigure}%
-        ~
-          %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.2\textwidth}
-                \includegraphics[width=\textwidth]{figures/lbm/2d-res20-k090.png}
-                \caption{$\phi = 0.555$ in pebble bed section with $k = 0.90$.}
-                \label{fig:2d-res20-k090}
-        \end{subfigure}
-        ~
-        \begin{subfigure}[b]{0.2\textwidth}
-                \includegraphics[width=\textwidth]{figures/lbm/2d-res20-k100.png}
-                \caption{$\phi = 0.667$ in pebble bed section with $k = 1.00$.}
-                \label{fig:2d-res20-k100}
-        \end{subfigure}
-        \caption{For a given resolution, the scaling parameter $k$ will result in different packing fractions. These mappings were generated from a pebble bed with $\phi =0.64$; only a specific $k$ will yield that void fraction after mapping into LBM.}\label{fig:2d-dem-lbm-mapping}
-\end{figure}
-
-Before attempting to handle a full-scale pebble bed from DEM, we begin with a two-dimensional lattice of a representative pebble bed. In the first step, we choose a resolution of $\res=20$ and then vary a radius-drawing-parameter, $k$. This parameter simply states that when a DEM pebble is mapped into an LBM lattice, that the radius is scaled by this value before mapping. To highlight the effects of $k$, some example two-dimensional lattices are shown in \Cref{fig:2d-dem-lbm-mapping}. The two-dimensional lattice is loaded from the $\phi =0.64$ initial packing of \Cref{sec:isfnt-12}.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.75\textwidth]{figures/lbm/2d-lbm-settings-velocity}
-    \caption{Integrated system velocity shows stable lattice configurations in two dimensions.}\label{fig:2d-lbm-settings-velocity}
-\end{figure}
-
-Other lattices were generated with varying values of $k$ and $\res$. Using simple boundary conditions of no-slip on the left and right walls, a Neumann boundary condition at the outlet (top) and constant velocity at the inlet (bottom), all latices were tested to find the stability of the resolutions and packings. To determine if a steady-state condition was reached, the velocity of the entire lattice was integrated. The value has units of $\psi = [m/s][lu^2]$, with dimensionless lattice spacing units. The value of $\psi$ is plotted in \Cref{fig:2d-lbm-settings-velocity}. From \Cref{fig:2d-lbm-settings-velocity}, we see a steady-state velocity is reached in all of the low-packing fraction lattices. As the packing fraction increased, following the increase of $k$, we see the system velocity slowly become unstable. When $k$ = 0.9, with a packing fraction of $\phi = 0.555$, the system approximately linearly increases into unstable values. Note, for the case when $k=1$, the density calculated in this system blew up to $\infty$ in less than 300 steps, so the velocity profile does not have a chance to demonstrate the unstable increase. For that bed, the packing fraction was high enough that there was not a continuous path available between inlet and outlet.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.3\textwidth]{figures/lbm/3d-bed}
-    \caption{Simplified three-dimensional pebble bed, packing generated with DEM.}\label{fig:3d-bed-lbm}
-\end{figure}
-
-The two-dimensional study is meant to demonstrate the viability of loading a DEM packing into an LBM lattice to produce stable results. However, because of the limitations of two-dimensional lattices, such as rapid instability in such cases as $k=1$, an additional study was done on a scaled-down pebble bed in three-dimensions. The simplified system considers a pebble bed with width of $6d_p$, periodic depth of $1d_p$, and height of approximately $6d_p$. The pebble bed is discretized using the same numeric schemes and loaded onto three-dimensional lattices. The pebble bed, as visualized from DEM data, is shown in \Cref{fig:3d-bed-lbm}. 
-
-\begin{figure}[h]
-        \centering
-        \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth, trim={200pt, 150pt, 200pt, 200pt},clip]{figures/lbm/k092res10}
-                \caption{Pebble bed with $k = 0.92$, $\res = 10$.}
-                \label{fig:k092res10}
-        \end{subfigure}%
-        ~
-        \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth, trim={200pt, 150pt, 200pt, 200pt},clip]{figures/lbm/k0947res20}
-                \caption{Pebble bed with $k = 0.947$, $\res = 20$.}
-                \label{fig:k0947res20}
-        \end{subfigure}%
-        ~
-          %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth, trim={200pt, 150pt, 200pt, 200pt},clip]{figures/lbm/k097res40}
-                \caption{Pebble bed with $k = 0.97$, $\res = 40$.}
-                \label{fig:k097res40}
-        \end{subfigure}
-        \caption{For a specified packing fraction, 62.4\%, different resolution lattices require different radius scaling factors. The increased resolution is seen in increasing accuracy of spherical modeling on the discretized lattice.}\label{fig:3d-dem-lbm-mapping}
-\end{figure}
-
-When the simplified pebble bed is mapped onto discrete LBM nodes, we see the effects of resolution in \Cref{fig:3d-dem-lbm-mapping}. Here we have chosen resolutions of 10, 20, and 40, respectively. For each resolution, the coarseness of discretization requires varying radius reduction factors in order to achieve a consistent digital packing fraction; k = 0.92, 0.947, and 0.97, respectively. Details of the lattices are given below in \Cref{tab:3d-simp-lbm-parameters}.
-
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.75\textwidth]{figures/lbm/3d-lbm-settings-velocity}
-    \caption{Averaged system velocity shows pebble beds with the same digital packing fraction and different resolutions will have different average system velocities.}\label{fig:3d-lbm-settings-velocity}
-\end{figure}
-
-In \Cref{fig:3d-lbm-settings-velocity}, the lattices shown in \Cref{fig:3d-dem-lbm-mapping} and others have their overall average velocity plotted. In this case, the magnitude of steady-state velocity is important so the integrated velocity has been divided by the total fluid space in the simulation. We see from \Cref{fig:3d-lbm-settings-velocity} that a lattice with the same packing fraction will have slightly different rates at which steady-state is approached. 
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.5\textwidth]{figures/lbm/3d-bed-v-profiles}
-    \caption{Low resolution lattices show qualitatively similar behavior but have insufficient resolution to capture jet velocity magnitudes.}\label{fig:3d-bed-v-profiles}
-\end{figure}
-
-At a location along the axial midpoint, velocity profiles across the pebble bed are shown in \Cref{fig:3d-bed-v-profiles}. The velocity jets in the near-wall region, caused by low packing fraction from ordered packing, are not well-captured by the low resolution ($\res = 10$) lattice. Other features of velocity are qualitatively seen in the low resolution packing, such as the velocity near $x = 2$~lu, but the $\res=20$ shows much greater correspondence with the profiles predicted by the highest resolution packing.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.5\textwidth]{figures/lbm/3d-study-pressure-drop}
-    \caption{Pressure drops across the simplified pebble bed approaching steady-state in time. The low resolution pebble bed greatly over-predicts the pressure drop. Increased resolution appears to converge to approximately \SI{61}{\pascal}.}\label{fig:3d-study-pressure-drop}
-\end{figure}
-
-Considerations of the velocity in the packed bed are important because the impact of tortuous velocity pathlines are what we seek to understand with implementation of the DEM-LBM study. However, hydrodynamically, an important measure of the physical fidelity of the packing simulation is the pressure drop across the bed. In \Cref{fig:3d-study-pressure-drop}, the pressure drop between inlet and outlet as a function of time are given for the three packings with equal packing fraction (the beds of \Cref{fig:3d-dem-lbm-mapping}). The pressure drop predicted by the Kozen-Carman relationship is approximately \SI{66}{\pascal}. The steady state value of the $\res=40$ lattice is \SI{61}{\pascal}. The lower resolution, $\res=20$, lattice comes close to the KC prediction; the steady-state pressure drop is \SI{64}{\pascal}. The low resolution pebble bed lattice is unstable and the density blows up shortly after \SI{200}{\sec}.
-
-The last aspect to consider in the execution of the LBM model is the duration of a complete simulation. The last row in \Cref{tab:3d-simp-lbm-parameters} shows the product of total timesteps (to reach 200 s) and total lattice nodes. Assuming a perfect scalability of the simulation, this value is approximately the number of calculations performed to solve for steady-state on the lattice. Normalizing against the $\res=10$ lattice, we see that it requires 16 times longer to run the $\res =20$ lattice and more than 255 times longer to run the $\res = 40$ lattice. The same scaling rules will apply to the full pebble bed lattices that we wish to study. Thus, like most models of packed beds, we are forced to concede some accuracy in physics of the model for simplifications that allow reasonable computational times. For this reason, we conclude that the $\res = 20$ lattice, with $k$ chosen to satisfy digital porosity, is the appropriate setting to continue pebble bed simulations. The $\res = 20$ lattice had reasonable accuracy on hydrodynamic measurements of pressure drop and showed acceptable ability to capture features of the flow velocity such as the near-wall jets.
-
-\begin {table}[h] %
-\caption{Comparison of lattice parameters for simplified pebble bed model.}
-\label{tab:3d-simp-lbm-parameters} \centering %
-\begin{tabular}{@{}lccc@{}}
-\toprule %
-$\res$   &   10  &   20    &   40  \\\midrule
-$N_x$   &   60  &   120 &   240 \\
-$N_y$   &   10  &   20  &   40 \\
-$N_z$   &   138 &   276 &   553 \\
-$N_\text{tot}$  &   \num{82.8e3}     &   \num{662.4e3}    & \num{5308.8e3} \\
-$\omega_{ns}$     &   1.131   &   0.789   &   0.491   \\
-$\delta_x$  &   0.1     & 0.05  & 0.025 \\
-$\delta_t$  & 0.001     &   0.0005  & 0.00025   \\
-$N_t$   &   \num{200e3} &    \num{400e3}  & \num{800e3} \\
-$N_\text{tot} \times N_t$ & \num{16.6e9} & \num{264.9e9}     & \num{4247.0e9} \\\bottomrule
-\end{tabular}
-\end{table}
 
 
 
@@ -152,14 +32,18 @@ $N_x$   &   $N_y$  &   $N_z$    &   $\delta_x$   & $\delta_t$    \\\toprule
 \end{table}
 
 \begin {table}[h] %
-\caption{The momentum relaxation time for fluid (ns), thermal relaxation time for fluid (ad), and thermal relaxation time for the solid (cj) used in the simulation.}
+\caption{The momentum relaxation constants for fluid (ns), thermal relaxation constants for fluid (ad), and thermal relaxation constants for the solid (cj) used in the simulation.}
 \label{tab:lbm-relaxations} \centering %
 \begin {tabular}{ cccccccc }
 \toprule %
 $\omega_{ns}$ &  $\omega_{ad}$  &   $\omega_{cj}$     \\\toprule
-1.131      &  0.788       &   1.365          \\\bottomrule
+1.132      &  0.988       &   1.365          \\\bottomrule
 \end{tabular}
 \end{table}
+
+Because we are treating the energy equation as a passive scalar, there is only one-way coupling between the momentum and energy lattices (the Boussinesq approximation is not made for energy-momentum coupling). Furthermore, the fluid flow reaches a steady-state distribution. Therefore, the procedure used here is to first solve only for a steady velocity distribution on the Navier-Stokes lattice. Once steady, the velocity distribution is loaded into the energy lattice and the collision-streaming of the NS lattice does not need to continue. In this way, the long process of reaching thermal steady state can be achieved without the expensive computation of collision-streaming integration of both lattices simultaneously.
+
+
 
 % \begin {table}[htp] %
 % \caption{Boundary conditions translated into lattice units.}

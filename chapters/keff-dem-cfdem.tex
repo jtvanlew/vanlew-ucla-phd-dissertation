@@ -1,4 +1,4 @@
-\chapter{Heat Transfer in Pebble Beds with DEM and CFD-DEM}\label{sec:dem-studies}
+\chapter{DEM and CFD-DEM Models of Temperature Distributions in Pebble Beds}\label{sec:dem-studies}
 
 This chapter demonstrates the usefulness of the numerical tools introduced in \cref{ch:modeling-development} in probing inter-particle contact information, pebble bed heat transfer, and bed morphology changes altering thermophysical properties. The DEM, CFD-DEM, and DEM-LBM tools are put to work examining representative volumes of pebble beds of ceramic breeders from fusion reactors. In almost all cases, the pebble bed volumes accommodate approximately \num{10000} pebbles. Typically, the bed is confined in one direction by two primitive, rigid walls that also are constant temperature boundaries to act as heat sinks. I also employ periodic boundary conditions to represent an infinite length in the given direction. The third direction is often in the gravity direction for which we have an adiabatic, primitve, and rigid roof and ceiling.
 
@@ -558,12 +558,12 @@ Two ITER-relevant volumes are considered in this study, sketched in \Cref{fig:x-
 
 \begin{figure}[!ht]
     \centering
-    \begin{subfigure}[b]{0.22\textwidth}
+    \begin{subfigure}[b]{0.44\textwidth}
         \includegraphics[width = \textwidth]{figures/x-domain.eps}
         \caption{$\chi$-configuration: heat removed in the $x$-direction.}\label{fig:x-domain}
     \end{subfigure}
     ~
-    \begin{subfigure}[b]{0.22\textwidth}
+    \begin{subfigure}[b]{0.44\textwidth}
         \includegraphics[width = \textwidth]{figures/y-domain.eps}
         \caption{$\zeta$-configuration: heat removed in the $y$-direction}\label{fig:y-domain}
     \end{subfigure}
