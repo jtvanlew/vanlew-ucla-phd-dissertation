@@ -241,9 +241,9 @@ OUTPUT VanLew_PhDThesis2014.lot
 INPUT chapters/introduction.tex
 INPUT chapters/introduction.tex
 INPUT figures/demo.png
-INPUT figures/solid_breeder_sketch.eps
-INPUT figures/solid_breeder_sketch.eps
 INPUT figures/mechanisms_tritium_transport.png
+INPUT figures/solid_breeder_sketch.eps
+INPUT figures/solid_breeder_sketch.eps
 INPUT chapters/litreview.tex
 INPUT chapters/litreview.tex
 INPUT figures/keff-kappa-series-parallel-zs-hsus.png
@@ -423,8 +423,8 @@ INPUT figures/eta-sigma.png
 INPUT figures/eta-theta.png
 INPUT figures/eta-T_max.png
 INPUT figures/displacement_histograms.png
-INPUT chapters/dem-lbm.tex
-INPUT chapters/dem-lbm.tex
+INPUT chapters/summary.tex
+INPUT chapters/summary.tex
 INPUT chapters/appendices.tex
 INPUT chapters/appendices.tex
 INPUT appendices/one-dimensional-slab-heat-generation.tex
