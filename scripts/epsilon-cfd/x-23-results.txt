@@ -1,0 +1,17 @@
+In [5]: run csv_loader_x_23.py
+x-62-0 largest local percent increase in packing fraction = 0.0
+x-62-0 largest local percent decrease in packing fraction = 0.0
+x-62-r23-1 largest local percent increase in packing fraction = 0.0573306451613
+x-62-r23-1 largest local percent decrease in packing fraction = -0.0827620967742
+x-62-r23-3 largest local percent increase in packing fraction = 0.074875
+x-62-r23-3 largest local percent decrease in packing fraction = -0.067
+x-62-r23-5 largest local percent increase in packing fraction = 0.127068548387
+x-62-r23-5 largest local percent decrease in packing fraction = -0.137423387097
+x-64-0 largest local percent increase in packing fraction = 0.0
+x-64-0 largest local percent decrease in packing fraction = 0.0
+x-64-r23-1 largest local percent increase in packing fraction = 0.0685859375
+x-64-r23-1 largest local percent decrease in packing fraction = -0.08354296875
+x-64-r23-3 largest local percent increase in packing fraction = 0.06630078125
+x-64-r23-3 largest local percent decrease in packing fraction = -0.0739296875
+x-64-r23-5 largest local percent increase in packing fraction = 0.0984140625
+x-64-r23-5 largest local percent decrease in packing fraction = -0.113171875

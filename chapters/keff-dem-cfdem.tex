@@ -663,7 +663,7 @@ inlet temperature (\si{\kelvin})                    & $T_i$            & 573    
 Models have been proposed in the past which translate experimental measurements of granular crushing into contact forces in an ensemble to predicty granular crushing, \textit{e.g.} Refs.~\cite{Gan:2010kc,Russell2009,Zhao2012,VanLew2015a,Annabattula2014}, but no validation has set any model apart as yet. Here, packed beds experience artificial pebble-crushing events for which a chosen percentage, $\eta$, of initial pebbles (at randomized locations) fragment. Four crush percentages are used: $\eta = 0, 1, 3, 5\%$. Numerical models of crush events themselves have received attention. Annabattula, Zhao, and Gan attempted to model a crushing event as either a reduction in radius of the crushed pebble or a reduction in Young's modulus \cite{Annabattula2011,Zhao2013,Annabattula2012a}. Van Lew \textit{et al}~made similar simplifications when they considered a crushed pebble as being removed from the force network, thus being removed from the DEM domain \cite{VanLew2014}. 
 
 %None of the approaches discussed above have been fully validated due to a lack of experimental results. 
-Building upon the theories of earlier models, we replace a parent pebble of radius $r$ with $N_c$ smaller daughter fragments, each of equal radius, $r_c$. After a crushing event, fragments are free to resettle through interstitial gaps in the pebble bed and original pebbles respond in kind with re-arrangement into a new metastable packing structure.  To conserve volume between pre- and post-crush, we can relate the number of daughter fragments to the radius ratio between fragments and parent, $r^* = r_c/r$, as $N_c = (1/r^*)^{3}$. Experimental studies of crushing brittle pebbles show many different modes of fragmentation, often with highly irregular sizes (see \textit{e.g.} Ref.\cite{Wu2004}). As a first effort, we compare the effect of fragmentation size by studying two different values, $r^*_1 = 0.52$ and $r^*_2 = 0.2$ which results in $N_{c,1} = 23$ and $N_{c,2} = 125$ daughters per crushed parent (at $\eta = 5\%$, for $r_2^*$ the system expands to \num{43200} pebbles). Conservation of energy of crush event is enforced by setting the temperature of daughter fragments to the parent pebble at the moment of crushing. After insertion, the daughter fragment temperatures then evolve in time with standard integration.
+Building upon the theories of earlier models, we replace a parent pebble of radius $r$ with $N_c$ smaller daughter fragments, each of equal radius, $r_c$. After a crushing event, fragments are free to resettle through interstitial gaps in the pebble bed and original pebbles respond in kind with re-arrangement into a new metastable packing structure.  To conserve volume between pre- and post-crush, we can relate the number of daughter fragments to the radius ratio between fragments and parent, $r^* = r_c/r$, as $N_c = (1/r^*)^{3}$. Experimental studies of crushing brittle pebbles show many different modes of fragmentation, often with highly irregular sizes (see \textit{e.g.} Ref.\cite{Wu2004}). As a first effort, we compare the effect of fragmentation size by studying two different values, $r^*_1 = 0.32$ and $r^*_2 = 0.2$ which results in $N_{c,1} = 23$ and $N_{c,2} = 125$ daughters per crushed parent (at $\eta = 5\%$, for $r_2^*$ the system expands to \num{43200} pebbles). Conservation of energy of crush event is enforced by setting the temperature of daughter fragments to the parent pebble at the moment of crushing. After insertion, the daughter fragment temperatures then evolve in time with standard integration.
 
 
 
@@ -751,6 +751,8 @@ Lastly, we consider how far pebble fragments travel in the bed after a crushing 
 %        \caption{Changes in temperature and bed stress as functions of granular damage percent, $\eta$, with varying parameters of packing fraction, $\phi_1 = 0.62$, $\phi_2 = 0.64$; fragmentation radius ratio, $r_1^* = 0.52$, $r_2^* = 0.2$; and configuration, $\chi_g$ is $\chi$-config, $\zeta_g$ is $\zeta$-config.}
 % \label{fig:eta-plots}
 % \end{figure*}
+
+
 \begin{figure}[!t]
     \centering
     \includegraphics[width=0.5\textwidth]{figures/64-percent-T-profiles-reduced.png}
@@ -817,6 +819,115 @@ To identify the effects of fragment settling, we look to \Cref{fig:displacement_
 In $\zeta$-configuration beds, pebbles traveling more than a few pebble diameters will move between colored isotherms drawn in \Cref{fig:1}. For example we can see the fragment group identified in Zone (1) as moving downward, away from the top wall. Similarly, when pebbles in Zone (3) are crushed, some of the fragments tumble downward into Zone (2) before coming to rest where they continue to receive volumetric heating. Thus the fragments, with poor thermal conductance, increase heating in the regions where they settle. The effect is seen in the $\eta = 3, 5\%$ temperature profiles in \Cref{fig:64-T-profile} that are asymmetric with lower temperatures in the top half (above Zone (3)) and higher temperatures in the region near Zone (2).
 
 In contrast, $\chi$-config beds respond much differently to pebble fragment settling. We again see from cross-sections in \Cref{fig:3} a pebble identified in Zone (1) that breaks but remains in that zone after settling. The trend continues in other regions of the bed. Because of the gravity's effect, when pebbles are crushed in the $\chi$-config beds, they fall downward but remain generally in the same isotherm, as drawn in \Cref{fig:3}. According to \Cref{fig:64-T-profile}, the effect of pebble crushing has little effect up to 3\% of damaged pebbles. But suddenly at $\eta = 5\%$, the combination of reduced overall bed stress and fragmentation heating causes the maximum bed temperature to jump above all other $\phi = 64\%$ beds (see \Cref{fig:64-T-profile} and \Cref{fig:eta-T_max}). The temperature increase in this $\chi$-config bed is due to the accumulation of pebble fragments that remain in Zone (3), only tumbling to lower heights. Helium that enters the $\chi$-configuration bed reaches higher temperatures more quickly due to the increased heating from fragments which settled at lower heights of $y$. Helium then continues to heat from the many fragments in Zone (3) which ultimately results in the highest maximum bed temperatures (for the given packing fraction). This can also be seen with comparison between \Cref{fig:1,fig:3}: the $\chi$-config bed reaches the $780$~\si{\kelvin} contour at a much lower height than the $\zeta$-configuration. 
+
+
+
+
+\subsubsection{Local Packing Fraction Redistribution}
+Travel of pebble fragments also manifests in changes to local packing fraction. In \Cref{fig:x-62-r23,fig:x-62-r125,fig:x-624-r23,fig:x-624r125}
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.65\textwidth]{figures/x-62-r23-1.png}
+    \caption{Distribution of local packing fraction for $\chi$-config, $\phi = 0.62$, $r^* = 0.32$}\label{fig:x-62-r23}
+\end{figure}
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.65\textwidth]{figures/x-62-r125-1.png}
+    \caption{Distribution of local packing fraction for $\chi$-config, $\phi = 0.62$, $r^* = 0.2$}\label{fig:x-62-r125}
+\end{figure}
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.65\textwidth]{figures/x-62-r23-1.png}
+    \caption{Distribution of local packing fraction for $\chi$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:x-624-r23}
+\end{figure}
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.65\textwidth]{figures/x-62-r125-1.png}
+    \caption{Distribution of local packing fraction for $\chi$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:x-624r125}
+\end{figure}
+
+
+% deltas~~~~~~~~~~~~~~~~~~~~~~~~~~
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.65\textwidth]{figures/x-62-r23-1-deltas.png}
+    \caption{Distribution of local changes in packing fraction ($\phi_eta - \phi_i$) for $\chi$-config, $\phi = 0.62$, $r^* = 0.32$}\label{fig:x-62-r23-deltas}
+\end{figure}
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.65\textwidth]{figures/x-62-r125-1-deltas.png}
+    \caption{Distribution of local changes in packing fraction ($\phi_eta - \phi_i$) for $\chi$-config, $\phi = 0.62$, $r^* = 0.2$}\label{fig:x-62-r125-deltas}
+\end{figure}
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.65\textwidth]{figures/x-62-r23-1-deltas.png}
+    \caption{Distribution of local changes in packing fraction ($\phi_eta - \phi_i$) for $\chi$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:x-624-r23-deltas}
+\end{figure}
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.65\textwidth]{figures/x-62-r125-1-deltas.png}
+    \caption{Distribution of local changes in packing fraction ($\phi_eta - \phi_i$) for $\chi$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:x-624-r125-deltas}
+\end{figure}
+% deltas~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.95\textwidth]{figures/z-62-r23-1.png}
+    \caption{Distribution of local packing fraction for $\zeta$-config, $\phi = 0.62$, $r^* = 0.32$}\label{fig:z-62-r23}
+\end{figure}
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.95\textwidth]{figures/z-62-r125-1.png}
+    \caption{Distribution of local packing fraction for $\zeta$-config, $\phi = 0.62$, $r^* = 0.2$}\label{fig:z-62-r125}
+\end{figure}
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.95\textwidth]{figures/z-62-r23-1.png}
+    \caption{Distribution of local packing fraction for $\zeta$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:z-624-r23}
+\end{figure}
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.95\textwidth]{figures/z-62-r125-1.png}
+    \caption{Distribution of local packing fraction for $\zeta$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:z-624r125}
+\end{figure}
+
+
+
+% deltas~~~~~~~~~~~~~~~~~~~~~~~~~~
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.95\textwidth]{figures/z-62-r23-1-deltas.png}
+    \caption{Distribution of local changes in packing fraction ($\phi_eta - \phi_i$) for $\zeta$-config, $\phi = 0.62$, $r^* = 0.32$}\label{fig:z-62-r23-deltas}
+\end{figure}
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.95\textwidth]{figures/z-62-r125-1-deltas.png}
+    \caption{Distribution of local changes in packing fraction ($\phi_eta - \phi_i$) for $\zeta$-config, $\phi = 0.62$, $r^* = 0.2$}\label{fig:z-62-r125-deltas}
+\end{figure}
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.95\textwidth]{figures/z-62-r23-1-deltas.png}
+    \caption{Distribution of local changes in packing fraction ($\phi_eta - \phi_i$) for $\zeta$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:z-624-r23-deltas}
+\end{figure}
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.95\textwidth]{figures/z-62-r125-1-deltas.png}
+    \caption{Distribution of local changes in packing fraction ($\phi_eta - \phi_i$) for $\zeta$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:z-624-r125-deltas}
+\end{figure}
+% deltas~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+\FloatBarrier
 
 %in each configuration is the near-wall region where pebbles contact walls. In $\chi$-config bed in \Cref{fig:3}, we can see how pebble fragments tumble downward but generally remain in the near-wall region of Zone (1). Conversely, we see clearly in the $\zeta$-config bed of \Cref{fig:1} that some fragment groups leave the region and resettle downward toward the bed's central region. The differences in settling between the two configurations is consistent when we consider pebble behavior in other zones.
 

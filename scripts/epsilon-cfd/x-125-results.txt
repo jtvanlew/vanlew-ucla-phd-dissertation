@@ -1,0 +1,19 @@
+In [2]: run csv_loader_x_125.py
+x-62-0 largest local percent increase in packing fraction = 0.0
+x-62-0 largest local percent decrease in packing fraction = 0.0
+x-62-r125-1 largest local percent increase in packing fraction = 0.0527983870968
+x-62-r125-1 largest local percent decrease in packing fraction = -0.0505846774194
+x-62-r125-3 largest local percent increase in packing fraction = 0.0843225806452
+x-62-r125-3 largest local percent decrease in packing fraction = -0.111092741935
+x-62-r125-5 largest local percent increase in packing fraction = 0.144052419355
+x-62-r125-5 largest local percent decrease in packing fraction = -0.124169354839
+C:\Users\jtvanlew\Anaconda\lib\site-packages\matplotlib\collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if self._edgecolors == str('face'):
+x-64-0 largest local percent increase in packing fraction = 0.0
+x-64-0 largest local percent decrease in packing fraction = 0.0
+x-64-r125-1 largest local percent increase in packing fraction = 0.05059375
+x-64-r125-1 largest local percent decrease in packing fraction = -0.055171875
+x-64-r125-3 largest local percent increase in packing fraction = 0.081125
+x-64-r125-3 largest local percent decrease in packing fraction = -0.08990625
+x-64-r125-5 largest local percent increase in packing fraction = 0.12452734375
+x-64-r125-5 largest local percent decrease in packing fraction = -0.09159375
