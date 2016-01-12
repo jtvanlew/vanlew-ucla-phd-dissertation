@@ -66,7 +66,7 @@ where $k_f$ is the fluid conductivity, $\kappa = k_s/k_f$ is the ratio of solid 
 \end{equation}
 \Cref{eq:keff-parallel,eq:keff-series} act as theoretical upper and lower limits to true effective thermal conductivities of real material. %The two effective conductivity correlations are given in \Cref{fig:kappa-series-parallel}
 
-% \begin{figure}[!h]
+% \begin{figure}[ht]
 %     \centering
 %     \includegraphics[width=\singleimagewidth]{figures/keff-kappa-series-parallel}
 %     \caption{Upper and lower bounds of effective thermal conductivity in two-phase porous media are given by parallel and series approximations of the material, respectively.}
@@ -84,18 +84,18 @@ where $B$ is a deformation parameter related to porosity as
 
 % The Zehner-Schlunder correlation is added to a figure with the parallel and series bounds
 
-% \begin{figure}[!h]
+% \begin{figure}[ht]
 %     \centering
 %     \includegraphics[width=\singleimagewidth]{figures/keff-kappa-series-parallel-zs}
 %     \caption{Zehner-Schlunder correlation fitting between the upper and lower bounds of effective thermal conductivity in two-phase porous media are given by parallel and series approximations of the material, respectively.}
 %     \label{fig:kappa-series-parallel-zs}
 % \end{figure}
 
-Following the success of the Zehner-Schlunder correlation, other researchers considered the specialized cases of high thermal conductivity ratio $\kappa \ge 10^3$ when loads on the grains in the bed (due to either an external pressure or the grains own weight) resulted in large contact areas. In these cases, Zehner-Schlunder correlations under-predicted the actual effective conductivity \cite{Aichlmayr2005a}. An extensive review of correlations for effective thermal conductivity with consideration of contact between grains is provided by van Antwerpen\etal \cite{VanAntwerpen2010}. Hsu\etal~considered three lumped parameters models of varying two-dimensional unit cells for which they derived an effective conductivity. The first was for contact square-cylinders. The effective conductivity for this model is
+Following the success of the Zehner-Schlunder correlation, other researchers considered the specialized cases of high thermal conductivity ratio $\kappa \ge 10^3$ when loads on the grains in the bed (due to either an external pressure or the grains own weight) resulted in large contact areas. In these cases, Zehner-Schlunder correlations under-predicted the actual effective conductivity \cite{Aichlmayr2005a}. An extensive review of correlations for effective thermal conductivity with consideration of contact between grains is provided by van Antwerpen\etal \cite{VanAntwerpen2010}. Hsu\etal~considered three lumped parameters models of varying two-dimensional unit cells for which they derived an effective conductivity.\cite{Bay1995} The first was for contact square-cylinders. The effective conductivity for this model is
 \begin{equation}
     \frac{k_e}{k_f} = \gamma_a\gamma_c\kappa + \frac{\gamma_a(1-\gamma_c)}{1+(1/\kappa-1)\gamma_a} + \frac{(1-\gamma_a)}{1+(1/\kappa-1)\gamma_a\gamma_c}
 \end{equation}
-where Hsu\etal~used the same fitting parameter of Nozad\etal, $\gamma_c$ \cite{nozad}; they found best agreement with experimental data when $\gamma_c = 0.01$. The other geometric parameter is related to $\gamma_c$ and $\epsilon$ as
+where Hsu\etal~used the same fitting parameter of Nozad\etal, $\gamma_c$ \cite{Nozad1985}; they found best agreement with experimental data when $\gamma_c = 0.01$. The other geometric parameter is related to $\gamma_c$ and $\epsilon$ as
 \begin{equation}
     0=\gamma_a^2 + 2\gamma_a\gamma_c(1-\gamma_a) + \epsilon - 1
 \end{equation}
@@ -185,7 +185,7 @@ where $T_r = \frac{T_s-\SI{273}{\kelvin}}{\SI{273}{\kelvin}}$, $M^* = M_g$ for m
 
 In \Cref{fig:kappa-series-parallel-zs-hsus}, we see comparisons of effective conductivity predictions by the three models of Hsu\etal~, Hsu\etal~ modification of ZS model, ZSB correction model, and their differences with the simple ZS correlation.
 
-\begin{figure}[!h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=\singleimagewidth]{figures/keff-kappa-series-parallel-zs-hsus}
     \caption{Models incorporating contact area demonstrate signficant deviation from the Zehner-Schlunder correlation above $\kappa > 10^3$. All correlations are still bound by parallel and series approximations of the material.}
@@ -196,7 +196,7 @@ Van Antwerpen compiled data from numerous publications to compare the accuracy o
 
 Near $\kappa = 1$, all correlations collapse to predict a $\frac{k_e}{k_f} = 1$, and experiments naturally match predictions. From the range of $\kappa > 1$ to $\kappa <1000$, experimental data is well-bound by the predictions of the simple ZS model and the complex two-dimensional models of Hsu\etal. Above $\kappa > 1000$, the ZS model, not taking into account heat transfer through finite-sized contacts, is no longer reliable as a model for $\keff$. In high ranges of $\kappa$, the models incorporating contact-conduction in the granular material remain well-matched to experimental data. The results here show the worth of these general models for predictions of effective conductivity in some granular material.
 
-\begin{figure}[!h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=\singleimagewidth]{figures/keff-kappa-experimental}
     \caption{Comparison of $\keff$ correlations with compiled experimental data over a broad range of conductivity ratios, $\kappa$. Data compiled by \cite{VanAntwerpen2010} from many sources.}
@@ -205,7 +205,7 @@ Near $\kappa = 1$, all correlations collapse to predict a $\frac{k_e}{k_f} = 1$,
 
 As part of the Ceramic Optimal Material Experiments for Thermomechanics (COMET) project at UCLA, we measured the effective conductivity of $d_p = $~\SI{1}{\milli\meter} graphite (IG11) pebbles for \SIrange{135}{544}{\celsius}. The results will be discussed in more detail later, though the results will be presented here for comparison with the correlations; \Cref{fig:kappa-experimental-comet} shows the COMET data. The measured conductivity from COMET is well above the lower bounds of series approximation for effective conductivity, though is just below the lowest values predicted from Hsu\etal's square-cylinder two-dimensional model. We attribute the smaller values of effective conductivity on the surface roughness of the graphite pebbles in conjunction with their small size and small mass. In short, however, the measurements of COMET are also demonstrative of the inaccuracies in general predictions of granular material thermal properties.
 
-\begin{figure}[!h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=\singleimagewidth]{figures/keff-kappa-experimental-comet}
     \caption{Comparison of COMET data on IG11 graphite, $\keff$ correlations, and experimental data. Data compiled by \cite{VanAntwerpen2010} from many sources and measured data at UCLA.}
@@ -286,7 +286,7 @@ and
 
 The two single-particle correlations are shown over a range of Reynolds numbers in \Cref{fig:Nu-single}. The two correlations are in good agreement near low Reynolds number.
 
-\begin{figure}[!h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=\singleimagewidth]{figures/Nusselt-single}
     \caption{Comparison of correlations for Nusselt number of a single spherical particle in forced flow.}
@@ -339,7 +339,7 @@ which Gunn developed to be valid for: heat transfer to particles at low and high
 
 The correlations are given as functions of $\Re$ at a specified value of $\epsilon = 0.36$ and $\Pr = 0.7$ in \Cref{fig:Nu-packed}. We see the correlation from Li \& Mason (a modified form of Ranz \& Marshall), from \Cref{eq:modified-ranz}, predicts very small Nusselt numbers over this entire range of Reynolds number. Additionally, the modified Gnielinski of \Cref{eq:modified-gnielinski} and the correlation of Gunn in \Cref{eq:gunn} predict much higher Nusselt numbers at low Reynolds number than any other correlation, and are well above the single particle limit of $\Nu = 2$ when $\Re \rightarrow 0$. In the studies of Achenbach and Rickelt, which employed the modified Gnielinski studies, the authors were interested in larger Reynolds number regimes. Above $\Re > 10$, Gnielinski correlation is similar to Wakao and Ranz correlations, thus the over-prediction at very small $\Re$ may not have been observed. Gunn rejects the notion that the Nusselt number should approach 2 in the no-flow limit \cite{Gunn1978}. The discrepancy appears to arise because of definitions of either particle or bed heat transfer coefficients. It seems Gunn's definition was meant for representative cross sections of packed beds with voidage defined by the void fraction rather than for an individual particle communicating with forced flow in a packed bed. 
 
-\begin{figure}[!h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=\singleimagewidth]{figures/Nusselt-packing}
     \caption{Comparison of correlations for Nusselt number of a single spherical particle in forced flow.}
@@ -470,13 +470,13 @@ Zehner \& Schlunder derived their correlation from mass-diffusion experiments of
 \end{equation}
 With a Grashof number significantly higher for the SANA experiments, it is indicative that the amount of natural convection present in the SANA experiment will have a much greater impact on heat transfer than the ZS correlation, derived on data for stagnant inter-stitial gas, is able to predict. This demonstrates limited applicability of effective conductivity correlations for packed bed conditions different from those for which the correlations were derived.
 
-\begin{figure}[!h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=\singleimagewidth]{figures/keff-sana-he}
     \caption{Comparison of SANA data in Helium gas with Zehner-Schlunder and Breitbach-Bartels correlations. Data from IAEA Tecdoc-1163\cite{Report2000}.}
     \label{fig:keff-sana-he}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=\singleimagewidth]{figures/keff-sana-n}
     \caption{Comparison of SANA data in Nitrogen gas with Zehner-Schlunder and Breitbach-Bartels correlations. Data from IAEA Tecdoc-1163\cite{Report2000}.}
@@ -677,7 +677,7 @@ Research efforts have been aimed at developing an understanding and characteriza
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{\doubleimagewidth  }
                 \includegraphics[width=\textwidth]{figures/lit-keff-exp}
-                \caption{The effective conductivity of pebble beds is weakly dependent on external mechanical pressure and is always approximately $\keff = $\SI{1}{\watt\per\meter\kelvin} in helium.}
+                \caption{The effective conductivity of pebble beds is weakly dependent on external mechanical pressure.}
                 \label{fig:keff-lit}
         \end{subfigure}
         \caption{Effective conductivity of lithium ceramics. Results from Ref.~\cite{Abou-Sena2005}}\label{fig:keff}

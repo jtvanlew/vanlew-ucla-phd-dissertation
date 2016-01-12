@@ -1,4 +1,4 @@
-\chapter{Models of Temperature Distributions in Pebble Beds}\label{sec:dem-studies}
+\chapter{Application of Modeling}\label{sec:dem-studies}
 
 This chapter demonstrates the usefulness of the numerical tools introduced in \cref{ch:modeling-development} in probing inter-particle contact information, pebble bed heat transfer, and bed morphology changes altering thermophysical properties. The DEM, CFD-DEM, and DEM-LBM tools are put to work examining representative volumes of pebble beds of ceramic breeders from fusion reactors. In almost all cases, the pebble bed volumes accommodate approximately \num{10000} pebbles. Typically, the bed is confined in one direction by two primitive, rigid walls that also are constant temperature boundaries to act as heat sinks. I also employ periodic boundary conditions to represent an infinite length in the given direction. The third direction is often in the gravity direction for which we have an adiabatic, primitve, and rigid roof and ceiling.
 
@@ -10,528 +10,18 @@ In the third study, I take snapshots of two beds (a standard bed and a damaged o
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{DEM Study on Effective Conductivity of Pebble Peds with Pebble Damage}\label{sec:dem-studies-effective-conductivity}
-% The discrete element method (DEM) is used by many ceramic breeder researchers to model the interaction of individual pebbles in an ensemble in an effort to obtain a more detailed understanding of pebble beds than is possible with experimental measurements of effective properties. For example see Refs.~\cite{An20071393, Lu2000, Zhao2010, Gan:2010uq, Annabattula2012a, VanLew2014}.
 
-% The discrete element method has been used for studies in a variety of fields for studying inter-particle forces and the homogeneously distributed force networks that arise in packed beds.\cite{Makse2000} 
 
-The discrete element method has been used by researchers in the fusion community to attempt modeling crushing initiation and propagation\cite{Annabattula2012a, Zhao2012, Zhao2013}. They observed that a relatively few number of high-force networks, distributed throughout the bed supported the external mechanical loads. The even distribution of the force networks was used to defend the development of a probability-based predictor for crushing by Zhao\etal.\cite{Zhao2013} The basic premise is that probability distributions of strength curves for pebble crushing have been observed (see, for example crush loads of Ref.~\cite{Tsuchiya1998}). Then in DEM models, a probability distribution of inter-particle forces are also observed. Overlaying the two probabilities resulted in seemingly random locations of pebbles satisfying the damage criteria -- not strictly along the high-force chains running through packed beds.
 
-To separate studies of crushing initiation from its downstream effects on mechanical and thermal properties, I make use of results of Zhao\etal~to create fictitiously damaged beds without consideration of the initiation of the damage. Zhao\etal~found that, with their predictive tool, pebbles are crushed in random locations. If this is the case, I may de-couple the task of predicting pebble damage (\textit{i.e.} finding the mechanical or thermal load that causes a pebble to fail) from the task of modeling the ramifications of pebble crushing. I am free to randomly assign pebble damage to mimic the random locations from predictions. This is how I will model pebble damage in this first model.
 
-As far as modeling the fragmentation, I begin with an extreme assumption of pulverization of the particle -- a not entirely unrealistic assumption. Experiments on crushing single, brittle pebbles reveal that there are a number of failure modes.\cite{Wu2004} At one extreme, the pebble may simply crack and continue to hold a load for some time. At the other extreme, a pebble may crush practically into a dust. The damage method used in this study is an extension of that latter extreme. When a pebble in our simulation has been flagged for damage, it is completely removed from the ensemble. The remaining pebbles are allowed to rearrange to compensate for the lack of equilibrium on their contact forces due to the missing pebbles. In later models I will use the fragmentation approach as outlined in \cref{sec:failure-study}.
 
 
-\subsection{Model Setup \& Methodology}\label{sec:dem-setup}
-I analyze a three-dimensional pebble bed consisting of mono-dispersed particles of diameter $d_p$. The particles are constrained by rigid $y$-$z$-planes at locations of $\frac{x}{d_p} = \pm 10$ (the walls of the container). There are periodic boundary conditions in the $y$-direction located at $\frac{y}{d_p} = \pm 7.5$. Gravity acts in the negative $z$-direction and the particles are resting on a rigid $x$-$y$-plane at $z=0$ (the floor of the container) and held from the top by an $x$-$y$-plane at $\frac{z}{d_p} = 30$ (the roof of the container). It is packed to $\phi = 64\%$ and, given the volume, have 11000 particles. The volume was chosen to represent the long, tall, narrow channels seen in many solid breeder module designs\cite{ Cho2008, Poitevin2010, Enoeda2003}.
 
-For this study, the material properties were chosen to represent lithium metatinatate pebbles. All the properties come from Ref.~\cite{Gierszewski1998}. They are summarized in Table~\ref{tab:mat-props}
 
-\begin {table}[tp] %
-\caption{Maximum load and nominal tension.}
-\label {tab:mat-props} \centering %
-\begin {tabular}{ cccccc }
-\toprule %
-E           &     $\nu$     &    k          &    C          &   $\alpha$                \\
-(\si{\giga\pascal})     &               & (\si{\watt\per\meter\per\kelvin})         &  (\si{\joule\per\kilogram\per\kelvin})    &   (\si{\per\kelvin})                   \\\toprule
-\num{126}           &      \num{0.24}     &  \num{2.5}          &  \num{1156}           &   \num{15e-6}     \\\bottomrule
-\end{tabular}
-\end{table}
 
-% In the first attempt at packing pebbles into the system, we begin with a common starting point of a filled, lightly packed volume of 10~550 pebbles. We simulate pouring the pebbles into the volume by initializing them into the system from a height of $\frac{z}{d_p} \approx 50$ and allow them to fall under the influence of gravity (see \Cref{fig:fill01}). We pack the pebbles into a higher packing fraction by means of oscillating the walls as if the pebble bed were sitting on a vibrating plate. This was to imitate the vibration packing technique done in our experimental lab when testing pebble beds in the uniaxial compression test stand. The vibration scheme was able to slowly densify the packed bed but, owing to the very small time step of the simulation, the simulation times were impractically large to approach a packing fraction greater than $\phi = 60\%$. 
 
-\begin{figure}[!ht]
-    \centering
-    \begin{subfigure}[b]{0.25\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/fill01.png}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.25\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/fill02.png}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.25\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/fill03.png}
-    \end{subfigure}
-    \caption{Demonstrating the pouring process of $N = 10550$ pebbles into the control volume with at an early time (left), when it is nearly filled (middle) and after the pebbles have settled to negligible kinetic energy (right).}
-\label{fig:fill01}
-\end{figure}
 
-The first attempt to pack the bed followed from the `recipes' we had used in physical experiments in the lab. That is, the pebbles were numerically poured into the volume from above and allowed to settle under their own weight (see \Cref{fig:fill01}), then the volume was vibrated while a roof was lowered to compact the system to $\phi = 0.64$, the desired packing fraction. This technique was ultimately abandoned in place of a less realistic but more computationally efficient technique which resulted in comparably packed beds.
 
-In the preferred method, $N$ particles are inserted into the volume such that we have precisely the packing fraction we desire. In this case, $\phi = 0.64$ so $N$ = \num{11000}. The pebbles are placed at random into the volume, allowing artificial overlap -- often by a great deal ($\delta$ on the order of $R_p$). The overlap they experience would normally cause such an enormous force (integrating into an enormous velocity) that the pebbles would all explode out of the bed at the first step in time integration. The catastrophic explosion is avoided with a relaxation scheme wherein the displacement of any pebble per time step, as integrated from force, is truncated. The truncated displacement continues slowly and allows the pebbles to slowly move away from each other and into a static equilibrium as the artificial overlap is reduced. Once the pebble bed comes to rest, I remove the relaxation (limiting displacement command) and the standard integration of contact forces with the velocity-Verlet algorithm is re-initiated. The pack-relax scheme allowed for obtaining desirable, highly repeatable packing fractions for all pebble beds. Once the pebble bed was packed into an initial condition, the simulation state was saved and used as a starting point for the numerous `crushed' cases to be described later. I differentiate the failed beds by their percentage of failed pebbles: $\eta = $ number of failed pebbles per original ensemble size.
-
-%In this first study, we model pebble crushing without considering why the particular pebble should be cracking. In the model we randomly select pebbles from the ensemble, regardless of forces acting upon the pebble, and delete them entirely from the system. When a pebble is removed, the neighboring pebbles react due to the imbalance of forces, and the bed settles into a new configuration. 
-
-To simulate the conditions of a solid breeder in a fusion reactor, where the heat is removed from the pebble bed via contact to the containing structure, I assign a constant temperature of $T_\text{c}$ to the vertical walls. Nuclear heating of the pebbles is simulated through a constant source term on each pebble. A representative heating rate of $Q_s = q_p'''V_p$, where  $q_p'''= 8$ MW/m$^3$. The heating cycle runs until a thermal steady state is reached. Based on a measurement of the total thermal energy of the bed, $E_T =\sum_i^N m_iC_i T_i$, steady-state is determined as $\dt{E_T} = 0$ within a specified tolerance. Once at steady state, I analyze thermal and mechanical characteristics of the pebble bed: effective thermal conductivity, average coordination number, temperature profiles in the bed, and inter-particle contact forces. 
-
-Based on the boundary conditions of the system, the heat transfer becomes symmetric and one-dimensional in the $x$-direction from $x=0$ to the walls at $\frac{x}{d_p} = \pm 10$. As we will see, the pebble bed has very little variation of forces and temperatures in the $y$-direction due to the periodic boundary condition at the edges of the domain. Gravity effects are minor in the overall heat transfer and induce only a slight $z$-dependency to the results. I take advantage of the pebble bed temperature profile's resemblance to a one-dimensional heat transfer problem to calculate an effective conductivity from an analytic, one-dimensional test case analogy.
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
-
-
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Effective Thermal Conductivity from Analytic Analogy}\label{sec:keff-analogy}
-Assuming a one-dimensional pebble bed, to find an effective conductivity, we step back into a continuum mechanics formulation where the pebble bed can be represented as a slab of solid material. We can analytically solve for the temperature equation in a slab with heat generation, symmetry about the centerline, and a constant boundary temperature condition.
-
-At steady-state, the temperature of a material with constant temperature boundary conditions ($T(L) = T_s$), constant thermal conductivity ($\keff$), and nuclear heating ($q'''$) obeys the following equation
-
-\begin{equation}\label{eq:continuum-heateqn}
-    0 = \frac{\mathrm{d}^2T}{\mathrm{d}x^2} + \frac{q'''}{\keff}
-\end{equation}
-
-In nondimensional form, the temperature is
-\begin{equation}
-    \theta = \frac{T(x) - T_s}{T_0 - T_s}
-\end{equation}
-where $T_0$ is the temperature at the centerline of this slab (a value found momentarily). The length is nondimensionalized as
-\begin{equation}
-    x^* = \frac{x}{L}
-\end{equation}
-
-Thus \Cref{eq:continuum-heateqn} in nondimensional form is,
-\begin{equation}\label{eq:continuum-heateqn-nondim}
-    0 = \frac{\mathrm{d}^2\theta}{\mathrm{d}x^{*2}} + G
-\end{equation}
-where
-\begin{equation}
-    G = \frac{q'''L^2}{\keff(T_0 - T_s)}
-\end{equation}
-
-In the nondimensionalized form, the solution is revealed to be purely geometric,
-\begin{equation}\label{eq:continuum-temperature-nondim}
-    \theta = 1-x^{*2}
-\end{equation}
-as $T_0  - T_s = \frac{q'''L^2}{2\keff}$. I will use the nondimensional temperature solution of \Cref{eq:continuum-temperature-nondim} to prove the one-dimensional assumption of heat transfer is justified for the pebble beds.
-
-Noting that in this continuum mechanics formulation, we are assuming that the nuclear source, $q'''$ term is applied evenly over the entire volume. In our DEM formulation, our source term applies to a single pebble. To find the effective thermal conductivity of the `slab' of pebble bed, we must reconcile this discrepency. This is accomplished with the exchange of
-\begin{equation}\label{eq:q-source-translation}
-    q''' = \frac{Q_\text{tot}}{V_\text{tot}} = \frac{Q_sN}{H\cdot L\cdot W\cdot d_p^2}
-\end{equation}
-where the pebble bed volume is given by the height, $H$, width, $W$, and length, $L$, and $Q_s$ is the source term on each pebble in the DEM ensemble. 
-
-From the solution of \Cref{eq:continuum-heateqn-nondim}, we find the effective conductivity to be
-\begin{equation}
-    \keff = \frac{q''' L^2}{2(T_0-T_s)}
-\end{equation}
-and when we replace the heat generation term with \Cref{eq:q-source-translation}, and use the bed dimensions as given in \cref{sec:dem-setup}, this is written as
-\begin{equation}\label{eq:dem-effecitve-conductivity-formula}
-    \keff = \frac{Q_sN}{180(T_0-T_s)d_p}
-\end{equation}
-
-I use this formulation of \Cref{eq:dem-effecitve-conductivity-formula} to analyze and compare the pebble beds of this study.
-% \begin{figure}[htbp]
-%   \centering
-%   \includegraphics[trim=1cm 8cm 3cm 4cm, width=0.5\textwidth]{figures/pebbleBedTemperature}
-%   \caption{Temperature distribution of pebbles in the $10\%$ failed bed. At the end of steady-state heating, a one-dimensional profile is evident in all pebble beds studied here. The pebbles are receiving nuclear heating. Cooling proceeds through the pebbles in contact with the walls in the $x$-direction.}
-% \label{fig:pebbleBedTemperature}
-% \end{figure}
-
-
-
-\subsection{Results}
-The aim of this study was both to discover the impact of pebble failure on thermo-mechanical properties as well as determine the impact as a function of the number of failed pebbles. To satisfy the latter, I created beds with $\eta = 1\%$, $3\%$, $5\%$, $10\%$, and $15\%$ of pebbles failed. 
-
-I plot \Cref{eq:continuum-temperature-nondim} against the nondimensionalized temperature profiles coming from the steady-state DEM simulation in \Cref{fig:temp-scatters}. We see that all the models had a nearly perfect match to a one-dimensional prediction, validating the calculation of effective thermal conductivity in this study. Furthmore, the profiles adhering to the one-dimensional curve also allows us to find the effective conductivity of each bed from applying \Cref{eq:dem-effecitve-conductivity-formula}, which was derived from the one-dimensional assumption.
-
-In a well-packed bed, most pebbles have a coordination number $Z > 6$. But even in a well-packed bed, there exist some `rattlers' -- pebbles that have only 1 or 2 contact points (aside from touching the floor or wall). These rattlers, without strong contact to neighbors, heat up arbitrarily high in the system. In a pebble bed that's resettling due to damage, increased numbers of rattlers appear in the bed. The isolated rattlers are apparent in the scatter plots of \Cref{fig:temp-scatters}. The temperatures of most pebbles are tightly grouped around the parabolic average. Though many data points are seen dotted all around the temperature scale. The phenomena of hot rattlers is only possible when we use DEM without consideration of the helium purge gas. If these hot rattlers persist even in the presence of helium, it could lead to an unfavorable performance of the ceramic solid breeder -- the hot rattlers would sinter and prevent the outgassing of tritium among other issues. The observation of these isolated pebbles is another motivator for the coupling of DEM to thermo-fluid models. Because the 10\% and 15\% cases have such high temperatures, we show only the 0-5\% crushed together in \Cref{fig:temp-scatters-zoomed}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\singleimagewidth]{figures/dem-evap-0-15-scatter-keff.png}
-    \caption{The nondimensional temperature profiles for each test case follow the theoretical shape of a one-dimensional, constant $k$, continuum solution.}
-\label{fig:temp-scatters}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\singleimagewidth]{figures/dem-evap-0-5-scatter-keff.png}
-    \caption{The nondimensional temperature profiles for the test cases up to 5\% crushed pebbles.}
-\label{fig:temp-scatters-zoomed}
-\end{figure}
-
-
-In order to calculate an effective conductivity of the pebble bed, I find an average temperature profile through the bed to compare with \Cref{eq:continuum-temperature-nondim} and thus employ \Cref{eq:dem-effecitve-conductivity-formula}. Average values of the bed, along the $x$ direction, are generated via averaging temperatures in bins. I create bins that are volumes slices of width $\Delta x$ that extend through the limits of the $y$- and $z$-directions. I then find the $n$ pebbles residing in the slices and take the mean value of their temperatures. The average, given by \Cref{eq:binned-T}, is also shown as the solid lines in \Cref{fig:temp-scatters}. The binned average temperature is 
-\begin{equation}\label{eq:binned-T}
-    \langle T\rangle = \frac{1}{n}\sum_{i}^n T_i    
-\end{equation}
-Using the volume slices, I also find the average coordination number, 
-\begin{equation}\label{eq:binned-z}
-    \langle Z \rangle = \frac{1}{n}\sum_{i}^n Z_i
-\end{equation}
-and average contact force, 
-\begin{equation}\label{eq:binned-f}
-    \langle F^{1/3} \rangle = \frac{1}{n}\sum_{i}^n F_{n,ij}^{1/3}
-\end{equation}
-
-
-In \Cref{eq:thermoFirstLaw} of \cref{sec:dem-heat-transfer}, we see that at steady-state, the energy input by nuclear heating must be balanced by the transport of heat out of a pebble into its neighbors. Inter-particle heat transfer is dictated by the number of neighboring contacts, temperature difference between pebbles, and the thermal conductance, $H_{c}$, through the contact area. The thermal conductance is itself a function purely of material properties  (which are essentially constant here) and the force at the contact, going as $H_{c} \propto F_{n,ij}^{1/3}$. Thus, I write the net heat out of a pebble at steady state as a function of the three variables,
-
-\begin{equation}
-    Q_\text{net} =f( Z, F_n^{1/3}, \Delta T)
-\end{equation}
-
-The coordination number and contact forces are features of the packing structure in the packed bed that we can analyze to discover what happens to the heat flux between pebbles when the bed experiences crushed particles. Conversely, the $\Delta T$ between two pebbles is the \textit{effect} of the thermal transport (\textit{i.e.} leading to higher bed temperatures such as those of \Cref{fig:temp-scatters}). We will first analyze the changes to the coordination numbers of pebbles in the ensemble as pebbles crush.
-
-
-\begin{figure}[!ht]
-    \centering
-    \begin{subfigure}[b]{\doubleimagewidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/heating_dte-02/dem-evap-0-scatter-coord.png}
-        \caption{Baseline pebble bed (0\% crushed)}
-    \end{subfigure}
-    \begin{subfigure}[b]{\doubleimagewidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/heating_dte-02/dem-evap-1-scatter-coord.png}
-        \caption{1\% crushed}
-    \end{subfigure}
-    
-    \begin{subfigure}[b]{\doubleimagewidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/heating_dte-02/dem-evap-2-scatter-coord.png}
-        \caption{3\% crushed}
-    \end{subfigure}
-    \begin{subfigure}[b]{\doubleimagewidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/heating_dte-02/dem-evap-3-scatter-coord.png}
-        \caption{5\% crushed}
-    \end{subfigure}
-
-    \begin{subfigure}[b]{\doubleimagewidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/heating_dte-02/dem-evap-4-scatter-coord.png}
-        \caption{10\% crushed}
-    \end{subfigure}
-    \begin{subfigure}[b]{\doubleimagewidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/heating_dte-02/dem-evap-5-scatter-coord.png}
-        \caption{15\% crushed}\label{fig:coord-scatter-15percent}
-    \end{subfigure}
-    \caption{The average coordination number decreases slowly as the number of broken pebbles in the ensemble increases.}
-\label{fig:coord-scatter}
-\end{figure}
-
-In \Cref{fig:coord-scatter} we plot the data for all pebbles in the ensemble as well as the binned average (\Cref{eq:binned-z}). Clearly, there are fewer average contacts per pebble in the ensemble after failure; At 15\% crushed the coordination number drops by roughly 30\%. The normal contact forces between pebbles are plotted in \Cref{fig:contact-forces-scatter}. A dramatic reduction in the normal forces is seen after many of their neighbors are crushed and are removed from the system. From the baseline down to the 15\% failed case, the contact forces are reduced by about a factor of 10 - similar to the reduction in effective conductivity.
-
-
-\begin{figure}[!ht]
-    \centering
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/heating_dte-02/0/dump/force-profile.png}
-        \caption{Baseline pebble bed (0\% crushed)}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/heating_dte-02/1/dump/force-profile.png}
-        \caption{1\% crushed}
-    \end{subfigure}
-    
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/heating_dte-02/3/dump/force-profile.png}
-        \caption{3\% crushed}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/heating_dte-02/5/dump/force-profile.png}
-        \caption{5\% crushed}
-    \end{subfigure}
-
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/heating_dte-02/10/dump/force-profile.png}
-        \caption{10\% crushed}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/heating_dte-02/15/dump/force-profile.png}
-        \caption{15\% crushed}\label{fig:contact-forces-scatter-15percent}
-    \end{subfigure}
-    \caption{As pebble beds experience massive amounts of crushed pebbles (>5\%), the contact forces in the ensemble (after heating to steady-state) show dramatic reductions in value. Note the change of scale on the figures from the baseline case to the 15\% crushed case.}
-\label{fig:contact-forces-scatter}
-\end{figure}
-
-
-
-The effective thermal conductivity was found for all of the pebble beds, via \Cref{eq:dem-effecitve-conductivity-formula}, then normalized against the conductivity of the baseline ensemble ($k^* = k/k_\text{0}$). The average coordination number of the beds and average normal contact forces were also found. Another way of describing a pebble bed is with the packing fraction, $\phi$. In \Cref{fig:packing-fraction}, I collect all these values (and normalize them against the baseline case) to provide a direct comparison to their changes as a function of crushed pebbles. When $15\%$ of the pebbles are crushed in a pebble bed, the effective conductivity has fallen all the way to only $k^*=0.07$. This large reduction is especially important in light of the already poor thermal management of virgin pebble beds that, even in helium environments, have been experimentally measured at only approximately \SI{1}{\watt\per\meter\per\kelvin} (see, \textit{ e.g.}, Refs.~\cite{Reimann:2002mi, Piazza2002811}). The only parameter to have similar reductions in value is the average normal contact force, a value which is seen to follow closely to the curve of effective conductivity. Rather, it should be stated that the effective thermal conductivity closely follows the changes to contact forces in the pebble bed. Thus I conclude that the single most important factor for determining the effective thermal conductivity in these pebble beds is the normal contact forces between pebbles; a force which decreases sharply as pebbles are crushed in the system.
-
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\singleimagewidth]{figures/kEff_packingFraction}
-    \caption{The normalized effective conductivity drops much more rapidly than the normalized packing fraction, $\phi$, while pebbles are crushed. The effective conductivity follows with reduced normal contact forces.}
-\label{fig:packing-fraction}
-\end{figure}
-
-The large reduction in normal contact force (which leads to a large reduction in effective conductivity) is explainable based on the experimental setup of the numeric model. In the system, we had rigid walls in the $x$ and $z$ directions. These walls did not change after the substantial number of pebbles were crushed and removed. After the 15\% crushing event, the pebble bed appeared as \Cref{fig:15percent-crushed-pre}. A massive re-arrangement proceeds from the crushing event. As the pebble bed heats up, the thermal expansion of the pebbles is unconstrained as there exists an average gap of two pebble diameters in size above the pebbles to the top of the container. Numerically there is no limit to the pebble temperatures (phase change and sintering is not incorporated into the DEM calculations) so the pebbles heat and swell until coming into contact with the top wall, at which time they begin to press into one another (though lightly) to allow thermal conduction. The pebble bed after swelling is shown in \Cref{fig:15percent-crushed-swelling}.
-
-\begin{figure}[!ht]
-    \centering
-    \begin{subfigure}[t]{\doubleimagewidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/heating_dte-02/15/0.15_pre_heat.png}
-        \caption{Side-view of the pebble bed after resettling from the crushing event, before heating.}
-        \label{fig:15percent-crushed-pre}
-    \end{subfigure}
-    \begin{subfigure}[t]{\doubleimagewidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/heating_dte-02/15/0.15_post_heat.png}
-        \caption{Side-view of the pebble bed after heating}
-        \label{fig:15percent-crushed-swelling}
-    \end{subfigure}
-    \caption{In (a) we see the pebble bed after 15\% of the pebbles have been crushed (removed) and then after the heating cycle in (b). The gap formed after crushing is completely filled by swelling pebbles.}
-\end{figure}
-
-One last note that must be made concerning this study is on the initial packing state. As the first study performed with the new numeric tools, I was unaware of some of the measures of describing a pebble bed. For instance, I desired to match the experimental setup of our laboratory insomuch as matching general dimensions and packing fractions. What I did not realize, however, was that forcing the pebble bed to achieve a pre-determined packing fraction at the expense of ignoring initial inter-particle contact forces was improper. The error of this initial packing is immediately seen when comparing the $\keff$ of the baseline pebble bed with those of experiments, shown back in \Cref{fig:keff-pressure}. The pebble bed, in the absence of helium, ought to have had an effective thermal conductivity close to $\keff =$ \SI{0.2}{\watt\per\meter\per\kelvin}. What I found, however was an initial $\keff = $\SI{1.03}{\watt\per\meter\per\kelvin}. The initial average contact force in the pebble bed was approximately \SI{125}{N}, this value should have been seen as far too high from the outset.
-
-Returning to this study, I attempted to assemble new pebble beds with different initial packing techniques. Instead of imitating the vibration-roof-pressing technique from the laboratory, or the overlap-relax technique used in this study, I created a second artificial packing technique. In this technique, the particles are all initially without contact friction and gravity was not initiated in the system. The limits of the periodic dimension were increased dramatically and the pebbles were allowed to fill the void space with large space between ($\phi \approx 0.10$). Then, slowly, the periodic boundaries shrunk which compressed the pebble bed. The frictionless, weightless pebbles were free to move around each other to create large packing fractions (up to $\phi = 64\%$) with minimal initial contact forces. These newly-packed pebble beds were again run to a thermal steady-state and an effective conductivity value established. In these cases, the initial $\keff$ was much closer to the values expected from physical experiments. The results of the contact forces in a number of new beds are given in \Cref{fig:contact-forces-scatter-initial}. The smaller initial contact forces lead to effective conductivities as shown in \Cref{fig:keff-initial}. If these new initial values of $\keff$ are compared to the damaged cases, the percent decrease in $\keff$ reported would be doubled. The results of these new packing techniques highlight the importance of the initial packing of the pebble bed when it comes to interpreting the output of the data. That is to say, neither of the results given are more correct or more incorrect than the other. They are simply more or less applicable to situations that have the same initial conditions -- including initial packing fraction and initial contact force.
-
-\begin{figure}[!ht]
-    \centering
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/initial_packing_study/62-deform-force-profile.png}
-        \caption{Packed to $\phi = 62$\%}
-    \end{subfigure}
-    
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/initial_packing_study/63-deform-force-profile.png}
-        \caption{Packed to $\phi = 63$\%}
-    \end{subfigure}
-
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/initial_packing_study/64-deform-force-profile.png}
-        \caption{Packed to $\phi = 64$\%}
-    \end{subfigure}
-    \caption{Initial force distributions in pebble beds packed with a new routine.}
-\label{fig:contact-forces-scatter-initial}
-\end{figure}
-
-\begin{figure}[!ht]
-    \centering
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/initial_packing_study/62percent-deform-packing.png}
-        \caption{Packed to $\phi = 62\%$}
-    \end{subfigure}
-    
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/initial_packing_study/63percent-deform-packing.png}
-        \caption{Packed to $\phi = 63\%$}
-    \end{subfigure}
-
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/initial_packing_study/64percent-deform-packing.png}
-        \caption{Packed to $\phi = 64\%$}
-    \end{subfigure}
-    \caption{Initial $\keff$ in the lightly-packed pebble beds are much closer to values measured in experiments in vacuum.}
-\label{fig:keff-initial}
-\end{figure}
-
-
-
-
-
-\FloatBarrier
-
-
-
-\subsection{Conclusions}
-\label{sec:dem-conclusions}
-This first study established the power of DEM modeling and its use as a foundation for the later studies with augmentations of helium flow. I simulated a pebble bed with a specified fraction of the pebbles crushed during operation, then determined the repercussions of the missing pebbles as they affect the macroscopic property of effective thermal conductivity. I used the assumption of homogeneous, random locations of pebble failure to induce a failure routine without requiring external loads on the bed to actually induce the pebble crushing. After heating to a steady-state, an effective thermal conductivity was calculated for the pebble bed. The results show that large amounts of pebble failure correspond to large decreases in the conductive transport of energy through the pebble bed. The increase was due almost exclusively to a drop in the inter-particle forces which lead to a large increase in temperature differences between neighboring pebbles.
-
-As the first step in the modeling effort, there were many simplifications that had to be made. I will explain here the shortcomings of the assumptions and simplifications of this study before drawing any major conclusions from the results.
-
-First, the `container walls' surrounding the pebble bed in this model are completely rigid and do not react as the swelling pebble bed presses into them while heating. The confined thermal expansion leads to higher contact forces in the pebble bed than what may exist in reality. Furthermore, as pointed out in the results, the initial contact force is strongly dependent on the \textit{initial packing state} and the contact forces are the greatest determining factor in $\keff$ for a bed. The initial packing state of the bed in this study gave abnormally high initial contact forces and thus abnormally high initiall $\keff$. A different packing scheme was shown to result in the same initial packing fraction but with greatly reduced initial contact forces; this packing technique will be used in future models. 
-
-Second, we saw from Fig.\ref{fig:temp-scatters} that the majority of the pebbles in the ensemble have their temperatures close fitting to an average curve but a number of the pebbles had less thermal contact with neighboring particles and consequently had much larger temperatures. This was true even in the baseline case of a tightly packed ($\phi =$\num{0.64}) pebble bed. This phenomena is possible because the contribution to heat transfer of the interstitial gas was not considered in this model and the flowing helium gas is expected to prevent any runaway temperatures of individual pebbles as it provides another route of energy transfer in the bed. This will be addressed in \cref{sec:cfd-dem-studies}.
-
-Lastly, the pebble crushing did not conserve mass between pre- and post-crushing in the pebble beds. This is an issue we address in the fragmentation study of \cref{sec:fragmentation}. There was also no predictive tool used to determine when pebbles would crush based on their inter-particle contact forces. I simply allowed an arbitrary number of pebbles to remove from the system. A predictive tool may not have expected even 2\% of the pebbles to be damaged, much less the 15\% to which I pushed the pebble bed. The predictive tool is discussed in \cref{sec:failure-study} and will be applied to later models.
-
-In spite of the limitations mentioned, it is still worth drawing conclusions from the results of this study. The results shown in Figs.~\ref{fig:contact-forces-scatter} and~\ref{fig:coord-scatter} demonstrate that the heat transfer through a pebble bed is simultaneously a function of both the coordination number and inter-particle contact forces. The average values of both of these parameters reduced as pebbles in the bed were crushed. But by far the most important factor appears to be the inter-particle contact force. Between the baseline case and the bed with 15\% damage, the average inter-particle forces drop by an entire order of magnitude. The $\keff$ follow suit with a decrease to 10\% of the original value. Interestingly, when a pebble bed has lower overall inter-particle contact forces such as what we see when pebbles are crushed, we would predict fewer pebbles are likely to break. This result implies that pebble breakage is self-dampening; as pebbles begin to break the ensemble quickly relaxes and avoids future pebble failure. So while in this study we induced failure up to $\eta = 15\%$ without a concern for predicting if such a large amount would break, such large values may not occur in real beds during operation of a fusion reactor. 
-
-The most important conclusion to draw from the this DEM study is simply the usefulness of the DEM tools for opening a window into the micro-mechanical world of the pebble bed. The transient DEM simulations allowed us to explore the evolving packing structure and the manifestation of the packings into macroscopic properties such as the effective thermal conductivity. The DEM simulations revealed that some of the most negative effects nervously anticipated in the solid breeder did not emerge: bed detachment from the walls and bridge-jamming of regions to isolate groups of pebbles from heat transfer paths. There remain some features which must be addressed, but the DEM approach used in this dissertation has demonstrated its value as a tool for solid breeder designers. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Dynamically coupled CFD-DEM Study on Effective Conductivity of Pebble Peds with Pebble Damage}\label{sec:cfd-dem-studies}
-
-In this section I demonstrate the transient coupling between DEM models of particle conductive heat transfer and inter-particle contact forces with the helium models of volume-averaged conservation equations. Thermal models of the pebble beds of solid breeders for fusion reactors are incomplete without consideration of the helium purge gas and its interaction with the poorly conductive porous network of pebbles. The simulation setup, material parameters, results and important conclusions will be discussed.
-\subsection{Modeling Setup, Boundary Conditions, and Coupling}\label{sec:cfd-dem-setup}
-For this simulation, I begin with the same well-packed pebble bed set up in \cref{sec:dem-studies-effective-conductivity}. I will analyze a full-packed bed and a damaged bed with $\eta = 10$\% of broken pebbles. The random removal technique of inducing `damage' to the bed was again used (in the same manner as described in \cref{sec:dem-studies-effective-conductivity}). The intent is to deduce changes in thermophysical properties when helium is considered in the thermal transport network of the pebble bed -- and as a function of the morphological changes due to damaged pebbles.
-
-The domain of the pebble bed in this study is a clone of the DEM study done previously. The fluid domain is constructed to include an inlet and outlet region of fluid to permit development of the flow profiles. The inlet region is 5 pebble diameters in length and the outlet is 30 pebble diameters. No-slip boundary conditions are enforced at the walls at the $x$-limits of the region. To match the DEM domain, periodic boundary conditions are used in the $y$-limits. The inlet face of the fluid is specified at a constant $\vec{v} = (5, 0, 0)$ \si{\centi\meter\per\second}. The outlet face is specified with OpenFOAM's `inletOutlet' command with a given pressure. This boundary condition allows the inlet pressure to float to value that satisfies the specified inlet velocity and outlet pressure. The temperature is specified as a constant $T_w = $ \SI{573}{\kelvin} at the $x$-walls as well as the inlet. The outlet condition of the temperature field is similarly given to be `inletOutlet' with OpenFOAM.
-
-The size of the CFD cells were chosen to be large enough to fit approximately 5 pebbles, for which the divided technique of computing void fraction is applicable (see \cref{sec:lag-eul-mapping}); the ratio of cell volume to particle volume was $V_\text{cell} / V_p = 7.46$. The helium, in this first model, was modeled with constant fluid properties. The values are given in Table~\ref{tab:cfd-properties}.
-
-The Koch-Hill-Ladd drag model is employed in the style of Model B with an Archimedes pressure for buoyancy term. The terminology of these CFD coupling drag models is discussed in Ref.~\cite{Zhou2010} The Nusselt number correlation of Li \& Mason is used for calculating the Nusselt number. OpenFOAM's dummy turbulence model (which is nothing more than a laminar model) is used.
-
-An implicit time marching scheme is employed with a time step in the fluid domain of $\Delta t_f =$\SI{1e-4}{\second}. The small time step is not necessary to capture the fluid flow. The momentum equation is essentially not even transient as a steady-state laminar solution is achieved almost instantaneously in comparison to the long time span required to reach thermal steady state. The small time step is necessary for a relatively tight coupling to the pebble bed as the temperatures increase on the pebbles. Integration schemes of gradients, divergence terms, and laplacians are all Gauss linear or Gauss limitedLinear (as defined in OpenFOAM). The time step of the DEM is $\Delta t_s =$ \SI{1e-7}{\second} which must be small for stability of the DEM explicit integration. The coupling between CFD and DEM domains occurs every 10 time steps of the fluid domain - equating to every \num{10000} in the pebble domain.
-
-The layout of the pebble bed inside the CFD domain is shown in Figs.~\ref{fig:cfdem-domain-x}, \ref{fig:cfdem-domain-y}, and~\ref{fig:cfdem-domain-z}. Notable of the layout is the relaxation of the mesh size in the direction of the periodic boundaries. The size is permitted as there are few variations in fluid or temperature in the periodic direction. The meshes are made much smaller in the direction between cooling boundaries. In this direction ($x$-direction), we need the meshes small enough to resolve a temperature and velocity profiles across the bed between centerline and cooling boundaries. We also want to capture the behavior of near-wall arrangement of the pebble bed. 
-
-\begin {table}[htp] %
-\caption{Constant fluid properties of helium purge gas in CFD-DEM coupling.}
-\label {tab:cfd-properties} \centering %
-\begin {tabular}{ ccccc }
-\toprule %
-$\nu$				&	$\alpha$				&	$k$		&	$C_p$		& $\rho$		\\
-(\si{\meter\squared\per\second})			&	(\si{\meter\squared\per\second})				&	(\si{\watt\per\meter\per\kelvin})	&	(\si{\joule\per\kilogram\per\kelvin})	& (\si{\kilogram\per\cubic\meter})	\\\toprule
-\num{4.02e-4} &	\num{6.06e-4}	& 	\num{0.2}		& 	\num{5192.8}		& 	\num{0.175}		\\\bottomrule
-\end{tabular}
-\end{table}
-
-
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=0.4\textwidth]{figures/x-side-view}
-    \caption{Side view of the pebble bed as it resides in the CFD mesh. The meshes in the direction of the periodic faces are allowed to be larger than others.}\label{fig:cfdem-domain-x}
-\end{figure}
-
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=0.4\textwidth]{figures/y-side-view}
-    \caption{Front view of the pebble bed as it resides in the CFD mesh. The meshes in the direction of cooling are chosen to be large enough to fit many pebbles but small enough to provide a resolved temperature profile.}\label{fig:cfdem-domain-y}
-\end{figure}
-
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=\singleimagewidth]{figures/z-top-view}
-    \caption{Top view of the pebble bed as it resides in the CFD mesh.}\label{fig:cfdem-domain-z}
-\end{figure}
-
-
-While the energy transport is the main concern of the pebble bed, I perform a simple validation of the CFD-DEM routine against known pressure-drop correlations to provide confidence in the overall coupling and volume-averaging technique. After pressure drop is shown to be consistent with empirical predictions, I proceed with the thermal analysis.
-\FloatBarrier
-
-
-\subsection{Pressure Drop}
-
-The CFD-DEM coupling was run at various particle Reynolds numbers and the overall pressure drop of the packed bed was measured. The pressure drop is compared against the well-known Kozeny-Carman and Ergun equations. The Kozeny-Carman is known to fit better with experimental data at very small Reynolds numbers while the Ergun equation is a more general equation meant to span a large range of Reynolds numbers. In \Cref{fig:cfdem-pressure-drop} we see the CFD-DEM coupling model is providing bed-scale pressure drops that match very well with Kozeny-Carman over the Reynold’s numbers applicable to helium purge flow in fusion reactors ($\Re_p \approx 1$). 
-
-Seki\etal experimentally studied the flow of helium purge gas in efforts to better understand tritium recovery.\cite{Seki2013a} They ran a representative volume of pebbles up to flow rates of \SI{100}{\liter\per\minute} and also found that Ergun's pressure drop prediction was highly accurate for the pebble beds as long as the viscous contribution (see the right-most term in \Cref{eq:ergun-pressure}) was small, \textit{e.g.} when the Reynolds number of the packed bed is small. This result is a strong validation of the macroscopic results of pressure drop as calculated by the CFD-DEM simulation of a packed bed.
-
-\begin{figure}
-        \centering
-        \begin{subfigure}[b]{0.7\textwidth}
-                \includegraphics[width=\textwidth]{figures/pressureDrops-full.png}
-                \caption{Well-packed bed}
-                \label{fig:pressure-drop-full}
-        \end{subfigure}%
-        
-          %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.7\textwidth}
-                \includegraphics[width=\textwidth]{figures/pressureDrops-evap.png}
-                \caption{Re-settled bed}
-                \label{fig:pressure-drop-evap}
-        \end{subfigure}
-        \caption{Pressure drop calculations across packed beds, solved by CFD-DEM, fit well to the Kozeny-Carman empirical relation.}\label{fig:cfdem-pressure-drop}
-\end{figure}
-
-
-
-\subsection{Effective Thermal Conductivity from CFD-DEM}\label{sec:cfd-dem-effective-conductivity}
-
-The simulation is allowed to run to thermal steady-state with nuclear heating and wall cooling. After reaching a steady solution, I analyze the temperature profiles of the fluid and pebble bed. The temperature of the fluid volume from the simulation of the well-packed bed is shown in \Cref{fig:cfdem-complete-domain}. The flow field is also visualized in \Cref{fig:cfdem-streamlines}; in this figure the pebble bed is clipped at the centerline to allow viewing of the helium streamlines. Apparent in the figure is temperature profiles in the helium from centerline to wall that qualitatively mirror temperature profiles in the pebble bed. The two beds in our system, well-packed and resettled, were run to thermal steady-state with nuclear heating and wall cooling in both pure DEM and coupled CFD-DEM simulations for comparison. From steady-state temperature distributions, seen in the pebble scatter plots in \Cref{fig:cfdem-x-T}, an average profile is calculated and an effective thermal conductivity computed following the procedure shown in \cref{sec:keff-analogy}. The values are tabulated in Table~\ref{tab:cfdem-keff}. 
-
-In the case of pure DEM, energy is transported solely along conduction routes in the ensemble. When the packing of the bed is disturbed, this results in a substantial drop in effective conductivity (a drop of 31\%). Perhaps more important than the reduction in effective conductivity, is the growth in number of isolated rattlers. Because heat deposition is volumetrically applied, pebbles with poor conduction routes become much hotter than their neighbors. This is evident in the high temperatures seen in many of the pebbles in the \Cref{fig:x-T-evap}. Over-heating of isolated pebbles could induce sintering and impact their tritium release even when the average temperatures measured in the bed are well below sintering values.
-
-When CFD-DEM beds are analyzed, there is still a large reduction in effective conductivity (22\% drop), but interesting to note is the lack of high temperature rattlers. In the CFD-DEM scatter plot of \Cref{fig:x-T-evap}, there is evidence of the reduced heat transfer in the same region as the isolated pebbles from the DEM bed, but the temperatures are much closer to the average values of neighboring pebbles. The helium purge gas has locally smoothed out the temperatures and provided heat transport paths for pebbles that have loose physical contact with neighbors.
-
-In spite of the 22\% decrease in effective conductivity, the maximum temperature of the pebble bed only increased 6.2\% (from \SIlist{725;751}{\kelvin} when helium is included in the model. This result is significant for solid breeder designers. They may choose a solid breeder volume such that in the event of extensive pebble cracking, the maximum temperature of the bed would remain within the ideal windows dictate for the lithium ceramics.
-
-An accompanying result is the increased amount of energy carried out of the system by the helium purge gas. In Table I, the last column provides the ratio of energy carried out of the system to the nuclear energy deposited into the bed. The amount of energy carried out by the helium increased from \numlist{1.15;1.52}\% from the well-packed to damaged beds.
-
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=\singleimagewidth]{figures/full-cfd-dem-fluid-temp}
-    \caption{View of the complete fluid domain at thermal steady state.}\label{fig:cfdem-complete-domain}
-\end{figure}
-
-
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=\singleimagewidth]{figures/cfd-dem-streamlines2}
-    \caption{Cut-away view of the pebble bed with streamlines of helium moving in generally straight paths from inlet to exit.}\label{fig:cfdem-streamlines}
-\end{figure}
-
-
-\begin{figure}
-        \centering
-        \begin{subfigure}[b]{0.5\textwidth}
-                \includegraphics[width=\textwidth]{figures/full-x-T-color}
-                \caption{Well-packed bed}
-                \label{fig:x-T-full}
-        \end{subfigure}%
-        
-          %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.5\textwidth}
-                \includegraphics[width=\textwidth]{figures/evap-x-T-color}
-                \caption{Re-settled bed}
-                \label{fig:x-T-evap}
-        \end{subfigure}
-        \caption{Scatter temperature profiles of pebbles in a bed that is: well-packed (left) and resettled after 10\% of pebbles were removed from crushing (right). The introduction of helium into the simulation contributes to both lower overall temperatures (higher effective conductivity) and the smoothing out of high temperatures of isolated pebbles.}\label{fig:cfdem-x-T}
-\end{figure}
-
-
-
-\begin {table}[htp] %
-\caption{Pebble bed values from the test matrix of the beds analyzed in this study.}
-\label {tab:cfdem-keff} \centering %
-\begin {tabular}{ rccccc }
-\toprule %
-			& 	\multicolumn{2}{c}{$\keff$}	&   \multicolumn{2}{c}{$T_\text{max}$}	&	$\frac{Q_h}{Q_\text{nuc}}$		\\
-			& 	\multicolumn{2}{c}{(\si{\watt\per\meter\per\kelvin})}			&	\multicolumn{2}{c}{(\si{\kelvin})}				&									\\
-			& 	DEM 		& 	CFD-DEM				&	DEM 		& 	CFD-DEM 			& 	CFD-DEM							\\\toprule
-Well-packed	& 	0.96		& 	1.09				& 	745			& 	725					& 	1.15							\\
-Resettled	& 	0.66		& 	0.85				& 	800			& 	751					& 	1.52							\\\bottomrule
-\end{tabular}
-\end{table}
-
-
-
-
-
-\FloatBarrier
-
-
-
-\subsection{Conclusions}
-
-In this study I extended the thermophysical analysis of damaged pebble beds begun in \cref{sec:dem-studies} to include the influence of helium in a volume-average sense. This study grew from the prior one and the pebble bed representation of damage suffered all the same limitations mentioned in the closing of the last study, they will not be mentioned again here for the sake of brevity.
-
-The CFD-DEM approach was validated, at least in terms of the volume-averaged Navier-Stokes equations, with a parametric study of pressure drop as a function of Reynolds number. When helium flowed over the DEM pebble beds, the pressure drop fit well to the well-established Kozeny-Carman correlation.
-
-Two representative pebble beds, one well-packed and one with 10\% damaged pebbles, were run to thermal steady state with nuclear heating and cooling at a pair of walls.  The pair of pebble beds were considered with only conduction heat transfer of DEM and also with the helium enhancements to heat transfer with CFD-DEM. In the DEM beds, we saw that there always exist hot rattlers in pebble beds -- even well-packed ones. These pebbles heat from the volumetric source but have no outlet for the energy as their contacts with neighbors are very light. However, with the inclusion of helium flow eliminated the hot rattlers from both pebble beds analyzed.
-
-When comparing the impact of pebble damage with and without the modeling of helium, the models including helium showed less of an impact on reduced effective thermal conductivity when the bed experienced the extensive 10\% damage of pebbles. Furthermore, the maximum bed temperature increased less due to pebble damage when helium was included, when compared to DEM-only beds.
-
-This study is a useful demonstration of the power of the dynamically coupled CFD-DEM approach. The DEM simulation was capable of continually monitoring inter-particle forces and individual particle temperatures such that any of the crush-prediction, fragmentation, and thermal expansion methods developed in this dissertation can continue to transiently alter the morphology of the pebble bed. Meanwhile, the volume-averaged approach to conservation equations of the fluid allow for an efficient overlaying of the fluid contribution to the thermophysical behavior of the pebble bed.
-
-There are simplifications to the fluid flow and its impact on the thermal transport in the pebble bed that are made in the volume-averaging technique. The simplifications may mask some important physical features of the flow and energy fields but nevertheless provide valuable information on the pebble bed in an efficient manner and should continue to be developed for solid breeder research.
 
 
 
@@ -674,7 +164,7 @@ Building upon the theories of earlier models, we replace a parent pebble of radi
 \subsection{Results \& Discussion}
 In \Cref{fig:inset}, a bed of 64\% initial packing with 5\% of pebbles broken into fragments of size $r_2^* = 0.2$ is shown; vectors of flow field, colored by fluid temperature, are seen moving through the bed. The inset image qualitatively demonstrates how the fluid field aids in equilibrating temperatures of fragments with neighboring larger pebbles in spite of light physical contact between pebbles. 
 
-\begin{figure}[!h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width = 0.75\textwidth]{figures/pebble_inset_2.png}
     \caption{Showing the case for $\phi_2 = 0.64$, $\eta = 5\%$ with fluid velocity vectors colored by temperature. Inset image reveals size discrepancies between fragments and pebbles and the ensemble interaction with fluid flow.}\label{fig:inset}
@@ -706,7 +196,7 @@ Lastly, we consider how far pebble fragments travel in the bed after a crushing 
 
 
 
-% \begin{figure}[!h]
+% \begin{figure}[ht]
 % \centering
 % \includegraphics[width = 0.4\textwidth]{figures/62x-edit.png}
 % \caption{Pebble temperature distributions in the $\chi$-config with $\phi_1 = 0.62$ initial packing increase with increased granular damage, from left to right is $\eta = 0, 0.01, 0.03, 0.05$.}\label{fig:62xpebs}
@@ -824,7 +314,7 @@ In contrast, $\chi$-config beds respond much differently to pebble fragment sett
 
 
 \subsubsection{Local Packing Fraction Redistribution}
-Travel of pebble fragments also manifests in changes to local packing fraction. In \Cref{fig:x-62-r23,fig:x-62-r125,fig:x-624-r23,fig:x-624r125}
+Travel of pebble fragments also manifests in changes to local packing fraction. In \Cref{fig:x-62-r23,fig:x-62-r125,fig:x-624-r23,fig:x-624r125}, we see the local packing fraction distribution for all pebble beds of $\chi$-configuration. 
 \begin{figure}[!t]
     \centering
     \includegraphics[width = 0.65\textwidth]{figures/x-62-r23-1.png}
@@ -998,7 +488,7 @@ The purpose of the lattice-Boltzmann simulation is to reveal the influence of to
 
 % For this lattice-Boltzmann simulation I use a resolution of $\text{res} = 10$ and a time step of $\delta_t = $\num{0.001}. The rest of the descriptions of our pebble bed are locked from the system and material properties. The other geometric values for the lattice are given in Table~\ref{tab:lbm-parameters}, the relaxation parameters defining the collision dynamics of the lattices are given in Table~\ref{tab:lbm-relaxations}, and the boundary conditions are given in Table~\ref{tab:lbm-boundaries}. The values are all unitless in the lattice framework and are translated from the physical values to match the model of pebbles and fluid from \cref{sec:cfd-dem-studies}
 
-\begin {table}[h] %
+\begin {table}[ht] %
 \caption{Physical description of the lattice (in lattice units).}
 \label{tab:lbm-parameters} \centering %
 \begin {tabular}{ ccccc }
@@ -1008,7 +498,7 @@ $N_x$   &   $N_y$  &   $N_z$    &   $\delta_x$   & $\delta_t$    \\\toprule
 \end{tabular}
 \end{table}
 
-\begin {table}[h] %
+\begin {table}[ht] %
 \caption{The momentum relaxation constants for fluid (ns), thermal relaxation constants for fluid (ad), and thermal relaxation constants for the solid (cj) used in the simulation.}
 \label{tab:lbm-relaxations} \centering %
 \begin {tabular}{ cccccccc }

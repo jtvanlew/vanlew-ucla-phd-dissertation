@@ -1,4 +1,18 @@
-\chapter{Development of Coupled Granular-Fluid Flow Modeling Tools for Pebble Bed Solid Breeders}\label{ch:cfd-dem-modeling-development}
+\chapter{Solid-solid and Solid-fluid Heat Transfer in Solid Breeder Pebble Beds with Volume-Average Theory Modeling}\label{ch:cfd-dem-modeling-development}
+Our DEM model, introduced in \Cref{ch:modeling-development}, was shown to be useful for modeling thermal transport between contacts in pebble beds in vacuum. The discrete element method's strength lies in its ability to resolve granular interactions at the pebble scale, allowing realistic modeling of contact forces and packing structure evolutions from crushed pebbles in fusion solid breeders. This is, however, insufficient on its own to model a solid breeder unit in a fusion reactor as the DEM equations neglect slow-moving helium purge gases permeating solid breeder pebble beds. Therefore, to develop a more complete model of temperature distributions in solid breeders, we will introduce the interstitial gas into our model.
+
+Coupled granular-fluid flow is an important process used in a variety of industries.\cite{Zhou2010,Kloss2012} Early work on gas-particle flow models treated the solid and gas phases as two inter-penetrating continua. The solid and gas were treated with the so-called two fluid model (TFM) by Anderson \& Jackson as early as 1967.\cite{Anderson1967} Volume-averaging Theory followed TFM. The VAT approach is similar to TFM in that the fluid computational cell is sufficiently large to include many individual particles but still smaller than the size of the system.\cite{Enwald1996} VAT allows treatment of complex porous flows with smooth continuous equations. In VAT, we average over a discrete space to replace complex geometry with a fictitious, smooth, continuous medium in which quantities of interest are defined independently of whether specific locations in that space are, for instance, solid or gas.\cite{Sbutega2013,whitaker1999method,} The governing equations of VAT required constitutive equations for closure between the fluid and solid phases. To overcome the difficulties of closure in VAT, multi-scale strategies have been devised for formulation of governing equations and constitutive relationships between solid and fluid phase. 
+
+At the microscopic level, the discrete element method describes the motion and energy transfer of particles interacting with a surrounding fluid. At the macroscopic level, fluid flow is handled in a continuum sense with volume-averaged governing equations that are closed with constitutive relationships with the particle phase.\cite{Tsuji1992,Xu1997} A numerical technique of coupling volume-averaged computational fluid dynamics (CFD) flow solvers to discrete element models was first proposed by Tsuji\etal. in 1992 and then Hoomans\etal~in 1996.\cite{Tsuji1992,Tsuji1993,Hoomans1996} Since then, CFD-DEM coupling approaches have grown as a tool for granular flow research and many CFD-DEM models have been experimentally validated for fluidized beds and preliminarily validated for heat transfer in packed beds.\cite{Kloss2012,Xu1997,Patankar2001,Swasdisevi2005,Deen2007,Zhang2008,Chu2008,VanBuijtenen2011,Gruber2012,Peng2014}
+
+
+Noting the growth in application of CFD-DEM, a systematic review of the theoretical developments behind different particular system models was given by Zhu\etal\cite{Zhu2007} They consider the two most common formulations, following the notation of Gidaspow, for the governing equations. The two formulations are commonly referred to simply as Model A and Model B.\cite{gidaspow1994multiphase} Both of these models have been implemented somewhat interchangeably in CFD-DEM simulations. As pointed out by Zhu\etal, the two models differ by their treatment of the pressure drop. In Model A, the pressure drop on the system is jointly shared by the gas and solid phases. In Model B, it is only the gas phase which directly experiences the effects of pressure drop. Therefore, the two models have different forms of coupling source term, $S_k$ (see \Cref{eq:cfd-mom-source}). The source of Model B is related to that of Model A as $S_k^B = S_k^A/\epsilon - \rho_f\phi g$.
+
+However, as is shown by Zhou\etal, there is a built-in assumption to Model B which is typically overlooked in the implementation of CFD-DEM. For an accelerating fluid, there is an added-mass in the momentum equation. In the derivation of Model B, it is tacitly assumed that the fluid is steady which is not generally valid.\cite{Zhou2010} Nevertheless, the proliferation of Model B is due to the ease in numerical implementation and, except for some situations, Model B is numerically similar to Model A for most cases studied in CFD-DEM simulations.\cite{Zhou2010} In the simulations of packed beds for tritium breeding, we choose to implement Model B as it is valid for any of the flow scenarios ever experienced by the ceramic pebble bed.
+
+ 
+ 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -6,24 +20,14 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Dynamic Coupling of Fluid-particle, Volume-averaged Modeling} \label{sec:modeling-cfd-dem}
-
-A more comprehensive model of the thermophysics of a packed bed would be sorely incomplete without including the contribution of helium. The first modeling approach adopted treats the helium as a volume-averaged thermofluid. Note, for shorthand I will frequently refer to the volume-averaged approach simply as the computational fluid dynamics (CFD) method. In this approach, the fluid is considered in an Eulerian, continuum sense and the pebbles remain in the discrete, Lagrangian realm. The interactions of the fluid and solid are characterized by effective relationships in discretized cells of fluid. The technique of coupling CFD to DEM was first proposed by Tsuji\etal.\cite{Tsuji1992} in 1992. Since that time, the CFD-DEM coupling approach has grown as a tool for granular flow research. A comparison of model formulation for CFD-DEM is discussed extensively by Zhou\etal\cite{Zhou2010}.
-
-
-
-
-
-
-\subsection{Incorporating Helium into the DEM Framework}\label{sec:cfdem-heat-transfer}
-
-In the standard DEM implementation (see \cref{sec:particle-dynamics}), each pebble obeys Newton's equations of motion in response to a net force acting upon it. To include the influence of helium in the DEM formulation, we simply add a drag force term to \Cref{eq:newton-translational}. The momentum balance of our Lagrangian-tracked pebble now reads,
+\section{Modeling Particles in the Presence of Fluid Flow Fields} \label{sec:modeling-cfd-dem}
+Governing equations of DEM systems were given in \cref{sec:particle-dynamics}. To review, each pebble obeys Newton's equations of motion in response to a net force acting upon it. To include the influence of helium in the DEM formulation, we simply add a drag force term to \Cref{eq:newton-translational}. The momentum balance of our Lagrangian-tracked pebble now reads,
 \begin{equation}\label{eq:cfdem-dem-momentum}
 	m_i  \ddt{\vec{r}_i} = m_i\vec{g} + \vec{f}_i + \beta_i V_i \Delta \vec{u}_{if}
 \end{equation}
 where we have simply added the last term onto \Cref{eq:newton-translational}. The components of the last term are $\Delta \vec{u}_{if} = \vec{u}_f - u_i$, which is the relative velocity between the fluid and pebble, $i$; $\beta_i$, is a volumetric drag coefficient; and the drag acts upon the entire pebble volume, $V_i$. A discussion on the method of determination and form of the inter-phase drag coefficient will be discussed after introducing the DEM heat transfer equation.
 
-To similarly include the influence of the interstitial helium on the temperatures of our pebbles, we must simply add a source term to the original energy balance equation of the DEM pebble, as given in \Cref{eq:thermoFirstLaw}. The heat transfer coefficient, $h$, for a fluid moving past a sphere in a packed bed. Heat transfer coefficient is added to the energy balance as
+To similarly include the influence of helium gas field surrounding pebble, $i$, on its temperature, we must simply add a source term to the original energy balance equation of the DEM pebble, as given in \Cref{eq:thermoFirstLaw}. In this case, the inter-phase exchange coefficient for energy is the heat transfer coefficient, $h$, for a fluid moving past a sphere in a packed bed. Heat transfer with passing fluids is added to the energy balance as
 \begin{equation}\label{eq:cfdem-dem-energy}
 	m_iC_i \ddt{T_i} = Q_{s,i} + \sum_{j=1}^Z Q_{ij} + h_i A_i \Delta T_{if}
 \end{equation}
@@ -31,11 +35,11 @@ where again we have only needed to add the last term to account for the energy d
 
 In the development of \Cref{eq:thermoFirstLaw}, it was assumed that a `conduction' Biot number was satisfied such that a lumped-capacitance method would be valid for the discrete pebbles in our ensemble. Likewise, for \Cref{eq:cfdem-dem-energy} to be valid, we must assume that the true Biot number is also $\Bi \ll 1$. However, the lumped capacitance method is generally developed in heat transfer systems without heat generation. Furthermore, considering the low conductivity of our pebble material, it is not apparent \textit{a priori} if the lumped capacitance assumption inherent in our DEM formulation is valid. I return to explore the assumption in \cref{sec:ht-jeffreson-correction}.
 
-Assuming their validity, these simple additions to the governing equations of momentum and energy of each particle are all that are necessary to incorporate helium into the DEM computations. The computations of the inter-phase exchange coefficients, $\beta_i$ and $h_i$ are discussed next.
+Assuming their validity, these simple additions to the governing equations of momentum and energy of each particle are all that are necessary to incorporate helium into the DEM computations of solid breeder pebbles. The computations of the inter-phase exchange coefficients, $\beta_i$ and $h_i$ are discussed next.
 
 \subsection{Inter-phase Exchange Coefficients}
 
-The purge gas in ceramic breeders is meant to travel at very low flow rates to maximize the absorption of tritium. The pebble beds will also always be near the close-packed limit. As such, the particle Reynolds number for these flows is often near unity and the Kozeny-Carman equation as applicable for Stokes flow is quite sufficient. However, we will employ the full Koch-Hill-Ladd (KHL) correlations which include terms for both the Stokes flow correlation (as a function of $\phi$) in the zero Reynolds number limit and the viscous effects with a Reynolds number-dependent term. The KHL correlation is of a general form, and reduces to the Kozeny-Carman correlation in the close-packed, zero Reynolds number limits.\cite{Koch2001} A short review of other correlations, their applicable ranges of fluid parameters, and other details is given in \cref{sec:modeling-pressure-drop}. The assumptions leading to the development of the KHL correlation provide justification for our implementation in packed beds of lithium ceramics.
+The purge gas in ceramic breeders is meant to travel at very low flow rates to maximize the absorption of tritium. The pebble beds will also always be near the close-packed limit. As such, the particle Reynolds number for these flows is often near unity and the Kozeny-Carman equation, as applicable for Stokes flow, is quite sufficient. However, we will employ the full Koch-Hill-Ladd (KHL) correlations which include terms for both the Stokes flow correlation (as a function of $\phi$) in the zero Reynolds number limit and the viscous effects with a Reynolds number-dependent term. The KHL correlation is of a general form, and reduces to the Kozeny-Carman correlation in the close-packed, zero Reynolds number limits.\cite{Koch2001} The KHL correlation allows for flexibility of discretized fluid cells to contain low volume-fraction regions of pebble beds, such as in the near-wall region. A short review of other correlations, their applicable ranges of fluid parameters, and other details is given in \cref{sec:modeling-pressure-drop}. The assumptions leading to the development of the KHL correlation provide justification for our implementation in packed beds of lithium ceramics.
 
 The nondimensional force of the KHL correlation reads,
 \begin{equation}\label{eq:khl-correlation}
@@ -99,7 +103,7 @@ The inter-phase energy transfer coefficient is calculated from the Nusselt numbe
 \begin{equation}\label{eq:interphase-energy}
 	h_i = \frac{\Nu k_f}{d_{p,i}}
 \end{equation}
-where $k_f$ is the thermal conductivity of the fluid. Several correlations for determining the Nusselt number are given for reference in \cref{sec:particle-convection}. In \Cref{sec:particle-convection}, we saw many different Nusselt number correlations. For the low-Reynolds number flows of the helium purge gas, the most appropriate correlation is from Wakao\etal, given in \Cref{eq:wakao}.
+where $k_f$ is the thermal conductivity of the fluid. Several correlations for determining the Nusselt number are given for reference in \cref{sec:particle-convection}. For the low-Reynolds number flows of the helium purge gas, the most appropriate correlation is from Wakao\etal, given in \Cref{eq:wakao}.
 % We opt for the correlation provided by Li \& Mason which is applicable to a wide range of Reynolds number flows.\cite{Li2000} Their correlation reads,
 % \begin{equation}\label{eq:li-mason-correlation}
 % 	\Nu = \begin{cases}
@@ -111,16 +115,16 @@ where $k_f$ is the thermal conductivity of the fluid. Several correlations for d
 
 % The correlation was developed for small spheres of polymer pellets in relatively dilute flow for which they found the exponent of the void fraction to be fit well to experiments when $n=3$. It might be argued that a different exponent might be necessary to apply this correlation to our packed beds. In practice, however, we observe that the majority of the Nusselt numbers calculated in each cell of the helium mesh are approximately $\Nu = 2$ which is the pure-conduction limit -- regardless of the exponent. For this reason, it is safe to assume $n=3$ is valid for our packed beds at this time.
 
-From Eqs.~\ref{eq:interphase-momentum} and~\ref{eq:interphase-energy}, we have a formulation wherein knowledge of the flow field around our pebbles will allow calculation of dimensionless drag, $F$, and Nusselt number, $\Nu$,  and thereby the two inter-phase exchange coefficients. The flow is coupled to our DEM computations with simple algebraic additions to the equations of motion and energy of the pebble.
+From Eqs.~\ref{eq:interphase-momentum} and~\ref{eq:interphase-energy}, we have a formulation wherein knowledge of the flow field around our pebbles will allow calculation of dimensionless drag, $F$, and Nusselt number, $\Nu$,  and thereby the two inter-phase exchange coefficients. The flow is coupled to our DEM computations with simple algebraic additions to the equations of motion and energy of the pebble, \Cref{eq:cfdem-dem-momentum} and \Cref{eq:cfdem-dem-energy}, respectively.
 
 
 
 
 \subsection{Volume-averaged Thermofluid Flow}
 
-The gas phase flow field will be treated in a method analogous to the approach of volume-averaging theory (VAT).\cite{Sbutega2013,whitaker1999method,Tsuji1992} The VAT allows treatment of complex porous flows with smooth continuous equations. In VAT, we average over a discrete space to replace complex geometry with a fictitious, smooth, continuous medium in which quantities of interest are defined independently of whether specific locations in that space are, for instance, solid or gas.
+The gas phase flow field will be treated in a method analogous to the approach of volume-averaging theory (VAT); the criticl difference is that with formal VAT the solid field is not handled with the discrete element strategy employed in CFD-DEM models.\cite{Tsuji1992} 
 
-In this formulation of the gas flow, we discretize the gas space with cells that are slightly larger than the individual particles; in the application of our CFD-DEM coupling, this meant approximately 5 to 6 particles per cell. With VAT, the particles themselves are not resolved in the fluid space but are simply introduced via closure terms.\cite{Sbutega2013,Horvat2006} A clear derivation of the governing equations of VAT can be found in Sbutega \& Catton\cite{Sbutega2013}. The momentum and energy of a fluid flow through a solid phase with volume-averaged Navier-Stokes and energy equations are applied to each cell, $k$, in the discretized fluid space,
+In this formulation of gas flow, we discretize fluid space with cells that are slightly larger than the individual particles; in the application of our CFD-DEM coupling, this meant approximately 5 to 6 particles per cell. With VAT, the particles themselves are not resolved in the fluid space but are simply introduced via closure terms.\cite{Sbutega2013,Horvat2006} A clear derivation of the governing equations of VAT can be found in Sbutega \& Catton\cite{Sbutega2013}. The momentum and energy of a fluid flow through a solid phase with volume-averaged Navier-Stokes and energy equations are applied to each cell, $k$, in the discretized fluid space,
 \begin{subequations}\label{eq:cfd-equations}
 \begin{align}
 \pder[\epsilon_k \rho_f]{t} + \nabla\cdot(\epsilon_k \vec{u}_f \rho_f) &= 0\\
@@ -128,20 +132,21 @@ In this formulation of the gas flow, we discretize the gas space with cells that
 \pder[\epsilon_k T_f]{t} + \nabla\cdot(\epsilon_k \vec{u}_f T_f) &= \nabla\left(\epsilon_k\nabla T_f\right)-\frac{E_k}{\rho_fC_f}
 \end{align}
 \end{subequations}
-
-The packing fraction in any fluid cell is calculated as a function of the volumes of particles residing in cell $k$. The computation of the void fraction is deceivingly important and is discussed in length in \cref{sec:lag-eul-mapping}.
+where the packing fraction in any fluid cell is calculated as a function of the volumes of particles residing in cell $k$. The computation of the void fraction is critically important and is discussed in length in \cref{sec:lag-eul-mapping}.
 % \begin{equation}
 % 	\phi_k = \frac{1}{V_k}\sum_{\forall i \in k} V_{p,i}
 % \end{equation}
 % where the fluid void fraction is the complement of the solid packing fraction, $\epsilon = 1 - \phi$. 
 
 Coupling the fluid phase to the particles happens with the closure terms in momentum and energy of $S_k$ and $E_k$, respectively. They are volume-weighted sums of the drag forces and energy exchanges for all particles in the discretized fluid cell,
+
 \begin{subequations}\label{eq:cfd-sources}
 \begin{align}
 	S_k &= \frac{1}{V_k}\sum_{\forall i \in k} \beta_i V_i \Delta \vec{u}_{if} \label{eq:cfd-mom-source}\\
 	E_k &= \frac{1}{V_k}\sum_{\forall i \in k} h_i A_i \Delta T_{if}
 \end{align}
 \end{subequations}
+
 The inter-phase momentum and energy exchange coefficients act as the communicators between the particle information from the DEM solver and the fluid fields from CFD. Thus the motion and energy of the fluid field are intimately and dynamically coupled with the particle positions and energy. Computational time is preserved by only considering volume-averaged values in the fluid domain but important inter-particle forces are still calculated in the DEM space. The nature of the coupling, \textit{i.e.} how information is mapped between the two computational spaces, is discussed next.%The cross-communication between fluid and solid is accomplished with a coupling routine that is explained in detail in Refs. 11, 12.
 
 
@@ -149,11 +154,7 @@ The inter-phase momentum and energy exchange coefficients act as the communicato
 
 
 \subsection{Lagrangian-Eulerian Mapping Calculations of Porosity}\label{sec:lag-eul-mapping}
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=\singleimagewidth]{figures/void-fraction-cell.pdf}
-	\caption{The dashed line represents a computational cell in which exist many particles. The particles with centroids inside the cell are shaded red.}\label{fig:centroid-void-fraction}
-\end{figure}
+
 The simplest method for calculating the porosity of a CFD computational cell is to map all the DEM particles into the Eulerian volume via their centroid. We refer to this simple technique as the particle centroid method; in spite of its simplicity it is often used for large cell-to-particle volume ratios.\cite{Xu1997} A two-dimensional demonstration of the centroid technique is given in \Cref{fig:centroid-void-fraction}. In this figure, we see a computational cell (dashed line) in which many particles exist either partially or fully. The particles shaded in red have their centers located inside the cell and therefore in the simple technique have their entire volume contribute to the calculation of the porosity. The porosity for the centroid method is calculated as,
 \begin{equation}
 	\epsilon_\text{cell} = 1-\frac{1}{V_\text{cell}}\sum_{i = A}^{i=L}V_{p,i}
@@ -163,6 +164,13 @@ where $V_{p,i}$ is the volume of particle $i$. As the cell size begins to approa
 	\epsilon_\text{cell} = 1-\frac{1}{V_\text{cell}}\sum_{i = A}^{i=L}f_iV_{p,i}
 \end{equation}
 where $f_i$ is the fraction of the particle residing in the Eulerian cell. A similar approach taken by Kloss\etal~and Zhao \& Shan is the divided technique.\cite{Kloss2012,Zhao2013a} In this technique, the spherical particle is artificially divided into a number of regions with markers indicating their location. For example, see now how particles at the boundary, such as particle $A$, are treated in \Cref{fig:centroid-void-fraction-divided}. Instead of searching for centroids of particles, each particle has a search through the marker points (the black markers drawn in particle $A$) and the volume of that section of the sphere is assigned to whichever cell it falls inside. Note that in the sketch of \Cref{fig:centroid-void-fraction-divided}, every particle is divided with markers but particles not near the cell boundary have not had them drawn for clarity and convenience.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\singleimagewidth]{figures/void-fraction-cell.pdf}
+	\caption{The dashed line represents a computational cell in which exist many particles. The particles with centroids inside the cell are shaded red.}\label{fig:centroid-void-fraction}
+\end{figure}
+
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=\singleimagewidth]{figures/void-fraction-divided-cell.pdf}
@@ -176,28 +184,6 @@ As the computational cell volume approaches the size of a single particle $V_\te
 Once the fluid momentum and energy fields are calculated in the Eulerian grid, the coupled inter-phase exchange coefficients must map the velocities and temperatures onto the particles in the Lagrangian DEM framework. A particle centroid method is always used in the exchange onto the particles. Referencing \Cref{fig:centroid-void-fraction}, the velocity and temperature of the dashed cell is mapped only onto the particles highlighted in red. The approach has been used successfully by others.\cite{Xu1997,Link2005,Kloss2012}
 
 
-
-
-
-
-
-\subsection{Discussion on the Applicability of CFD-DEM Governing Equations}
-Early work on gas-particle flow models treated the solid and gas phases as two inter-penetrating continuum. The solid and gas were treated with the so-called two fluid model (TFM) by Anderson \& Jackson in 1967.\cite{Anderson1967} The TFM approach is similar to the VAT approach in that the fluid computational cell is sufficiently large to include many individual particles but still smaller than the size of the system.\cite{Enwald1996} The governing equations of TFM are fundamentally similar to Eqs.~\ref{eq:cfd-equations} but required constitutive equations for closure between the fluid and solid phases. Zhou\etal~show the equivalence of the governing equations of TFM and CFD-DEM.\cite{Zhou2010} The essential difference is that the issue of closure is removed with the information from DEM providing direct coupling to the fluid phase.
-
-Since the introduction of the CFD-DEM coupling methodology by Tsuji\etal~in 1993 and then Hoomans\etal~in 1996, many researchers have adopted the approach when particle-scale information of granular and fluidized beds is important.\cite{Tsuji1993,Hoomans1996} Fluidized beds have many industrial applications and are most often studied with coupled CFD-DEM tools. A short example of work can be found in Refs.~\cite{Xu1997,Patankar2001,Swasdisevi2005,Deen2007,Zhang2008,Chu2008,VanBuijtenen2011,Gruber2012,Peng2014}
-
-Noting the growth in application of CFD-DEM, a systematic review of the theoretical developments behind different particular system models was given by Zhu\etal\cite{Zhu2007} They consider the two most common formulations, following the notation of Gidaspow, for the governing equations. The two formulations are commonly referred to simply as Model A and Model B.\cite{gidaspow1994multiphase} Both of these models have been implemented somewhat interchangeably in CFD-DEM simulations. As pointed out by Zhu\etal, the two models differ by their treatment of the pressure drop. In Model A, the pressure drop on the system is jointly shared by the gas and solid phases. In Model B, it is only the gas phase which directly experiences the effects of pressure drop. Therefore, the two models have different forms of coupling source term, $S_k$ (see \Cref{eq:cfd-mom-source}). The source of Model B is related to that of Model A as $S_k^B = S_k^A/\epsilon - \rho_f\phi g$.
-
-However, as is shown by Zhou\etal, there is a built-in assumption to Model B which is typically overlooked in the implementation of CFD-DEM. For an accelerating fluid, there is an added-mass in the momentum equation. In the derivation of Model B, it is tacitly assumed that the fluid is steady which is not generally valid.\cite{Zhou2010} Nevertheless, the proliferation of Model B is due to the ease in numerical implementation and, except for some situations, Model B is numerically similar to Model A for most cases studied in CFD-DEM simulations.\cite{Zhou2010} In the simulations of packed beds for tritium breeding, we choose to implement Model B as it is valid for any of the flow scenarios ever experienced by the ceramic pebble bed.
-
-
-
-
-
-
-
-% Stability
-% viscous momentum does not propagate approximately more than one cell in a single time step. If a characteristic time, $T$, is resolved with $M$ steps, then a fluid packet will travel a distance of $L$ at velocity $U$, $TU = L$. 
 
 \subsection{Numerical Implementation of CFD-DEM}\label{sec:cfd-dem-solver}
 
@@ -217,7 +203,6 @@ The routine of coupling CFD-DEM consists of several steps:
 \item the momentum and energy source/sink terms are assembled from particle-based forces by ensemble averaging over all particles in a CFD cell via Eqs.~\ref{eq:cfd-sources}
 \item the inter-phase exchange coefficients of Eqs.~\ref{eq:interphase-momentum} and~\ref{eq:interphase-energy} are sent to the DEM solver
 \item the CFD solver calculates the fluid velocity and temperature from the source/sink terms determined in step 6.
-\item the routine is repeated from step 1
 \end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -449,679 +434,179 @@ The lumped capacitance method allows researchers to simplify transient, conjugat
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% new section
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Summary of CFD-DEM Modeling Development}
 
-[move this paragraph]Researchers of ceramic pebble beds for fusion reactors are concerned with damage to individual pebbles in the solid breeder volume; the accumulation of damage (\textit{e.g.} sintering, crushing) to many pebbles will ultimately have global effects on the tritium performance of the pebble bed volume.  The discrete element method provides us with the ability to probe particle-scale interactions so that we might understand, predict, and more importantly, avoid pebble damage and the morphological changes to the pebble bed associated with it. 
 
-Simulations of heat transfer in our DEM formulation are not able to caputre the effects of an interstitial fluid. The CFD-DEM approach began as an engineering tool to study fluidized beds and as such have been benchmarked against common jet-spout fluidized beds with light-to-medium packing. However, CFD-DEM as a research tool has not before been applied to packed beds with nuclear heating such as our breeder blanket volumes. The fluid-solid heat transfer correlation, as developed for non-heat-generation situations, will continue to be employed until modifications are deemed necessary after benchmark cases are tested in the future. For now, the lumped capacitance assumption is made in the development of the heat source term for the particles in the DEM governing equations.
 
-I tested the validity of the lumped capacitance assumption when pebbles experience heat generation with a moderately large Biot number. Seeing the inaccuracies when the solid conductivity decreased, I incorporated the Jeffreson correction to the heat transfer coefficient and showed its accuracy even under the condition of volumetric heating of the solid. The CFD-DEM approach retains pebble-scale micromechanical interaction information necessary for pebble damage modeling while computational resources are conserved with volume-averaged treatment of the flowing interstitial fluid. Closure of coupled fluid conservation equations happens with the summed contributions of particles in the fluid computation space. The correlation accounts for internal temperature gradients with negligible computational overhead.
 
-The CFD-DEM model is a powerful and efficient means of simulating helium flow through the packed bed. However the simplicity of the volume-averaging model sacrifices the ability to resolve the complex flow fields that develop in the pebble bed. It is unclear if this simplification is completely acceptable. Therefore, concurrent to the development of the dynamic coupling of DEM to CFD, I investigated the option of a static coupling of the DEM-computed packed bed to a complete flow-solving technique.
+\FloatBarrier
+\section{Benchmarking Solid-solid and Solid-fluid Heat Transfer Models for Pebble Beds}
 
+\subsection{Validating Pressure Drop in Packed Beds with Flowing Helium Purge Gas}
+Our three-dimensional system consists of mono-dispersed particles of diameter $d_p$. The particles are constrained by two rigid walls in the $x$-direction at locations of $x = \pm 10d_p$  and periodic boundary conditions in the $y$-direction located at $y = \pm 7.5d_p$. Gravity acts in the downward $z$-direction and the particles are bound from below by a rigid wall at $z=0$. The size of the system allows approximately \num{10000} particles to fill to a height of approximately $z = 30d_p$. The volume was chosen to represent the long, tall, narrow channels seen in many solid breeder module designs\cite{Cho2008,Poitevin2010,Enoeda2003}. The fluid domain is constructed to include an inlet and outlet region of fluid to permit development of the flow profiles. The inlet region is 5 pebble diameters in length and the outlet is 30 pebble diameters. No-slip boundary conditions are enforced at the walls at the $x$-limits of the region. To match the DEM domain, periodic boundary conditions are used in the $y$-limits. The inlet face of the fluid is specified at a constant $\vec{v} = (5, 0, 0)$ \si{\centi\meter\per\second}. The outlet face is specified with OpenFOAM's `inletOutlet' command with a given pressure. This boundary condition allows the inlet pressure to float to value that satisfies the specified inlet velocity and outlet pressure. %The temperature is specified as a constant $T_w = $ \SI{573}{\kelvin} at the $x$-walls as well as the inlet. The outlet condition of the temperature field is similarly given to be `inletOutlet' with OpenFOAM.
 
+% For this simulation, I begin with a well-packed pebble bed set up in \cref{sec:dem-studies-effective-conductivity}. I will analyze a full-packed bed and a damaged bed with $\eta = 10$\% of broken pebbles. The random removal technique of inducing `damage' to the bed was again used (in the same manner as described in \cref{sec:dem-studies-effective-conductivity}). The intent is to deduce changes in thermophysical properties when helium is considered in the thermal transport network of the pebble bed -- and as a function of the morphological changes due to damaged pebbles.
 
+% The domain of the pebble bed in this study is a clone of the DEM study done previously. 
 
+The size of the CFD cells were chosen to be large enough to fit approximately 5 pebbles, for which the divided technique of computing void fraction is applicable (see \cref{sec:lag-eul-mapping}); the ratio of cell volume to particle volume was $V_\text{cell} / V_p = 7.46$. The helium, for this first validation, was modeled with constant fluid properties. The values are given in Table~\ref{tab:cfd-properties}.
 
+The Koch-Hill-Ladd drag model is employed in the style of Model B with an Archimedes pressure for buoyancy term. The terminology of these CFD coupling drag models is discussed in Ref.~\cite{Zhou2010} The Nusselt number correlation of Li \& Mason is used for calculating the Nusselt number. OpenFOAM's dummy turbulence model (which is nothing more than a laminar model) is used.
 
+An implicit time marching scheme is employed with a time step in the fluid domain of $\Delta t_f =$\SI{1e-4}{\second}. The small time step is not necessary to capture the fluid flow. The momentum equation is essentially not even transient as a steady-state laminar solution is achieved almost instantaneously in comparison to the long time span required to reach thermal steady state. The small time step is necessary for a relatively tight coupling to the pebble bed as the temperatures increase on the pebbles. Integration schemes of gradients, divergence terms, and laplacians are all Gauss linear or Gauss limitedLinear (as defined in OpenFOAM). The time step of the DEM is $\Delta t_s =$ \SI{1e-7}{\second} which must be small for stability of the DEM explicit integration. The coupling between CFD and DEM domains occurs every 10 time steps of the fluid domain - equating to every \num{10000} in the pebble domain.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% new section
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{One-way Coupling of Fluid-particle, Complete Modeling}\label{sec:modeling-lbm}
-The volume-averaged approach of the CFD-DEM coupling is an effective and efficient method for solving transiently-coupled helium flow and pebble interaction via volume-averaging techniques for the fluid. However, there are situations when a complete knowledge of the tortuous flow of the interstitial helium may be desired. Because the CFD-DEM solver does not resolve the helium pathways on the particle scale, knowledge of precise helium flow is not possible with that scheme. Therefore a method of linking the DEM pebble beds with lattice-Boltzmann solvers is also studied.
+The layout of the pebble bed inside the CFD domain is shown in \Cref{fig:cfdem-domain-y,fig:cfdem-domain-z}. Notable of the layout is the relaxation of the mesh size in the direction of the periodic boundaries. The size is permitted as there are few variations in fluid or temperature in the periodic direction. The meshes are made much smaller in the direction between cooling boundaries. In this direction ($x$-direction), we need the meshes small enough to resolve a temperature and velocity profiles across the bed between centerline and cooling boundaries. We also want to capture the behavior of near-wall arrangement of the pebble bed. 
 
-The lattice-Boltzmann method (LBM) to simulate fluid flow is a growing field of numerical modeling with a rich historical development. As the LBM approach is relatively new and its governing equations seem much more esoteric than the familiar conservation equations from continuum modeling, I will first go through some of the notable evolutions of the modeling history and the background physics leading to the governing equations -- which lend themselves to relatively straightforward numerical implementation. Certainly this short study cannot do justice to a proper explanation of the underlying physics. References~\cite{Chen1998a,Viggen2009,Sukop2007,Chopard2002,succi2001lattice} should be read by those curious for an excellent and thorough description of the physics, modeling approaches, and applications of LBM theory to fluid dynamics problems.
-
-
-
-
-The lattice-Boltzmann is named after its mother: lattice gas automata, and its father: the Boltzmann equation from statistical mechanics. Understandably, the lattice-Boltzmann method is meant to inherit many of the advantages from both of its parents. We begin with a brief introduction to the Boltzmann equation for the statistical behavior of non-equilibrium thermodynamic systems. Then we will introduce some of the lattice gas automata predecessors to the current lattice-Boltzmann method.
-
-\subsection{Discretized Boltzmann Equation}\label{sec:lbm-intro}
-
-In the realm of statistical mechanics, suppose we wish to know, at a certain time $t$, how many particles exist at a given location, $\vec{x}$, that have momentum, $\vec{p}$. We define a number,
-\begin{equation}
-	n = f(\vec{x},\vec{p},t)\mathrm{d}\vec{x}\mathrm{d}\vec{p}
-\end{equation}
-as the number of $n$ particles in the system that exist within the coordinates of $\mathrm{d}\vec{x}$ and momenta $\mathrm{d}\vec{p}$ at that instant. $f(\vec{x},\vec{p},t)$ is the probability density function representing the odds of finding a particle per phase space ($\vec{x},\vec{p}$) at a moment in time, $t$.
-
-Now let us assume we apply a small force, $\vec{F}$, to all the $n$ particles and then increment time by $\mathrm{d}t$. Assuming further that none of the particles collide (with each other or any other particles in the system), the particles will have moved an amount $\vec{x} + \frac{\vec{p}}{m}\mathrm{d}t$. The particles will all also have had their momentum changed by an amount $\vec{p} + \vec{F}\mathrm{d}t = \vec{p} + \mathrm{d}\vec{p}$. In other words, those $n$ particles are now found in the phase space of
-\begin{equation}
- 	n = f(\vec{x} + \frac{\vec{p}}{m}\mathrm{d}t,\vec{p} + \mathrm{d}\vec{p},t + \mathrm{d}t)\mathrm{d}\vec{x}\mathrm{d}\vec{p}
- \end{equation}
-
-The number of particles in the two moments of time are conserved, so we can also say
-\begin{equation}
-	f(\vec{x} + \frac{\vec{p}}{m}\mathrm{d}t,\vec{p} + \mathrm{d}\vec{p},t + \mathrm{d}t)\mathrm{d}\vec{x}\mathrm{d}\vec{p} = f(\vec{x},\vec{p},t)\mathrm{d}\vec{x}\mathrm{d}\vec{p}
-\end{equation}
-
-Next we relax the assumption of no collisions. If we focus our attention of the phase space as before, some of the particles that began at $(\vec{x},\vec{p},t)$ will not arrive at the phase space of $(\vec{x} + \frac{\vec{p}}{m}\mathrm{d}t,\vec{p} + \mathrm{d}\vec{p},t + \mathrm{d}t)$. By the same measure, some particles that began in some other phase space \textit{will} arrive in $(\vec{x} + \frac{\vec{p}}{m}\mathrm{d}t,\vec{p} + \mathrm{d}\vec{p},t + \mathrm{d}t)$. Now the number of particles is not conserved and we write the net number of particles having left/entered this phase space as
-\begin{equation}
-	\Omega\mathrm{d}\vec{x}\mathrm{d}\vec{p}\mathrm{d}t
-\end{equation}
-where $\Omega$ is classically referred to as the collision operator. This function dictates the evolution of particles after a collision (what phase space they leave/enter). Treatment of the collision operator is itself a source for discussion but we leave it as a generic operator. Thus the balance of particles is now
-\begin{equation}\label{eq:particle-balance}
-	f(\vec{x} + \frac{\vec{p}}{m}\mathrm{d}t,\vec{p} + \mathrm{d}\vec{p},t + \mathrm{d}t)\mathrm{d}\vec{x}\mathrm{d}\vec{p} - f(\vec{x},\vec{p},t)\mathrm{d}\vec{x}\mathrm{d}\vec{p} = \Omega\mathrm{d}\vec{x}\mathrm{d}\vec{p}\mathrm{d}t
-\end{equation}
-
-To be precise, to arrive at the collision operator, $\Omega$, in the form we have used in \Cref{eq:particle-balance}, it is required to make a few more assumptions on the system. Following Ludwig Boltzmann, we assume: the particles are dilute, point-like, and structureless that only interact via short-range two-body potentials. Another famous assumption from Boltzmann was of \textit{Stosszahlansatz} (molecular chaos) which allow the inter-particle interactions to be described only in terms of their local binary collisions with very long paths through free space between collisions.\cite{succi2001lattice} For the sake of this discussion, we will just accept the formulation of \Cref{eq:particle-balance} as the evolution equation for the particles in our system. 
-
-As a side note, after taking the multi-dimensional Taylor expansion of \Cref{eq:particle-balance}, we arrive at the the recognizable Boltzmann equation,
-\begin{equation}\label{eq:boltzmann-continuum}
-	\left[\vec{c}\cdot\nabla + \vec{F}\cdot\partial_\vec{p}  + \partial_t\right] f(\vec{x},\vec{p},t) = \Omega
-\end{equation}
-where $\vec{c} = \vec{p}/m$. In the form of \Cref{eq:boltzmann-continuum}, it is clear how the Boltzmann equation describes the evolution in a continuous way. There are an infinite number of directions and momenta for the particles to evolve into/from. 
-
-However, let us discretize onto the directions of nodes in a lattice for computability. Returning to the form of \Cref{eq:particle-balance}, we normalize the mass such that $m=1$, making $\vec{p}/m = \vec{p}=\vec{c}$. Then we only allow the continuum velocity to only point in the discrete $i$ directions of neighboring nodes, $\vec{c}\rightarrow\vec{c}_i$. In discrete increments of time, we also write the collision operator in a discrete form, $\Omega\mathrm{d}t \rightarrow \Omega_i(\vec{x},t)$. Thus, \Cref{eq:particle-balance} becomes,
-\begin{equation}
-	f_i(\vec{x}+\vec{c}_i\Delta t, t + \Delta t) - f_i(\vec{x},t) = \Omega_i(\vec{x},t)
-\end{equation}
-
-Lastly, if we assume that we are using time units that have been normalized such that $\Delta t = 1$, the above becomes
-\begin{equation}\label{eq:boltzmann2lbe}
-	f_i(\vec{x}+\vec{c}_i, t + 1) - f_i(\vec{x},t) = \Omega_i(\vec{x},t)
-\end{equation}
-
-In the form of \Cref{eq:boltzmann2lbe}, our discretized version of the Boltzmann equation for statistical mechanics will be seen to be identical to a lattice-based formulation that will be arrived at purely from the point of view of the lattice gas automaton.
-
-
-
-\subsection{Lattice Gas Automata}
-
-In a broad sense, lattice gas automata (LGA) simulated the behavior of individual particles with a simple boolean approach where basic collision rules were defined at nodes in a lattice. As particles approached the node from neighboring nodes at a given time, the rules would dictate the direction of the particle at the next moment in time. Computationally, the particles were simply represented with boolean operators that said either 1: a particle existed at that node in that direction; or 0: no particle existed at that node in that direction. Conceptually, the particles can be thought of as hard spheres that would collide on nodes of a lattice; collisions would send the particles rebounding along discrete directions toward neighboring nodes. The restraint on collision rules required that they obey conservation of mass and momentum. 
-
-The earliest LGA was a two-dimensional model by Hardy, Pomeau, and de Pazzis (HPP) in 1973.\cite{Hardy1975} The HPP model applied basic conservation rules that particles had to obey at each node. From the streaming particles, macroscopic units could be extracted. For instance, the particle density at a node is found from the total number of boolean particles at that node,
-\begin{equation}
-	\rho(\vec{x},t) = \sum_i n_i(\vec{x},t)
-\end{equation}
-where $n_i(\vec{x},t)$ are the particles occupying the node at $\vec{x}$ at time $t$ with a velocity of $\vec{c}_i$. As mentioned, the value of $n$ is a boolean value of 1 or 0 if the particle is present or not. Similarly, the momentum at the node is found as,
-\begin{equation}
-	\rho(\vec{x},t)\vec{u}(\vec{x},t) = \sum_i \vec{c}_in_i(\vec{x},t)
-\end{equation}
-where $\vec{u}(\vec{x},t)$ is the mean velocity of the particles at the node at that time.
-
-The HPP model proved promising compared to other numerical methods for a number of reasons. Importantly, the boolean nature of the automata meant that the solution was not only exact (not susceptible to any round-off errors of floating point numbers) but each node required only four bits to completely describe the state (each bit described the four directions of traveling particles in the two dimensional node).\cite{Hardy1975} Furthermore, the HPP model benefited from the inherently parallel nature of all LGA simulations. The collision behavior at any given node is independent of all other nodes; the nodes only need to communicate when particles stream to neighbors.\cite{succi2001lattice}
-
-The LGA method was given considerable more attention after 1986 when Frish, Hasslacher, and Pomeau (FHP) showed it to be possible to solve lattice gas automata simulations that were ostensibly equivalent to Navier-Stokes equations (in two dimensions).\cite{Frisch1986} Descriptions of the hexagonal lattice used in the FHP model can be found in the textbooks of Succi (Ref.~\cite{succi2001lattice}) and Sukop \& Thorne (Ref.~\cite{Sukop2007}). The FHP method gave qualitatively beautiful reproductions of hydrodynamic phenomena.
-
-Other such LGA models were developed with the same fundamental construction as the two models mentioned here. All the models followed the same basic form of evolution of the particles. Following the form of Ref.~\cite{chopard1998cellular},
-\begin{equation}\label{eq:lattice-evolution}
-	n_i(\vec{x}_i + \vec{c}_i,t+1) - n_i(\vec{x},t) = \Omega_i(\vec{x},t)
-\end{equation}
-where, in lattices, $\Delta t = 1$ is a standard normalization. After already deriving the Boltzmann equation, \Cref{eq:lattice-evolution} is quite familiar. The equation states that the particle occupation number at a specific location and time, $n_i(\vec{x},t)$, evolves based on the collision rules, $\Omega_i(\vec{x},t)$, defined at every node, $\vec{x}$. In the LGA framework, the collision operator is much simpler than the form used in the Boltzmann equation for statistical mechanics. Here, the rules are simplified and discretized so that $\Omega_i$ can exist in a simple look-up table or explicit function of $n_i$ (with randomness).\cite{chopard1998cellular,Sukop2007}
-
-As stated prior, the choice of collision operators is restricted only to obey conservation of mass and momentum, expressed as,
-\begin{subequations}
-\begin{align}
-	\sum_i\Omega_i &= 0\\
-	\sum_i\vec{c}_i\Omega_i&=0
-\end{align}
-\end{subequations}
-
-With these simple rules applied to specific lattices, such as the LHP hexagons, it is possible to show the lattice gas automata, on a proper lattice, can be re-expressed to satisfy continuity and conservation of momentum (see Ref.~\cite{Viggen2009,Frisch1986}). The construction of LGA schemes were extremely simple yet, with their connection to conservation equations in the continuum, seemed promising as a perfect scheme for modeling fluid mechanics.
-
-However, as exciting as the early LGA methods were, their drawbacks were very nearly as disheartening after being formally compared to the Navier-Stokes equations. Succi provides a thorough summary of the early issues with FHP (and all LGA approaches).\cite{succi2001lattice} For the sake of brevity we only mention that the main disadvantages was the lack Galilean invariance at higher Mach numbers (the results were not the same irrespective of inertial frame) and statistical noise in macroscopic quantities. The microscopic nature of LGAs -- tracking the paths of individual particles -- precluded the method from ever completely eliminating the issues such as statistical noise. The solution to the issues came in 1988 as a group zoomed-out from the microscopic into a mesoscopic formulation -- the first version of what would eventually be the lattice-Boltzmann numerical method.
-
-
-
-\subsection{The Lattice-Boltzmann Equation}\label{sec:lbm-equations}
-
-McNamara and Zanetti proposed a fix to the statistical noise in LGA via ensemble-averaging the boolean occupation numbers,\cite{McNamara1988}
-\begin{equation}\label{eq:lbm-pdf}
-	f_i = \langle n_i \rangle = \frac{1}{q}\sum_{i=1}^qn_i
-\end{equation}
-where $q$ is the number of lattice directions from the node. The average quantity, $f_i$, was now identical in form to the distribution function of the Boltzmann equation. In the formulation of McNamara and Zanetti, we are no longer tracking individual boolean particles but a representative ensemble population of the particles. Thus we have stepped out of the microscopic scale of individual particles into a mesoscopic realm. 
-
-Replacing the boolean occupation numbers in \Cref{eq:lattice-evolution} with the density function of \Cref{eq:lbm-pdf}, we have
-\begin{equation}\label{eq:lbm-evolution}
-	f_i(\vec{x}+\vec{c}_i, t + 1) - f_i(\vec{x},t) = \Omega_i(\vec{x},t)
-\end{equation}
-which is precisely the form found for the discretized Boltzmann equation in \Cref{eq:boltzmann2lbe}! This is the essence of the lattice-Boltzmann method: it can be considered as a simplification of the Boltzmann concept via reduction of the continuous phase space into a finite number of discrete phase options; or it similarly can be considered as an ensemble-averaging of the lattice gas automata into calculations of mesoscopic distribution functions.
-
-The boolean occupation numbers were simply imagined as the actual particles traveling from node to node in the LGA lattice. The ensemble average of these numbers, $f_i(\vec{x},t)$, akin to the probability density function from kinetic theory, can be envisioned to be the probability of finding a density of particles pointing in a certain direction, $i$, at a given node, $\vec{x}$, at a specific point in time, $t$. The values of $f_i$ are direction-specific fluid densities and thus macroscopic fluid properties are still directly calculated from them,
-\begin{subequations}\label{eq:lbm2physical}
-\begin{align}
-	\rho(\vec{x},t) &= \sum_i f_i(\vec{x},t)\\
-	\vec{u}(\vec{x},t) &= \frac{1}{\rho(\vec{x},t)}\sum_i \vec{c}_if_i(\vec{x},t)
-\end{align}
-\end{subequations}
-
-The fluid pressure is related to the density for an ideal gas, so we can find the physical pressure in terms of the lattice density,
-\begin{equation}
-	p = p_0\frac{\rho(\vec{x},t)}{\rho_0}
-\end{equation}
-
-The density distribution function, while eliminating statistical noise, broke the exactness of calculations from the boolean numbers of $n_i$ in LGA methods. The density distribution function is now a floating point number, requiring more memory storage per node and introducing round-off error into calculations. In Chapter 3 of Ref.~\cite{succi2001lattice}~, Succi provides an excellent discussion of the early stages of LBM and the problems that the early models (such as those of McNamara and Zanetti) faced as well as their many great advantages. For our purposes, we accept \Cref{eq:lbm-evolution} as the fundamental equation driving the evolution of the density distribution function in a system.
-
-
-
-\subsubsection{Collision Operator for Lattice-Boltzmann Equation}
-
-The strength of \Cref{eq:lbm-evolution} hinges on the ability for the collision operator, $\Omega_i(\vec{x},t)$, to allow reproduction of the Navier-Stokes equations. Up to this point we have only alluded to its function in the LGA and now LBM computations. While there are many potential collision operators (see Ref.~\cite{succi2001lattice}), we focus on the operator proposed by Qian, d’Humieres, and Lallemand.\cite{qian1992lattice} Noting the similarities of LBM to kinetic theory, Qian, d'Humieres, and Lallemand proposed a collision operator similar in form to that proposed by Bhatnagar, Gross, and Krook in 1954 for the Boltzmann equation.\cite{Bhatnagar1954a} Thus the operator was named the BGK collision operator and is given as,
-\begin{equation}\label{eq:bgk-operator}
-	\Omega_i = -\frac{1}{\tau}\left[f_i(\vec{x},t) - f_i^\eq(\vec{x},t)\right]
-\end{equation}
-where $\tau$, a free parameter, is the relaxation time and $f_i^\eq$ is the equilibrium distribution. Thus in the BGK formulation, the collision operator is a relaxation of the node towards equilibrium for the density distribution function.\cite{Bhatnagar1954a}
-
-Inserting the operator of \Cref{eq:bgk-operator} into the evolution of the density distribution function, \Cref{eq:lbm-evolution}, we have the lattice-Boltzmann evolution equation with the BGK operator,
-\begin{equation}\label{eq:lbm-bgk}
-	f_i(\vec{x}+\vec{c}_i, t + 1) = f_i(\vec{x},t) - \frac{1}{\tau}\left[f_i^\eq(\vec{x},t) - f_i(\vec{x},t)\right]
-\end{equation}
-
-In spite of the relaxation time being a free parameter, there are limits to its value. The kinematic viscosity in the lattice is given as,
-\begin{equation}\label{eq:lbm-viscosity-relaxation-time}
-	\nu = c_s^2\left(\tau-\frac{1}{2}\right)
-\end{equation}
-which shows that $\tau$ can not shrink to an arbitrarily small number. Numerical instabilities appear as $\tau \rightarrow 0.5$ and the kinematic viscosity $\nu \rightarrow 0$. Furthermore, if $\tau > 1$, we have subrelaxation and the distribution function will never completely relax to equilibrium. When $\tau < 1$, we have overrelaxation and the system out of equilibrium will advance toward it at different rates. When $\tau$ is small, the relaxation to $f^\eq$ is fast and thus the viscosity of the lattice can be considered to be small. A negative viscosity occurs if $\tau < 1/2$ and is not allowed.\cite{Chopard2002,Chen1998a}
-
-The equilibrium distribution function, $f^\eq$, is derived from the Maxwell-Boltzmann velocity distribution in statistical mechanics. With clever application of the ideal gas law and the isothermal ideal gas pressure relation (see, for example, Refs.~\cite{Viggen2009,Chopard2002}), it is possible to find an equilibrium distribution that allows $\Omega_i$ to respect all conservation laws,
-\begin{equation}\label{eq:equilib-dist-function}
-	f_i^\eq = \rho(\vec{x},t)w_i\left[1+\frac{\vec{u}\cdot\vec{c}_i}{c_s^2} + \frac{(\vec{u}\cdot\vec{c}_i)^2}{2c_s^4} - \frac{\vec{u}^2}{2c_s^2} \right]
-\end{equation}
-where $c_s$ is the speed of sound on the lattice and $w_i$ are weighted lattice constants. In the development of the equilibrium function, it is assumed that the velocity of the fluid is small compared to the speed of sound on the lattice, in other words we require small Mach numbers: $\Ma = \frac{|u|}{c_s} < 1$, on the lattice.\cite{qian1992lattice,Chen1998a} It is worth noting here that the equilibrium function of \Cref{eq:equilib-dist-function} is defined entirely in terms of local velocity and density; everything is in terms of node $i$ and no other neighboring node. This feature aids the LBM approach in being highly parallelizable in the same way the LGA method was.
-
-There are several conditions a lattice must meet to satisfy the isotropy necessary to regain the Navier-Stokes equations in the macroscopic form.\cite{Viggen2009,Latt2007} A lattice structure in $d$ dimensions with $q$ lattice directions is commonly identified with the D$d$Q$q$ lattice label. In the three-dimensional flow of our packed beds, we use the D3Q19 lattice, \textit{i.e.} $d=3$ dimensions, and $q=19$ nodes surround the node of interest (including the node itself). A representative node from the D3Q19 lattice is shown in \Cref{fig:d3q19-lattice}.
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=\singleimagewidth]{figures/lbm/4193301.jpg}
-	\caption{A representative node with directional vectors to the 18 neighbors (+1 central node) in the D3Q19 lattice (reproduced from Ref.~\cite{1742-5468-2010-01-P01018}).}\label{fig:d3q19-lattice}
-\end{figure}
-
-The numbered directions in the lattice of \Cref{fig:d3q19-lattice} follows the standard practice of LBM. The index $i=0$ corresponds to the node center. The indices $i = 1,2,3,\dots,6$ point to the six faces of the cube surrounding the node. Lastly, the indices $i=7,8,9,\dots,18$ point to the twelve midpoints of the edges of the cube. The weight constants, satisfying lattice symmetry, of the lattice structure of \Cref{fig:d3q19-lattice} are calculated in Ref.~\cite{Latt2007} and given as,
-\begin{equation}\label{eq:d3q19-weights}
-	w_i = \begin{cases}
-	\frac{1}{3}			& i = 0\\
-	\frac{1}{18} 		& i = 1,2,3,\dots,6\\
-	\frac{1}{36}		& i = 7,8,9,\dots,18
-	\end{cases}
-\end{equation}
-
-The lattice weights, $w_i$ are necessary to account for the different vector lengths in the lattice. In principle, there is freedom in choosing the lattice speed of sound, $c_s$, requiring a change to the rest-weight of $w_0$ to maintain lattice symmetry. However, in practice, it is common to use $c_s^2 = \frac{1}{3}$ for numerical stability.\cite{Latt2007,succi2001lattice}.
-
-
-
-
-\subsubsection{Boundary Conditions}
-Implementation of no-slip boundary conditions at the wall in the lattice-Boltzmann method are direct descendants of the bounce-back schemes from lattice gas automata. In the scheme, lattice nodes that exist at the boundary have particle directions that point into the wall. For example, see $f_4$, $f_7$, and $f_8$ in \Cref{fig:wall-lattice-bc} for a D2Q9 lattice. The scheme is `bounce-back' because as particles stream into the wall, their distributions are scattered back in equal and opposite directions. Computationally, the bounce-back scheme is very attractive for the simplicity of implementing the method even in complex geometries. A fact which makes the use in LBM particularly attractive for packed bed simulations.\cite{Chen1998a} The bounce-back scheme has been shown to be first-order accurate for most three-dimensional flows, degrading the other-wise second order accuracy of the fluid bulk calculations.\cite{Zou1997,Chen1998a} To combat the loss in accuracy with increasing Reynolds number, several modifications to the bounce-back scheme have been proposed (see Ref.~\cite{Chen1998a}). However, for the porous flow to be studied in ceramic pebble beds, it suffices to implement the bounce-back boundary condition to enforce no-slip at the fluid-particle interface.\cite{Chen1998a,Luo2003a}
-
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=\singleimagewidth]{figures/lbm/ongrid}
-	\caption{Sketch of the D2Q9 nodes showing at the boundary the distribution functions that would come from neighbors outside the boundary (at the wall) are unknown (drawing from correspondence with Dr. Bao, billbao@cims.nyu.edu).}\label{fig:wall-lattice-bc}
-\end{figure}
-
-
-To treat velocity or pressure boundary conditions, the technique of Zou \& He is used.\cite{Zou1997} They proposed extending the bounce-back condition to the non-equilibrium distribution function in the direction normal to the boundary where $\vec{v}$ or $p$ is specified. The approach allows closure of the algebraic calculation of distribution functions when we have a known velocity or pressure (see Eqs.~\ref{eq:lbm2physical}). We note again that, in lattice units, determination of density is equivalent to determination of pressure via the ideal gas pressure law. Zou \& He showed the approach provides second-order accurate results on these boundaries.\cite{Zou1997} 
-
-
-
-
-
-
-
-
-
-
-
-
-\subsubsection{Thermal LBM}
-
-Thus far the lattice-Boltzmann formulation has been shown to calculate mass and momentum transport of a fluid. But in the packed beds of fusion reactors, the transport of energy in the system is of utmost importance. To handle the thermal equations in the lattice-Boltzmann framework, we use the model of Guo\etal\cite{Guo2002} Guo\etal~introduced a second lattice upon which the distribution functions for temperature reside. The temperature distribution evolved with a coupling to the velocity distribution on the lattice solving the Navier-Stokes equations. The temperature was linked back to the Navier-Stokes lattice with a Boussinesq assumption that introduced a body force term to the fluid.\cite{Guo2002} Guo\etal~referred to their approach as the Coupled Lattice BGK (CLBGK) method. 
-
-On the thermal lattice in the CLBGK method, the temperature is a passive scalar that is transported by the velocity (it is specified at each node corresponding to the overlapped nodes from lattice solving the Navier-Stokes equations). Therefore, the density distribution functions on the thermal lattice are actually temperature distribution functions. The thermal lattice BGK equation is analagous to \Cref{eq:lbm-bgk} and written as,
-\begin{equation}\label{eq:lbm-thermal-bgk}
-	g_i(\vec{x}+\vec{c}_i, t + 1) = g_i(\vec{x},t) - \frac{1}{\tau_g}\left[g_i^\eq(\vec{x},t) - g_i(\vec{x},t)\right]
-\end{equation}
-where we have a second relaxation time for the thermal lattice, $\tau_g$. The temperature field is reconstructed via
-\begin{equation}
-	T = \sum_i^q g_i
-\end{equation}
-
-A multi-scale Champan-Enskog expansion of \Cref{eq:lbm-thermal-bgk} can show that it is equivalent to the temperature form of the continuous energy conservation equation.\cite{Guo2002} For the transport of the passive scalar, we can use a D3Q7 lattice which is sufficient to model the advection-diffusion of temperature.\cite{Latt2007,Parmigiani2011}, For such a lattice, the speed of sound is $c^2_{s,g} = \frac{1}{2}$. We use a linear equilibrium function for $g_i^\eq$,
-\begin{equation}
-	g_i^\eq = w_i T (1+\frac{\vec{c}_i\cdot\vec{u}}{c_{s,g}^2})
-\end{equation}
-
-The thermal diffusivity (analogous to the viscosity in the momentum lattice) is 
-\begin{equation}
-	\alpha = c_{s,g}^2(\tau_{g} - \frac{1}{2})
-\end{equation}
-% The coupling from temperature to density via the Boussinesq assumption is done with the addition of a body force term, $g_i$ to the Navier-Stokes' BGK equation,
-% \begin{equation}
-% 	f_i^\eq = \rho(\vec{x},t)w_i\left[1+\frac{\vec{u}\cdot\vec{c}_i}{c_s^2} + \frac{(\vec{u}\cdot\vec{c}_i)^2}{2c_s^4} - \frac{\vec{u}^2}{2c_s^2} \right] + g_i
-% \end{equation}
-% where the body term is
-% \begin{equation}
-% 	g_i = -\frac{1}{2}\Delta t \alpha_i \vec{c}_i\cdot\vec{g}(T - T_0)
-% \end{equation}
-
-Thermal boundary conditions are handled via a decomposition of the boundary nodes into equilibrium and non-equilibrium parts and the values of the node extrapolated from neighboring nodes. Details of the precise equations can be found in the paper by Guo\etal.\cite{Guo2002}
-
-
-\subsection{Realizing LBM Models Computationally}
-Because of the immensely simple implementation of no-slip boundary conditions for even the most complex geometry, the lattice-Boltzmann method was immediately seen as a powerful option of fluid modeling in porous networks. Chen \& Doolen review many of the major accomplishments of implementing LBM models which verified Darcy's Law, the Cozeny-Karman equation, and Brinkmann equation, among other efforts.\cite{Chen1998a} Pan\etal~evaluated the single-relaxation time BGK operator against models with multiple relaxation times as well as models with different implementationsi of fluid-solid interface boundary conditions -- among which was the bounce-back scheme we use here.\cite{Pan2006}
-
-Here we will go through the practical application of the LBM approach as it will be used  to simulate the conjugate heat transfer of the helium purge gas through ceramic pebble beds. To summarize the method, there are two main objects required to define the structure of a lattice-Boltzmann model: a collision operator, $\Omega_i$, and the constants which define the scaffolding of the lattice.
-
-The computational domain of the fluid is discretized into a Cartesian grid with regularized spacing, $\delta_x$, in every dimension. At each node are density functions, $f_i(\vec{x},t)$, which represent the density at that node (found at $\vec{x}$), traveling in the direction of $\vec{c}_i$ at a moment in time, $t$. The density distribution function evolves according to \Cref{eq:lbm-evolution}. It is helpful to look at the equation compartmentalized in the same manner it is handled computationally, thus we see the streaming and collision parts,
-\begin{align}
-	\underbrace{f_i(\vec{x}+\vec{c}_i, t + 1)  = f_i(\vec{x},t)}_\text{streaming}  + \underbrace{\Omega_i(\vec{x},t)}_\text{collision}
-\end{align}
-
-Conceptually the two steps of the evolution can be thought of as two distinct operations. First, the collision operator is calculated based only on each nodes local information. Using the BGK approximation, given in \Cref{eq:bgk-operator}, the collision is calculated as
-\begin{align}
-	\Omega_i = -\frac{1}{\tau}\left[f_i(\vec{x},t) - f_i^\eq(\vec{x},t)\right]
-\end{align}
-
-Post-collision, in the streaming step, the information is passed from every node to its neighbors along the lattice directions shown in \Cref{fig:d3q19-lattice}. While the collision operation is exactly local, the streaming operation involves only nearest neighbors. After the streaming step, the nodes that lie along the boundary have the bounce-back scheme applied wherein distributions arriving at the boundary are reflected back to their incident directions. The bounce-back calculation enforces no-slip at the walls.
-
-Splitting the evolution of the distribution function into the two steps of collision and streaming, in addition to being a conceptual aid, is a natural partition of computational steps. In practice the algorithm proceeds as follows,\cite{Viggen2009}
-\begin{enumerate}
-	\item{using macroscopic properties of density and fluid velocity, the equilibrium distribution function is calculated at every node following \Cref{eq:equilib-dist-function},}
-	\item{the BGK collision operator is calculated according to \Cref{eq:bgk-operator} to find the post-collision distribution of every node,}
-	\item{information from each node streaming to neighboring nodes based on the evolution equation of \Cref{eq:lbm-evolution},}
-	\item{updated macroscopic properties are found from the new distribution functions according to \Cref{eq:lbm2physical}.}
-\end{enumerate}
-
-It is worth stressing again that the lattice-Boltzmann collision calculations are completely local, with the streaming step requiring only nearest inter-node communication for updating distribution functions which lends the method to extremely efficient parallelization. We now need a means of translating physical properties into lattice units. Then we can incorporate our pebble bed into the LBM computational space before LBM simulations of helium-pebble conjugate heat transfer can be performed.
-
-
-
-
-
-\subsection{Physical to Lattice Units}\label{sec:physical-to-lattice}
-In LBM one typically works with lattice variables -- differing from their physical counterparts simply through normalization. This is akin to achieving dynamic similarity in fluid mechanics experiments with matching geometry and Reynolds numbers. I therefore will discuss the nondimensional form of governing equations and then translate the nondimensional values into lattice variables. We then see how tuning of some lattice variables will allow a sufficiently refined grid while still representing the physical system we are attempting to model. The notation of working with physical, nondimensional, and lattice variables can quickly become cumbersome. The convention I will adhere to is to use $\hat{\psi}$ for physical variables, $\psi^*$, or nondimensional variables, and simply $\psi$ for lattice variables.
-
-Thus the Navier-Stokes equations, in physical units, for an incompressible fluid are
-\begin{equation}
-	\hat{\nabla}\cdot\hat{\vec{u}} = 0
-\end{equation}
-and
-\begin{equation}
-	\frac{\partial \hat{\vec{u}}}{\partial \hat{t}} + (\hat{\vec{u}}\cdot\hat{\nabla})\hat{\vec{u}} = -\frac{1}{\hat{\rho}_0}\hat{\nabla}\hat{p} + \hat{\nu}\hat{\nabla}^2\hat{\vec{u}}
-\end{equation}
-
-I nondimensionalize the length scale based on the average diameter of pebble in our system, the velocity by the superficial velocity of our inlet, and pressure and time on derived forms of these two variables,
-\begin{subequations}
-\begin{align}
-	x^* &= \frac{\hat{x}}{\hat{d}_p} \\
-	\vec{u}^* &= \frac{\hat{\vec{u}}}{\hat{\vec{u}}_i} \\
-	p^* &= \frac{\hat{p}}{\hat{\rho}_0\hat{\vec{u}}_i^2}\\
-	t^* &= \frac{\hat{t}}{\frac{\hat{d}_p}{\hat{\vec{u}}_i}}
-\end{align}
-\end{subequations}
-
-Thus the nondimensional form of Navier-Stokes is the familiar,
-\begin{subequations}\label{eq:non-dim-ns}
-\begin{align}
-	\nabla^* \cdot \vec{u}^* &= 0 \\
-	\frac{\partial \vec{u}^*}{\partial t^*} + (\vec{u}^*\cdot\nabla^*)\vec{u}^* &= -\nabla^*p^* + \frac{1}{\Re}\nabla^{*2}\vec{u}^*
-\end{align}
-\end{subequations}
-
-Note, too, that the physical limits of our system are describable in terms of the nondimensional units. In other words, if our system is $\hat{X}$ meters wide, the nondimensional width is $X^*=\frac{\hat{X}}{\hat{d}_p}$.  
-
-% The last thing we need before converting the variables of \Cref{eq:non-dim-ns} into lattice units are the lattice spacing and lattice time step, $\delta_x$ and $\delta_t$. We will define the lattice spacing based on the resolution of our pebble diameter, as described above.
-
-% The manner of description I will follow next will match the method in which the values are actually programmed in my DEM-to-LBM script. I begin by defining the pebble diameter, limits, and resolution ($\text{res}$); the script returns $\delta_x$, $N_x$, $N_y$, and $N_z$ where the $N$ values represent the total number of nodes in a given direction. 
-
-Next, the dimensionless kinematic viscosity, $\nu^* = 1/\Re$, is converted into a lattice viscosity as
-\begin{equation}\label{eq:fluid-nu}
-	\nu = \frac{\delta_t}{\delta_x^2}\frac{1}{\Re}
-\end{equation}
-from which, we can finally calculate the relaxation time for our single-relaxation-time, D3Q19 lattice (calculated from \Cref{eq:lbm-viscosity-relaxation-time}) as,
-\begin{equation}
-	\tau_{ns} = \frac{\nu}{c_s^2} + \frac{1}{2}
-\end{equation}
-where the subscript $_{ns}$ denotes the relaxation time is specific for the fluid flow as described by the Navier-Stokes equations and the lattice speed of sound is $c_s^2 = \frac{1}{3}$.
-
-To specify the velocity boundary condition (and similarly to convert our lattice velocity results back into physical values), we must have a translator between nondimensional and lattice velocities,
-\begin{equation}\label{eq:lbm-u}
-	\vec{u} = \frac{\delta_t}{\delta_x}\vec{u}^*
-\end{equation}
-
-Translating from physical to lattice units is done via,
-\begin{equation}
-	u = \frac{\delta_t}{\delta_x}\frac{\hat{\vec{u}}}{\hat{\vec{u}}_i}
-\end{equation}
-and the translation is used, for instance, when defining the boundary velocity in the lattice based on the predefined physical velocity.
-
-The spatial discretization of the lattice is defined in terms of the resolution of our sphere in the discretization process. The values of lattice spacing, $\delta x$, and the total lattice nodes are calculated as,
-\begin{subequations}
-\begin{align}
-	\delta_x = \delta_y = \delta_z & = \frac{1}{\text{res}} \\
-	N_x & = \text{res}\cdot X^* \\
-	N_y & = \text{res}\cdot Y^* \\
-	N_z & = \text{res}\cdot Z^*
-\end{align}
-\end{subequations}
-
-The only lattice parameter not defined at this point is the lattice time step, $\delta_t$. In lattice-Boltzmann, $\delta_t$ and $\delta_x$ are linked via the incompressibility constraint in the lattice. At the same time, from \Cref{eq:lbm-u}, the lattice velocity is directly related to the lattice time step size; and the magnitude of $\vec{u}$ may not be larger than the speed of sound on the lattice, $c_s$. The time step is further constrained when enforcing incompressibility of our fluid. The LB model is a quasi-compressible fluid solver which permits slight compressible regimes to enter the system to solve the pressure equation of the fluid. Compressibility effects will impact the numerical accuracy and should therefore be minimized. As these effects scale like the square Mach-number, $\Ma^2$, compressibility effects can be minimized by enforcing a small Mach number. In LBM, the lattice Mach number is simply,
-\begin{equation}
- 	\Ma = \frac{|\vec{u}_0|}{c_s}
-\end{equation}
-where $|\vec{u}_0| = \frac{\delta_t}{\delta_x}$. Thus to say the compressibility error scales like $\epsilon \sim \Ma^2$ is to say it scales like $\epsilon \sim \frac{\delta_t^2}{\delta_x^2}$. The compressibility error need not be smaller than the numerical error of the LBM method itself. As LB is second-order accurate\cite{succi2001lattice}, $\epsilon \sim \delta_x^2$, we can then determine the time step size relative to lattice spacing for which the two errors will be comparable in size,
-\begin{align*}
-	\frac{\delta_t^2}{\delta_x^2} &\sim \delta_x^2\\
-	\rightarrow \delta_t &\sim \delta_x^2
-\end{align*}
-
-Also, because the lattice spacing is directly dependent on our chosen resolution, the requirement on time step is alternatively written as
-\begin{equation}
-	\delta_t \sim \frac{1}{\text{res}^2}
-\end{equation}
-which shows, similar to standard CFD solvers, the time step requirement shrinks rapidly as we attempt to more finely represent the pebbles with more and more nodes. Thus care must be taken to balance the resolution with the time step requirements.
-
-In the LBM model, we only treat the energy as a passive scalar transported by the fluid motion (\textit{i.e.} we do not make the Boussinesq approximation to couple the fluid energy to momentum). The energy equation for the fluid in physical units is,
-\begin{equation}
-	\frac{\partial \hat{T}_f}{\partial \hat{t}} + \hat{\nabla}\cdot(\hat{\vec{u}}\,\hat{T}_f) = -\hat{\alpha}_f\hat{\nabla}^2\hat{T}_f
-\end{equation}
-
-The temperature will be nondimensionalized based on a characteristic temperature of volumetric heating,
-\begin{equation}
-	T^* = \frac{\hat{T} - \hat{T}_c}{\Delta \hat{T}}
-\end{equation}
-and the time and length scales are nondimensionalized as in the Navier-Stokes equations. Thus the nondimensional energy equation is
-\begin{equation}\label{eq:non-dim-energy}
-	\frac{\partial T^*_f}{\partial t^*} + \nabla^*(u^*T^*_f) = \frac{1}{\Pe_f} \nabla^{*2}T^*_f
-\end{equation}
-where $\Pe$ is the Peclet number ($\Pe = \Re\cdot \Pr$). The Peclet number for the fluid and solid will be unique, hence we must distinguish them with a fluid/solid subscript.
-
-To discretize the dimensionless energy system into the lattice, we recognize the similarities between \Cref{eq:non-dim-ns} and \Cref{eq:non-dim-energy} to directly write the lattice thermal diffusivity of the fluid as
-\begin{equation}\label{eq:fluid-alpha}
-	\alpha_f = \frac{\delta_t}{\delta_x^2}\frac{1}{\Pe_f}
-\end{equation}
-
-For the solid, the energy equation in dimensional units is
-\begin{equation}
-	\frac{\partial \hat{T}_s}{\partial \hat{t}} = \hat{\alpha}_s\hat{\nabla}^2\hat{T}_s + \frac{\hat{q}'''}{\hat{\rho}_s\hat{C}_{ps}}
-\end{equation}
-
-which similarly nondimensionalizes to,
-\begin{equation}\label{eq:non-dim-energy-solid}
-	\frac{\partial T^*_s}{\partial t^*} = -\alpha_s^* \nabla^{*2}T^*_s + Q^{'''*}
-\end{equation}
-where the dimensionless thermal diffusivity of the solid is $\alpha_s^* = \frac{\hat{\alpha_s}}{\hat{d}_p\hat{u}_i}$ and the dimensionless nuclear heating rate is $Q^{'''*} = \frac{\hat{q}'''\hat{d}_p}{\hat{u}_{i}\hat{\rho}_s\hat{C}_{ps}\Delta\hat{T}}$.
-
-We can now directly write the lattice thermal diffusivity of the solid as
-\begin{equation}\label{eq:solid-alpha}
-	\alpha_s = \frac{\delta_t}{\delta_x^2}\frac{1}{\alpha_s}
-\end{equation}
-
-The lattice heat rate is $Q = \delta_tQ^{'''*}$
-
-On the thermal lattice, we need only use a D3Q7 to satisfy isotropy, for which the lattice speed of sound is only $c_s^2 = \frac{1}{2}$ (I will refer to it as $c_{s,ad}$ to distinguish). On this lattice, we are solving the energy equation for both the fluid and solid, so each material has a unique relaxation time. I will refer to them as the advection-diffusion (ad) and conjugate (cj) relaxation times, for short. They are,
-\begin{subequations}
-\begin{align}
-	\tau_{ad} &= \frac{\alpha_f}{c_{s,ad}^2} + \frac{1}{2} \\
-	\tau_{cj} &= \frac{\alpha_s}{c_{s,ad}^2} + \frac{1}{2}
-\end{align}
-\end{subequations}
-and the size of lattice spacing and time steps are equal to those of the Navier-Stokes lattice.
-
-To summarize the unit conversion process described above, our lattice needs to be defined in terms of lattice spacing and time step. The physics of the system are encompassed in the relaxation time -- values which can be determined completely from lattice spacing and nondimensional values of the Reynolds, Peclet, and solid diffusivity values. Physical boundary conditions of velocity and temperature can be enforced in the lattice with translations into lattice variables as given above. 
-
-Below, the lattice diffusivity values given in \Cref{eq:fluid-nu}, \Cref{eq:fluid-alpha}, and \Cref{eq:solid-alpha}, respectively, are summarized together,
-\begin{align*}
-	\nu &= \frac{\delta_t}{\delta_x^2}\frac{1}{\Re} \\
-	\alpha_f &= \frac{\delta_t}{\delta_x^2}\frac{1}{\Pe_f} \\
-	\alpha_s &= \frac{\delta_t}{\delta_x^2}\frac{1}{\alpha_s}
-\end{align*}
-
-From which we can find the relaxation times, 
-\begin{align*}
-	\tau_{ns} &= \frac{\nu}{c_s^2} + \frac{1}{2} \\
-	\tau_{ad} &= \frac{\alpha_f}{c_{s,ad}^2} + \frac{1}{2} \\
-	\tau_{cj} &= \frac{\alpha_s}{c_{s,ad}^2} + \frac{1}{2}
-\end{align*}
-
-And the relaxation constants,
-\begin{align*}
-	\omega_{ns} &= \frac{1}{\tau_{ns}} \\
-	\omega_{ad} &= \frac{1}{\tau_{ad}} \\
-	\omega_{cj} &= \frac{1}{\tau_{cj}}
-\end{align*}
-
-%Perhaps not obvious from this discussion is that we could be free to model a fictitious fluid that allows for high numeric accuracy and stability provided that the nondimensional variables be translatable to proper physical ones.
-
-
-
-
-
-
-
-
-
-
-
-
-\subsection{DEM Mapping to LBM \& Realizing Proper Hydrodynamics}
-Unlike the dynamic coupling between DEM and the volume-averaged CFD where information passed back and forth between fluid and particle, in the LBM construction I am simply translating a static packing structure from DEM into the LBM framework. The lattices of the LBGK solver use equally spaced nodes that discretize our volume into regular spacing. The pebble data from DEM is mapped onto the LBM nodes with a script via knowledge of the centroid and radius of each pebble. To demonstrate, in \Cref{fig:dem-2-lbm-example1}, we see a two-dimensional slice of a pebble projected onto a section of an LBM lattice. If the distance from a node to the centroid is less than the radius of the pebble, the node is assigned as a solid. All other nodes are assigned as fluids.
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=\singleimagewidth]{figures/lbm/dem-to-lbm-mapping.pdf}
-	\caption{An example of the mapping process from DEM to LBM structures. Nodes are assigned as fluid or solid based on relative location of pebble centroid and radius. Here we have a resolution of 9 (\textit{i.e.} 9 nodes per pebble diameter).}\label{fig:dem-2-lbm-example1}
-\end{figure}
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=\doubleimagewidth]{figures/lbm/lbm-pebble-res25.png}
-	\caption{A three-dimensional DEM pebble as imported into the LBM lattice with a resolution of 25.}\label{fig:dem-2-lbm-example2}
-\end{figure}
-
-\begin{figure}[h]
-        \centering
-        \begin{subfigure}[b]{0.2\textwidth}
-                \includegraphics[width=\textwidth]{figures/lbm/2d-res20-k050.png}
-                \caption{$\phi = 0.181$ in pebble bed section with $k = 0.50$.}
-                \label{fig:2d-res20-k050}
-        \end{subfigure}%
-        ~
-        \begin{subfigure}[b]{0.2\textwidth}
-                \includegraphics[width=\textwidth]{figures/lbm/2d-res20-k075.png}
-                \caption{$\phi = 0.389$ in pebble bed section with $k = 0.75$.}
-                \label{fig:2d-res20-k075}
-        \end{subfigure}%
-        ~
-          %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.2\textwidth}
-                \includegraphics[width=\textwidth]{figures/lbm/2d-res20-k090.png}
-                \caption{$\phi = 0.555$ in pebble bed section with $k = 0.90$.}
-                \label{fig:2d-res20-k090}
-        \end{subfigure}
-        ~
-        \begin{subfigure}[b]{0.2\textwidth}
-                \includegraphics[width=\textwidth]{figures/lbm/2d-res20-k100.png}
-                \caption{$\phi = 0.667$ in pebble bed section with $k = 1.00$.}
-                \label{fig:2d-res20-k100}
-        \end{subfigure}
-        \caption{For a given resolution, the scaling parameter $k$ will result in different packing fractions. These mappings were generated from a pebble bed with $\phi =0.64$; only a specific $k$ will yield that void fraction after mapping into LBM.}\label{fig:2d-dem-lbm-mapping}
-\end{figure}
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=\textwidth]{figures/lbm/palabos_packing_fraction}
-	\caption{The digital packing fraction was measured at all slices through the height of the pebble bed. When the average value equaled the expected value, the mapping from DEM to LBM was considered consistent.}\label{fig:dem-2-lbm-packing-fraction}
-\end{figure}
-
-In the example of \Cref{fig:dem-2-lbm-example1}, the resolution is only 9. Thus 9 nodes are needed to span the diameter of a single pebble and the lattice spacing is $\delta_x = 1/9$. In the second example shown in \Cref{fig:dem-2-lbm-example2}, we see an individual pebble in three dimensions that has been mapped onto the LBM nodes with a resolution of 25 (thus $\delta_x = 1/25$). The trade-off between a small lattice spacing is in the ability to resolve the spherical surface of the pebble, stability, and even the ability to resolve a proper packing fraction in the pebble bed. In the process of digitizing DEM onto lattice sites, the size of the sphere is often over-represented and the LBM lattice does not faithfully reproduce the correct void fraction from DEM. In order to capture proper macroscopic values of porosity on the lattice sites, a radius-reduction factor was introduced into the digitization process. The radius that was mapped into LBM would then be $r_{lbm} = k r_{dem}$. The effects of the radius reduction factor can be seen in \Cref{fig:2d-dem-lbm-mapping}, where the void fraction is calculated as discussed below.
-
-A digital void fraction for each mapping was measured numerically by comparing the number of white pixels to black pixels in each bitmap slice,
-\begin{equation}
-	\phi_{d,j} = \frac{N_\text{black}}{N_\text{white}}
-\end{equation}
-
-Then the total digital packing fraction of the ensemble, as mapped into LBM, is simply
-\begin{equation}
-	\phi_d = \frac{1}{J}\sum_j^J\phi_{d,j}
-\end{equation}
-
-where there are $J$ total slices. For example, we see in \Cref{fig:dem-2-lbm-packing-fraction} a plot of the digital packing fraction moving through a particular pebble bed. Digital packing fractions changed as a function of the radius-reduction factor and can be seen in \Cref{fig:2d-dem-lbm-mapping}. The DEM packing from which these slices originated was a $\phi =0.64$ initial packing of \Cref{sec:isfnt-12}.
-
-To model proper hydrodynamics with the lattice-Boltzmann method there are still several measures the lattice must satisfy. Several numerical experiments by Succi\etal~have shown proper hydrodynamics of Pouiselle flow in channels requires 4 lattice sites for fluid in pores of porous media.\cite{succi2001lattice} When spherical packings are digitized onto LBM lattices, constricted pores are consistently observed when resolutions are low. Taking DEM packings from \Cref{sec:isfnt-12}, we analyze the pore size distributions of different resolutions. The important pore size for a flow in the $x$-direction is the transverse $y-z$-plane. Thus taking a digitized bitmap of the $\phi = 0.64$  DEM packings, we measure the pore size sweeping along the $y$- and $z$-axes to generate \Cref{fig:res-pore-sizes}. 
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.75\textwidth]{figures/lbm/res-pore-sizes}
-    \caption{Normalized histogram of pore sizes with increasing resolution. Hydrodynamic fidelity is violated with average pore sizes less than 4 nodes on the LBM lattice.}\label{fig:res-pore-sizes}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.75\textwidth]{figures/lbm/percent-pores-under-4px}
-    \caption{For small resolutions, the number of pore openings smaller than 4 lattice nodes is 87.5\%. Increasing the resolution to 80 reduces this percentage to 26.2\%.}\label{fig:percent-pores-under-4px}
-\end{figure}
-
-\Cref{fig:res-pore-sizes} shows the distribution of pore sizes in pixels (or lattice nodes) for various resolutions. Following, \Cref{fig:percent-pores-under-4px}, shows the percentage of pore openings in the lattices that are less than the 4 nodes recommended for proper hydrodynamics. It is obvious that the lattice resolution of 10 is unacceptable in terms of faithful reproduction of packed bed flow hydrodynamics, nearly 90\% of the pores in the lattice are less than 4 nodes wide. It is less evident if the violation of 4-node recommendation of other resolutions are allowable. We turn to the Knudsen number of our system to help answer this question.
-
-The Knudsen number, the ratio of the gas mean free path to a characteristic geometric length, is a key nondimensional parameter indicating when continuum assumptions, free molecule solutions, or rarefaction take place in a gas flow. A classification for different flow regimes dictates that must be $\Kn < 10^{-2}$ for the continuum assumption to hold.\cite{karniadakis2006microflows} The Knudsen number is calculated as a function or pore size and temperature in \Cref{fig:Knudsen_limits}. Adhering to the classification, to satisfy the $\Kn$ criteria, pore sizes must be larger than \SI{50}{\micro\meter} for helium at \SI{400}{\celsius} and greater than \SI{100}{\micro\meter} at \SI{900}{\celsius}. In packed beds of spheres, a large range of pore sizes appears. Near the contact points of two pebbles, pore sizes can be extremely small. Simultaneously, pore sizes between some pebbles in the packing can be on the order of pebble diameters. 
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.75\textwidth]{figures/lbm/Knudsen_limits}
-    \caption{Knudsen number for helium at \SI{400}{\celsius} and \SI{900}{\celsius} as a function of characteristic pore size.}\label{fig:Knudsen_limits}
-\end{figure}
-
-We can measure pore size distribution from a digitized DEM packing structure with an extremely fine resolution, res = \num{10000}. The pore size is converted into micro-meters from the translation between resolution and pebble diameter (resolution = pixels/mm). The result is shown in \Cref{fig:res10000-pore-size-distributions}.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.75\textwidth]{figures/lbm/res10000-pore-size-distributions}
-    \caption{Measured pore sizes from digitized DEM packings at $\phi = 0.64$, determined from a lattice with res = \num{10000}.}\label{fig:res10000-pore-size-distributions}
-\end{figure}
-
-Analysis of the pore size distribution tells us that this packed bed has 41.2\% of its pores smaller than \SI{100}{\micro\meter} and 22.5\% of the pore openings are smaller than \SI{50}{\micro\meter}. In other words, based on the Knudsen number of helium, at \SI{400}{\celsius}, nearly a quarter of the gaseous space in the pebble bed is violating the assumption necessary for continuum treatment of the fluid. As the temperature increases to \SI{900}{\celsius}, almost half of the gaseous space is in violation of the continuum assumption. Comparing these results to those of \Cref{fig:percent-pores-under-4px} and we see a resolution of 40 may still have an acceptable level of pore size distribution in light of the Knudsen violation of the true pebble bed porosity. In the next section we will explore the effects of these resolutions on actual LBM models.
-
-
-
-
-
-
-
-\subsection{DEM to LBM Mapping, Stability, and Lattice Parameters}\label{sec:dem2lbm-mapping}
-The void fraction and resolution of the slices have a direct impact on the lattice stability and the faithful reproduction of hydrodynamics on the lattice. To study stability we choose several two-dimensional slices (similar to \Cref{fig:2d-dem-lbm-mapping}) to simulate with realistic input parameters but, for now, without consideration for the error of the steady-state solution. Lattices were generated with varying values of $k$ and $\res$. Using simple boundary conditions of no-slip on the left and right walls, a Neumann boundary condition at the outlet (top) and constant velocity at the inlet (bottom), all latices were tested to find the stability of the resolutions and packings. To determine if a steady-state condition was reached, the velocity of the entire lattice was integrated. The value has units of $\psi = [m/s][lu^2]$, with dimensionless lattice spacing units. The value of $\psi$ is plotted in \Cref{fig:2d-lbm-settings-velocity}. From \Cref{fig:2d-lbm-settings-velocity}, we see a steady-state velocity is reached in all of the low-packing fraction lattices. As the packing fraction increased, following the increase of $k$, we see the system velocity slowly become unstable. When $k$ = 0.9, with a packing fraction of $\phi = 0.555$, the system approximately linearly increases into unstable values. Note, for the case when $k=1$, the density calculated in this system blew up to $\infty$ in less than 300 steps, so the velocity profile does not have a chance to demonstrate the unstable increase. For that bed, the packing fraction was high enough that there was not a continuous path available between inlet and outlet.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.75\textwidth]{figures/lbm/2d-lbm-settings-velocity}
-    \caption{Integrated system velocity shows stable lattice configurations in two dimensions.}\label{fig:2d-lbm-settings-velocity}
-\end{figure}
-
-The two-dimensional study shows settings that lead to a stable lattice but, because of the limitations of two-dimensional lattices, such as rapid instability in such cases as $k=1$, an additional study was done on a scaled-down pebble bed in three-dimensions (again, temporarily without consideration for the error of the modeled hydrodynamics). The simplified system considers a pebble bed with width of $6d_p$, periodic depth of $1d_p$, and height of approximately $6d_p$. The pebble bed is discretized using the same numeric schemes and loaded onto three-dimensional lattices. The pebble bed, as visualized from DEM data, is shown in \Cref{fig:3d-bed-lbm}. When the simplified pebble bed is mapped onto discrete LBM nodes, we see the effects of resolution in \Cref{fig:3d-dem-lbm-mapping}. Here we have chosen resolutions of 10, 20, and 40, respectively. For each resolution, the coarseness of discretization requires varying radius reduction factors in order to achieve a consistent digital packing fraction; k = 0.92, 0.947, and 0.97, respectively. Details of the lattices are given below in \Cref{tab:3d-simp-lbm-parameters}.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.3\textwidth]{figures/lbm/3d-bed}
-    \caption{Simplified three-dimensional pebble bed, packing generated with DEM.}\label{fig:3d-bed-lbm}
-\end{figure}
-
-\begin{figure}[h]
-        \centering
-        \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth, trim={200pt, 150pt, 200pt, 200pt},clip]{figures/lbm/k092res10}
-                \caption{Pebble bed with $k = 0.92$, $\res = 10$.}
-                \label{fig:k092res10}
-        \end{subfigure}%
-        ~
-        \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth, trim={200pt, 150pt, 200pt, 200pt},clip]{figures/lbm/k0947res20}
-                \caption{Pebble bed with $k = 0.947$, $\res = 20$.}
-                \label{fig:k0947res20}
-        \end{subfigure}%
-        ~
-          %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth, trim={200pt, 150pt, 200pt, 200pt},clip]{figures/lbm/k097res40}
-                \caption{Pebble bed with $k = 0.97$, $\res = 40$.}
-                \label{fig:k097res40}
-        \end{subfigure}
-        \caption{For a specified packing fraction, 62.4\%, different resolution lattices require different radius scaling factors. The increased resolution is seen in increasing accuracy of spherical modeling on the discretized lattice.}\label{fig:3d-dem-lbm-mapping}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.75\textwidth]{figures/lbm/3d-lbm-settings-velocity}
-    \caption{Averaged system velocity shows pebble beds with the same digital packing fraction and different resolutions will have different average system velocities.}\label{fig:3d-lbm-settings-velocity}
-\end{figure}
-
-In \Cref{fig:3d-lbm-settings-velocity}, the lattices shown in \Cref{fig:3d-dem-lbm-mapping} and others have their overall average velocity plotted. In this case, the magnitude of steady-state velocity is important so the integrated velocity has been divided by the total fluid space in the simulation. We see from \Cref{fig:3d-lbm-settings-velocity} that a lattice with the same packing fraction will have slightly different rates at which steady-state is approached. 
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.75\textwidth]{figures/lbm/3d-bed-v-profiles}
-    \caption{Low resolution lattices show qualitatively similar behavior but have insufficient resolution to capture jet velocity magnitudes.}\label{fig:3d-bed-v-profiles}
-\end{figure}
-
-At a location along the axial midpoint, velocity profiles across the pebble bed are shown in \Cref{fig:3d-bed-v-profiles}. The velocity jets in the near-wall region, caused by low packing fraction from ordered packing, are not well-captured by the low resolution ($\res = 10$) lattice. Other features of velocity are qualitatively seen in the low resolution packing, such as the velocity near $x = 2$~lu, but the $\res=20$ shows much greater correspondence with the profiles predicted by the highest resolution packing. 
-
-Considerations of the velocity in the packed bed are important because the impact of tortuous velocity pathlines are what we seek to understand with implementation of the DEM-LBM study. However, hydrodynamically, an important measure of the physical fidelity of the packing simulation is the pressure drop across the bed. In \Cref{fig:3d-study-pressure-drop}, the pressure drop between inlet and outlet as a function of time are given for the three packings with equal packing fraction (the beds of \Cref{fig:3d-dem-lbm-mapping}). The pressure drop predicted by the Kozen-Carman relationship is approximately \SI{66}{\pascal}. The steady state value of the $\res=40$ lattice is \SI{61}{\pascal}. The lower resolution, $\res=20$, lattice comes close to the KC prediction; the steady-state pressure drop is \SI{64}{\pascal}. The low resolution pebble bed lattice is unstable and the density blows up shortly after \SI{200}{\sec}.
-
-The last aspect to consider in the execution of the LBM model is the duration of a complete simulation. The last row in \Cref{tab:3d-simp-lbm-parameters} shows the product of total timesteps (to reach 200 s) and total lattice nodes. Assuming a perfect scalability of the simulation, this value is approximately the number of calculations performed to solve for steady-state on the lattice. Normalizing against the $\res=10$ lattice, we see that it requires 16 times longer to run the $\res =20$ lattice and more than 255 times longer to run the $\res = 40$ lattice. The same scaling rules will apply to the full pebble bed lattices that we wish to study. Thus, like most models of packed beds, we are forced to concede some accuracy in physics of the model for simplifications that allow reasonable computational times. For this reason, we conclude that the $\res = 20$ lattice, with $k$ chosen to satisfy digital porosity, is the appropriate setting to continue pebble bed simulations. The $\res = 20$ lattice had reasonable accuracy on hydrodynamic measurements of pressure drop and showed acceptable ability to capture features of the flow velocity such as the near-wall jets.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.75\textwidth]{figures/lbm/3d-study-pressure-drop}
-    \caption{Pressure drops across the simplified pebble bed approaching steady-state in time. The low resolution pebble bed greatly over-predicts the pressure drop. Increased resolution appears to converge to approximately \SI{61}{\pascal}.}\label{fig:3d-study-pressure-drop}
-\end{figure}
-
-\begin {table}[h] %
-\caption{Comparison of lattice parameters for simplified pebble bed model.}
-\label{tab:3d-simp-lbm-parameters} \centering %
-\begin{tabular}{@{}lccc@{}}
+\begin {table}[htp] %
+\caption{Constant fluid properties of helium purge gas in CFD-DEM coupling.}
+\label {tab:cfd-properties} \centering %
+\begin {tabular}{ ccccc }
 \toprule %
-$\res$   &   10  &   20    &   40  \\\midrule
-$N_x$   &   60  &   120 &   240 \\
-$N_y$   &   10  &   20  &   40 \\
-$N_z$   &   138 &   276 &   553 \\
-$N_\text{tot}$  &   \num{82.8e3}     &   \num{662.4e3}    & \num{5308.8e3} \\
-$\omega_{ns}$     &   1.131   &   0.789   &   0.491   \\
-$\delta_x$  &   0.1     & 0.05  & 0.025 \\
-$\delta_t$  & 0.001     &   0.0005  & 0.00025   \\
-$N_t$   &   \num{200e3} &    \num{400e3}  & \num{800e3} \\
-$N_\text{tot} \times N_t$ & \num{16.6e9} & \num{264.9e9}     & \num{4247.0e9} \\\bottomrule
+$\nu$				&	$\alpha$				&	$k$		&	$C_p$		& $\rho$		\\
+(\si{\meter\squared\per\second})			&	(\si{\meter\squared\per\second})				&	(\si{\watt\per\meter\per\kelvin})	&	(\si{\joule\per\kilogram\per\kelvin})	& (\si{\kilogram\per\cubic\meter})	\\\toprule
+\num{4.02e-4} &	\num{6.06e-4}	& 	\num{0.2}		& 	\num{5192.8}		& 	\num{0.175}		\\\bottomrule
 \end{tabular}
 \end{table}
+
+
+% \begin{figure}[t]
+% 	\centering
+% 	\includegraphics[width=0.4\textwidth]{figures/x-side-view}
+%     \caption{Side view of the pebble bed as it resides in the CFD mesh. The meshes in the direction of the periodic faces are allowed to be larger than others.}\label{fig:cfdem-domain-x}
+% \end{figure}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.4\textwidth]{figures/y-side-view}
+    \caption{Front view of the pebble bed as it resides in the CFD mesh. The meshes in the direction of cooling are chosen to be large enough to fit many pebbles but small enough to provide a resolved temperature profile.}\label{fig:cfdem-domain-y}
+\end{figure}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\singleimagewidth]{figures/z-top-view}
+    \caption{Top view of the pebble bed as it resides in the CFD mesh.}\label{fig:cfdem-domain-z}
+\end{figure}
+
+
+The CFD-DEM model was run at various particle Reynolds numbers and the overall pressure drop of the packed bed was measured. The pressure drop is compared against the well-known Kozeny-Carman and Ergun equations. The Kozeny-Carman is known to fit better with experimental data at very small Reynolds numbers while the Ergun equation is a more general equation meant to span a large range of Reynolds numbers. In \Cref{fig:cfdem-pressure-drop} we see the CFD-DEM coupling model is providing bed-scale pressure drops that match very well with Kozeny-Carman over the Reynold’s numbers applicable to helium purge flow in fusion reactors ($\Re_p \approx 1$). 
+
+Seki\etal experimentally studied the flow of helium purge gas in efforts to better understand tritium recovery.\cite{Seki2013a} They ran a representative volume of pebbles up to flow rates of \SI{100}{\liter\per\minute} and also found that Ergun's pressure drop prediction was highly accurate for the pebble beds as long as the viscous contribution (see the right-most term in \Cref{eq:ergun-pressure}) was small, \textit{e.g.} when the Reynolds number of the packed bed is small. This result is a strong validation of the macroscopic results of pressure drop as calculated by the CFD-DEM simulation of a packed bed.
+
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.7\textwidth}
+                \includegraphics[width=\textwidth]{figures/pressureDrops-full.png}
+                \caption{Well-packed bed}
+                \label{fig:pressure-drop-full}
+        \end{subfigure}%
+        
+          %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.7\textwidth}
+                \includegraphics[width=\textwidth]{figures/pressureDrops-evap.png}
+                \caption{Re-settled bed}
+                \label{fig:pressure-drop-evap}
+        \end{subfigure}
+        \caption{Pressure drop calculations across packed beds, solved by CFD-DEM, fit well to the Kozeny-Carman empirical relation.}\label{fig:cfdem-pressure-drop}
+\end{figure}
+
+
+\FloatBarrier
+\subsection{Effective Thermal Conductivity from CFD-DEM with Stagnant Helium}\label{sec:cfd-dem-effective-conductivity}
+In \Cref{sec:dem-benchmark} we saw that DEM models, including contact roughness modeling, were able to effectively model heat transfer of pebble beds in vacuum by means of measuring effective thermal conductivity of a representative pebble bed. We consider the same pebble bed but now immerse the pebbles in a stagnant helium gas. The fluid volume surrounding the pebble bed has equal dimensions in the $x$- and $y$-directions. A constant length $50d_p$ was used in the $z$-direction. The boundaries were: periodic in $y$, adiabatic in $z$, and constant temperature, $T_w = $~\SI{573}{\kelvin} in $x$. A constant nuclear heating rate of $q_p'''=$~\SI{8}{\mega\watt\per\cubic\meter} was applied to the pebble volumes. The simulation is allowed to run to thermal steady-state. 
+
+After reaching a steady solution, temperature distributions of the pebbles are used to calculate an effective thermal conductivity. For the first set of pebble beds, the Jeffreson correction is not applied. The temperature distribution is given in \Cref{fig:keff-cfd-initial}. 
+
+\begin{figure}[!ht]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/initial_packing_study/keff-cfd-62.png}
+        \caption{$\phi_i = 62\%$}
+    \end{subfigure}
+    ~
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/initial_packing_study/keff-cfd-64.png}
+        \caption{$\phi_i = 64\%$}
+    \end{subfigure}
+    \caption{$\keff$ for packed beds in stagnant helium.}
+\label{fig:keff-cfd-initial}
+\end{figure}
+
+For stagnant helium, the Nusselt number is $\Nu = 2$ which leads to a heat transfer coefficient of
+\begin{equation}
+h = \frac{k_f\Nu}{d_p}
+\end{equation}
+where $k_f$ is the thermal conductivity of helium, $k_f =$~\SI{0.34}{\watt\per\meter\per\kelvin}. The heat transfer coefficient is therefore $h = $~\SI{680}{\watt\per\meter\squared\per\kelvin}
+
+The Biot number, using solid conductivity of $k_s =$~\SI{2.4}{\watt\per\meter\per\kelvin}, is
+\begin{equation}
+\Bi = \frac{h d_p}{k_s} = 0.283
+\end{equation}
+which is small enough that the Biot assumption should not be highly inaccurate. Nevertheless, a second set of pebble beds is run with Jeffreson correction applied. The corrected heat transfer coefficient is reduced to
+\begin{equation}
+h' = \frac{\SI{680}{\watt\per\meter\squared\per\kelvin}}{1 + 0.283/5} = \SI{643}{\watt\per\meter\squared\per\kelvin}
+\end{equation}
+which results in a 5\% drop in heat transfer coefficient with the Jeffreson correction applied.
+Using the Jeffreson-corrected heat transfer coefficient for simulations, temperature profiles at thermal steady state are given in \Cref{fig:keff-cfd-initial-jeffreson}. For the case of stagnant helium, the Jeffreson correction had negligible effect on determinations of temperature distributions in the two packed beds studied. 
+
+\begin{figure}[!ht]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/initial_packing_study/keff-cfd-jeffreson-62.png}
+        \caption{$\phi_i = 62\%$}
+    \end{subfigure}
+    ~
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/initial_packing_study/keff-cfd-jeffreson-64.png}
+        \caption{$\phi_i = 64\%$}
+    \end{subfigure}
+    \caption{$\keff$ for packed beds in stagnant helium with Jeffreson correction to heat transfer coefficient.}
+\label{fig:keff-cfd-initial-jeffreson}
+\end{figure}
+
+\FloatBarrier
+
+Comparing the results of pebble beds with Jeffreson correction applied, for a stagnant fluid with $\Nu = 2$, with material producing $\Bi = 0.29$, there is a negligible change to the effective thermal conductivity of beds without the correction. Nevertheless, the correction is costs practically no computational time and is trivially applied during the convection calculation routine in the code. For cases when the Nusselt number increases locally, the effect may be larger and is therefore applied in general to CFD-DEM coupling code.
+
+In the current framework, constant thermal properties are implemented for helium gas. The transport properties used in this study were from averages between \SI{300}{\celsius} and \SI{900}{\celsius}, a range over which the properties were all fairly linear. This is equivalent to reporting data at an average bed temperature of \SI{600}{\celsius}. Hatano\etal~reported the effective thermal conductivity of \lit~was reported for a packed bed of $d_p = $~\SI{1.91}{\milli\meter} as approximately $\keff =$~\SI{1.18}{\watt\per\meter\per\kelvin} with the hot-wire technique.\cite{Hatano2003} Tanigawa\etal~reported the effective thermal conductivity at \SI{600}{\celsius} as a function of compressive strain and series cycle.\cite{Tanigawa2005801} The results of Tanigawa\etal~are reproduced in \Cref{fig:tanigawa}; the values are approximately $\keff =$~\SI{1.3}{\watt\per\meter\per\kelvin} above a stress state on the bed of \SI{1}{\mega\pascal}. Abou-Sena\etal~measured the effective thermal conductivity of uncompressed \lit~but only up to temperatures of \SI{500}{\celsius}, and are therefore not relevant to comparison here.\cite{Abou-Sena:2007ff} Mandal\etal~measured the effective thermal conductivity of \lit~pebbles in stagnant and flowing helium environment.\cite{Mandal2012} However, the results of Mandal\etal~are much lower than data from other members, they report $\keff =$~\SI{0.274}{\watt\per\meter\per\kelvin} in a stagnant helium environment at \SI{200}{\celsius} which is 20\% of values of other research centers. At their lowest superficial velocity, $u_s = $~\SI{0.146}{\meter\per\second}, they find an effective conductivity of $\keff =$~\SI{0.65}{\watt\per\meter\per\kelvin} with $d_p = $~\SI{1}{\milli\meter} pebbles.
+
+\begin{figure}[ht]
+\centering
+    \includegraphics[width=\singleimagewidth]{figures/tanigawa.png}
+    \caption{Effective thermal conductivity of a compressed \lit~pebble bed. Reproduced from \cite{Tanigawa2005801}.}
+    \label{fig:tanigawa}
+\end{figure}
+
+The results found here are in agreement with reported values from literature of uncompressed pebble beds at similar temperatures;\cite{Hatano2003} we found $\keff =$~\SI{1.05}{\watt\per\meter\per\kelvin} when the initial packing fraction was $\phi_i = 0.62$. As the contact forces increased between the pebbles as is the case for initial packing of $\phi_i = 0.64$, we found $\keff =$~\SI{1.2}{\watt\per\meter\per\kelvin}. The results of this validation are plotted alongside experimental data in \Cref{fig:keff-cfd-comparisons}.
+
+
+\begin{figure}[ht]
+\centering
+    \includegraphics[width=\singleimagewidth]{figures/initial_packing_study/keff-he-comparisons.png}
+    \caption{Comparison of effective conductivit measurements for \lit.}
+    \label{fig:keff-cfd-comparisons}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \FloatBarrier
 
 
 
-
-
-
-
-
-
-
-
-
-\subsection{Numerical Implementation of LBM and DEM Coupling}\label{sec:lbm-solver}
-
-As usual, the packing structure of our pebble bed is rendered with the code LIGGGHTS. Details of the software are described in \cref{sec:dem-solver}. The DEM solver is a highly parallel C++ code based on the Molecular Dynamics (MD) code LAMMPS.\cite{Plimpton1995} 
-
-The translation between the DEM packing and LBM nodal network is done with Python scripts I created to discretize and digitize the `spherical' information of DEM into LBM.
-
-To solve the lattice-Boltzmann collision and streaming equations, we make use of the open-source code maintained by FlowKit Ltd named Palabos.\cite{Flow} The Palabos library provides an interface for quick implementation of lattice-Boltzmann models in C++. Implemented models include the BGK and thermal flows with the Boussinesq approximation, among many others. The lattices available are the common grids of D2Q9, D3Q13, D3Q15, D3Q19, or D3Q27. Zou/He, periodic, and bounce-back conditions are built into the LB kernel; implementation of Dirichlet or Neumann conditions with velocity or pressure are also available. The software is freely available under the terms of the open-source AGPLv3 license.\cite{FreeSoftwareFoundationInc.2007} All mentioned models and ingredients are parallelized with MPI, including the I/O operations that are implemented in terms of MPI’s Parallel I/O API.
-
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -1129,10 +614,18 @@ To solve the lattice-Boltzmann collision and streaming equations, we make use of
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Summary of LBM Modeling Development}
+\section{Summary of CFD-DEM Modeling of Solid Breeder Pebble Beds}
+[from cfd-dem paper conclusion]In this study I extended the thermophysical analysis of damaged pebble beds begun in \cref{sec:dem-studies} to include the influence of helium in a volume-average sense. This study grew from the prior one and the pebble bed representation of damage suffered all the same limitations mentioned in the closing of the last study, they will not be mentioned again here for the sake of brevity.
 
-While concurrently developing the dynamic-coupling tools for the CFD-DEM models, I recognized the potential need for modeling the meandering path of low-$\Re$ flow of helium in our packed bed with heat generation. The sacrifice we make to achieve the numerical fidelity is that in this implementation of fluid-particle interaction there is only a static coupling. The pebble-scale micromechanical interaction information for pebble damage modeling is still solved transiently in the DEM computations. A snapshot of the structure is discretized and loaded into the LBM solver which then calculates temperature and velocity fields of both solid and fluid phases. There is no cross-communication in this technique as the packing structure is effectively frozen during the LBM calculations.
+The CFD-DEM approach was validated, at least in terms of the volume-averaged Navier-Stokes equations, with a parametric study of pressure drop as a function of Reynolds number. When helium flowed over the DEM pebble beds, the pressure drop fit well to the well-established Kozeny-Carman correlation.
 
-The LBM approach was chosen in place of finite element or finite volume methodology because of issues with discretization of meshes in a three dimensional packed bed with interstitial gas. There are techniques to handle packed beds with continuum fluid mechanics software, but the size of packed beds we are interested in make the FEM approach intractable.
+This study is a useful demonstration of the power of the dynamically coupled CFD-DEM approach. The DEM simulation was capable of continually monitoring inter-particle forces and individual particle temperatures such that any of the crush-prediction, fragmentation, and thermal expansion methods developed in this dissertation can continue to transiently alter the morphology of the pebble bed. Meanwhile, the volume-averaged approach to conservation equations of the fluid allow for an efficient overlaying of the fluid contribution to the thermophysical behavior of the pebble bed.
 
-Furthermore, the simple LBM formulation of enforcing no-slip conditions on complex geometry is trivially realized with bounce-back rules on distribution functions. The multi-relaxation-time lattices for momentum and energy offer complete modeling of complex geometry and conjugate heat transfer with far less computational overhead compared to FEM models.
+There are simplifications to the fluid flow and its impact on the thermal transport in the pebble bed that are made in the volume-averaging technique. The simplifications may mask some important physical features of the flow and energy fields but nevertheless provide valuable information on the pebble bed in an efficient manner and should continue to be developed for solid breeder research.
+
+
+Simulations of heat transfer in our DEM formulation are not able to caputre the effects of an interstitial fluid. The CFD-DEM approach began as an engineering tool to study fluidized beds and as such have been benchmarked against common jet-spout fluidized beds with light-to-medium packing. However, CFD-DEM as a research tool has not before been applied to packed beds with nuclear heating such as our breeder blanket volumes. The fluid-solid heat transfer correlation, as developed for non-heat-generation situations, will continue to be employed until modifications are deemed necessary after benchmark cases are tested in the future. For now, the lumped capacitance assumption is made in the development of the heat source term for the particles in the DEM governing equations.
+
+I tested the validity of the lumped capacitance assumption when pebbles experience heat generation with a moderately large Biot number. Seeing the inaccuracies when the solid conductivity decreased, I incorporated the Jeffreson correction to the heat transfer coefficient and showed its accuracy even under the condition of volumetric heating of the solid. The CFD-DEM approach retains pebble-scale micromechanical interaction information necessary for pebble damage modeling while computational resources are conserved with volume-averaged treatment of the flowing interstitial fluid. Closure of coupled fluid conservation equations happens with the summed contributions of particles in the fluid computation space. The correlation accounts for internal temperature gradients with negligible computational overhead.
+
+The CFD-DEM model is a powerful and efficient means of simulating helium flow through the packed bed. However the simplicity of the volume-averaging model sacrifices the ability to resolve the complex flow fields that develop in the pebble bed. It is unclear if this simplification is completely acceptable. Therefore, concurrent to the development of the dynamic coupling of DEM to CFD, I investigated the option of a static coupling of the DEM-computed packed bed to a complete flow-solving technique.
