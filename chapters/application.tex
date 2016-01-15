@@ -1,44 +1,9 @@
-\chapter{Application of Modeling}\label{sec:dem-studies}
-
-This chapter demonstrates the usefulness of the numerical tools introduced in \cref{ch:modeling-development} in probing inter-particle contact information, pebble bed heat transfer, and bed morphology changes altering thermophysical properties. The DEM, CFD-DEM, and DEM-LBM tools are put to work examining representative volumes of pebble beds of ceramic breeders from fusion reactors. In almost all cases, the pebble bed volumes accommodate approximately \num{10000} pebbles. Typically, the bed is confined in one direction by two primitive, rigid walls that also are constant temperature boundaries to act as heat sinks. I also employ periodic boundary conditions to represent an infinite length in the given direction. The third direction is often in the gravity direction for which we have an adiabatic, primitve, and rigid roof and ceiling.
-
-The first study considers the heat transfer in a pebble bed purely through contact conduction of grains in the ensemble. In this pebble bed, I employ DEM tools to apply a nuclear heating source and allow the bed to reach a thermal steady-state with the cooling walls. In such a way, an effective thermal conductivity of the bed is determinable. I then induce a fictitious pebble damaging method to the bed and check the changes to effective thermal conductivity. The DEM tools are used to then interrogate many micromechanical interactions in the pebble bed which we use to deduce the source of changes to the effective thermal conductivity.
-
-In the second study, the same pebble bed is analyzed but this time the helium purge gas is included via the coupled CFD-DEM tools. I again induce some fictitious damage to the pebble bed and monitor changes to the thermophysical properties and their relationship to the cases when the helium purge gas was neglected. The study reveals important features of the helium influence on heat transfer in the bed.
-
-In the third study, I take snapshots of two beds (a standard bed and a damaged one) and load them into LBM models. With lattice-Boltzmann it is possible to analyze the tortuous path of helium moving through the pebble bed and discover interesting features of the purge gas thermal interaction that was masked by the simplifications of the volume-average approach of CFD-DEM.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\chapter{Applications of Modeling}\label{sec:dem-studies}
 
 \section{Temperature Distributions with Breeder Orientation, Pebble Fragmentation}\label{sec:isfnt-12}
 
 
-\subsection{Introduction}
-
-We apply coupled computational fluid dynamics and discrete element method (CFD-DEM) modeling tools with new numerical implementations of pebble fragmentation to study the combined effects of granular crushing and ensemble restructuring, granular fragment size, and initial packing for different breeder volume configurations. In typical solid breeder modules, heat removal from beds relies on maintaining pebble-pebble and pebble-wall contact integrity. However, contact is disrupted when an ensemble responds to individually-crushed pebbles. Furthermore, restructuring of metastable packings after crushing events are, in part, dependent on gravity forces acting upon the pebbles. We investigate two representative pebble bed configurations under constant volumetric heat sources; modeling heat removed from beds via inter-particle conduction, purge gas convection, and contact between pebble beds and containers. In one configuration, heat is removed from at walls oriented parallel to the gravity vector (no gap formation possible); in the second, heat is removed at walls perpendicular to gravity, allowing for the possibility of gap formation between bed and wall. Judging beds on increase in maximum temperatures as a function of crushed pebble amount, we find that both pebble bed configurations to have advantageous features that manifest at different stages of pebble crushing. However, all configurations benefit from achieving high initial packing fractions.
+We apply coupled computational fluid dynamics and discrete element method (CFD-DEM) modeling tools with new numerical implementations of pebble fragmentation to study the combined effects of granular crushing and ensemble restructuring, granular fragment size, and initial packing for different breeder volume configurations. In typical solid breeder modules, heat removal from beds relies on maintaining pebble-pebble and pebble-wall contact integrity. However, contact is disrupted when an ensemble responds to individually-crushed pebbles. Furthermore, restructuring of metastable packings after crushing events are, in part, dependent on gravity forces acting upon the pebbles. We investigate two representative pebble bed configurations under constant volumetric heat sources; modeling heat removed from beds \textit{via} inter-particle conduction, purge gas convection, and contact between pebble beds and containers. In one configuration, heat is removed from at walls oriented parallel to the gravity vector (no gap formation possible); in the second, heat is removed at walls perpendicular to gravity, allowing for the possibility of gap formation between bed and wall. Judging beds on increase in maximum temperatures as a function of crushed pebble amount, we find that both pebble bed configurations to have advantageous features that manifest at different stages of pebble crushing. However, all configurations benefit from achieving high initial packing fractions.
 
 
 
@@ -343,25 +308,25 @@ Travel of pebble fragments also manifests in changes to local packing fraction. 
 \begin{figure}[!t]
     \centering
     \includegraphics[width = 0.65\textwidth]{figures/x-62-r23-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_eta - \phi_i$) for $\chi$-config, $\phi = 0.62$, $r^* = 0.32$}\label{fig:x-62-r23-deltas}
+    \caption{Distribution of local changes in packing fraction ($\phi_{eta} - \phi_i$) for $\chi$-config, $\phi = 0.62$, $r^* = 0.32$}\label{fig:x-62-r23-deltas}
 \end{figure}
 
 \begin{figure}[!t]
     \centering
     \includegraphics[width = 0.65\textwidth]{figures/x-62-r125-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_eta - \phi_i$) for $\chi$-config, $\phi = 0.62$, $r^* = 0.2$}\label{fig:x-62-r125-deltas}
+    \caption{Distribution of local changes in packing fraction ($\phi_{eta} - \phi_i$) for $\chi$-config, $\phi = 0.62$, $r^* = 0.2$}\label{fig:x-62-r125-deltas}
 \end{figure}
 
 \begin{figure}[!t]
     \centering
     \includegraphics[width = 0.65\textwidth]{figures/x-62-r23-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_eta - \phi_i$) for $\chi$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:x-624-r23-deltas}
+    \caption{Distribution of local changes in packing fraction ($\phi_{eta} - \phi_i$) for $\chi$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:x-624-r23-deltas}
 \end{figure}
 
 \begin{figure}[!t]
     \centering
     \includegraphics[width = 0.65\textwidth]{figures/x-62-r125-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_eta - \phi_i$) for $\chi$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:x-624-r125-deltas}
+    \caption{Distribution of local changes in packing fraction ($\phi_{eta} - \phi_i$) for $\chi$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:x-624-r125-deltas}
 \end{figure}
 % deltas~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -394,25 +359,25 @@ Travel of pebble fragments also manifests in changes to local packing fraction. 
 \begin{figure}[!t]
     \centering
     \includegraphics[width = 0.95\textwidth]{figures/z-62-r23-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_eta - \phi_i$) for $\zeta$-config, $\phi = 0.62$, $r^* = 0.32$}\label{fig:z-62-r23-deltas}
+    \caption{Distribution of local changes in packing fraction ($\phi_{eta} - \phi_i$) for $\zeta$-config, $\phi = 0.62$, $r^* = 0.32$}\label{fig:z-62-r23-deltas}
 \end{figure}
 
 \begin{figure}[!t]
     \centering
     \includegraphics[width = 0.95\textwidth]{figures/z-62-r125-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_eta - \phi_i$) for $\zeta$-config, $\phi = 0.62$, $r^* = 0.2$}\label{fig:z-62-r125-deltas}
+    \caption{Distribution of local changes in packing fraction ($\phi_{eta} - \phi_i$) for $\zeta$-config, $\phi = 0.62$, $r^* = 0.2$}\label{fig:z-62-r125-deltas}
 \end{figure}
 
 \begin{figure}[!t]
     \centering
     \includegraphics[width = 0.95\textwidth]{figures/z-62-r23-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_eta - \phi_i$) for $\zeta$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:z-624-r23-deltas}
+    \caption{Distribution of local changes in packing fraction ($\phi_{eta} - \phi_i$) for $\zeta$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:z-624-r23-deltas}
 \end{figure}
 
 \begin{figure}[!t]
     \centering
     \includegraphics[width = 0.95\textwidth]{figures/z-62-r125-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_eta - \phi_i$) for $\zeta$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:z-624-r125-deltas}
+    \caption{Distribution of local changes in packing fraction ($\phi_{eta} - \phi_i$) for $\zeta$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:z-624-r125-deltas}
 \end{figure}
 % deltas~~~~~~~~~~~~~~~~~~~~~~~~~~
 

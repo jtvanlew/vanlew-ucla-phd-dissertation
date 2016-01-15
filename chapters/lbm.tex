@@ -7,7 +7,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Conjugate Heat Transfer in Solid Breeder Pebble Beds with Lattice-Boltzmann Modeling}\label{sec:modeling-lbm}
-The volume-averaged approach of the CFD-DEM coupling is an effective and efficient method for solving transiently-coupled helium flow and pebble interaction via volume-averaging techniques for the fluid. However, there are situations when a complete knowledge of the tortuous flow of the interstitial helium may be desired. Because the CFD-DEM solver does not resolve the helium pathways on the particle scale, knowledge of precise helium flow is not possible with that scheme. Therefore a method of linking the DEM pebble beds with lattice-Boltzmann solvers is also studied.
+The volume-averaged approach of the CFD-DEM coupling is an effective and efficient method for solving transiently-coupled helium flow and pebble interaction \textit{via} volume-averaging techniques for the fluid. However, there are situations when a complete knowledge of the tortuous flow of the interstitial helium may be desired. Because the CFD-DEM solver does not resolve the helium pathways on the particle scale, knowledge of precise helium flow is not possible with that scheme. Therefore a method of linking  DEM pebble beds with lattice-Boltzmann solvers is also studied.
 
 The lattice-Boltzmann method (LBM) to simulate fluid flow is a growing field of numerical modeling with a rich historical development. As the LBM approach is relatively new and its governing equations seem much more esoteric than the familiar conservation equations from continuum modeling, I will first go through some of the notable evolutions of the modeling history and the background physics leading to the governing equations -- which lend themselves to relatively straightforward numerical implementation. Certainly this short study cannot do justice to a proper explanation of the underlying physics. References~\cite{Chen1998a,Viggen2009,Sukop2007,Chopard2002,succi2001lattice} should be read by those curious for an excellent and thorough description of the physics, modeling approaches, and applications of LBM theory to fluid dynamics problems.
 
@@ -43,7 +43,7 @@ where $\Omega$ is classically referred to as the collision operator. This functi
 	f(\vec{x} + \frac{\vec{p}}{m}\mathrm{d}t,\vec{p} + \mathrm{d}\vec{p},t + \mathrm{d}t)\mathrm{d}\vec{x}\mathrm{d}\vec{p} - f(\vec{x},\vec{p},t)\mathrm{d}\vec{x}\mathrm{d}\vec{p} = \Omega\mathrm{d}\vec{x}\mathrm{d}\vec{p}\mathrm{d}t
 \end{equation}
 
-To be precise, to arrive at the collision operator, $\Omega$, in the form we have used in \Cref{eq:particle-balance}, it is required to make a few more assumptions on the system. Following Ludwig Boltzmann, we assume: the particles are dilute, point-like, and structureless that only interact via short-range two-body potentials. Another famous assumption from Boltzmann was of \textit{Stosszahlansatz} (molecular chaos) which allow the inter-particle interactions to be described only in terms of their local binary collisions with very long paths through free space between collisions.\cite{succi2001lattice} For the sake of this discussion, we will just accept the formulation of \Cref{eq:particle-balance} as the evolution equation for the particles in our system. 
+To be precise, to arrive at the collision operator, $\Omega$, in the form we have used in \Cref{eq:particle-balance}, it is required to make a few more assumptions on the system. Following Ludwig Boltzmann, we assume: the particles are dilute, point-like, and structureless that only interact \textit{via} short-range two-body potentials. Another famous assumption from Boltzmann was of \textit{Stosszahlansatz} (molecular chaos) which allow the inter-particle interactions to be described only in terms of their local binary collisions with very long paths through free space between collisions.\cite{succi2001lattice} For the sake of this discussion, we will just accept the formulation of \Cref{eq:particle-balance} as the evolution equation for the particles in our system. 
 
 As a side note, after taking the multi-dimensional Taylor expansion of \Cref{eq:particle-balance}, we arrive at the the recognizable Boltzmann equation,
 \begin{equation}\label{eq:boltzmann-continuum}
@@ -105,7 +105,7 @@ However, as exciting as the early LGA methods were, their drawbacks were very ne
 
 \subsection{The Lattice-Boltzmann Equation}\label{sec:lbm-equations}
 
-McNamara and Zanetti proposed a fix to the statistical noise in LGA via ensemble-averaging the boolean occupation numbers,\cite{McNamara1988}
+McNamara and Zanetti proposed a fix to the statistical noise in LGA \textit{via} ensemble-averaging the boolean occupation numbers,\cite{McNamara1988}
 \begin{equation}\label{eq:lbm-pdf}
 	f_i = \langle n_i \rangle = \frac{1}{q}\sum_{i=1}^qn_i
 \end{equation}
@@ -115,7 +115,7 @@ Replacing the boolean occupation numbers in \Cref{eq:lattice-evolution} with the
 \begin{equation}\label{eq:lbm-evolution}
 	f_i(\vec{x}+\vec{c}_i, t + 1) - f_i(\vec{x},t) = \Omega_i(\vec{x},t)
 \end{equation}
-which is precisely the form found for the discretized Boltzmann equation in \Cref{eq:boltzmann2lbe}! This is the essence of the lattice-Boltzmann method: it can be considered as a simplification of the Boltzmann concept via reduction of the continuous phase space into a finite number of discrete phase options; or it similarly can be considered as an ensemble-averaging of the lattice gas automata into calculations of mesoscopic distribution functions.
+which is precisely the form found for the discretized Boltzmann equation in \Cref{eq:boltzmann2lbe}! This is the essence of the lattice-Boltzmann method: it can be considered as a simplification of the Boltzmann concept \textit{via} reduction of the continuous phase space into a finite number of discrete phase options; or it similarly can be considered as an ensemble-averaging of the lattice gas automata into calculations of mesoscopic distribution functions.
 
 The boolean occupation numbers were simply imagined as the actual particles traveling from node to node in the LGA lattice. The ensemble average of these numbers, $f_i(\vec{x},t)$, akin to the probability density function from kinetic theory, can be envisioned to be the probability of finding a density of particles pointing in a certain direction, $i$, at a given node, $\vec{x}$, at a specific point in time, $t$. The values of $f_i$ are direction-specific fluid densities and thus macroscopic fluid properties are still directly calculated from them,
 \begin{subequations}\label{eq:lbm2physical}
@@ -190,7 +190,7 @@ Implementation of no-slip boundary conditions at the wall in the lattice-Boltzma
 \end{figure}
 
 
-To treat velocity or pressure boundary conditions, the technique of Zou \& He is used.\cite{Zou1997} They proposed extending the bounce-back condition to the non-equilibrium distribution function in the direction normal to the boundary where $\vec{v}$ or $p$ is specified. The approach allows closure of the algebraic calculation of distribution functions when we have a known velocity or pressure (see Eqs.~\ref{eq:lbm2physical}). We note again that, in lattice units, determination of density is equivalent to determination of pressure via the ideal gas pressure law. Zou \& He showed the approach provides second-order accurate results on these boundaries.\cite{Zou1997} 
+To treat velocity or pressure boundary conditions, the technique of Zou \& He is used.\cite{Zou1997} They proposed extending the bounce-back condition to the non-equilibrium distribution function in the direction normal to the boundary where $\vec{v}$ or $p$ is specified. The approach allows closure of the algebraic calculation of distribution functions when we have a known velocity or pressure (see Eqs.~\ref{eq:lbm2physical}). We note again that, in lattice units, determination of density is equivalent to determination of pressure \textit{via} the ideal gas pressure law. Zou \& He showed the approach provides second-order accurate results on these boundaries.\cite{Zou1997} 
 
 
 
@@ -225,7 +225,7 @@ The thermal diffusivity (analogous to the viscosity in the momentum lattice) is
 \begin{equation}
 	\alpha = c_{s,g}^2(\tau_{g} - \frac{1}{2})
 \end{equation}
-% The coupling from temperature to density via the Boussinesq assumption is done with the addition of a body force term, $g_i$ to the Navier-Stokes' BGK equation,
+% The coupling from temperature to density \textit{via} the Boussinesq assumption is done with the addition of a body force term, $g_i$ to the Navier-Stokes' BGK equation,
 % \begin{equation}
 % 	f_i^\eq = \rho(\vec{x},t)w_i\left[1+\frac{\vec{u}\cdot\vec{c}_i}{c_s^2} + \frac{(\vec{u}\cdot\vec{c}_i)^2}{2c_s^4} - \frac{\vec{u}^2}{2c_s^2} \right] + g_i
 % \end{equation}
@@ -234,7 +234,7 @@ The thermal diffusivity (analogous to the viscosity in the momentum lattice) is
 % 	g_i = -\frac{1}{2}\Delta t \alpha_i \vec{c}_i\cdot\vec{g}(T - T_0)
 % \end{equation}
 
-Thermal boundary conditions are handled via a decomposition of the boundary nodes into equilibrium and non-equilibrium parts and the values of the node extrapolated from neighboring nodes. Details of the precise equations can be found in the paper by Guo\etal.\cite{Guo2002}
+Thermal boundary conditions are handled \textit{via} a decomposition of the boundary nodes into equilibrium and non-equilibrium parts and the values of the node extrapolated from neighboring nodes. Details of the precise equations can be found in the paper by Guo\etal.\cite{Guo2002}
 
 
 \subsection{Realizing LBM Models Computationally}
@@ -335,7 +335,7 @@ The spatial discretization of the lattice is defined in terms of the resolution 
 \end{align}
 \end{subequations}
 
-The only lattice parameter not defined at this point is the lattice time step, $\delta_t$. In lattice-Boltzmann, $\delta_t$ and $\delta_x$ are linked via the incompressibility constraint in the lattice. At the same time, from \Cref{eq:lbm-u}, the lattice velocity is directly related to the lattice time step size; and the magnitude of $\vec{u}$ may not be larger than the speed of sound on the lattice, $c_s$. The time step is further constrained when enforcing incompressibility of our fluid. The LB model is a quasi-compressible fluid solver which permits slight compressible regimes to enter the system to solve the pressure equation of the fluid. Compressibility effects will impact the numerical accuracy and should therefore be minimized. As these effects scale like the square Mach-number, $\Ma^2$, compressibility effects can be minimized by enforcing a small Mach number. In LBM, the lattice Mach number is simply,
+The only lattice parameter not defined at this point is the lattice time step, $\delta_t$. In lattice-Boltzmann, $\delta_t$ and $\delta_x$ are linked \textit{via} the incompressibility constraint in the lattice. At the same time, from \Cref{eq:lbm-u}, the lattice velocity is directly related to the lattice time step size; and the magnitude of $\vec{u}$ may not be larger than the speed of sound on the lattice, $c_s$. The time step is further constrained when enforcing incompressibility of our fluid. The LB model is a quasi-compressible fluid solver which permits slight compressible regimes to enter the system to solve the pressure equation of the fluid. Compressibility effects will impact the numerical accuracy and should therefore be minimized. As these effects scale like the square Mach-number, $\Ma^2$, compressibility effects can be minimized by enforcing a small Mach number. In LBM, the lattice Mach number is simply,
 \begin{equation}
  	\Ma = \frac{|\vec{u}_0|}{c_s}
 \end{equation}
@@ -435,7 +435,7 @@ And the relaxation constants,
 
 
 \subsection{DEM Mapping to LBM \& Realizing Proper Hydrodynamics}
-Unlike the dynamic coupling between DEM and the volume-averaged CFD where information passed back and forth between fluid and particle, in the LBM construction I am simply translating a static packing structure from DEM into the LBM framework. The lattices of the LBGK solver use equally spaced nodes that discretize our volume into regular spacing. The pebble data from DEM is mapped onto the LBM nodes with a script via knowledge of the centroid and radius of each pebble. To demonstrate, in \Cref{fig:dem-2-lbm-example1}, we see a two-dimensional slice of a pebble projected onto a section of an LBM lattice. If the distance from a node to the centroid is less than the radius of the pebble, the node is assigned as a solid. All other nodes are assigned as fluids.
+Unlike the dynamic coupling between DEM and the volume-averaged CFD where information passed back and forth between fluid and particle, in the LBM construction I am simply translating a static packing structure from DEM into the LBM framework. The lattices of the LBGK solver use equally spaced nodes that discretize our volume into regular spacing. The pebble data from DEM is mapped onto the LBM nodes with a script \textit{via} knowledge of the centroid and radius of each pebble. To demonstrate, in \Cref{fig:dem-2-lbm-example1}, we see a two-dimensional slice of a pebble projected onto a section of an LBM lattice. If the distance from a node to the centroid is less than the radius of the pebble, the node is assigned as a solid. All other nodes are assigned as fluids.
 
 \begin{figure}[ht]
 	\centering
@@ -658,8 +658,6 @@ To solve the lattice-Boltzmann collision and streaming equations, we make use of
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary of LBM Modeling Development}
 
-While concurrently developing the dynamic-coupling tools for the CFD-DEM models, I recognized the potential need for modeling the meandering path of low-$\Re$ flow of helium in our packed bed with heat generation. The sacrifice we make to achieve the numerical fidelity is that in this implementation of fluid-particle interaction there is only a static coupling. The pebble-scale micromechanical interaction information for pebble damage modeling is still solved transiently in the DEM computations. A snapshot of the structure is discretized and loaded into the LBM solver which then calculates temperature and velocity fields of both solid and fluid phases. There is no cross-communication in this technique as the packing structure is effectively frozen during the LBM calculations.
+The coupling of DEM pebble models to those of volume-averaged CFD are numerically efficient and, as shown, accurate at predicting effective thermal conductivity values in packed beds with stagnant fluids. However, the efficiency of the scheme came at the cost of fidelity in modeling helium flow. There are situations for which the complete fluid flow will be necessary and therefore adopted a one-way coupling approach between DEM and the lattice-Boltzmann method. The sacrifice we make to achieve the numerical fidelity is that in this implementation of fluid-particle interaction is a loss of feedback between temperature and pressure fields in the bed with DEM modeling of packing structure alteration. The pebble-scale micromechanical interaction information for pebble damage modeling is still solved transiently in the DEM computations but only a snapshot of the structure is discretized and loaded into the LBM solver to calculate temperature and velocity fields of both solid and fluid phases.
 
-The LBM approach was chosen in place of finite element or finite volume methodology because of issues with discretization of meshes in a three dimensional packed bed with interstitial gas. There are techniques to handle packed beds with continuum fluid mechanics software, but the size of packed beds we are interested in make the FEM approach intractable.
-
-Furthermore, the simple LBM formulation of enforcing no-slip conditions on complex geometry is trivially realized with bounce-back rules on distribution functions. The multi-relaxation-time lattices for momentum and energy offer complete modeling of complex geometry and conjugate heat transfer with far less computational overhead compared to FEM models.
+The LBM approach was chosen in place of finite element or finite volume methodology because of the extreme ease with which boundary conditions can be applied inside the highly complex packing structure of ceramic pebble beds; enforcing no-slip conditions on complex geometry is trivially realized with bounce-back rules on distribution functions. Furthermore, discretization of fluid domains in lattice-Boltzmann frameworks requires no special meshing in the highly-skewed regions near contacting pebbles, such as is necessary with standard CFD/FEM solvers. There are techniques to handle packed beds with continuum fluid mechanics software, but the size of packed beds we are interested in make the FEM approach intractable. The multi-relaxation-time lattices for momentum and energy offer complete modeling of complex geometry and conjugate heat transfer with far less computational overhead compared to FEM models.

@@ -170,6 +170,8 @@ INPUT c:/texlive/2015/texmf-dist/tex/latex/was/gensymb.sty
 INPUT c:/texlive/2015/texmf-dist/tex/latex/was/gensymb.sty
 INPUT c:/texlive/2015/texmf-dist/tex/latex/cleveref/cleveref.sty
 INPUT c:/texlive/2015/texmf-dist/tex/latex/cleveref/cleveref.sty
+INPUT c:/texlive/2015/texmf-dist/tex/latex/jknapltx/mathrsfs.sty
+INPUT c:/texlive/2015/texmf-dist/tex/latex/jknapltx/mathrsfs.sty
 INPUT vanlew-macros.tex
 INPUT vanlew-macros.tex
 INPUT VanLew_PhDThesis2014.aux
@@ -211,6 +213,11 @@ INPUT c:/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
 INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
+INPUT c:/texlive/2015/texmf-dist/tex/latex/jknapltx/ursfs.fd
+INPUT c:/texlive/2015/texmf-dist/tex/latex/jknapltx/ursfs.fd
+INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/rsfs/rsfs10.tfm
+INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/rsfs/rsfs10.tfm
+INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/rsfs/rsfs5.tfm
 INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
 INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
 INPUT c:/texlive/2015/texmf-dist/tex/latex/lm/ts1lmr.fd
@@ -233,6 +240,7 @@ INPUT VanLew_PhDThesis2014.lof
 INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5.tfm
 INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
+INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/rsfs/rsfs5.tfm
 INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/lm/ts1-lmr5.tfm
 OUTPUT VanLew_PhDThesis2014.lof
 INPUT VanLew_PhDThesis2014.lot
@@ -241,9 +249,9 @@ OUTPUT VanLew_PhDThesis2014.lot
 INPUT chapters/introduction.tex
 INPUT chapters/introduction.tex
 INPUT figures/demo.png
+INPUT figures/x-domain.eps
+INPUT figures/x-domain.eps
 INPUT figures/mechanisms_tritium_transport.png
-INPUT figures/solid_breeder_sketch.eps
-INPUT figures/solid_breeder_sketch.eps
 INPUT chapters/litreview.tex
 INPUT chapters/litreview.tex
 INPUT figures/keff-kappa-series-parallel-zs-hsus.png
@@ -265,6 +273,7 @@ INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm
 INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
 INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
 INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
+INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/rsfs/rsfs10.tfm
 INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
 INPUT c:/texlive/2015/texmf-dist/fonts/tfm/public/lm/ts1-lmr10.tfm
 INPUT figures/lit-keff-exp.png
@@ -282,10 +291,11 @@ INPUT figures/Fig-4.pdf
 INPUT figures/Fig-5.pdf
 INPUT chapters/modeling.tex
 INPUT chapters/modeling.tex
+INPUT figures/aquaro.png
+INPUT figures/gan-temp-profile-tdem.png
 INPUT figures/fill01.png
 INPUT figures/fill02.png
 INPUT figures/fill03.png
-INPUT figures/aquaro.png
 INPUT figures/initial_packing_study/61.png
 INPUT figures/initial_packing_study/62.png
 INPUT figures/initial_packing_study/64.png
@@ -376,6 +386,7 @@ INPUT figures/pressureDrops-full.png
 INPUT figures/pressureDrops-evap.png
 INPUT figures/initial_packing_study/keff-cfd-62.png
 INPUT figures/initial_packing_study/keff-cfd-64.png
+INPUT figures/cfd-grid-study.png
 INPUT figures/initial_packing_study/keff-cfd-jeffreson-62.png
 INPUT figures/initial_packing_study/keff-cfd-jeffreson-64.png
 INPUT figures/tanigawa.png
