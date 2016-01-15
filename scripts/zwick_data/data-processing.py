@@ -152,12 +152,11 @@ def calculate_k_plot(filenames, Epebbulk, nupeb, dp, log_flag, Hertz_plot):
 
 
 dp = find_diameters(filenames)
-kpeb, Fmax, Erec, slope = calculate_k_plot(filenames, 90.e9, 0.24, dp, log_flag=False, Hertz_plot=True)
+kpeb, Fmax, Erec, slope = calculate_k_plot(filenames, 124.e9, 0.24, dp, log_flag=False, Hertz_plot=True)
 
-# plot_histogram(dp*1000, 'Pebble diameter (mm)')
-# plot_histogram(kpeb,    'Softening coefficient, k')
+plot_histogram(dp*1000, 'Pebble diameter (mm)')
+plot_histogram(kpeb,    'Softening coefficient, k')
 plot_histogram(Fmax,  	'Crush force (N)')
 plot_histogram(slope,  r'n for $s^n$ in Hertzian contact')
-# plot_scatter_dp_kpeb(dp, kpeb)
-print Erec
+plot_scatter_dp_kpeb(dp, kpeb)
 plt.show()
