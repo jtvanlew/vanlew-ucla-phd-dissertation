@@ -55,7 +55,7 @@ Historically, granular materials are treated as a fictitious continuous media fo
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % new subsection
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Effective Thermal Conductivity of Granular Media}
+\subsection{Effective Thermal Conductivity of Granular Media}\label{sec:keff-correlations}
 
 
 Deissler and Boegli, in 1958, proposed upper and lower bounds of effective thermal conductivity, $\keff$, in two-phase granular media to be given by alternating layers of the two phases arranged in parallel or series, respectively \cite{Deissler1958}. In the case of parallel layers, effective conductivity, normalized by fluid conductivity, is
@@ -169,7 +169,7 @@ and $B$ is given in \Cref{eq:zs-B}. Radiation is incorporated in $\kappa_r$ para
 \begin{equation}
     \kappa_r = \frac{4\sigma}{2/\epsilon_r - 1}\bar{T}^3\frac{d_p}{k_f}
 \end{equation}
-where $\sigma$ is the Stefan-Boltzmann number ($\sigma = $~\SI{5.67e-8}{\watt\per\meter\squared\per\kelvin\tothe{4}}), $\epsilon_r$ is the emissivity of the material in the packing, $d_p$ is the packing diameter (assumed spherical), and $\bar{T}$ is the average, absolute temperature of the system (in \si{\kelvin}). 
+where $\sigma$ is the Stefan-Boltzmann number ($\sigma = \SI{5.67e-8}{\watt\per\meter\squared\per\kelvin\tothe{4}}$), $\epsilon_r$ is the emissivity of the material in the packing, $d_p$ is the packing diameter (assumed spherical), and $\bar{T}$ is the average, absolute temperature of the system (in \si{\kelvin}). 
 
 Effects due to interstitial gas in the Knudsen regime are defined by the term, $\kappa_G$ given as
 \begin{equation}
@@ -189,7 +189,7 @@ In \Cref{fig:kappa-series-parallel-zs-hsus}, we see comparisons of effective con
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\singleimagewidth]{figures/keff-kappa-series-parallel-zs-hsus}
+    \includegraphics[width=\textwidth]{figures/keff-kappa-series-parallel-zs-hsus}
     \caption{Models incorporating contact area demonstrate signficant deviation from the Zehner-Schlunder correlation above $\kappa > 10^3$. All correlations are still bound by parallel and series approximations of the material.}
     \label{fig:kappa-series-parallel-zs-hsus}
 \end{figure}
@@ -205,7 +205,7 @@ Near $\kappa = 1$, all correlations collapse to predict a $\frac{k_e}{k_f} = 1$,
     \label{fig:kappa-experimental}
 \end{figure}
 
-As part of the Ceramic Optimal Material Experiments for Thermomechanics (COMET) project at UCLA, we measured the effective conductivity of $d_p = $~\SI{1}{\milli\meter} graphite (IG11) pebbles for \SIrange{135}{544}{\celsius}. The results will be discussed in more detail later, though the results will be presented here for comparison with the correlations; \Cref{fig:kappa-experimental-comet} shows the COMET data. The measured conductivity from COMET is well above the lower bounds of series approximation for effective conductivity, though is just below the lowest values predicted from Hsu\etal's square-cylinder two-dimensional model. We attribute the smaller values of effective conductivity on the surface roughness of the graphite pebbles in conjunction with their small size and small mass. In short, however, the measurements of COMET are also demonstrative of the inaccuracies in general predictions of granular material thermal properties.
+As part of the Ceramic Optimal Material Experiments for Thermomechanics (COMET) project at UCLA, we measured the effective conductivity of $d_p = \SI{1}{\milli\meter}$ graphite (IG11) pebbles for \SIrange{135}{544}{\celsius}. The results will be discussed in more detail later, though the results will be presented here for comparison with the correlations; \Cref{fig:kappa-experimental-comet} shows the COMET data. The measured conductivity from COMET is well above the lower bounds of series approximation for effective conductivity, though is just below the lowest values predicted from Hsu\etal's square-cylinder two-dimensional model. We attribute the smaller values of effective conductivity on the surface roughness of the graphite pebbles in conjunction with their small size and small mass. In short, however, the measurements of COMET are also demonstrative of the inaccuracies in general predictions of granular material thermal properties.
 
 \begin{figure}[ht]
     \centering
@@ -300,7 +300,7 @@ The two single-particle correlations are shown over a range of Reynolds numbers 
 
 
 \subsubsection{Nusselt number correlations for a sphere as part of a packing}
-However, this correlation was developed from measurements of a single particle in flow. The influence of neighboring grains will disrupt the flow field and result in a different Nusselt number. Thus, for the Nusselt number for a single grain in a packed bed, $\Nu_i$, is often related to the Nusselt number of a single particle (alone in an infinite fluid), $\Nu_p$, \textit{via} the packing fraction. The subscripts $i$ and $p$ will be used consistently below to signify the Nusselt for a particle in a packing or a correlation for a single particle. 
+The above correlations were generally developed from measurements of a single particle in flow. The influence of neighboring grains will disrupt the flow field and result in a different Nusselt number. Thus, for the Nusselt number for a single grain in a packed bed, $\Nu_i$, is often related to the Nusselt number of a single particle (alone in an infinite fluid), $\Nu_p$, \textit{via} the packing fraction. The subscripts $i$ and $p$ will be used consistently below to signify the Nusselt for a particle in a packing or a correlation for a single particle. 
 
 The data of Ranz suggested the following for spherical particles in a fixed bed
 \begin{equation}\label{eq:ranz-packing}
@@ -311,7 +311,7 @@ Another commonly-cited correlation is that of Wakao\etal~\cite{Wakao1978,wakao19
 \begin{equation}\label{eq:wakao}
     \Nu_i = 2 + 1.1\Re_p^{0.6} \Pr^{1/3}
 \end{equation}
-Flueckiger\etal \cite{Flueckiger2014,Flueckiger2011a,Flueckiger2011} as well as Yang \& Garimella\cite{Yang2010}, both implemented the Wakao\etal~ correlation in their studies of heat transfer in solar thermal storage tanks. 
+Flueckiger\etal \cite{Flueckiger2014,Flueckiger2011a,Flueckiger2011} as well as Yang \& Garimella\cite{Yang2010}, both implemented the Wakao\etal~correlation in their studies of heat transfer in solar thermal storage tanks. 
 
 Zhou\etal\cite{Zhou2009} used a modified form from Kunii and Levenspiel, to fit their experimental data. They gave
 \begin{equation}\label{eq:kunii}
@@ -442,7 +442,7 @@ After discussing many popular correlations for Nusselt number in packed beds, co
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \subsection{Radiation in Granular Media}
 
-The temperatures expected in the solid breeder are high enough radiation between grains may be important. The radiation exchange between contacting neighbors in a packed bed becomes extremely complex due to the local and semi-local nature of radiation. A standard approach to treat radiation exchange between surfaces is to consider the view factor between them. In a dense, randomly packed bed of spheres the computation of view factors between pebbles can be done \textit{via} a method such as that proposed Feng and Han \cite{Feng2012}. 
+The temperatures expected in the solid breeder are high enough that radiation between pebbles may be important. The radiation exchange between contacting neighbors in a packed bed becomes extremely complex due to the local and semi-local nature of radiation. A standard approach to treat radiation exchange between surfaces is to consider the view factor between them. In a dense, randomly packed bed of spheres the computation of view factors between pebbles can be done \textit{via} a method such as that proposed Feng and Han \cite{Feng2012}. 
 
 The ZSB model incorporates radiation heat transfer into the general expression and calculation of $k_c$ and $N$. Others have attempted to incorporate radiation into an effective thermal conductivity and typically it is done with a superposition of gas/solid conduction models (such as all those described above) with a separate radiation model. One common technique is to analyze a representative unit cell with a thermal radiative conductivity of a general form,
 \begin{equation}
@@ -457,11 +457,11 @@ Breitbach \& Barthels began with the unit cell defined by Zehner \& Schlunder, t
 where $B$ is again given by \Cref{eq:zs-B}, and $\Lambda_f = \frac{k_s}{4d_p\sigma\bar{T}^3}$ is a dimensionless solid conductivity for the granular packing.
 
 
-An IAEA technical report provides effective conductivity measurements of $d_p =$~\SI{60}{\centi\meter} graphite pebble beds\cite{Report2000}. The data is used to compare against the combined correlations of ZS and BB. The $\keff$ measurements in Helium are given in \Cref{fig:keff-sana-he}, measurements in Nitrogen are given in \Cref{fig:keff-sana-n}. We see that the effective thermal conductivity correlations are significantly under-predicting, over the entire range of temperatures, when compared to experimental values. For the graphite pebble beds measured in the SANA report, we consider the Grashof number for the packing. The Grashof number is indicative of natural convection effects in the voids. The Grashof number is written as
+An IAEA technical report provides effective conductivity measurements of $d_p = \SI{60}{\centi\meter}$ graphite pebble beds\cite{Report2000}. The data is used to compare against the combined correlations of ZS and BB. The $\keff$ measurements in Helium are given in \Cref{fig:keff-sana-he}, measurements in Nitrogen are given in \Cref{fig:keff-sana-n}. We see that the effective thermal conductivity correlations are significantly under-predicting, over the entire range of temperatures, when compared to experimental values. For the graphite pebble beds measured in the SANA report, we consider the Grashof number for the packing. The Grashof number is indicative of natural convection effects in the voids. The Grashof number is written as
 \begin{equation}
     \Gr = \frac{g\beta(T_s-T_0)l^3}{\nu_f^2}
 \end{equation}
-where we estimate it in voids of size $l = \frac{d_p}{2}$, a temperature drop of $T_s-T_0 = $~\SI{10}{\kelvin} is an lower estimate. The kinematic viscosity, $\nu_f$ of the gases is known, and thermal expansion of an ideal gas is $\beta = \frac{1}{T}$. Let us assume a situation where temperatures and materials are all identical and the only variation is in length. Grashof numbers for these cases would be
+where we estimate it in voids of size $l = \frac{d_p}{2}$, a temperature drop of $T_s-T_0 = \SI{10}{\kelvin}$ is an lower estimate. The kinematic viscosity, $\nu_f$ of the gases is known, and thermal expansion of an ideal gas is $\beta = \frac{1}{T}$. Let us assume a situation where temperatures and materials are all identical and the only variation is in length. Grashof numbers for these cases would be
 \begin{equation}
     \frac{\Gr_1}{\Gr_2} = \left(\frac{l_1}{l_2}\right)^3
 \end{equation}
@@ -497,7 +497,7 @@ With a Grashof number significantly higher for the SANA experiments, it is indic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Momentum Transfer in Packed Beds with Fluid Flow} \label{sec:modeling-pressure-drop}
-Present three major correlations for pressure drop and drag force for fluid flow in packed beds and discuss their range of applicability.
+% Present three major correlations for pressure drop and drag force for fluid flow in packed beds and discuss their range of applicability.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Hill, Kock, \& Ladd\cite{Hill2001a}
@@ -514,7 +514,7 @@ Present three major correlations for pressure drop and drag force for fluid flow
 
 % Unsteady force is dominated by quasi-steady drag and added-mass forces.
 
-P.C. Carman\cite{Carman1997}, using Kozeny's Equation as a starting point, derived a formula for the average velocity of a laminar flow through a randomly packed beds at the close-packed limit,
+P.C. Carman\cite{Carman1997}, using Kozeny's Equation as a starting point, derived a formula for the average velocity of a laminar flow through randomly packed beds at the close-packed limit,
 \begin{equation}\label{eq:K-C-velocity}
     \bar{U} = \left(\frac{L}{L_e}\right)^2\frac{\epsilon^3}{k_0\mu S^2}\frac{\Delta p}{L}
 \end{equation}
@@ -543,7 +543,7 @@ We will nondimensionalize the average drag force based on the classic Stokes for
 \begin{equation}\label{eq:non-dim-drag}
     F = \frac{\langle f \rangle}{3\pi \mu d_p U}
 \end{equation}
-and when e plug in \Cref{eq:average-drag} to \Cref{eq:non-dim-drag} we have
+and when we plug in \Cref{eq:average-drag} to \Cref{eq:non-dim-drag} we have
 
 \begin{equation}
     F_{kc} = \frac{\Delta p}{L}\frac{\pi d_p^3}{6(1-\epsilon)}\frac{1}{3\pi \mu d_p U}
@@ -559,7 +559,7 @@ or simply
 
 Carman himself\cite{Carman1956} points out the limitations of applicability of the Kozeny-Carman (KC) equation: built into the equation is the assumption that the range of pore size and shape is fairly isotropic and similarly the tortuosity through the packed bed is relatively uniform. In the form we have used with \Cref{eq:K-C-non-dim}, we have also assumed spherical particles in random packing near the close-packed limit ($\phi \rightarrow 0.64$) with laminar flow at low Reynolds numbers. Carman provided modifications to cases of extremely high porosity and non-spherical, non-regular packings in his book from 1956.\cite{Carman1956}
 
-Another correlation that is perhaps more commonly used in general is the Ergun equation \cite{ergun1952fluid}. Ergun's equation is an empirical fit to a vast amount of experimental data. His pressure drop per length is 
+Another correlation that is perhaps more commonly used in general is the Ergun equation \cite{ergun1952fluid}. Ergun's equation is an empirical fit to a vast amount of experimental data. His pressure drop per length is given as
 \begin{equation}\label{eq:ergun-pressure}
     \frac{\Delta p}{L} = \frac{150 U \mu}{d_p^2} \frac{(1-\epsilon)^2}{\epsilon^3} + \frac{1.75 \rho U^2}{d_p}\frac{1-\epsilon}{\epsilon^3}
 \end{equation}
@@ -675,7 +675,7 @@ Many experiments have been run to measure the effective thermal conductivity of 
         \centering
         \begin{subfigure}[t]{\doubleimagewidth}
                 \includegraphics[width=\textwidth]{figures/keff-pressure}
-                \caption{Effective conductivity of ceramic pebble beds is dependent on the pressure of the interstitial gas, a minimum of about $\keff = $~\SI{0.2}{\watt\per\meter\per\kelvin} in vacuum.}
+                \caption{Effective conductivity of ceramic pebble beds is dependent on the pressure of the interstitial gas, a minimum of about $\keff = \SI{0.2}{\watt\per\meter\per\kelvin}$ in vacuum.}
                 \label{fig:keff-pressure}
         \end{subfigure}%
         ~
@@ -695,14 +695,14 @@ Reimann\etal~have conducted an extensive experimental study of stress-strain rel
 To study temperature effects in Reimann's studies, beds are freely heated to desired working temperatures before pressure load is applied. Under the same loading condition, beds behave much softer at higher temperatures. The bed stiffens as the pressure increases. An illustration of this phenomenon is presented in \Cref{fig:UCT} for a lithium orthosilicate pebble bed between \SIrange{50}{850}{\celsius}. At higher temperatures (such as > \SI{650}{\celsius}), a creep-like behavior becomes apparent. Creep behavior allows the pebble bed to relax and sustain higher stresses, however at eleveated temperatures we must keep in mind issues of surface sintering of pebbles. The data was used to correlate creep rate as a function of temperature, stress, and time for both lithium orthosilicate, lithium metatitanate, and beryllium pebble beds \cite{Buhler:2002qf,Reimann:2001il,Reimann2005}.
 
 
-\begin{figure}[t!]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=\singleimagewidth]{figures/Fig-1}
     \caption{Example of uniaxial compression testing results for lithium metatitanate pebble bed \cite{vanderlaan2011}.}
     \label{fig:mti}
 \end{figure}
 
-\begin{figure}[t!]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=\singleimagewidth]{figures/Fig-2}
     \caption{Example of uniaxial compression testing results compared with predictions from material constitutive equations for lithium orthosilicate pebble beds at different temperatures \cite{Gan:2008kx}.}

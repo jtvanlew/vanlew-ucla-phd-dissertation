@@ -1,5 +1,151 @@
 \chapter{Applications of Modeling}\label{sec:dem-studies}
 
+
+
+
+\section{Irradiation Effects on Effective Thermal Conductivity}\label{sec:irradiation}
+Ceramic materials primarily conduct heat by phonon transport. Irradiation-induced vacancies act as phonon scattering centers and consequently thermal conductivity of ceramics is reduced under irradiation.\cite{Hopkins1985} Fast neutron damage can produce large populations of defects and thereby reduce room-temperature thermal conductivity of ceramics by orders of magnitude with doses $\le 1$~dpa.\cite{Snead2005} Analysis of breeding blanket modules for ITER indicate a maximum expected neutron damage in steel to be about 3 dpa over a span of 20 years of operation. By comparison, dpa levels required for DEMO are greater than 70 dpa.\cite{Giancarli2006a} Reduced thermal conductivity due to fast neutron damage is a concern for blanket designers and this study is meant to address pebble bed thermal reactions to irradiated pebbles.
+
+Neutron fluence in ITER is targeted to reach \SI{0.3}{\mega\watt\year\per\square\meter}.\cite{Abdou2015,VanHoutte2011} In terms of \SI{14}{\mega\electronvolt} neutrons, this equates to a fluence of \SI{4.22E24}{\neutron\per\meter\squared}. Kawamura\etal~carried out irradiation experiments on \lit~pebble beds to detect changes in effective thermal diffusivity. They found a reduction in thermal diffusivity of 30\% compared to unirradiated pebble beds at \SI{400}{\celsius} but report that no change in effective thermal conductivity is detectable up to thermal neutron fluence of \SI{1E24}{\neutron\per\meter\squared}. 
+
+An experimental irradiation campaign has been carried out in Petten, Netherlands as part of the European program for development of HCPB blanket concept, a high fluence irradiation project, HICU (High neutron fluence Irradiation of pebble staCks for fUsion). The high fluence irradiation of lithium ceramics was meant to be up to DEMO-relevant values of 20 to 25 dpa, even with a neutron spectra not including \SI{14.1}{\mega\electronvolt}.\cite{Hegeman2003,VanTil2012} Temperatures in ceramic regions dropped during the experimental campaign, trailing somewhat the tritium production rate and lithium burn-up. On-line temperatures were measured during the year-long experiment, temperatures in ceramic pebble regions were measured between \SIrange{600}{800}{\kelvin}. Similar to Kawamura\etal, a significant increase in temperatures as a result of decreased thermal conductivity was not witnessed. However, careful thermal characterizations of ceramic pebble beds under irradiation were not evaluated.
+
+The experiment of Kawamura\etal~reached neutron fluence of the same order of magnitude of a years operation in ITER though only with thermal neutrons. HICU matched much of the neutron energy spectrum, save for the highly energetic fusion neutrons. Both experiments did not detect significant reductions in thermal conductivity. The results are providential for ceramic breeder regions far from first walls. Nevertheless, damage from fast neutrons in near-wall regions remains a concern.
+
+In this study, we investigate the effects on effective conductivity as impacted by two orders of magnitude reduction in solid conductivity. To simulate neutron damage of \lit~in solid breeder pebble beds, we will parametrically reduce the solid conductivity as $\eta = k_\text{irr} / k_\text{unirr}$, where $k_\text{irr}$ is a proxy value for the solid conductivity of material that has been damaged by neutron irradiation and $k_\text{unirr} = \SI{2.4}{\watt\per\meter\per\kelvin}$. In this study $\eta$ is varied from $\eta = 1$ down to $\eta = 0.01$ to cover a broad range of reduction. The nuclear heat generation rate is \SI{8}{\mega\watt\per\meter\cubed}. We calculate an effective thermal conductivity of pebble beds with damaged ceramics. The pebble bed geometries are duplicates of those used for validation in \Cref{sec:dem-benchmark}. The initial packing fraction of the pebble bed is $\phi_i = 0.61$. At thermal steady-state, temperature scatters of pebbles and binned average values are plotted for the neutron-damaged pebble beds in \Cref{fig:irrad-temps}. A $\keff$ is calculated for each bed and plotted alongside its fit in \Cref{fig:irrad-keff}; the effective thermal conductivity for irradiated beds is normalized against the case of non-irradiated bed, $\keff = \SI{0.398}{\watt\per\meter\per\kelvin}$. As a consequence of irradiation damage to conductivity, maximum temperatures in the pebble beds increased dramatically; average maximum values are plotted in \Cref{fig:irrad-mids}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width = 0.75\textwidth]{figures/irradiated/irradiated-temperatures.png}
+    \caption{Temperature scatters and average profiles for DEM models of ceramic pebbles with irradiation-damage-induced reductions in thermal conductivity.}\label{fig:irrad-temps}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width = 0.75\textwidth]{figures/irradiated/keff-plots.png}
+    \caption{In DEM-based simulations, $\keff$ of pebble beds rapidly decreases as the solid conductivity drops by more than a single order of magnitude.}\label{fig:irrad-keff}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width = 0.75\textwidth]{figures/irradiated/Tmid-plots.png}
+    \caption{In DEM-based simulations, mid-line temperatures increase sharply as $\eta < 0.1$.}\label{fig:irrad-mids}
+\end{figure}
+
+The effective thermal conductivity is fit to the following fifth-order polynomial, with $R^2 = 0.9999$,
+\begin{equation}
+\keff [\si{\watt\per\meter\per\kelvin}] = 1.39 \eta^5 - 4.649 \eta^4 + 6.061 \eta^3 - 3.964 \eta^2 + 2.124 \eta + 0.03875
+\end{equation}
+Data for mid-line temperatures was fit to the following power law, with $R^2 = 0.9993$,
+\begin{equation}
+T_\text{mid}[\si{\kelvin}] = 1536.2\eta^{-0.526}
+\end{equation}
+
+In the DEM model, heat transport between constituents in pebble beds proceeds only through points of contact as if in vacuum. In the idealized situation considered here, as solid conductivity reduces due to neutron damage, $k_\text{irr} \rightarrow \SI{0}{\watt\per\meter\per\kelvin}$, the effective thermal conductivity must similarly converge to $\keff \rightarrow \SI{0}{\watt\per\meter\per\kelvin}$. The pebble temperatures of these beds will thereby increase to $T_p \rightarrow \infty$ because of the lack of the material to transport heat. This behavior is seen in \Cref{fig:irrad-keff} and \Cref{fig:irrad-temps}.
+
+Bearing in mind that heat transfer in vacuum is not directly relevant to blanket operation but the results do facilitate observation of contact conductance's role in pebble bed heat transfer. For instance, when $\eta > 0.4$, reduction in irradiated $\keff$ is approximately linear with a slope of \num{0.77}. In other words, the effective thermal conductivity of beds of irradiated pebbles drops only 77\% of the reduction in solid conductivity of the irradiated pebbles themselves. Returning for a moment to \Cref{eq:cheng-modification-batchelor}, heat conductance between two pebbles is directly related to solid conductivity and radius of the contact area between them, $a$. However, there is not a one-to-one reduction in $H_c$ due to reductions in $k_s$. Nor is there an inflection point where the magnitude of $k_s$ decreases to be on the same order of magnitude, or less, than the contact radius; at an irradiated conductivity as low as $\eta = 0.01$, $k_{s,irr}$ is still, generally, three orders of magnitude larger than the contact radius, $a$. The reduction in $\keff$ for irradiated pebble beds, is instead due to combined effects of solid conductivity, coordination number, and contact forces. A thorough look into the relationship between heat transfer and parameters describing packing structures was reported by Van Lew\etal.\cite{VanLew2014}
+
+The results in vacuum are interesting and illustrative, but not directly pertinent for blanket designers. Thus we now consider a more fusion-appropriate case of reduction in effective thermal conductivity due to neutron damage in the presence of helium. In this case, the pebble beds are re-creations of those from \Cref{sec:cfd-validate}, with packing fractions of $\phi_i = 0.62$ and stagnant helium. Again, pebble temperature scatter plots and binned average values are plotted for the neutron-damaged pebble beds in \Cref{fig:irrad-temps-cfd-q}, $\keff$ is given in \Cref{fig:irrad-keff-cfd-q}; the effective thermal conductivity for irradiated beds is normalized against the case of non-irradiated bed, $\keff = \SI{1.02}{\watt\per\meter\per\kelvin}$, average maximum values are plotted in \Cref{fig:irrad-mids-cfd-q}.
+
+In the case of reduced solid conductivity, the Jeffreson correction to heat transfer coefficient becomes more pronounced. A sphere in a stagnant fluid has a Nusselt number of $\Nu = 2$, equating to a heat transfer coefficient of $h =\SI{680}{\watt\per\meter\squared\per\kelvin}$ for these pebbles in helium. The Biot number is a function of solid conductivity, $\Bi = hd_p/k_s$, inversely related to solid conductivity. The Biot number for irradiated pebbles is given in \Cref{fig:biot-changes}. Jeffreson correction accounts for large Biot numbers and reduces the heat transfer coefficient as $h_p = h/(1 + \Bi/5)$. Reduced heat transfer coefficients are also given in \Cref{fig:biot-changes}. The Biot number and heat transfer coefficients are normalized against the unirradiated condition. We see that, for example, when $\eta = 0.1$, meaning one order of magnitude reduction in solid conduction, the heat transfer coefficient reduces to 40\% of the original value. 
+
+For the zero-velocity helium in this consideration, the fluid's volume-averaged energy equation at steady-state reduces to 
+\begin{equation}
+\nabla\left(\epsilon_k\nabla T_f\right) = \frac{1}{V_k\rho_fC_f}\sum_{\forall i \in k} h_i A_i \Delta T_{if}
+\end{equation}
+If an uncorrected heat transfer coefficient was introduced into this energy equation, the term on the right-hand-side would introduce large errors into the fluid temperature profile. Without the Jeffreson correction, the lumped capacitance assumption in the DEM framework would greatly over-estimate the amount of energy capable of being transported from pebble internals to fluid at the surface.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width = 0.75\textwidth]{figures/irradiated/biot-changes.png}
+    \caption{Biot number as a function of normalized solid conductivity (left), modified heat transfer coefficient \textit{via} Jeffreson correction (right).}\label{fig:biot-changes}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width = 0.75\textwidth]{figures/irradiated/irradiated-temperatures-cfd-q.png}
+    \caption{Temperature scatters and average profiles for CFD-DEM models of ceramic pebbles with irradiation-damage-induced reductions in thermal conductivity.}\label{fig:irrad-temps-cfd-q}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width = 0.75\textwidth]{figures/irradiated/keff-plots-cfd-q.png}
+    \caption{In CFD-DEM-based simulations, $\keff$ of pebble beds decreases linearly with reduced solid conductivity to a limit of $\keff \rightarrow \SI{0.46}{\watt\per\meter\per\kelvin}$ when solid conductivity is reduced.}\label{fig:irrad-keff-cfd-q}
+\end{figure}
+In the presence of stagnant helium, the effective thermal conductivity is fit to the following linear equation with $R^2 = 0.9998$,
+\begin{equation}
+\keff [\si{\watt\per\meter\per\kelvin}] = 0.545 \eta + 0.458
+\end{equation}
+Interestingly, as $k_\text{irr} \rightarrow \SI{0}{\watt\per\meter\per\kelvin}$, interstitial helium causes $\keff \rightarrow \SI{0.46}{\watt\per\meter\per\kelvin}$. Interstitial helium plays a significant role in the ability of the overall pebble bed to transport heat, even when its conductivity (as used in this modeling effort) is only $k_f = \SI{0.34}{\watt\per\meter\per\kelvin}$. Normalized reductions in effective conductivity for irradiated pebbles in DEM and CFD-DEM environments are compared directly in \Cref{fig:irrad-keff-cfd-comparison}. \Cref{fig:irrad-keff-cfd-comparison} shows the contribution of helium at maintaining effective thermal conductivity of pebble beds after the solid material is damaged due to neutron-induced vacancies. Large reductions in solid conductivity, \textit{i.e.} more than one order of magnitude, almost completely destroys the ability of pebbles to transport heat out of the assembly. Interstitial helium provides a limit to how far effective conductivity can drop in beds. We see a linear decrease in effective conductivity at a rate that is half as fast as the linear reduction in solid conductivity; evident from the slope of \num{0.55}.
+
+Plotted in \Cref{fig:irrad-keff-kappa} are the results from our CFD-DEM model plotted alongside much other experimental data from Ref.\cite{VanAntwerpen2010}~as well as the heat transfer correlations for stagnant interstitial gas (discussed in \Cref{sec:keff-correlations}). As a reminder, $\kappa = \frac{k_s}{k_f}$. From \Cref{fig:irrad-keff-kappa}, we see at larger values of solid conductivity, the CFD-DEM results compare well with many correlations from literature. However, for the two smallest values of $\kappa$ (of $k_{irr} = 0.1, 0.01$), the results from CFD-DEM are above theoretical predictions and experimental data by almost double. At $\kappa = 1$, fluid and solid conductivities are equal and as such, the effective thermal conductivity should similarly be unity. The fact that the CFD-DEM results yield data twice as high as theory suggests more investigation is required. 
+
+In mapping Lagrangian data from DEM into Eulerian CFD fields (for \textit{e.g.} calculating porosity and inter-phase exchange coefficients), the divided technique is employed (see \Cref{fig:centroid-void-fraction-divided}). Mapping fluid temperatures back onto DEM, however, employed the simpler particle-centroid technique. A validation effort was performed to define proper fluid mesh sizes in the unirradiated pebble bed condition.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width = 0.75\textwidth]{figures/irradiated/keff-plots-cfd-comparison.png}
+    \caption{Helium's contribution maintains a minimum of $\keff$ even as contact-conductance heat transfer reduces to 0, as demonstrated by $\keff$ of DEM-based results.}\label{fig:irrad-keff-cfd-comparison}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width = 0.75\textwidth]{figures/irradiated/keff-kappa-irradiated.png}
+    \caption{Values of $\keff$ measured for irradiated pebbles with CFD-DEM for all but the smallest solid conductivity values compare well with correlations and other experimental data.}\label{fig:irrad-keff-kappa}
+\end{figure}
+\FloatBarrier
+
+
+
+
+Again mid-line temperatures for the considered pebble beds are given in \Cref{fig:irrad-temps-cfd-q}.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width = 0.75\textwidth]{figures/irradiated/Tmid-plots-cfd-q.png}
+    \caption{In CFD-DEM-based simulations, mid-line temperatures increase as solid conductivity drops; the increase is governed by helium heat transfer continuing in spite of large reductions in solid conductivity.}\label{fig:irrad-mids-cfd-q}
+\end{figure}
+
+Data for mid-line temperatures was fit to the following third-order polynomial with $R^2 = 0.9999$ equation,
+\begin{equation}
+T_\text{mid}[\si{\kelvin}] = -314.1 \eta^3 + 840.1 \eta^2 - 994 \eta + 1431
+\end{equation}
+
+In the pebble bed with non-irradiated pebbles, the average maximum temperature in the mid-line was \SI{964}{\kelvin}. Wall temperatures are always held at \SI{573}{\kelvin}. As an example, when neutron damage causes solid conductivity to drop by an order of magnitude, the pebble bed centerline temperature increases to \SI{1337}{\kelvin}, an increase of nearly 40\%. The temperature curves given here are, however, for a generic volume under the average maximum heat generation rate expected for Korean designs of HCPBs, namely \SI{8}{\mega\watt\per\meter\cubed} and no consideration was given for design margins of temperatures in beds. As such, the magnitude of temperature given here may not match design targets of a real blanket. It is thus illustrative to consider a non-dimensional temperature and view its increase. To that end, a second set of pebble beds was run with a nuclear heat rate of \SI{5.12}{\mega\watt\per\meter\cubed}. Maximum bed temperatures are reported in non-dimensional terms; bed temperatures are normalized against the unirradiated result,
+\begin{equation}
+\Theta = \frac{T_\text{mid}(\eta) - T_\text{wall}}{T_\text{mid,unirr} - T_\text{wall}}
+\end{equation}
+
+With this transformation from temperature magnitude, the results of any nuclear heat generation rate or bed geometry will collapse into a single curve, shown in \Cref{fig:irrad-Tmid-cfd-comparison}. The curve is fit with the following relationship
+\begin{equation}\label{eq:theta-eta-midline}
+\Theta = -0.803 \eta^3 + 2.148 \eta^2 - 2.541 \eta + 2.194
+\end{equation}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width = 0.75\textwidth]{figures/irradiated/Tmid-plots-cfd-Tmid-comparison.png}
+    \caption{Non-dimensional temperatures of different pebble beds collapse into a single curve, allowing direct comparison of pebble bed temperature increases for irradiated beds with different operating parameters (of nuclear heat rate and geometry).}\label{fig:irrad-Tmid-cfd-comparison}
+\end{figure}
+
+As an example of the applicability of these results, suppose we wish to find the amount of irradiated damage is allowable in a ceramic breeder region. In this scenario, a blanket designer chooses to allow a maximum operating temperature with 10\% margin away from \SI{950}{\celsius}. The planned bed mid-line temperature would therefore be \SI{855}{\celsius}. To find the amount of damage allowable within the 10\% margin, we then know $\Theta = \frac{950-573}{855-573} = 1.34$. Thus, solving for $\eta$ in \Cref{eq:theta-eta-midline} yields $\eta = 0.52$; a solid conductivity of $k_{s,irr} = \SI{1.25}{\watt\per\meter\per\kelvin}$. The last step would require knowledge of a relationship between solid conductivity and dpa. With such information, allowable dpa could be ascertained and the 10\% design margin on temperature evaluated.
+
+
+
+
+
+Neutrons from fusion plasma are highly energetic and it is important to consider how these neutrons will affect heat transport internal to lithium ceramics during their operation in a fusion reactor. In this study, we varied solid thermal conductivity parametrically as a proxy to represent material damaged by neutron irradiation. When stagnant helium gas is included in the calculation, the results fit well within limits of correlations and theoretical limits above $\kappa \approx 1$. We also arrived at correlations relating effective thermal conductivity and maximum bed temperatures as a function of irradiated solid conductivity. At present we have no data indicating the precise quantity of expected dpa in lithium ceramics, nor a correlation between dpa and reduced conductivity. There is, however, irradiation data from a high-dose fission experiment, HICU, in which it appears conductivity values did not decrease dramatically at the temperatures and dpa experienced. Next steps should be to study precisely the relationship between dpa and conductivity in the lithiated ceramic materials considered for use in ITER and future DEMO reactors.
+
+\FloatBarrier
+
+
+
+
+
+
+
+
+
+
+
+
 \section{Temperature Distributions with Breeder Orientation, Pebble Fragmentation}\label{sec:isfnt-12}
 
 
@@ -25,9 +171,9 @@ Two ITER-relevant volumes are considered in this study, sketched in \Cref{fig:x-
     \caption{Sketches of the two breeder orientations show that gravity settling will not allow gaps between pebbles and walls in the $\chi$-configuration. However for the $\zeta$-configuration, gravity-induced resettling can create a gap between pebbles and upper wall. }\label{fig:domains}
 \end{figure}
 
-In terms of the generic coordinates, outflow of bed heat to coolant is along $\zeta$. Constant temperature boundaries, $T_w$, exist at the edges of that dimension. As sketched in \Cref{fig:domains}, gravity resettling in the $\chi$ configuration will not allow gap formation between bed and wall. However, in the $\zeta$-config it is possible for a gap to form between top coolant walls and pebbles after gravity resettling. A constant nuclear heat rate was applied to every particle in the bed which is representative of the highest source term anticipated in current ITER designs of solid breeder blankets, $q''' = $~\SI{8e6}{\watt\per\meter\cubed}.
+In terms of the generic coordinates, outflow of bed heat to coolant is along $\zeta$. Constant temperature boundaries, $T_w$, exist at the edges of that dimension. As sketched in \Cref{fig:domains}, gravity resettling in the $\chi$ configuration will not allow gap formation between bed and wall. However, in the $\zeta$-config it is possible for a gap to form between top coolant walls and pebbles after gravity resettling. A constant nuclear heat rate was applied to every particle in the bed which is representative of the highest source term anticipated in current ITER designs of solid breeder blankets, $q''' = \SI{8e6}{\watt\per\meter\cubed}$.
 
-The simulation consists of pebbles of diameter $d_p = $~\SI{1}{\milli\meter}, in beds filled to two initial packing fractions, $\phi_{1,2} = 62, 64\%$. Mechanical properties of the pebbles are given in \Cref{tab:peb-props}. To note is the Young's modulus chosen for pebbles in this study. In a past experimental study, Van Lew \textit{et al}. found that individual pebbles behaved in a manner indicative of having a Young's modulus from 20 to 60\% of values reported in literature for sintered blocks of \lit~and \lis~\cite{VanLew2015a}. Therefore to maintain some generality to this study, we have chosen a Young's modulus at a nominal value of $E=$~\SI{60}{\giga\pascal} to generically represent either ceramic pebble.
+The simulation consists of pebbles of diameter $d_p = \SI{1}{\milli\meter}$, in beds filled to two initial packing fractions, $\phi_{1,2} = 62, 64\%$. Mechanical properties of the pebbles are given in \Cref{tab:peb-props}. To note is the Young's modulus chosen for pebbles in this study. In a past experimental study, Van Lew \textit{et al}. found that individual pebbles behaved in a manner indicative of having a Young's modulus from 20 to 60\% of values reported in literature for sintered blocks of \lit~and \lis~\cite{VanLew2015a}. Therefore to maintain some generality to this study, we have chosen a Young's modulus at a nominal value of $E=\SI{60}{\giga\pascal}$ to generically represent either ceramic pebble.
 
 Pebble bed widths in $\zeta$ are \SI{20}{\milli\meter}, a size comparable to breeding volumes of many ITER TBM designs \cite{Hernandez2013,Cho2008,Feng2012a}. Bed depths (in the $z$-direction, in/out of the page in \Cref{fig:x-domain,fig:y-domain}) are \SI{5}{\milli\meter}, with periodic boundary conditions. Bed lengths in $\chi$ vary to accommodate \SI{6000} pebbles, initially, with given initial packing fractions; the length is approximately \SI{50}{\milli\meter}. Virtual walls are placed at extents of $\chi$ and $\zeta$ dimensions. Walls in $\zeta$ had constant temperature boundaries of $T_{w,s}$, all walls have mechanical and thermal properties of structural steel, given in \Cref{tab:wall-props}.
 
@@ -273,7 +419,7 @@ To identify the effects of fragment settling, we look to \Cref{fig:displacement_
 
 In $\zeta$-configuration beds, pebbles traveling more than a few pebble diameters will move between colored isotherms drawn in \Cref{fig:1}. For example we can see the fragment group identified in Zone (1) as moving downward, away from the top wall. Similarly, when pebbles in Zone (3) are crushed, some of the fragments tumble downward into Zone (2) before coming to rest where they continue to receive volumetric heating. Thus the fragments, with poor thermal conductance, increase heating in the regions where they settle. The effect is seen in the $\eta = 3, 5\%$ temperature profiles in \Cref{fig:64-T-profile} that are asymmetric with lower temperatures in the top half (above Zone (3)) and higher temperatures in the region near Zone (2).
 
-In contrast, $\chi$-config beds respond much differently to pebble fragment settling. We again see from cross-sections in \Cref{fig:3} a pebble identified in Zone (1) that breaks but remains in that zone after settling. The trend continues in other regions of the bed. Because of the gravity's effect, when pebbles are crushed in the $\chi$-config beds, they fall downward but remain generally in the same isotherm, as drawn in \Cref{fig:3}. According to \Cref{fig:64-T-profile}, the effect of pebble crushing has little effect up to 3\% of damaged pebbles. But suddenly at $\eta = 5\%$, the combination of reduced overall bed stress and fragmentation heating causes the maximum bed temperature to jump above all other $\phi = 64\%$ beds (see \Cref{fig:64-T-profile} and \Cref{fig:eta-T_max}). The temperature increase in this $\chi$-config bed is due to the accumulation of pebble fragments that remain in Zone (3), only tumbling to lower heights. Helium that enters the $\chi$-configuration bed reaches higher temperatures more quickly due to the increased heating from fragments which settled at lower heights of $y$. Helium then continues to heat from the many fragments in Zone (3) which ultimately results in the highest maximum bed temperatures (for the given packing fraction). This can also be seen with comparison between \Cref{fig:1,fig:3}: the $\chi$-config bed reaches the $780$~\si{\kelvin} contour at a much lower height than the $\zeta$-configuration. 
+In contrast, $\chi$-config beds respond much differently to pebble fragment settling. We again see from cross-sections in \Cref{fig:3} a pebble identified in Zone (1) that breaks but remains in that zone after settling. The trend continues in other regions of the bed. Because of the gravity's effect, when pebbles are crushed in the $\chi$-config beds, they fall downward but remain generally in the same isotherm, as drawn in \Cref{fig:3}. According to \Cref{fig:64-T-profile}, the effect of pebble crushing has little effect up to 3\% of damaged pebbles. But suddenly at $\eta = 5\%$, the combination of reduced overall bed stress and fragmentation heating causes the maximum bed temperature to jump above all other $\phi = 64\%$ beds (see \Cref{fig:64-T-profile} and \Cref{fig:eta-T_max}). The temperature increase in this $\chi$-config bed is due to the accumulation of pebble fragments that remain in Zone (3), only tumbling to lower heights. Helium that enters the $\chi$-configuration bed reaches higher temperatures more quickly due to the increased heating from fragments which settled at lower heights of $y$. Helium then continues to heat from the many fragments in Zone (3) which ultimately results in the highest maximum bed temperatures (for the given packing fraction). This can also be seen with comparison between \Cref{fig:1,fig:3}: the $\chi$-config bed reaches the \SI{780}{\kelvin} contour at a much lower height than the $\zeta$-configuration. 
 
 
 
@@ -308,25 +454,25 @@ Travel of pebble fragments also manifests in changes to local packing fraction. 
 \begin{figure}[!t]
     \centering
     \includegraphics[width = 0.65\textwidth]{figures/x-62-r23-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_{eta} - \phi_i$) for $\chi$-config, $\phi = 0.62$, $r^* = 0.32$}\label{fig:x-62-r23-deltas}
+    \caption{Distribution of local changes in packing fraction ($\phi_{\eta} - \phi_i$) for $\chi$-config, $\phi = 0.62$, $r^* = 0.32$}\label{fig:x-62-r23-deltas}
 \end{figure}
 
 \begin{figure}[!t]
     \centering
     \includegraphics[width = 0.65\textwidth]{figures/x-62-r125-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_{eta} - \phi_i$) for $\chi$-config, $\phi = 0.62$, $r^* = 0.2$}\label{fig:x-62-r125-deltas}
+    \caption{Distribution of local changes in packing fraction ($\phi_{\eta} - \phi_i$) for $\chi$-config, $\phi = 0.62$, $r^* = 0.2$}\label{fig:x-62-r125-deltas}
 \end{figure}
 
 \begin{figure}[!t]
     \centering
     \includegraphics[width = 0.65\textwidth]{figures/x-62-r23-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_{eta} - \phi_i$) for $\chi$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:x-624-r23-deltas}
+    \caption{Distribution of local changes in packing fraction ($\phi_{\eta} - \phi_i$) for $\chi$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:x-624-r23-deltas}
 \end{figure}
 
 \begin{figure}[!t]
     \centering
     \includegraphics[width = 0.65\textwidth]{figures/x-62-r125-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_{eta} - \phi_i$) for $\chi$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:x-624-r125-deltas}
+    \caption{Distribution of local changes in packing fraction ($\phi_{\eta} - \phi_i$) for $\chi$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:x-624-r125-deltas}
 \end{figure}
 % deltas~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -359,25 +505,25 @@ Travel of pebble fragments also manifests in changes to local packing fraction. 
 \begin{figure}[!t]
     \centering
     \includegraphics[width = 0.95\textwidth]{figures/z-62-r23-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_{eta} - \phi_i$) for $\zeta$-config, $\phi = 0.62$, $r^* = 0.32$}\label{fig:z-62-r23-deltas}
+    \caption{Distribution of local changes in packing fraction ($\phi_{\eta} - \phi_i$) for $\zeta$-config, $\phi = 0.62$, $r^* = 0.32$}\label{fig:z-62-r23-deltas}
 \end{figure}
 
 \begin{figure}[!t]
     \centering
     \includegraphics[width = 0.95\textwidth]{figures/z-62-r125-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_{eta} - \phi_i$) for $\zeta$-config, $\phi = 0.62$, $r^* = 0.2$}\label{fig:z-62-r125-deltas}
+    \caption{Distribution of local changes in packing fraction ($\phi_{\eta} - \phi_i$) for $\zeta$-config, $\phi = 0.62$, $r^* = 0.2$}\label{fig:z-62-r125-deltas}
 \end{figure}
 
 \begin{figure}[!t]
     \centering
     \includegraphics[width = 0.95\textwidth]{figures/z-62-r23-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_{eta} - \phi_i$) for $\zeta$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:z-624-r23-deltas}
+    \caption{Distribution of local changes in packing fraction ($\phi_{\eta} - \phi_i$) for $\zeta$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:z-624-r23-deltas}
 \end{figure}
 
 \begin{figure}[!t]
     \centering
     \includegraphics[width = 0.95\textwidth]{figures/z-62-r125-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_{eta} - \phi_i$) for $\zeta$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:z-624-r125-deltas}
+    \caption{Distribution of local changes in packing fraction ($\phi_{\eta} - \phi_i$) for $\zeta$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:z-624-r125-deltas}
 \end{figure}
 % deltas~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -430,28 +576,18 @@ This study was performed on some generic geometries and has provided some genera
 
 
 
-
+\FloatBarrier
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Lattice-Boltzmann Method Modeling of Temperature Distributions in Pebble Beds}\label{sec:lbm-studies}
 %3D Lattice-Boltzmann Models of the Complete Conjugate Heat Transfer of Helium Purge Gas and Ceramic Pebble Beds
-In this section I apply the relatively new techniques of lattice-Boltzmann method (LBM) numerical modeling to study the complete interstitial flow of helium through a packed bed of lithium ceramics. A discussion on the development of the LBM method was given in \Cref{sec:modeling-lbm}. In that subsection, the advantages of LBM for porous flow simulations were made apparent, namely the potential for extreme parallelization due to the highly local calculations on lattice nodes as well as the straightforward implementation of boundary conditions for the complex geometry of porous networks.
-
-For the implementation of DEM and LBM coupling, pebble packing structures are generated with DEM simulations then mapped into the LBM nodal grids where the thermofluid and conjugate heat transfer models solve momentum and thermal conservation equations. The DEM-LBM approach is a one-way coupled approach in that LBM results are not currently fed back into DEM simulations for future packing evolution. The sacrifice of two-way coupling (that is present in the volume-averaged CFD-DEM model) offers instead to understand the tortuous helium flow and its impact on thermal transport in the tritium breeding ceramic pebble beds.
-
-The first part of this section will discuss the process of determining certain numerical techniques needed in mapping DEM data into LBM nodes. Once the characteristics of the pebble bed parameters are understood, sample models of pebble beds from \Cref{sec:isfnt-12} are loaded into the DEM-LBM solver and analyzed.
+In this section I apply lattice-Boltzmann method (LBM) numerical models to study the complete interstitial flow of helium through a packed bed of lithium ceramics. A discussion on the development of the LBM method was given in \Cref{sec:modeling-lbm}. To review, for implementation of DEM and LBM coupling, pebble packing structures are generated with DEM simulations then mapped into the LBM nodal grids where the thermofluid and conjugate heat transfer models solve momentum and thermal conservation equations. The DEM-LBM approach is a one-way coupled approach in that LBM results are not currently fed back into DEM simulations for future packing evolution. The sacrifice of two-way coupling (that is currently possible with volume-averaged CFD-DEM models) offers instead to understand the tortuous helium flow and its impact on thermal transport in the tritium breeding ceramic pebble beds.
 
 
 
 
-
-
-
-\FloatBarrier
 
 \subsection{Model Setup \& Methodology}
-The purpose of the lattice-Boltzmann simulation is to reveal the influence of tortuous helium flow on energy transport inside the packed bed of a tritium breeder in a fusion reactor. For this reason, we need not study the same parametric space as that of \Cref{sec:isfnt-12}. Instead we can look at the cases of $\phi = 0.64$ initially packed (with no damage) and then $\phi = 0.64$, $r_2^*$, and $\eta = 5\%$, as described thoroughly in \Cref{sec:isfnt-12}. With a resolution of $\res = 20$, the lattice parameters for both beds are given in \Cref{tab:lbm-parameters}. The relaxation parameters, $\omega$, for the lattice solving the momentum equation ($\omega_{ns}$), the lattice nodes representing the solid in the energy equation ($\omega_{cj}$) and the lattice nodes for the fluid in the energy equation ($\omega_{ad}$) are given in \Cref{tab:lbm-relaxations}
-
-% For this lattice-Boltzmann simulation I use a resolution of $\text{res} = 10$ and a time step of $\delta_t = $\num{0.001}. The rest of the descriptions of our pebble bed are locked from the system and material properties. The other geometric values for the lattice are given in Table~\ref{tab:lbm-parameters}, the relaxation parameters defining the collision dynamics of the lattices are given in Table~\ref{tab:lbm-relaxations}, and the boundary conditions are given in Table~\ref{tab:lbm-boundaries}. The values are all unitless in the lattice framework and are translated from the physical values to match the model of pebbles and fluid from \cref{sec:cfd-dem-studies}
+The purpose of the lattice-Boltzmann simulation is to reveal the influence of tortuous helium flow on energy transport inside the packed bed of a tritium breeder in a fusion reactor. For this reason, we need not study the same parametric space as that of \Cref{sec:isfnt-12}. Instead we can look at the cases of $\phi = 0.64$ initially packed (with no damage) and then the case of $\phi = 0.64$, $r_2^*$, and $\eta = 5\%$, as described \Cref{sec:isfnt-12}. With a resolution of $\res = 40$, the lattice parameters for both beds are given in \Cref{tab:lbm-parameters}. The relaxation parameters, $\omega$, for the lattice solving the momentum equation ($\omega_{ns}$), the lattice nodes representing the solid in the energy equation ($\omega_{cj}$) and the lattice nodes for the fluid in the energy equation ($\omega_{ad}$) are given in \Cref{tab:lbm-relaxations}
 
 \begin {table}[ht] %
 \caption{Physical description of the lattice (in lattice units).}
@@ -472,84 +608,4 @@ $\omega_{ns}$ &  $\omega_{ad}$  &   $\omega_{cj}$     \\\toprule
 1.132      &  0.988       &   1.365          \\\bottomrule
 \end{tabular}
 \end{table}
-
-Because we are treating the energy equation as a passive scalar, there is only one-way coupling between the momentum and energy lattices (the Boussinesq approximation is not made for energy-momentum coupling). Furthermore, the fluid flow reaches a steady-state distribution. Therefore, the procedure used here is to first solve only for a steady velocity distribution on the Navier-Stokes lattice. Once steady, the velocity distribution is loaded into the energy lattice and the collision-streaming of the NS lattice does not need to continue. In this way, the long process of reaching thermal steady state can be achieved without the expensive computation of collision-streaming integration of both lattices simultaneously.
-
-
-
-% \begin {table}[htp] %
-% \caption{Boundary conditions translated into lattice units.}
-% \label{tab:lbm-boundaries} \centering %
-% \begin {tabular}{ cccccccc }
-% \toprule %
-% $\vec{u}_\text{inlet}$    &  $T_\text{inlet}$   &  $T_\text{wall}$     \\\toprule
-% (0.005, 0, 0)           &  131.79           &   131.79          \\\bottomrule
-% \end{tabular}
-% \end{table}
-
-
-% % The physical properties of helium from \cref{sec:cfd-dem-setup} are used here to calculate the relaxation time, $\tau_{ns}$ as outlined in \cref{sec:physical-to-lattice}. The physical description of the pebble bed analyzed with LBM is identical to the beds described in \cref{sec:cfd-dem-studies}. The details for mapping from our DEM packing to the LBM lattice are given in \cref{sec:dem2lbm-mapping}. With the mechanisms described there we can define the lattice nodes definitions (being either solid or fluid) simply with specifying the resolution.
-
-% The relaxation parameter describing the collisions of density distribution functions on the Navier-Stokes lattice (NS-lattice) allowed for achieving a stable and steady fluid velocity. Unfortunately, from the physical properties of ceramic pebbles and thermal properties of helium, the relaxation times on the thermal lattices would only allow the simulation to run until instabilities at the outlet propagates upstream and destroys the results of the entire thermal lattice. These preliminary results will therefore focus on the velocity results and the initial thermal results (it would not reach thermal steady-state before crashing). Even with this caveat on the results, what we do see from the LBM results are extremely encouraging for the use of the method in the future.
-
-
-
-
-
-
-% \subsection{Laminar Mixing of Energy in Packed Beds with Volumetric Heating}
-
-% In the plot of \Cref{fig:lbm-streamlines}, streamlines are created along the $y$-direction at the inlet. The streamlines show the inlet helium moving in a tortuous path as it winds through the pebble bed and picks up the energy which has been deposited into the pebbles from a volumetric heat source. The complete tortuous flow field solved in the LBM computations reveals an extremely important feature of the helium purge gas that has, up to now, not been realized.
-
-% Moving up through the $x$ direction of the pebble bed (the direction of the mean flow), several temperature profiles of the fluid and solid are shown in \Cref{fig:lbm-temp-profiles}. The temperature profiles all demonstrate a profile that does not match predicted profiles through pebble beds when constant $\keff$ models are applied to the bed in its continuum treatment. For comparison, the dashed line in \Cref{fig:lbm-temp-profiles} is a parabolic curve with match $\Delta T$ to the profile from $x^* = 10$. 
-
-% Let us explore further the deviation from a parabolic fit and the consequences on solid breeder design that appear from the LBM simulations. In the experimental quantifications of heat transport in pebble beds with interstitial helium, conduction is the only mode of heat transfer considered. The Grashoff number inside a packed bed is small enough that any natural convection cells will most certainly be negligible to heat transfer compared to the conduction through the fluid. Thus, experimentalists can describe the effective thermal conductivity of the combination of solid and gas. These are the values reported in, \textit{e.g.}, \Cref{fig:keff}. The DEM and CFD-DEM studies seemed to support these models as temperature profiles emerged from those simulations that fit nearly perfectly to parabolic profiles of varying $\keff$. Going the other way, if you had a constant $\keff$ of a pebble bed with helium, you could predict temperature profiles, and importantly maximum temperatures, in the solid breeder volume. 
-
-% The $\keff$ value represents the rate at which the solid breeder volume can move energy into the cooling structure. When a perfect parabolic temperature profile is found (such as in the DEM and CFD-DEM results) the $\keff$ is calculated simply from the input volumetric heat source and the $\Delta T$ between centerline and wall. However, because the results from LBM do not fit into a perfect parabolic profile, I fit a parabola of a constant $\keff$ model to the \textit{amount of energy in the profile}. In other words, I integrate the temperature profile from LBM along the $y$ length and find a parabolic profile which, when integrated along the same direction, yields the same value,
-% \begin{equation}
-%     \int_0^{Y^*} T_{lbm}(y)\,\mathrm{d}y = \int_0^{Y^*} (1-y^2)T_{cl} + T_w y^2
-% \end{equation}
-% where $T_w$ is the constant temperature wall boundary condition and $T_{cl}$ is the centerline temperature. An iterative procedure is run through until a correct $T_{cl}$ is found which satisfies the equality. When this procedure is carried out, I find the parabola shown in \Cref{fig:lbm-temp-parabolas}.
-
-% Reiterating, the parabola of \Cref{fig:lbm-temp-parabolas} is the shape of temperature profile at which the same amount of energy is removed from the system in a constant $\keff$ condition as is removed from the actual LBM result. What we see in the figure is the LBM result is showing a lower maximum temperature and higher temperature near the walls. This shows that for the amount of energy removed from a pebble bed with flowing helium, the maximum temperature is lower than what would be predicted from current models!
-
-% The phenomena of the flowing helium lowering the maximum temperature in the centerline of the bed and raising the temperature on the edges is something I have given the name of \textit{laminar mixing of energy}. The low Reynolds number flow of helium remains laminar and thus energy transport perpendicular to the flow path of the fluid is still pure conduction. But the tortuous path of helium as it snakes through the pebble bed mixes the energy of hot pebbles in the center and comparatively cooler pebbles near the walls.
-
-% % It is well known that a fluid moving through a packed bed will follow a path much longer than the length of the packed bed. The extended path is often reported as the tortuosity of the packed bed. In the ceramic breeder packed beds for tritium generation, the tortuosity of the helium flow modeled in LB resulted in 
-
-% % \begin{figure}[t]
-% %     \centering
-% %     \includegraphics[width=\singleimagewidth]{figures/lbm/evap-u-profiles}
-% %     \caption{Velocity profiles (in the $x$-direction) at varying pebble bed heights for the pebble bed with 10\% damaged pebbles.}\label{fig:lbm-evap-u-profile}
-% % \end{figure}
-
-% \begin{figure}[t]
-%     \centering
-%     \includegraphics[width=\singleimagewidth]{figures/lbm/lbm-streamlines}
-%     \caption{Demonstrating the meandering path -- importantly wandering in the $x$-direction -- of fluid flow in the pebble bed.}\label{fig:lbm-streamlines}
-% \end{figure}
-
-% \begin{figure}[t]
-%     \centering
-%     \includegraphics[width=\singleimagewidth]{figures/lbm/lbm-temp-profiles}
-%     \caption{Temperature profiles (in the $x$-direction) at varying pebble bed heights for the pebble bed with 10\% damaged pebbles. Shown for comparison is a parabolic profile that had fit both DEM and CFD-DEM temperature results.}\label{fig:lbm-temp-profiles}
-% \end{figure}
-
-% \begin{figure}[t]
-%     \centering
-%     \includegraphics[width=\singleimagewidth]{figures/lbm/lbm-temp-profile_parabolic}
-%     \caption{A parabolic fit to the integrated energy of a temperature profile compares to the temperature profile from LBM. The LBM temperature profile increases near the walls and is flattened near the centerline. The behavior is indicative of laminar mixing of energy in the bed.}\label{fig:lbm-temp-parabolas}
-% \end{figure}
-
-% \begin{figure}[t]
-%     \centering
-%     \includegraphics[width=\singleimagewidth]{figures/lbm/lbm-laminar-mixing}
-%     \caption{Mean flow direction is in the positive $x$ direction. This $x$-$z$-plane slice shows the $y$ components of velocity as the fluid moves into/out of the plane - mixing the energy with laminar flow.}\label{fig:lbm-laminar-mixing}
-% \end{figure}
-
-% \FloatBarrier
-% \subsection{Conclusions}
-
-
-
 
