@@ -449,6 +449,12 @@ INPUT figures/z-62-r23-1-deltas.png
 INPUT figures/z-62-r125-1-deltas.png
 INPUT figures/z-62-r23-1-deltas.png
 INPUT figures/z-62-r125-1-deltas.png
+INPUT figures/lbm/lbm-thesis-filled.png
+INPUT figures/lbm/lbm-thesis-crushed.png
+INPUT figures/lbm/y-phi-v-profiles-filled.png
+INPUT figures/lbm/z-phi-v-profiles-filled.png
+INPUT figures/lbm/y-phi-v-profiles-crushed.png
+INPUT figures/lbm/z-phi-v-profiles-crushed.png
 INPUT chapters/summary.tex
 INPUT chapters/summary.tex
 INPUT chapters/appendices.tex

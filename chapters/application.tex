@@ -587,17 +587,27 @@ In this section I apply lattice-Boltzmann method (LBM) numerical models to study
 
 
 \subsection{Model Setup \& Methodology}
-The purpose of the lattice-Boltzmann simulation is to reveal the influence of tortuous helium flow on energy transport inside the packed bed of a tritium breeder in a fusion reactor. For this reason, we need not study the same parametric space as that of \Cref{sec:isfnt-12}. Instead we can look at the cases of $\phi = 0.64$ initially packed (with no damage) and then the case of $\phi = 0.64$, $r_2^*$, and $\eta = 5\%$, as described \Cref{sec:isfnt-12}. With a resolution of $\res = 40$, the lattice parameters for both beds are given in \Cref{tab:lbm-parameters}. The relaxation parameters, $\omega$, for the lattice solving the momentum equation ($\omega_{ns}$), the lattice nodes representing the solid in the energy equation ($\omega_{cj}$) and the lattice nodes for the fluid in the energy equation ($\omega_{ad}$) are given in \Cref{tab:lbm-relaxations}
+In the lattice-Boltzmann formulation, we will consider representative pebble bed volumes. The system limits are $6d_p$, $4d_p$ in the $x$ and $y$ directions, respectively. Primitive walls are placed at the limits of $x$, periodic boundary condition is used in the extent of $y$. The limit in the flow direction, $z$, is set to satisfy the desired packing fraction of $\phi = 0.61$ with an ensemble of $N = 200$ pebble,
+\begin{equation}
+z_\text{lim} = \frac{N\pi d_p^3}{6x_\text{lim}y_\text{lim}\phi}
+\end{equation}
+where $x_\text{lim}$ and $y_\text{lim}$ are the limits given above. The result is approximately 7 pebble diameters of height ($7.16 d_p$) in the flow direction. Primitive walls are also placed at the limits of $z$.
 
-\begin {table}[ht] %
-\caption{Physical description of the lattice (in lattice units).}
-\label{tab:lbm-parameters} \centering %
-\begin {tabular}{ ccccc }
-\toprule %
-$N_x$   &   $N_y$  &   $N_z$    &   $\delta_x$   & $\delta_t$    \\\toprule
-639      &   200     &   50     &    0.1         &  0.001        \\\bottomrule
-\end{tabular}
-\end{table}
+The damaged pebble bed case considers Fragments of size $r^* = 0.2$ and a damage amount of $\eta = 5\%$ (following the syntax developed in \Cref{sec:isfnt-12}). A resolution of $\res = 40$ is chosen in order to properly resolve the smaller fragments of the bed with damaged pebbles. Such a resolution dictates lattices of size $N_x = 241$, $N_y = 161$, and $N_z = 368$ for a total of approximately 14.2 billion LBM nodes. The grid spacing is $\delta_x = \num{25e-3}$. A lattice velocity is chosen as $u_{0,lb} = 0.02$ which sets the lattice timestep size as $\delta_t = \num{500e-6}$. 
+
+The relaxation parameters, $\omega$, for the lattice solving the momentum equation ($\omega_{ns}$), the lattice nodes representing the solid in the energy equation ($\omega_{cj}$) and the lattice nodes for the fluid in the energy equation ($\omega_{ad}$) are given in \Cref{tab:lbm-relaxations}.
+
+The simulation procedure begins with creating volumes in DEM of a well-packed pebble bed and a pebble bed with crushed and fragmented particles. The two pebble beds are shown in their DEM representation in \Cref{fig:dem-for-lbm}.
+
+% \begin {table}[ht] %
+% \caption{Physical description of the lattice (in lattice units).}
+% \label{tab:lbm-parameters} \centering %
+% \begin {tabular}{ ccccc }
+% \toprule %
+% $N_x$   &   $N_y$  &   $N_z$    &   $\delta_x$   & $\delta_t$    \\\toprule
+% 639      &   200     &   50     &    0.1         &  0.001        \\\bottomrule
+% \end{tabular}
+% \end{table}
 
 \begin {table}[ht] %
 \caption{The momentum relaxation constants for fluid (ns), thermal relaxation constants for fluid (ad), and thermal relaxation constants for the solid (cj) used in the simulation.}
@@ -609,3 +619,64 @@ $\omega_{ns}$ &  $\omega_{ad}$  &   $\omega_{cj}$     \\\toprule
 \end{tabular}
 \end{table}
 
+
+
+\begin{figure}[!ht]
+    \centering
+    \begin{subfigure}[b]{0.44\textwidth}
+        \includegraphics[width = \textwidth]{figures/lbm/lbm-thesis-filled.png}
+        \caption{Representative pebble bed having filled the volume to $\phi = 0.61$ with DEM.}\label{fig:lbm-filled}
+    \end{subfigure}
+    ~
+    \begin{subfigure}[b]{0.44\textwidth}
+        \includegraphics[width = \textwidth]{figures/lbm/lbm-thesis-crushed.png}
+        \caption{Pebble bed with $r^* = 0.2$ and $\eta = 0.05$ constructed with DEM.}\label{fig:lbm-crushed}
+    \end{subfigure}
+    \caption{DEM pebble beds are generated to provide pictures of packings to be loaded into LBM lattices.}\label{fig:dem-for-lbm}
+\end{figure}
+
+
+
+\subsection{Results \& Analysis}
+One key parameter in describing geometry and transport in porous media is tortuosity. Tortuosity was first introduced to studies of porous media by PC Carman in 1937.\cite{Carman1997} Tortuosity is described as the ratio between the effective length of travel of a packet of fluid through a packed bed against the characteristic length of the packed bed (the length the packet would travel in unimpeded flow),
+\begin{equation}
+T = \frac{L_\text{eff}}{L}
+\end{equation}
+
+Matyka \& Koza provide a method for calculating tortuosity from readily available numerical data.\cite{Matyka2011} Their formula reads,
+\begin{equation}\label{eq:tortuosity}
+T = \frac{\langle u \rangle}{\langle u_x \rangle}
+\end{equation}
+
+where $\langle u \rangle$ is the average magnitude of the intrinsic velocity over the entire system volume. And $\langle u_x \rangle$ is the average of the component of velocity along the macroscopic flow direction.
+
+Taking advantage of the regularly spaced lattices in LBM, tortuosity can then be calculated directly from LBM results along all nodes,
+\begin{equation}
+T = \frac{\sum_{\vec{r}}u(\vec{r})}{\sum_{\vec{r}} u_x(\vec{r})}
+\end{equation}
+
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.5\textwidth]{figures/lbm/y-phi-v-profiles-filled.png}
+    \caption{$x-z$-plane averages of normalized velocity (left) and packing fraction (right) demonstrating the oscillatory behavior of flow from ordered packing forced by physical boundaries}\label{fig:y-phi-v-profiles-filled}
+\end{figure}
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.5\textwidth]{figures/lbm/z-phi-v-profiles-filled.png}
+    \caption{$x-y$-plane averages of normalized velocity (left) and packing fraction (right) in the periodic direction are roughly flat functions along the span.}\label{fig:z-phi-v-profiles-filled}
+\end{figure}
+
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.5\textwidth]{figures/lbm/y-phi-v-profiles-crushed.png}
+    \caption{$x-z$-plane averages of normalized velocity (left) and packing fraction (right) demonstrating the oscillatory behavior of flow from ordered packing forced by physical boundaries}\label{fig:y-phi-v-profiles-crushed}
+\end{figure}
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.5\textwidth]{figures/lbm/z-phi-v-profiles-crushed.png}
+    \caption{$x-y$-plane averages of normalized velocity (left) and packing fraction (right) in the periodic direction are roughly flat functions along the span.}\label{fig:z-phi-v-profiles-crushed}
+\end{figure}
