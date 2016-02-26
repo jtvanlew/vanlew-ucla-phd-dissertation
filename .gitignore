@@ -70,5 +70,9 @@ Temporary Items
 *.out
 *.synctex.gz
 *.fdb_latexmk
-VanLew_PhDThesis2014.pdf
+*.fls
+VanLewDissertation.pdf
 *.gz(busy)
+
+/scripts/lbm/*.h5
+/scripts/lbm/*.csv
