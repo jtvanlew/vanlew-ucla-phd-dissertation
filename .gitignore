@@ -76,3 +76,4 @@ VanLewDissertation.pdf
 
 /scripts/lbm/*.h5
 /scripts/lbm/*.csv
+/scripts/lbm/large-files/*
