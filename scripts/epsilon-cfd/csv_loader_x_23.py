@@ -4,12 +4,6 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import scipy.interpolate
 
-
-import colormaps as cmaps
-plt.register_cmap(name='viridis', cmap=cmaps.viridis)
-plt.set_cmap(cmaps.viridis)
-
-
 def create_mesh(filename):
 	df = pd.read_csv(filename)
 

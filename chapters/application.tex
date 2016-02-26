@@ -1,4 +1,4 @@
-\chapter{Applied Modeling of Solid Breeders}\label{sec:dem-studies}
+\chapter{Applications of Modeling}\label{sec:dem-studies}
 
 
 
@@ -582,17 +582,22 @@ This study was performed on some generic geometries and has provided some genera
 %3D Lattice-Boltzmann Models of the Complete Conjugate Heat Transfer of Helium Purge Gas and Ceramic Pebble Beds
 In this section I apply lattice-Boltzmann method (LBM) numerical models to study the complete interstitial flow of helium through a packed bed of lithium ceramics. A discussion on the development of the LBM method was given in \Cref{sec:modeling-lbm}. To review, for implementation of DEM and LBM coupling, pebble packing structures are generated with DEM simulations then mapped into the LBM nodal grids where the thermofluid and conjugate heat transfer models solve momentum and thermal conservation equations. The DEM-LBM approach is a one-way coupled approach in that LBM results are not currently fed back into DEM simulations for future packing evolution. The sacrifice of two-way coupling (that is currently possible with volume-averaged CFD-DEM models) offers instead to understand the tortuous helium flow and its impact on thermal transport in the tritium breeding ceramic pebble beds.
 
-In the lattice-Boltzmann formulation, we will consider representative pebble bed volumes. The system spans $6d_p$ and $4d_p$ in the $x$ and $y$ directions, respectively. Primitive walls are placed at the limits of $x$, periodic boundary conditions are used in the extent of $y$. The limit in the flow direction, $z$, is set to satisfy the desired packing fraction of $\phi = 0.61$ with an ensemble of $N = 200$ pebble,
+
+
+
+
+\subsection{Model Setup \& Methodology}
+In the lattice-Boltzmann formulation, we will consider representative pebble bed volumes. The system limits are $6d_p$, $4d_p$ in the $x$ and $y$ directions, respectively. Primitive walls are placed at the limits of $x$, periodic boundary condition is used in the extent of $y$. The limit in the flow direction, $z$, is set to satisfy the desired packing fraction of $\phi = 0.61$ with an ensemble of $N = 200$ pebble,
 \begin{equation}
 z_\text{lim} = \frac{N\pi d_p^3}{6x_\text{lim}y_\text{lim}\phi}
 \end{equation}
 where $x_\text{lim}$ and $y_\text{lim}$ are the limits given above. The result is approximately 7 pebble diameters of height ($7.16 d_p$) in the flow direction. Primitive walls are also placed at the limits of $z$.
 
-The damaged pebble bed case considers fragments of size $r^* = 0.2$ and a damage amount of $\eta = 5\%$ (following the syntax developed in \Cref{sec:isfnt-12}). A resolution of $\res = 40$ is chosen in order to properly resolve the smaller fragments of the bed with damaged pebbles. Such a resolution dictates lattices of size $N_x = 241$, $N_y = 161$, and $N_z = 368$ for a total of approximately 14.2 billion LBM nodes. The grid spacing is $\delta_x = \num{25e-3}$. A lattice velocity is chosen as $u_{0,lb} = 0.02$ which sets the lattice timestep size as $\delta_t = \num{500e-6}$. 
+The damaged pebble bed case considers Fragments of size $r^* = 0.2$ and a damage amount of $\eta = 5\%$ (following the syntax developed in \Cref{sec:isfnt-12}). A resolution of $\res = 40$ is chosen in order to properly resolve the smaller fragments of the bed with damaged pebbles. Such a resolution dictates lattices of size $N_x = 241$, $N_y = 161$, and $N_z = 368$ for a total of approximately 14.2 billion LBM nodes. The grid spacing is $\delta_x = \num{25e-3}$. A lattice velocity is chosen as $u_{0,lb} = 0.02$ which sets the lattice timestep size as $\delta_t = \num{500e-6}$. 
 
 The relaxation parameters, $\omega$, for the lattice solving the momentum equation ($\omega_{ns}$), the lattice nodes representing the solid in the energy equation ($\omega_{cj}$) and the lattice nodes for the fluid in the energy equation ($\omega_{ad}$) are given in \Cref{tab:lbm-relaxations}.
 
-The simulation procedure begins with creating volumes in DEM of a well-packed pebble bed and a pebble bed with crushed and fragmented particles. The two pebble beds are shown in their DEM representation in \Cref{fig:dem-for-lbm}. In order to highlight the differences between modeling methods, the pebble-fluid system will also be simulated in the CFD-DEM framework. 
+The simulation procedure begins with creating volumes in DEM of a well-packed pebble bed and a pebble bed with crushed and fragmented particles. The two pebble beds are shown in their DEM representation in \Cref{fig:dem-for-lbm}.
 
 % \begin {table}[ht] %
 % \caption{Physical description of the lattice (in lattice units).}
@@ -610,9 +615,11 @@ The simulation procedure begins with creating volumes in DEM of a well-packed pe
 \begin {tabular}{ cccccccc }
 \toprule %
 $\omega_{ns}$ &  $\omega_{ad}$  &   $\omega_{cj}$     \\\toprule
-0.6569      &  0.3925       &   0.6995         \\\bottomrule
+1.132      &  0.988       &   1.365          \\\bottomrule
 \end{tabular}
 \end{table}
+
+
 
 \begin{figure}[!ht]
     \centering
@@ -630,300 +637,46 @@ $\omega_{ns}$ &  $\omega_{ad}$  &   $\omega_{cj}$     \\\toprule
 
 
 
-\subsection{Results \& Discussion}
-
-After mapping DEM pebbles onto LBM lattices, they are run to thermal steady-state. Pebbles, as realized in LBM, are shown in \Cref{fig:lbm-pebble-temperatures-z,fig:lbm-pebble-temperatures-y,fig:lbm-pebble-temperatures-x}, colored by temperature.
-
-\begin{figure}[!ht]
-    \centering
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[trim={6cm 6cm 5cm 0cm},clip, width = \textwidth]{figures/lbm/lbm-pebbles-z-normal-filled}
-        \caption{Filled}\label{fig:lbm-pebble-temperatures-filled-z}
-    \end{subfigure}
-    ~
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[trim={6cm 6cm 5cm 0cm},clip, width = \textwidth]{figures/lbm/lbm-pebbles-z-normal-crushed}
-        \caption{Crushed}\label{fig:lbm-pebble-temperatures-crushed-z}
-    \end{subfigure}
-    \caption{Frontal view of pebbles realized in LBM lattices (y-normal, fluid moving left to right).}\label{fig:lbm-pebble-temperatures-z}
-\end{figure}
-
-\begin{figure}[!ht]
-    \centering
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[trim={6cm 6cm 5cm 0cm},clip, width = \textwidth]{figures/lbm/lbm-pebbles-x-normal-filled}
-        \caption{Filled}\label{fig:lbm-pebble-temperatures-filled-x}
-    \end{subfigure}
-    ~
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[trim={6cm 6cm 5cm 0cm},clip, width = \textwidth]{figures/lbm/lbm-pebbles-x-normal-crushed}
-        \caption{Crushed}\label{fig:lbm-pebble-temperatures-crushed-x}
-    \end{subfigure}
-    \caption{Bottom view of pebbles realized in LBM lattices (z-normal, fluid moving into page).}\label{fig:lbm-pebble-temperatures-x}
-\end{figure}
-
-\begin{figure}[!ht]
-    \centering
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[trim={6cm 6cm 5cm 0cm},clip,width = \textwidth]{figures/lbm/lbm-pebbles-y-normal-filled}
-        \caption{Filled}\label{fig:lbm-pebble-temperatures-filled-y}
-    \end{subfigure}
-    ~
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[trim={6cm 6cm 5cm 0cm},clip, width = \textwidth]{figures/lbm/lbm-pebbles-y-normal-crushed}
-        \caption{Crushed}\label{fig:lbm-pebble-temperatures-crushed-y}
-    \end{subfigure}
-    \caption{Side view of pebbles realized in LBM lattices (x-normal, fluid moving left to right).}\label{fig:lbm-pebble-temperatures-y}
-\end{figure}
-\FloatBarrier
-
-Streamlines from LBM results are given in \Cref{fig:streamlines-z,fig:streamlines-x,fig:streamlines-y}. In the pebble bed with crushed fragments, the helium flow is clearly more tortuous than the pebbled bed with solid, well-packed pebbles.
-\begin{figure}[!ht]
-    \centering
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/temperature-streamlines-filled-z-normal}
-        \caption{Filled}\label{fig:streamlines-filled-z}
-    \end{subfigure}
-    ~
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/temperature-streamlines-crushed-z-normal}
-        \caption{Crushed}\label{fig:streamlines-crushed-z}
-    \end{subfigure}
-    \caption{Top view of streamlines generated along in a line parallel to $x$-axis (fluid moving left to right).}\label{fig:streamlines-z}
-\end{figure}
-
-\begin{figure}[!ht]
-    \centering
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/temperature-streamlines-filled-x-normal}
-        \caption{Filled}\label{fig:streamlines-filled-x}
-    \end{subfigure}
-    ~
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/temperature-streamlines-crushed-x-normal}
-        \caption{Crushed}\label{fig:streamlines-crushed-x}
-    \end{subfigure}
-    \caption{Rear view of streamlines generated along in a line parallel to $x$-axis (fluid moving into page).}\label{fig:streamlines-x}
-\end{figure}
-
-\begin{figure}[!ht]
-    \centering
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/temperature-streamlines-filled-y-normal}
-        \caption{Filled}\label{fig:streamlines-filled-y}
-    \end{subfigure}
-    ~
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/temperature-streamlines-crushed-y-normal}
-        \caption{Crushed}\label{fig:streamlines-crushed-y}
-    \end{subfigure}
-    \caption{Side view of streamlines generated along in a line parallel to $x$-axis (fluid moving left to right).}\label{fig:streamlines-y}
-\end{figure}
-\FloatBarrier
-
-A quantitative description of the extra paths taken by fluid packets moving through the crushed pebble bed is tortuosity. Tortuosity was first introduced to studies of porous media by PC Carman in 1937.\cite{Carman1997} Tortuosity is described as the ratio between the effective length of travel of a packet of fluid through a packed bed against the characteristic length of the packed bed (the length the packet would travel in unimpeded flow),
+\subsection{Results \& Analysis}
+One key parameter in describing geometry and transport in porous media is tortuosity. Tortuosity was first introduced to studies of porous media by PC Carman in 1937.\cite{Carman1997} Tortuosity is described as the ratio between the effective length of travel of a packet of fluid through a packed bed against the characteristic length of the packed bed (the length the packet would travel in unimpeded flow),
 \begin{equation}
-\mathscr{T} = \frac{L_\text{eff}}{L}
+T = \frac{L_\text{eff}}{L}
 \end{equation}
 
 Matyka \& Koza provide a method for calculating tortuosity from readily available numerical data.\cite{Matyka2011} Their formula reads,
 \begin{equation}\label{eq:tortuosity}
-\mathscr{T} = \frac{\langle u \rangle}{\langle u_x \rangle}
+T = \frac{\langle u \rangle}{\langle u_x \rangle}
 \end{equation}
 
 where $\langle u \rangle$ is the average magnitude of the intrinsic velocity over the entire system volume. And $\langle u_x \rangle$ is the average of the component of velocity along the macroscopic flow direction.
 
 Taking advantage of the regularly spaced lattices in LBM, tortuosity can then be calculated directly from LBM results along all nodes,
 \begin{equation}
-\mathscr{T} = \frac{\sum_{\vec{r}}u(\vec{r})}{\sum_{\vec{r}} u_x(\vec{r})}
+T = \frac{\sum_{\vec{r}}u(\vec{r})}{\sum_{\vec{r}} u_x(\vec{r})}
 \end{equation}
 
-Tortuosity is found for the filled pebble bed to be $\mathscr{T} = 1.245$; for crushed pebble bed it is calculated to be $\mathscr{T} = 1.329$. The crushed pebble fragments caused an increase of 6.7\% to tortuosity of fluid flow.
-
-In \Cref{fig:lbm-contours-40-80,fig:lbm-contours-100-140}, many contours of velocity, normalized against the inlet magnitude, are shown for the filled and crushed pebble beds ($\vec{u}/U_0$). Redistribution of particles from fragmentation result in clogging certain regions and thus localized increases in velocity, compared to the well-packed pebble bed. The velocity jets manifest in regional averages in the pebble bed as well. The results of LBM are integrated along $z$ and $y$ to provide profiles along the direction of interest. Velocity profiles and void fraction are given in \Cref{fig:y-phi-v-profiles} for the cases of well-packed and crushed pebble beds.
-
-\begin{figure}[!ht]
-    \centering
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/cross-sections-filled/contour-40}
-        \caption{Filled, height of $2d_p$}\label{fig:lbm-contours-filled-40}
-    \end{subfigure}
-    ~
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/cross-sections-crushed/contour-40}
-        \caption{Crushed, height of $2d_p$}\label{fig:lbm-contours-crushed-40}
-    \end{subfigure}
-
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/cross-sections-filled/contour-60}
-        \caption{Filled, height of $3d_p$}\label{fig:lbm-contours-filled-60}
-    \end{subfigure}
-    ~
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/cross-sections-crushed/contour-60}
-        \caption{Crushed, height of $3d_p$}\label{fig:lbm-contours-crushed-60}
-    \end{subfigure}
-
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/cross-sections-filled/contour-80}
-        \caption{Filled, height of $4d_p$}\label{fig:lbm-contours-filled-80}
-    \end{subfigure}
-    ~
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/cross-sections-crushed/contour-80}
-        \caption{Crushed, height of $4d_p$}\label{fig:lbm-contours-crushed-80}
-    \end{subfigure}
-    \caption{$x$-$y$-plane contours from heights of $2d_p$ to $4_dp$ show localized peaks of velocity in crushed pebble beds.}\label{fig:lbm-contours-40-80}
-\end{figure}
-
-
-
-\begin{figure}[!ht]
-    \centering
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/cross-sections-filled/contour-100}
-        \caption{Filled, height of $5d_p$}\label{fig:lbm-contours-filled-100}
-    \end{subfigure}
-    ~
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/cross-sections-crushed/contour-100}
-        \caption{Crushed, height of $5d_p$}\label{fig:lbm-contours-crushed-100}
-    \end{subfigure}
-
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/cross-sections-filled/contour-120}
-        \caption{Filled, height of $6d_p$}\label{fig:lbm-contours-filled-120}
-    \end{subfigure}
-    ~
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/cross-sections-crushed/contour-120}
-        \caption{Crushed, height of $6d_p$}\label{fig:lbm-contours-crushed-120}
-    \end{subfigure}
-
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/cross-sections-filled/contour-140}
-        \caption{Filled, height of $7d_p$}\label{fig:lbm-contours-filled-140}
-    \end{subfigure}
-    ~
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/cross-sections-crushed/contour-140}
-        \caption{Crushed, height of $7d_p$}\label{fig:lbm-contours-crushed-140}
-    \end{subfigure}
-    \caption{$x$-$y$-plane contours from heights of $5d_p$ to $7_dp$ show localized peaks of velocity in crushed pebble beds.}\label{fig:lbm-contours-100-140}
-\end{figure}
-
-
-\begin{figure}[!ht]
-    \centering
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/y-phi-v-profiles-filled.png}
-        \caption{Filled}\label{fig:y-phi-v-profiles-filled}
-    \end{subfigure}
-    ~
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/y-phi-v-profiles-crushed.png}
-        \caption{Crushed}\label{fig:y-phi-v-profiles-crushed}
-    \end{subfigure}
-    \caption{$y$-$z$-plane averages of normalized velocity (left) and packing fraction (right) demonstrating the oscillatory behavior of flow from ordered packing forced by physical boundaries.}\label{fig:y-phi-v-profiles}
-\end{figure}
-
-
-In \Cref{fig:lbm-cfd-dem-velocity}, velocity profiles as calculated with LBM and CFD-DEM models are given. Comparisons of packing fraction calculated with the two modeling approaches are similarly given in \Cref{fig:lbm-cfd-dem-phi}.
-\begin{figure}[!ht]
-    \centering
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/y-v-profiles-filled-cfd-dem}
-        \caption{Filled}\label{fig:lbm-cfd-dem-velocity-filled}
-    \end{subfigure}
-    ~
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/y-v-profiles-crushed-cfd-dem}
-        \caption{Crushed}\label{fig:lbm-cfd-dem-velocity-crushed}
-    \end{subfigure}
-    \caption{$y$-$z$-plane averages of normalized velocity for LBM (dashed) and CFD-DEM (solid).}\label{fig:lbm-cfd-dem-velocity}
-\end{figure}
-
-\begin{figure}[!ht]
-    \centering
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/y-phi-profiles-filled-cfd-dem}
-        \caption{Filled}\label{fig:lbm-cfd-dem-phi-filled}
-    \end{subfigure}
-    ~
-    \begin{subfigure}[b]{0.44\textwidth}
-        \includegraphics[width = \textwidth]{figures/lbm/y-phi-profiles-crushed-cfd-dem}
-        \caption{Crushed}\label{fig:lbm-cfd-dem-phi-crushed}
-    \end{subfigure}
-    \caption{$y$-$z$-plane averages of normalized packing fraction for LBM (dashed) and CFD-DEM (solid).}\label{fig:lbm-cfd-dem-phi}
-\end{figure}
-
-
-
-
-
-
-
-
-
-% DIspersion section ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Thermal dispersion is the spreading of heat caused by variations in velocity about a mean in a fluid. In a packed bed with stagnant interstitial fluid, molecular thermal diffusion is the dominant mode of heat transfer. Mechanical dispersion of heat and fluid flow becomes significant with increased Reynolds number in pores, leading to additional heat transfer. We will quantify thermal dispersion with a commonly-applied temperature-gradient assumption to calculated a dispersion conductivity.\cite{Kuwahara1996,Nakayama2006,Yang2010a}
-
-Applying volume-averaging-theory (VAT), the intrinsic energy equation for a fluid in porous media in a representative elemental volume (REV) is given in Sbutega\etal\cite{Sbutega2013},
-\begin{equation}
-\epsilon\rho_fC_{pf}\langle\vec{u}\rangle^f\cdot\nabla\langle T_f\rangle^f = \nabla\left(\vec{k}_{f,\text{eff}}\cdot\nabla\langle T_f\rangle^f \right) + hS_w\left(\langle T_s\rangle^s - \langle T_f\rangle^f\right)
-\end{equation}
-where $\langle T_f\rangle^f$ is the intrinsic volume average of fluid temperature and $\langle T_s\rangle^s$ is the intrinsic volume average of solid phase temperature. $h$ is a closure term for heat transfer coefficient between solid and fluid phases which is applied over the volumetric interfacial surface area, $S_w = A_{fs}/V$, in the REV. The effective conductivity for the fluid is a tensor that is composed of the stagnant thermal conductivity, including diffusive conductivity and the `tortuousity' conductivty, and the dispersion conductivity,
-\begin{equation}
-\vec{k}_{f,\text{eff}} = \cdot\nabla\langle T_f\rangle^f  = \vec{k}_{i,\text{stag}}\cdot\nabla\langle T_f\rangle^f + \vec{k}_{i,\text{disp}}\cdot\nabla\langle T_f\rangle^f 
-\end{equation}
-where
-\begin{align}
-\vec{k}_{f,\text{stag}}\cdot\nabla\langle T_f\rangle^f &= \epsilon k_f \nabla\langle T_f\rangle^f + \frac{1}{V}\int_{Afs}\! T_f \,\mathrm{d}\vec{A}
-\vec{k}_{f,\text{disp}} \cdot \nabla \langle T\rangle^f &= -\epsilon\rho_f C_{pf}\langle T_f' \vec{u}_f'\rangle^f
-\end{align}
-
-Sbutega\etal~and Kuwahara\etal\cite{Sbutega2013,Kuwahara2001} show that the dispersion conductivity is negligible at low Peclet number but dominates at high Peclet. In the pebble beds of solid breeders, low Peclet numbers are expected due to slow moving purge gas and small Prandtl number of helium. As a consequence, we can expect that temperatures calculated \textit{via} the lattice-Boltzmann method should not be fundamentally different from CFD-DEM computations. Nevertheless, data of the LBM model allow us to calculate dispersion conductivities; for the well-packed bed we find the average of the $y$-component of dispersive conductivity to be only $k_{f,\text{disp}}|_y =\SI{0.0043}{\watt\per\meter\per\kelvin}$; for the bed with crushed pebbles the $y$-componenet of dispersive conductivity is $k_{f,\text{disp}}|_y =\SI{0.0053}{\watt\per\meter\per\kelvin}$; an increase of 23.2\% for crushed pebbles. Nevertheless, in both cases the amount of spreading due to dispersive conductivity is negligibly small. Therefore, in the beds we have analyzed with small Peclet number, the results of CFD-DEM and LBM are predictably similar. Temperature profiles, averaged in slices of $y$- and $z$-directions, calculated from LBM and CFD-DEM for well-packed and crushed beds are given together in \Cref{fig:lbm-cfd-dem-temperatures}.
 
 \begin{figure}[!t]
     \centering
-    \includegraphics[width = 0.75\textwidth]{figures/lbm/cfd-lbm-T-profiles}
-    \caption{Temperature profiles in pebble beds that are fully filled (solid), and with 5\% crushed (dashed) using both CFD-DEM (blue) and LBM (orange) models.}\label{fig:lbm-cfd-dem-temperatures}
+    \includegraphics[width = 0.5\textwidth]{figures/lbm/y-phi-v-profiles-filled.png}
+    \caption{$x-z$-plane averages of normalized velocity (left) and packing fraction (right) demonstrating the oscillatory behavior of flow from ordered packing forced by physical boundaries}\label{fig:y-phi-v-profiles-filled}
 \end{figure}
-
-In \Cref{fig:lbm-cfd-dem-temperatures}, we see extremely good agreement between CFD-DEM and LBM results, particularly for well-packed pebble beds.. While the velocity profiles between the two methods showed only qualitative similiarties, the lack of mechanical dispersion of heat from the $\langle T_f' \vec{u}_f'\rangle^f$ term allows the volume-averaged approach of CFD-DEM to model heat transfer as faithfully as LBM. In pebble beds with fragmentation, the agreement between CFD-DEM and LBM is less. The temperatures from LBM are 6\% higher at the midpoint. Lower temperatures in LBM are, in part, not physical but attributable to the resolution when mapping DEM pebbles into LBM. A resolution of 20 pixels was chosen to represent pebbles. Fragments of size $r^* = 0.2$ result in 4 pixels per diameter for fragments. As an example, a slice of pebble bed (pebbles in black, fluid in white) is shown in \Cref{fig:lbm-fragment-contact-area}. In this cross-section, the small fragments mapped into LBM have larger contact areas than Hertzian predictions provide in DEM. 
 
 \begin{figure}[!t]
     \centering
-    \includegraphics[width = 0.65\textwidth]{figures/lbm/fragment-contact-resolution}
-    \caption{Over-estimates of contact area of fragments contributes to higher heat conductance in LBM model than CFD-DEM.}\label{fig:lbm-fragment-contact-area}
+    \includegraphics[width = 0.5\textwidth]{figures/lbm/z-phi-v-profiles-filled.png}
+    \caption{$x-y$-plane averages of normalized velocity (left) and packing fraction (right) in the periodic direction are roughly flat functions along the span.}\label{fig:z-phi-v-profiles-filled}
 \end{figure}
 
-
-
-
-
-
-\FloatBarrier
-
-\subsection{Conclusions}
-Much effort was made to accurately model the tortuous flow of helium in packed beds. Using the lattice-Boltzmann method, we looked into pore-scale influences of crushing on void fraction distribution and consequently velocity fields of pebble beds. We found that when 5\% of pebbles are fragmented, tortuosity of the pebble bed increased by nearly 7\% while the dispersive conductivity increased over 23\%. In spite of the increase in dispersive conductivity, the impact on temperature profile spreading remained negligibly small due to the low Peclet number flow, as expected in tritium breeding blankets. The result, however, does inspire a path of research toward allowing higher power density in solid breeders. The pebble bed with crush fragments studied here can be considered as a low-porosity, polydisperse pebble bed. Polydispersity in pebble beds can lead to very high packing fractions.
-
-Yang \& Nakayama provide a correlation for transverse dispersive conductivity in regularized packings as a function of a modified Peclet number,\cite{Yang2010a}
-\begin{equation}
-\frac{k_\text{diss}}{k_f} = 0.0075 \frac{\Pe_D^2}{2+1.1\frac{\Pe_D^{0.6}}{\Pr^{0.27}}}
-\end{equation}
-where the Peclet number,
-\begin{equation}
-\Pe_D = \rho_fC_{pf}\frac{\langle u \rangle d_p}{k_f}
-\end{equation}
-is based on the Darcian velocity, $\langle u \rangle = \frac{U_0}{\epsilon}$. Because the Darcian velocity increases with more tightly packed beds (smaller void fraction), there appears to be some control over dispersive conductivity by means of polydisperse packings. Using material properties for helium and \SI{1}{\milli\meter} pebbles (neglecting for a moment the influence of polydispersity), we can calculate dispersive conductivity as a function of void fraction. In \Cref{fig:lbm-dis-peclet}, the example calculation is shown as a function of packing fraction. Experimentally, packing fractions in polydisperse beds can easily reach $\phi = 0.80$.\cite{Reimann:2000tw} From \Cref{fig:lbm-dis-peclet}, dispersive conductivity (again, calculated assuming single sized pebbles) increases by an order of magnitude for packing fractions around $\phi =0.88$.
 
 \begin{figure}[!t]
     \centering
-    \includegraphics[width = 0.65\textwidth]{figures/lbm/peclet-dispersive-conductivity}
-    \caption{Dispersive conductivity for pebble beds increases rapidly as packing fraction approaches unity.}\label{fig:lbm-dis-peclet}
+    \includegraphics[width = 0.5\textwidth]{figures/lbm/y-phi-v-profiles-crushed.png}
+    \caption{$x-z$-plane averages of normalized velocity (left) and packing fraction (right) demonstrating the oscillatory behavior of flow from ordered packing forced by physical boundaries}\label{fig:y-phi-v-profiles-crushed}
 \end{figure}
 
-Large packing fractions are generally avoided in solid breeder blankets in order to avoid their concomitant increase in pressure drop. However, from the investigation performed with heat transfer in lattice-Boltzmann simulations, it is worth revisiting the topic from the point of view of energy management and the ability for packed beds to sustain larger power densities.
-
-The lattice-Boltzmann method allowed us to study the tortuous path of helium through packed beds of spheres with and without crush fragments. Unlike traditional CFD methods for packed beds, no simplifications of contact regions was required and a direct mapping which maintained consistency of packing fraction was performed when digitizing DEM packing structures onto LBM lattice nodes. LBM simulations were run on a machine with quad-core, 3 GHz Intel Xeon E6-1607. Computation times for the lattices with a resolution of 20 voxels per diameter, up to 400 seconds of real time simulation were generally around 30 hours. On the same machine, CFD-DEM simulations generally concluded in approximately 4 hours. Scaling up to a full-size pebble bed would require significant computational expenses. Yet, owing to the small Peclet number of pebble beds under consideration, there does not appear to be any evidence that considerations of the entire helium flow field is necessary when attempting to model thermomechanical interactions of solid breeders. The lattice-Boltzmann technique can, however, help in studying novel concepts for increasing heat transfer in packed beds in order to increase power density, such as the increase in dispersive conductivity due to mixed pebble beds and high packing fractions.
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width = 0.5\textwidth]{figures/lbm/z-phi-v-profiles-crushed.png}
+    \caption{$x-y$-plane averages of normalized velocity (left) and packing fraction (right) in the periodic direction are roughly flat functions along the span.}\label{fig:z-phi-v-profiles-crushed}
+\end{figure}

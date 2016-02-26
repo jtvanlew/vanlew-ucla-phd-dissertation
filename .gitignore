@@ -72,3 +72,6 @@ Temporary Items
 *.fdb_latexmk
 VanLew_PhDThesis2014.pdf
 *.gz(busy)
+
+scripts/lbm/*.csv
+scripts/lbm/*.h5
