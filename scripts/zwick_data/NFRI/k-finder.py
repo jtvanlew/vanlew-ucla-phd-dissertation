@@ -147,7 +147,7 @@ print 'F_max-average = ' + str(np.average(Fmax)) + '\n'
 plt.savefig('fmax')
 
 print 'average total travel =' + str(np.average(total_travel)) + '\n'
-print "Young's modulii = " + str(kpeb*Epebbulk/10**9) + '\n'
+print "Young's moduli = " + str(kpeb*Epebbulk/10**9) + '\n'
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
