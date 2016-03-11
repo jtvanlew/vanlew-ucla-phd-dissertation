@@ -1,6 +1,6 @@
 \chapter{Solution of Steady State Energy Equation for One Dimensional Slab with Heat Generation}\label{sec:analytic-slab}
 
-Before considering the heat equation in a sphere, it is instructive to first consider the simpler problem of a one-dimensional slab with volumetric heat generation, $q_g'''$ and convective cooling at the surfaces. The geometry is shown in Fig.~\ref{}.
+Before considering the heat equation in a sphere, it is instructive to first consider the simpler problem of a one-dimensional slab with volumetric heat generation, $q_g'''$ and convective cooling at the surfaces.
 
 Assuming we can find the Nusselt number for the convective cooling, we write the heat flux from the surface to the fluid as
 
@@ -52,9 +52,9 @@ Or,
 	T_{cl} - T_s = \frac{q_g''' L^2}{2k}
 \end{equation}
 
-From Eqs.~\ref{eq:fluid-delta} and~\ref{eq:centerline-delta}, we see that the temperature differences between the surface and the fluid or the centerline and the surface are dictated by the heat generation rate relative to the speed at which that heat can be transported, via convection or conduction, respectively.
+From Eqs.~\ref{eq:fluid-delta} and~\ref{eq:centerline-delta}, we see that the temperature differences between the surface and the fluid or the centerline and the surface are dictated by the heat generation rate relative to the speed at which that heat can be transported, \textit{via} convection or conduction, respectively.
 
-We will divide Eq.~\ref{eq:centerline-delta} by Eq.~\ref{eq:fluid-delta},
+We will divide \Cref{eq:centerline-delta} by \Cref{eq:fluid-delta},
 
 \begin{equation}\label{eq:biot-derivation}
 	\frac{T_{cl} - T_s}{T_f-T_s} = \frac{1}{2}\frac{hL}{k}
@@ -62,7 +62,7 @@ We will divide Eq.~\ref{eq:centerline-delta} by Eq.~\ref{eq:fluid-delta},
 
 Careful observation of this equation can tell us much about the relative importance of the different modes of heat transfer to/from the surface. If the thermal transport away from the surface occurs at a much slower pace than thermal transport of energy through the solid to the surface, then the change in temperature across the solid $T_{cl}-T_{s}$ will be small compared to the change in temperature from the interface of solid to the bulkd fluid temperature, $T_{s}-T_f$. If the temperature across the solid is negligibly small in comparison to the surface-fluid difference, we are safe in the assumption that the solid is isothermal.
 
-The group of terms on the right-hand-side of Eq.~\ref{eq:biot-derivation} is recognized as the Biot number,
+The group of terms on the right-hand-side of \Cref{eq:biot-derivation} is recognized as the Biot number,
 
 \begin{equation}\label{eq:biot-number}
 	\Bi=\frac{hL}{k}=\frac{R_{cond}}{R_{conv}}

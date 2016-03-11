@@ -76,7 +76,7 @@ with initial condition
 
 \section{Solution approach}
 
-Because of the non-homegeneous form of the energy equation (due to the heat generation term), we will solve Eq.~\ref{eq:transformed-energy} by breaking it up into two simpler problems, 
+Because of the non-homegeneous form of the energy equation (due to the heat generation term), we will solve \Cref{eq:transformed-energy} by breaking it up into two simpler problems, 
 
 \begin{enumerate}
 \item A non-homogeneous, steady-state problem defined by $U_{ss}(r)$
@@ -95,7 +95,7 @@ subject to the same boundary condition given by Eqs.~\ref{eq:transformed-bc-1},\
     U_{ss} = -\frac{G}{6} \rho^3 + C_1\rho + C_2
 \end{equation}
 
-Applying Eq.~\ref{eq:transformed-bc-2} directly gives $C_2 = 0$ and, with some algebra Eq.~\ref{eq:transformed-bc-1} gives, 
+Applying \Cref{eq:transformed-bc-2} directly gives $C_2 = 0$ and, with some algebra \Cref{eq:transformed-bc-1} gives, 
 
 \begin{equation*}
     C_1 = \left(\frac{G}{6} + \frac{G}{3\Bi}\right)
@@ -180,13 +180,13 @@ The norm, $N$ is a function of the eigenvalues,
     N(\zeta_n) = \int_0^1 \left[R(\zeta_n,\rho)\right]^2\,\mathrm{d}\rho
 \end{equation}
 
-% Eq.~\ref{eq:eigenfunction-coefficients} is also inserted back into Eq.~\ref{eq:eigen-initial-condition},
+% \Cref{eq:eigenfunction-coefficients} is also inserted back into \Cref{eq:eigen-initial-condition},
 
 % \begin{equation}
 %     (T_0-T_f)r - \frac{g}{6k} r^3 - \frac{gb^2}{6k}\left(1 + \frac{2}{Bi}\right)r = \sum_{n=1}^\infty \frac{R(\zeta_n,r)}{N(\zeta_n)}\int_0^b R(\zeta_n,r')F(r')\,\mathrm{d}r'
 % \end{equation}
 
-The eigenfunctions for Eq.~\ref{eq:eigen-function} are
+The eigenfunctions for \Cref{eq:eigen-function} are
 
 \begin{equation}
     R(\zeta_n,\rho) = \sin(\zeta_n \rho)
@@ -206,7 +206,7 @@ the roots of which will be found numerically. The normalization integral is then
 
 where $H = (\Bi-1)$. 
 
-We substitute the coefficients of Eq.~\ref{eq:eigenfunction-coefficients}, they can be substituted back into Eq.~\ref{eq:eigen-general-solution} and we have a solution for the homogeneous, transient distribution,
+We substitute the coefficients of \Cref{eq:eigenfunction-coefficients}, they can be substituted back into \Cref{eq:eigen-general-solution} and we have a solution for the homogeneous, transient distribution,
 
 \begin{equation}
     U_h(\rho,\tau) = \sum_{n=1}^\infty \exp(-\zeta^2 \tau) \frac{R(\zeta_n,\rho)}{N(\zeta_n)}\int_0^1 R(\zeta_n,\rho')F(\rho')\,\mathrm{d}\rho'
@@ -239,7 +239,7 @@ The homogeneous solution is then written in a compact form as,
     U_h(\rho,\tau) = \sum_{n=1}^\infty \exp(-\zeta^2 \tau) \sin(\zeta_n \rho) \frac{Z(\zeta_n)}{N(\zeta_n)} 
 \end{equation}
 
-The complete solution is then a superposition of Eq.~\ref{eq:transformed-steady-state-solution} and Eq.~\ref{eq:transformed-transient-solution},
+The complete solution is then a superposition of \Cref{eq:transformed-steady-state-solution} and \Cref{eq:transformed-transient-solution},
 
 \begin{equation}
     U(\rho,\tau) = \left(\frac{G}{6} + \frac{G}{3\Bi}-\rho^2\right)\rho  +   \sum_{n=1}^\infty \exp(-\zeta^2 \tau) \sin(\zeta_n \rho) \frac{Z(\zeta_n)}{N(\zeta_n)} 
@@ -254,7 +254,7 @@ We now transform back to our dimensionless temperature,
 
 \section{Energy}
 
-We will want to compare the solution of Eq.~\ref{eq:temperature-solution} to that of a sphere with the lumped capacitance assumption. To facilitate comparison, we look to a measure of the energy of the sphere (with radial dependence removed via integration of Eq.~\ref{eq:temperature-solution}). The energy will be nondimensionalized as,
+We will want to compare the solution of \Cref{eq:temperature-solution} to that of a sphere with the lumped capacitance assumption. To facilitate comparison, we look to a measure of the energy of the sphere (with radial dependence removed \textit{via} integration of \Cref{eq:temperature-solution}). The energy will be nondimensionalized as,
 
 \begin{equation}
     E^*(\tau)=\frac{E(\tau)}{E_0}
