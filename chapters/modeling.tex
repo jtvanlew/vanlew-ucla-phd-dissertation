@@ -152,9 +152,9 @@ where, as before, $\frac{1}{E^*} = \frac{1-\nu_1^2}{E_1} + \frac{1-\nu_2^2}{E_2}
 
 In the development of \Cref{eq:batchelor-pebble-conductance}, Batchelor \& O'Brien had assumed the two contacting spheres to be of equal conductivity, $k_s$. Cheng\etal\cite{Cheng19994199} proposed a slightly modified conductance which allows for contacting materials of different thermal conductivity. They give,
 \begin{equation}\label{eq:cheng-modification-batchelor}
-    H_c = 4k^*a = 4k^* \left(\frac{3}{4}\frac{R^*}{E^*}\right)^{1/3}F_n^{1/3}
+    H_c = 2k^*a = 2k^* \left(\frac{3}{4}\frac{R^*}{E^*}\right)^{1/3}F_n^{1/3}
 \end{equation}
-where $\frac{1}{k^*} = \frac{1}{k_i} + \frac{1}{k_j}$. As well as being a more general, flexible formulation, the models analyzed by Cheng\etal\cite{Cheng19994199} are in good agreement with experiments.
+where $\frac{2}{k^*} = \frac{1}{k_i} + \frac{1}{k_j}$. As well as being a more general, flexible formulation, the models analyzed by Cheng\etal\cite{Cheng19994199} are in good agreement with experiments.
 
 The condition for validity of Batchelor \& O'Brien's formulation of \Cref{eq:batchelor-pebble-conductance} is in the limit where $\Psi \rightarrow \infty$, where \cite{Batchelor1977}
 \begin{equation}\label{eq:conductance-validity-fluid}
@@ -178,11 +178,11 @@ For the case when we do \textit{not} have a perfectly smooth elastic sphere, we 
 \end{equation}
 where the subscript $L$ refers to macroscopic variables and $s$ refers to microscopic ones. Bahrami\etal~used the constriction formulation of Yovanovich\etal~to express the macroscopic resistance as\cite{Yovanovich1976}
 \begin{equation}
-	R_L = \frac{(1-a/R^*)^{3/2}}{2k^*a}
+	R_L = \frac{(1-a/R^*)^{3/2}}{2k_sa}
 \end{equation}
 If the contact of the two materials obeys Hertz contact law, then $a/R^* \ll 1$ and the above becomes
 \begin{equation}\label{eq:macro-thermal-resistance}
-	R_L = \frac{1}{2k^*a}
+	R_L = \frac{1}{2k_sa}
 \end{equation}
 which matches the heat conduction form of Batchelor \& O'Brien\cite{Batchelor1977}, \Cref{eq:batchelor-pebble-conductance}.
 
@@ -529,7 +529,7 @@ The effective conductivities of models with the smooth-sphere and roughness appr
 \begin{figure}[ht]
 \centering
     \includegraphics[width=\singleimagewidth]{figures/initial_packing_study/keff-comparisons.png}
-    \caption{Comparison of effective conductivit measurements for \lit.}
+    \caption{Comparison of effective conductivity measurements for \lit.}
     \label{fig:keff-vacuum-comparisons}
 \end{figure}
 

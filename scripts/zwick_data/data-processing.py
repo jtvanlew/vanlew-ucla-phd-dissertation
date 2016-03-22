@@ -39,7 +39,11 @@ def plot_scatter_dp_kpeb(dp, kpeb):
 	plt.xlabel('Pebble diameter (mm)')
 
 def create_dp_colormap(dp):
-	cm = plt.get_cmap('hot')
+	import colormaps as cmaps
+	plt.register_cmap(name='viridis', cmap=cmaps.viridis)
+	plt.set_cmap(cmaps.viridis)
+	cm = plt.get_cmap()
+	# cm = plt.get_cmap('hot')
 	cNorm = colors.Normalize(vmin=min(dp)*1000, vmax=max(dp)*1000)
 
 	scalarMap = mplcm.ScalarMappable(norm=cNorm, cmap=cm)
@@ -71,7 +75,7 @@ def calculate_k_plot(filenames, Epebbulk, nupeb, dp, log_flag, Hertz_plot):
 	k = np.linspace(0,1,1000)
 	slope = []
 	for j, loadname in enumerate(filenames):
-		print 'Loading : '+loadname
+		print('Loading : '+loadname)
 
 		filedata = np.loadtxt(loadname,skiprows=6,delimiter=',')
 		s = filedata[:,0]
@@ -131,13 +135,13 @@ def calculate_k_plot(filenames, Epebbulk, nupeb, dp, log_flag, Hertz_plot):
 		normColorVal = (dp[j] - min(dp))/(max(dp)-min(dp))
 		color = cm(normColorVal)
 		if log_flag:
-			ax1.loglog(s,F,color=color)
+			ax1.loglog(s,F,color=color, linewidth=2)
 			if Hertz_plot:
-				ax1.loglog(s,Fhertz, color='k')
+				ax1.loglog(s,Fhertz, color='r')
 		else:
-			ax1.plot(s,F,color=color)
+			ax1.plot(s,F,color=color, linewidth=2)
 			if Hertz_plot:
-				ax1.plot(s,Fhertz, color='k')
+				ax1.plot(s,Fhertz, color='r')
 
 
 	ax1.set_xlabel('Standard travel (mm)')
@@ -152,11 +156,11 @@ def calculate_k_plot(filenames, Epebbulk, nupeb, dp, log_flag, Hertz_plot):
 
 
 dp = find_diameters(filenames)
-kpeb, Fmax, Erec, slope = calculate_k_plot(filenames, 124.e9, 0.24, dp, log_flag=False, Hertz_plot=True)
+kpeb, Fmax, Erec, slope = calculate_k_plot(filenames, 124.e9, 0.24, dp, log_flag=False, Hertz_plot=False)
 
-plot_histogram(dp*1000, 'Pebble diameter (mm)')
-plot_histogram(kpeb,    'Softening coefficient, k')
-plot_histogram(Fmax,  	'Crush force (N)')
-plot_histogram(slope,  r'n for $s^n$ in Hertzian contact')
-plot_scatter_dp_kpeb(dp, kpeb)
+# plot_histogram(dp*1000, 'Pebble diameter (mm)')
+# plot_histogram(kpeb,    'Softening coefficient, k')
+# plot_histogram(Fmax,  	'Crush force (N)')
+# plot_histogram(slope,  r'n for $s^n$ in Hertzian contact')
+# plot_scatter_dp_kpeb(dp, kpeb)
 plt.show()
