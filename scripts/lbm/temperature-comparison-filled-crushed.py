@@ -37,10 +37,10 @@ def load_cfd_dem_csv(filename):
    
 
 # CFD-DEM~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-x_cfd, phi, U, T = load_cfd_dem_csv('filled-cfd-dem.csv')
+x_cfd, phi, U, T = load_cfd_dem_csv('large-files/filled-cfd-dem.csv')
 plt.plot(x_cfd, T, color=color_idx[0], linewidth=2, label='CFD-DEM, filled')
 
-x_cfd, phi, U, T = load_cfd_dem_csv('crushed-cfd-dem.csv')
+x_cfd, phi, U, T = load_cfd_dem_csv('large-files/crushed-cfd-dem.csv')
 plt.plot(x_cfd, T, color=color_idx[0], linewidth=2, linestyle='--', label='CFD-DEM, crushed')
 # CFD-DEM~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
