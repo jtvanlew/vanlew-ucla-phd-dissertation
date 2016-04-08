@@ -882,11 +882,11 @@ Applying volume-averaging-theory (VAT), the intrinsic energy equation for a flui
 \end{equation}
 where $\langle T_f\rangle^f$ is the intrinsic volume average of fluid temperature and $\langle T_s\rangle^s$ is the intrinsic volume average of solid phase temperature. $h$ is a closure term for heat transfer coefficient between solid and fluid phases which is applied over the volumetric interfacial surface area, $S_w = A_{fs}/V$, in the REV. The effective conductivity for the fluid is a tensor that is composed of the stagnant thermal conductivity, including diffusive conductivity and the `tortuousity' conductivty, and the dispersion conductivity,
 \begin{equation}
-\vec{k}_{f,\text{eff}} = \cdot\nabla\langle T_f\rangle^f  = \vec{k}_{i,\text{stag}}\cdot\nabla\langle T_f\rangle^f + \vec{k}_{i,\text{disp}}\cdot\nabla\langle T_f\rangle^f 
+\vec{k}_{f,\text{eff}} \cdot\nabla\langle T_f\rangle^f  = \vec{k}_{i,\text{stag}}\cdot\nabla\langle T_f\rangle^f + \vec{k}_{i,\text{disp}}\cdot\nabla\langle T_f\rangle^f 
 \end{equation}
 where
 \begin{align}
-\vec{k}_{f,\text{stag}}\cdot\nabla\langle T_f\rangle^f &= \epsilon k_f \nabla\langle T_f\rangle^f + \frac{1}{V}\int_{Afs}\! T_f \,\mathrm{d}\vec{A}
+\vec{k}_{f,\text{stag}}\cdot\nabla\langle T_f\rangle^f &= \epsilon k_f \nabla\langle T_f\rangle^f + \frac{1}{V}\int_{Afs}\! T_f \,\mathrm{d}\vec{A} \\
 \vec{k}_{f,\text{disp}} \cdot \nabla \langle T\rangle^f &= -\epsilon\rho_f C_{pf}\langle T_f' \vec{u}_f'\rangle^f
 \end{align}
 

@@ -53,7 +53,7 @@ x_lbm = np.linspace(-3, 3, 121)
 # LBM ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 with open('y-profiles-filled.pkl', 'rb') as f:
     [v, T_filled, phi_y] = pickle.load(f)
-    T_filled = T_filled*109000
+    T_filled = T_filled*130000
 deltaT = np.max(T_filled) - np.min(T_filled)
 keff_filled = q_nuc*phi_k*L**2/(2*deltaT)
 print(keff_filled)
@@ -62,7 +62,7 @@ plt.plot(x_lbm, T_filled, color=color_idx[1], linewidth=2, label='LBM, filled')
 
 with open('y-profiles-crushed.pkl', 'rb') as f:
     [v, T_crushed, phi_y] = pickle.load(f)
-    T_crushed = T_crushed*130000
+    T_crushed = T_crushed*155000
 deltaT = np.max(T_crushed) - np.min(T_crushed)
 keff_crushedT  = q_nuc*phi_k*L**2/(2*deltaT)
 print(keff_crushedT )
