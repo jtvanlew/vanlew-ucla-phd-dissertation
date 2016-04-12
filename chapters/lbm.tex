@@ -9,7 +9,7 @@
 \chapter{Conjugate Heat Transfer in Solid Breeder Pebble Beds with Lattice-Boltzmann Modeling}\label{sec:modeling-lbm}
 The volume-averaged approach of the CFD-DEM coupling is an effective and efficient method for solving transiently-coupled heat transfer between flowing helium and pebble beds \textit{via} volume-averaging techniques to handle the fluid conservation equations. However, the approach does not provide a complete view of the tortuous flow of interstitial helium because the CFD-DEM solver does not resolve the helium pathways on the particle scale. Therefore we have also investigated fluid-pebble interactions by means of linking DEM pebble beds with lattice-Boltzmann solvers which allows us the ability to solve the complete conjugate heat transfer of flowing helium through pebble beds within reasonable computational times.
 
-The lattice-Boltzmann method (LBM) to simulate fluid flow is a growing field of numerical modeling with a rich historical development. As the LBM approach is relatively new and its governing equations have roots in both computer science and statistical mechanics, in this section I will first review notable evolutions in modeling history and the background physics leading to the governing equations -- which lend themselves to relatively straightforward numerical implementation. References~\cite{Chen1998a,Viggen2009,Sukop2007,Chopard2002,succi2001lattice} provide more thorough descriptions of the physics, modeling approaches, and applications of LBM theory to fluid dynamics problems.
+The lattice-Boltzmann method (LBM) to simulate fluid flow is a growing field of numerical modeling with a rich historical development. As the LBM approach is relatively new and its governing equations have roots in both computer science and statistical mechanics, in this section we first review notable evolutions in modeling history and the background physics leading to the governing equations -- which lend themselves to relatively straightforward numerical implementation. References~\cite{Chen1998a,Viggen2009,Sukop2007,Chopard2002,succi2001lattice} provide more thorough descriptions of the physics, modeling approaches, and applications of LBM theory to fluid dynamics problems.
 
 \section{Historical Development and Physics of LBM}
 We begin with a brief discussion of the Boltzmann equation describing the statistical behavior of non-equilibrium thermodynamic systems. Then we will introduce some of the lattice gas automata predecessors to the current lattice-Boltzmann method.
@@ -269,7 +269,7 @@ It is worth stressing again that the lattice-Boltzmann collision calculations ar
 
 
 \subsection{Physical to Lattice Units}\label{sec:physical-to-lattice}
-In LBM one typically works with lattice variables -- differing from their physical counterparts simply through normalization. This is akin to achieving dynamic similarity in fluid mechanics experiments. I therefore will discuss the nondimensional form of governing equations and then translate the nondimensional values into lattice variables. We then see how tuning of some lattice variables will allow a sufficiently refined grid while still representing the physical system we are attempting to model. The notation of working with physical, nondimensional, and lattice variables can quickly become cumbersome. The convention I will adhere to is to use $\hat{\psi}$ for physical variables, $\psi^*$, or nondimensional variables, and simply $\psi$ for lattice variables.
+In LBM one typically works with lattice variables -- differing from their physical counterparts simply through normalization. This is akin to achieving dynamic similarity in fluid mechanics experiments. Therefore the nondimensional form of governing equations is discussed, and then the nondimensional values are translated into lattice variables. We then see how tuning of some lattice variables will allow a sufficiently refined grid while still representing the physical system we are attempting to model. The notation of working with physical, nondimensional, and lattice variables can quickly become cumbersome. The convention here is to use $\hat{\psi}$ for physical variables, $\psi^*$, or nondimensional variables, and simply $\psi$ for lattice variables.
 
 Thus the Navier-Stokes equations, in physical units, for an incompressible fluid are
 \begin{equation}
@@ -299,10 +299,6 @@ Thus the nondimensional form of Navier-Stokes is the familiar,
 \end{subequations}
 
 Note, too, that the physical limits of our system are describable in terms of the nondimensional units. In other words, if our system is $\hat{X}$ meters wide, the nondimensional width is $X^*=\frac{\hat{X}}{\hat{d}_p}$.  
-
-% The last thing we need before converting the variables of \Cref{eq:non-dim-ns} into lattice units are the lattice spacing and lattice time step, $\delta_x$ and $\delta_t$. We will define the lattice spacing based on the resolution of our pebble diameter, as described above.
-
-% The manner of description I will follow next will match the method in which the values are actually programmed in my DEM-to-LBM script. I begin by defining the pebble diameter, limits, and resolution ($\text{res}$); the script returns $\delta_x$, $N_x$, $N_y$, and $N_z$ where the $N$ values represent the total number of nodes in a given direction. 
 
 Next, the dimensionless kinematic viscosity, $\nu^* = 1/\Re$, is converted into a lattice viscosity as
 \begin{equation}\label{eq:fluid-nu}
@@ -389,7 +385,7 @@ We can now directly write the lattice thermal diffusivity of the solid as
 
 The lattice heat rate is $Q = \delta_tQ^{'''*}$
 
-On the thermal lattice, we need only use a D3Q7 to satisfy isotropy, for which the lattice speed of sound is only $c_s^2 = \frac{1}{2}$ (I will refer to it as $c_{s,ad}$ to distinguish). On this lattice, we are solving the energy equation for both the fluid and solid, so each material has a unique relaxation time. I will refer to them as the advection-diffusion (ad) and conjugate (cj) relaxation times, for short. They are,
+On the thermal lattice, we need only use a D3Q7 to satisfy isotropy, for which the lattice speed of sound is only $c_s^2 = \frac{1}{2}$ (I will refer to it as $c_{s,ad}$ to distinguish). On this lattice, we are solving the energy equation for both the fluid and solid, so each material has a unique relaxation time. They are designated as the advection-diffusion (ad) and conjugate (cj) relaxation times, for short. They are,
 \begin{subequations}
 \begin{align}
 	\tau_{ad} &= \frac{\alpha_f}{c_{s,ad}^2} + \frac{1}{2} \\
@@ -426,7 +422,7 @@ And relaxation parameters:
 
 \section{Numerical Implementation of LBM and DEM Coupling}\label{sec:lbm-solver}
 
-As usual, the packing structure of our pebble bed is rendered with the code LIGGGHTS. Details of the software are described in \cref{sec:dem-solver}. The DEM solver is a highly parallel C++ code based on the Molecular Dynamics (MD) code LAMMPS.\cite{Plimpton1995} The translation between the DEM packing and LBM nodal network is done with Python scripts I created to discretize and digitize the `spherical' information of DEM into LBM. To solve the lattice-Boltzmann collision and streaming equations, we make use of the open-source code maintained by FlowKit Ltd named Palabos.\cite{Flow} The Palabos library provides an interface for quick implementation of lattice-Boltzmann models in C++. Implemented models include the BGK and thermal flows with the Boussinesq approximation, among many others. The lattices available are the common grids of D2Q9, D3Q13, D3Q15, D3Q19, or D3Q27. Zou/He, periodic, and bounce-back conditions are built into the LB kernel; implementation of Dirichlet or Neumann conditions with velocity or pressure are also available. The software is freely available under the terms of the open-source AGPLv3 license.\cite{FreeSoftwareFoundationInc.2007} All mentioned models and ingredients are parallelized with MPI, including the I/O operations that are implemented in terms of MPI’s Parallel I/O API.
+As usual, the packing structure of our pebble bed is rendered with the code LIGGGHTS. Details of the software are described in \cref{sec:dem-solver}. The DEM solver is a highly parallel C++ code based on the Molecular Dynamics (MD) code LAMMPS.\cite{Plimpton1995} The translation between the DEM packing and LBM nodal network is done with Python scripts created specifically to discretize and digitize the `spherical' information of DEM into LBM. To solve the lattice-Boltzmann collision and streaming equations, we make use of the open-source code maintained by FlowKit Ltd named Palabos.\cite{Flow} The Palabos library provides an interface for quick implementation of lattice-Boltzmann models in C++. Implemented models include the BGK and thermal flows with the Boussinesq approximation, among many others. The lattices available are the common grids of D2Q9, D3Q13, D3Q15, D3Q19, or D3Q27. Zou/He, periodic, and bounce-back conditions are built into the LB kernel; implementation of Dirichlet or Neumann conditions with velocity or pressure are also available. The software is freely available under the terms of the open-source AGPLv3 license.\cite{FreeSoftwareFoundationInc.2007} All mentioned models and ingredients are parallelized with MPI, including the I/O operations that are implemented in terms of MPI’s Parallel I/O API.
 
 
 
@@ -437,7 +433,7 @@ As usual, the packing structure of our pebble bed is rendered with the code LIGG
 
 
 \section{DEM Mapping to LBM \& Realizing Proper Hydrodynamics}
-Unlike the dynamic coupling between DEM and the volume-averaged CFD where information passed back and forth between fluid and particle, in the LBM construction I am simply translating a static packing structure from DEM into the LBM framework. The lattices of the LBGK solver use equally spaced nodes that discretize our volume into regular spacing. The pebble data from DEM is mapped onto the LBM nodes with a script \textit{via} knowledge of the centroid and radius of each pebble. To demonstrate, in \Cref{fig:dem-2-lbm-example1}, we have a sketch of the outline of a two-dimensional slice of a pebble projected onto a section of an LBM lattice. If the distance from a node to the centroid is less than pebble radius, the node is assigned as solid. All other nodes are assigned as fluids.
+Unlike the dynamic coupling between DEM and the volume-averaged CFD where information passed back and forth between fluid and particle, in the LBM construction we are simply translating a static packing structure from DEM into the LBM framework. The lattices of the LBGK solver use equally spaced nodes that discretize our volume into regular spacing. The pebble data from DEM is mapped onto the LBM nodes with a script \textit{via} knowledge of the centroid and radius of each pebble. To demonstrate, in \Cref{fig:dem-2-lbm-example1}, we have a sketch of the outline of a two-dimensional slice of a pebble projected onto a section of an LBM lattice. If the distance from a node to the centroid is less than pebble radius, the node is assigned as solid. All other nodes are assigned as fluids.
 
 \begin{figure}[ht]
 	\centering

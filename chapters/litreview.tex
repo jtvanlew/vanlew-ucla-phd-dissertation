@@ -2,7 +2,7 @@
 
 Ceramic pebble beds in solid breeders can be seen as belonging to a larger class of generalized granular material, and specifically dry granular material. Granular materials can be described as an aggregation of discrete, macroscopic particles (mean size greater than \SI{100}{\micro\meter}) that are characterized with energy dissipation during interaction. \cite{duran2012sands} The main outcome of this definition is that granular materials cannot be described by conventional thermal or hydrodynamic variables. Granular materials require their own treatment and modeling for description.
 
-The study of ceramic pebble bed thermomechanics for tritium breeding have their roots connnected to historical treatment of granular material and it is instructive to begin with a short review of this field. Following that, I will compile many generalized studies of heat and momentum transfer, specifically correlations that have been developed in the classical continuum treatment of pebble beds. The correlations will not only be instructive by view of their limitations, but they will help inform the numerical modeling of coupling fluid and pebble bed conservation equations. Finally, I will focus the literature review specifically on the progress that has been made in temperature predictions from numerical models of tritium breeders for fusion reactors.
+The study of ceramic pebble bed thermomechanics for tritium breeding have their roots connnected to historical treatment of granular material and it is instructive to begin with a short review of this field. Following that, many generalized studies of heat and momentum transfer, specifically correlations that have been developed in the classical continuum treatment of pebble beds are presented. The correlations will not only be instructive by view of their limitations, but they will help inform the numerical modeling of coupling fluid and pebble bed conservation equations. Finally, the literature review will focus specifically on the progress that has been made in temperature predictions from numerical models of tritium breeders for fusion reactors.
 
 \section{Brief History of Granular Material Research}
 The science and modeling of granular materials has a long and rich history. Coulomb proposed ideas of static friction in 1773, Faraday in 1831 discovered the convective movement of powders, and even Reynolds in 1885 introduced notions on granular expansion and shear.\cite{Jaeger1996a} Granular materials are only second to water in terms of most-used industrial material. Granular materials play in important role in civil, geotechnical, chemical, and mechanical engineering in industries as diverse as pharmacy, automative, agriculture, and construction to name just a few.\cite{Hill,duran2012sands} A resurgence of interest in granular materials has also happened in the fields of applied mathematics and physics as metaphors for other dynamical systems.\cite{Jaeger1996a} Yet despite the diverse fields interested in granular materials, descriptions of granular material with classic continuum mechanics is still far from complete; quite different from the conclusively described constitutive equations of elastic theory, hydrodynamics, and gas dynamics that have existed for two centuries.\cite{Sadovskaya2012} 
@@ -93,7 +93,7 @@ where $B$ is a deformation parameter related to porosity as
 %     \label{fig:kappa-series-parallel-zs}
 % \end{figure}
 
-Following the success of the Zehner-Schlunder correlation, other researchers considered the specialized cases of high thermal conductivity ratio $\kappa \ge 10^3$ when loads on the grains in the bed (due to either an external pressure or the grains own weight) resulted in large contact areas. In these cases, Zehner-Schlunder correlations under-predicted the actual effective conductivity \cite{Aichlmayr2005a}. An extensive review of correlations for effective thermal conductivity with consideration of contact between grains is provided by van Antwerpen\etal \cite{VanAntwerpen2010}. Hsu\etal~considered three lumped parameters models of varying two-dimensional unit cells for which they derived an effective conductivity.\cite{Bay1995} The first was for contact square-cylinders. The effective conductivity for this model is
+Following the success of the ZS correlation, other researchers considered the specialized cases of high thermal conductivity ratio $\kappa \ge 10^3$ when loads on the grains in the bed (due to either an external pressure or the grains own weight) resulted in large contact areas. In these cases, ZS correlations under-predicted the actual effective conductivity \cite{Aichlmayr2005a}. An extensive review of correlations for effective thermal conductivity with consideration of contact between grains is provided by van Antwerpen\etal \cite{VanAntwerpen2010}. Hsu\etal~considered three lumped parameters models of varying two-dimensional unit cells for which they derived an effective conductivity.\cite{Bay1995} The first was for contact square-cylinders. The effective conductivity for this model is
 \begin{equation}
     \frac{k_e}{k_f} = \gamma_a\gamma_c\kappa + \frac{\gamma_a(1-\gamma_c)}{1+(1/\kappa-1)\gamma_a} + \frac{(1-\gamma_a)}{1+(1/\kappa-1)\gamma_a\gamma_c}
 \end{equation}
@@ -134,7 +134,7 @@ where $\gamma_c = 0.13$ fit best for cubes and the relationship between $\gamma_
     0 = (1-3\gamma_c^2)\gamma_a^3 + 3\gamma_c^2\gamma_a^2 + \epsilon - 1
 \end{equation}
 
-Hsu\etal~also proposed a correction to the ZS model for conductivity ratios of $\kappa \ge 10^3$. The assumption built into Zehner-Schlunder's model was of a point contact between grains in the bed. Incorporating the effects of finite-sized contact area, Hsu\etal~corrected the ZS model as
+Hsu\etal~also proposed a correction to the ZS model for conductivity ratios of $\kappa \ge 10^3$. The assumption built into the ZS model was of a point contact between grains in the bed. Incorporating the effects of finite-sized contact area, Hsu\etal~corrected the ZS model as
 \begin{equation}
 \begin{split}
     \frac{\kappa_e}{\kappa_f}={} &(1-\sqrt{1-\epsilon}) + \kappa\sqrt{1-\epsilon}\left(1-\frac{1}{(1+\alpha_0B)^2}\right) \\
@@ -150,7 +150,7 @@ where $B$ is no longer found from as a simple deformation parameter but is inste
 \end{split}
 \end{equation}
 
-Bauer and Schlunder \cite{bauer1978effective} also improved on the earlier model of Zehner and Schlunder to include the additional effects of thermal radiation, gas heat transfer in the Knudsen regime, and finite-sized contact areas. The combined model, often called the Zehner-Bauer-Schlunder (ZBS) model is calculated as
+Bauer and Schlunder \cite{bauer1978effective} also improved on the earlier model of Zehner and Schlunder to include the additional effects of thermal radiation, gas heat transfer in the Knudsen regime, and finite-sized contact areas. The combined model, often called the Zehner-Schlunder-Bauer (ZSB) model is calculated as
 \begin{equation}
     \frac{k_e}{k_f} = \left(1-\sqrt{1-\epsilon}\right)\epsilon\left[\left(\epsilon-1+1/\kappa_G\right)^{-1} + \kappa_r\right]+\sqrt{1-\epsilon}\left(\phi\kappa + (1-\phi)k_c\right)
 \end{equation}
@@ -190,11 +190,11 @@ In \Cref{fig:kappa-series-parallel-zs-hsus}, we see comparisons of effective con
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{figures/keff-kappa-series-parallel-zs-hsus}
-    \caption{Models incorporating contact area demonstrate signficant deviation from the Zehner-Schlunder correlation above $\kappa > 10^3$. All correlations are still bound by parallel and series approximations of the material.}
+    \caption{Models incorporating contact area demonstrate signficant deviation from the ZS correlation above $\kappa > 10^3$. All correlations are still bound by parallel and series approximations of the material.}
     \label{fig:kappa-series-parallel-zs-hsus}
 \end{figure}
 
-Van Antwerpen compiled data from numerous publications to compare the accuracy of effective conductivity correlations \cite{VanAntwerpen2010}. For our discussion, I have also plotted the experimental data with all the correlations discussed above, given in \Cref{fig:kappa-experimental}.
+Van Antwerpen compiled data from numerous publications to compare the accuracy of effective conductivity correlations \cite{VanAntwerpen2010}. For our discussion, experimental data with all the correlations discussed above are also plotted. The plots are given in \Cref{fig:kappa-experimental}.
 
 Near $\kappa = 1$, all correlations collapse to predict a $\frac{k_e}{k_f} = 1$, and experiments naturally match predictions. From the range of $\kappa > 1$ to $\kappa <1000$, experimental data is well-bound by the predictions of the simple ZS model and the complex two-dimensional models of Hsu\etal. Above $\kappa > 1000$, the ZS model, not taking into account heat transfer through finite-sized contacts, is no longer reliable as a model for $\keff$. In high ranges of $\kappa$, the models incorporating contact-conduction in the granular material remain well-matched to experimental data. The results here show the worth of these general models for predictions of effective conductivity in some granular material.
 
@@ -216,7 +216,39 @@ As part of the Ceramic Optimal Material Experiments for Thermomechanics (COMET) 
 
 
 
+Lastly, one commonly-used correlation from Breitbach \& Barthels \cite{breitbach1980radiant}. Breitbach \& Barthels began with the unit cell defined by Zehner \& Schlunder, though noted that the closed cell precluded radiation from voids outside the cell volume. Therefore they modified the correlation \textit{via} closing the bases of the unit cells with black surfaces instead of with surfaces of the same emissivity as the grains in the bed. The result is given as the BB correlation,\cite{breitbach1980radiant}
+\begin{equation}
+    F_E^* = \left[\left(1-\sqrt{1-\epsilon}\right)\epsilon + \frac{\sqrt{1-\epsilon}}{2/\epsilon_r - 1}\cdot\frac{B+1}{B}\cdot\frac{1}{1+\frac{1}{(2/\epsilon_r - 1)\Lambda_f}} \right]
+\end{equation}
+where $B$ is again given by \Cref{eq:zs-B}, and $\Lambda_f = \frac{k_s}{4d_p\sigma\bar{T}^3}$ is a dimensionless solid conductivity for the granular packing.
 
+An IAEA technical report provides effective conductivity measurements of $d_p = \SI{6}{\centi\meter}$ graphite pebble beds\cite{Report2000}. The data is used to compare against the combined correlations of ZS and BB. The $\keff$ measurements in Helium are given in \Cref{fig:keff-sana-he}, measurements in Nitrogen are given in \Cref{fig:keff-sana-n}. We see that the effective thermal conductivity correlations are significantly under-predicting, over the entire range of temperatures, when compared to experimental values. For the graphite pebble beds measured in the SANA report, we consider the Grashof number for the packing. The Grashof number is indicative of natural convection effects in the voids. The Grashof number is written as
+\begin{equation}
+    \Gr = \frac{g\beta(T_s-T_0)l^3}{\nu_f^2}
+\end{equation}
+where we estimate it in voids of size $l = \frac{d_p}{2}$, a temperature drop of $T_s-T_0 = \SI{10}{\kelvin}$ is an lower estimate. The kinematic viscosity, $\nu_f$ of the gases is known, and thermal expansion of an ideal gas is $\beta = \frac{1}{T}$. Let us assume a situation where temperatures and materials are all identical and the only variation is in length. Grashof numbers for these cases would be
+\begin{equation}
+    \frac{\Gr_1}{\Gr_2} = \left(\frac{l_1}{l_2}\right)^3
+\end{equation}
+
+Zehner \& Schlunder derived their correlation from mass-diffusion experiments of Curie \cite{Currie2002}. The data of Curie was done primarily on grains of around \SI{1}{\milli\meter}. Thus comparing $\frac{l_1}{l_2}$ between the size of particles for which the ZS correlation was derived and particles for which it was applied for SANA data yields
+\begin{equation}
+    \frac{\Gr_1}{\Gr_2} \sim 10^{-6}
+\end{equation}
+With a Grashof number significantly higher for the SANA experiments, it is indicative that the amount of natural convection present in the SANA experiment will have a much greater impact on heat transfer than the ZS correlation, derived on data for stagnant interstitial gas, is able to predict. This demonstrates limited applicability of effective conductivity correlations for packed bed conditions either different from those for which the correlations were derived or when convection effects are present. 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/keff-sana-he}
+    \caption{Comparison of SANA data in Helium gas with ZS and Breitbach-Bartels correlations. Data from IAEA Tecdoc-1163\cite{Report2000}.}
+    \label{fig:keff-sana-he}
+\end{figure}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/keff-sana-n}
+    \caption{Comparison of SANA data in Nitrogen gas with ZS and Breitbach-Bartels correlations. Data from IAEA Tecdoc-1163\cite{Report2000}.}
+    \label{fig:keff-sana-n}
+\end{figure}
 
 
 
@@ -229,7 +261,7 @@ As part of the Ceramic Optimal Material Experiments for Thermomechanics (COMET) 
 % new subsection
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \subsection{Convection in Granular Media}\label{sec:particle-convection}
-Before discussing the correlations for Nusselt number of particles with forced convection in two-phase porous media, I will consider a simple case of an axisymmetric sphere completely immersed in a quiescent fluid. The steady-state energy equation of the fluid surrounding the sphere is 
+Before discussing the correlations for Nusselt number of particles with forced convection in two-phase porous media, we consider a simple case of an axisymmetric sphere completely immersed in a quiescent fluid. The steady-state energy equation of the fluid surrounding the sphere is 
 \begin{equation}
     \frac{\partial}{\partial}(k_fr^2T) = 0
 \end{equation}
@@ -268,7 +300,7 @@ For a particle falling through a fluid or a fluid moving past a single particle,
 \begin{equation}\label{eq:ranz_marshall}
     \Nu_p = 2.0 + 0.6\Pr^{1/3}\Re_p^{1/2}
 \end{equation}
-Generally considered valid for $\Re_p< 200$. The Ranz \& Marshall correlation is used by Sasdisevi\etal~ in a CFD-DEM study of heat transfer in 2D fluidized spouts \cite{Swasdisevi2005}. Romkes\etal~ did direct CFD studies of particle-to-fluid heat transfer and validated against Ranz \& Marshall \cite{Romkes2003}; though they noted the correlation was valid over particle Reynolds numbers of $10 < \Re_p < 10^4$. Wu\etal~ also employed the correlation in a DEM study of granular material\cite{Wu2011}. Li \& Mason studied the correlation against their CFD-DEM studies \cite{Li2003a}, they found the RM correlation to be adequate for small $\Re_p < 200$ also. 
+Generally considered valid for $\Re_p< 200$. The Ranz \& Marshall correlation is used by Sasdisevi\etal~ in a CFD-DEM study of heat transfer in 2D fluidized spouts \cite{Swasdisevi2005}. Romkes\etal~ did direct CFD studies of particle-to-fluid heat transfer and validated against Ranz \& Marshall \cite{Romkes2003}; though they noted the correlation was valid over particle Reynolds numbers of $10 < \Re_p < 10^4$. Wu\etal~ also employed the correlation in a DEM study of granular material\cite{Wu2011}. Li \& Mason studied the correlation against their CFD-DEM studies \cite{Li2003a}, they found the Ranz \& Marshall's correlation to be adequate for small $\Re_p < 200$ also. 
 
 
 
@@ -442,48 +474,51 @@ After discussing many popular correlations for Nusselt number in packed beds, co
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \subsection{Radiation in Granular Media}
 
-The temperatures expected in the solid breeder are high enough that radiation between pebbles may be important. The radiation exchange between contacting neighbors in a packed bed becomes extremely complex due to the local and semi-local nature of radiation. A standard approach to treat radiation exchange between surfaces is to consider the view factor between them. In a dense, randomly packed bed of spheres the computation of view factors between pebbles can be done \textit{via} a method such as that proposed Feng and Han \cite{Feng2012}. 
-
-The ZSB model incorporates radiation heat transfer into the general expression and calculation of $k_c$ and $N$. Others have attempted to incorporate radiation into an effective thermal conductivity and typically it is done with a superposition of gas/solid conduction models (such as all those described above) with a separate radiation model. One common technique is to analyze a representative unit cell with a thermal radiative conductivity of a general form,
+In order to quantify radiative heat transfer compared to conduction heat transfer, consider particle $i$ at temperature $T_i$ with material properties of $E$, $\nu$, radius $R$, emissivity $\epsilon$, and solid conductivity $k_s$ in contact with particle $j$ of the same material at temperature $T_j$, the amount of heat transfered through a single contact of these two pebbles is
 \begin{equation}
-     k_e^r = 4 F_E^*\sigma d_p \bar{T}^3
-\end{equation} 
-where $F_E^*$ is a radiation exchange factor. Van Antwerpen\etal~describe many researchers' techniques for defining the radiation exchange factors and the simplifications that must appear to allow a closed solution to complicated equations. I will focus on one commonly-used correlation from Breitbach \& Barthels \cite{breitbach1980radiant}.
-
-Breitbach \& Barthels began with the unit cell defined by Zehner \& Schlunder, though noted that the closed cell precluded radiation from voids outside the cell volume. Therefore they modified the correlation \textit{via} closing the bases of the unit cells with black surfaces instead of with surfaces of the same emissivity as the grains in the bed. The result is given as the BB correlation,\cite{breitbach1980radiant}
-\begin{equation}
-    F_E^* = \left[\left(1-\sqrt{1-\epsilon}\right)\epsilon + \frac{\sqrt{1-\epsilon}}{2/\epsilon_r - 1}\cdot\frac{B+1}{B}\cdot\frac{1}{1+\frac{1}{(2/\epsilon_r - 1)\Lambda_f}} \right]
+Q_c = 2k_s\left(\frac{3}{4}\frac{R^*}{E^*}\right)^{1/3}F_n^{1/3} (T_i - T_j)
 \end{equation}
-where $B$ is again given by \Cref{eq:zs-B}, and $\Lambda_f = \frac{k_s}{4d_p\sigma\bar{T}^3}$ is a dimensionless solid conductivity for the granular packing.
-
-
-An IAEA technical report provides effective conductivity measurements of $d_p = \SI{60}{\centi\meter}$ graphite pebble beds\cite{Report2000}. The data is used to compare against the combined correlations of ZS and BB. The $\keff$ measurements in Helium are given in \Cref{fig:keff-sana-he}, measurements in Nitrogen are given in \Cref{fig:keff-sana-n}. We see that the effective thermal conductivity correlations are significantly under-predicting, over the entire range of temperatures, when compared to experimental values. For the graphite pebble beds measured in the SANA report, we consider the Grashof number for the packing. The Grashof number is indicative of natural convection effects in the voids. The Grashof number is written as
+Assuming further that the contact force between these two particles is about \SI{10}{\newton}. Radiation exchange from particle $i$ to $j$ can be found from a grey-body radiative transfer equation,
 \begin{equation}
-    \Gr = \frac{g\beta(T_s-T_0)l^3}{\nu_f^2}
+Q_r = \epsilon\sigma A_s\left(T_i^{1/4} - T_j^{1/4}\right)
 \end{equation}
-where we estimate it in voids of size $l = \frac{d_p}{2}$, a temperature drop of $T_s-T_0 = \SI{10}{\kelvin}$ is an lower estimate. The kinematic viscosity, $\nu_f$ of the gases is known, and thermal expansion of an ideal gas is $\beta = \frac{1}{T}$. Let us assume a situation where temperatures and materials are all identical and the only variation is in length. Grashof numbers for these cases would be
-\begin{equation}
-    \frac{\Gr_1}{\Gr_2} = \left(\frac{l_1}{l_2}\right)^3
-\end{equation}
+where we will assume that the surface area projected between the two particles is a half-sphere, $A_s = 2\pi R^2$.
 
-Zehner \& Schlunder derived their correlation from mass-diffusion experiments of Curie \cite{Currie2002}. The data of Curie was done primarily on grains of around \SI{1}{\milli\meter}. Thus comparing $\frac{l_1}{l_2}$ between the size of particles for which the ZS correlation was derived and particles for which it was applied for SANA data yields
-\begin{equation}
-    \frac{\Gr_1}{\Gr_2} \sim 10^{-6}
-\end{equation}
-With a Grashof number significantly higher for the SANA experiments, it is indicative that the amount of natural convection present in the SANA experiment will have a much greater impact on heat transfer than the ZS correlation, derived on data for stagnant inter-stitial gas, is able to predict. This demonstrates limited applicability of effective conductivity correlations for packed bed conditions different from those for which the correlations were derived.
+The amount of energy transfered between the two particles is a function of not only the temperature differences but also the absolute temperatures. In the following figures, the temperature of $T_i$ is varied between \SIrange{300}{800}{\celsius} and $T_j$ is varied between $T_i - 100$ to $T_i$. The amount of heat transfer is normalized against the amount of heat transfer between the pebbles due to conduction at the given temperature (\textit{i.e.} $Q_c$ will always equal unity). The results, given in \Cref{fig:qc-vs-qr}, show that when average pebble temperatures are above \SI{600}{\celsius}, the amount of energy transfered between these two pebbles will be approximately half of that due to contact conductance. When pebble $i$ increases to \SI{800}{\celsius}, the heat transfer between pebbles of comparable temperature is almost equally divided between radiation and contact conductance.
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.85\textwidth]{figures/keff-sana-he}
-    \caption{Comparison of SANA data in Helium gas with Zehner-Schlunder and Breitbach-Bartels correlations. Data from IAEA Tecdoc-1163\cite{Report2000}.}
-    \label{fig:keff-sana-he}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/conduction-vs-radiation/300.0.png}
+        \caption{$T_1 = \SI{300}{\celsius}$}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/conduction-vs-radiation/467.0.png}
+        \caption{$T_1 = \SI{467}{\celsius}$}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/conduction-vs-radiation/633.0.png}
+        \caption{$T_1 = \SI{633}{\celsius}$}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/conduction-vs-radiation/800.0.png}
+        \caption{$T_1 = \SI{800}{\celsius}$}
+    \end{subfigure}
+    \caption{Comparison of radiative heat transfer with conduction heat transfer between two example pebbles at various temperatures.}
+\label{fig:qc-vs-qr}
 \end{figure}
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.85\textwidth]{figures/keff-sana-n}
-    \caption{Comparison of SANA data in Nitrogen gas with Zehner-Schlunder and Breitbach-Bartels correlations. Data from IAEA Tecdoc-1163\cite{Report2000}.}
-    \label{fig:keff-sana-n}
-\end{figure}
+
+Temperatures expected in the solid breeder will range between, approximately, \SI{300}{\celsius} and \SI{800}{\celsius}. And as such, there will be regions where radiation is negligible and regions where radiation is just as important to heat transfer as conduction. Radiation exchange between contacting neighbors in a packed bed becomes extremely complex due to the local and semi-local nature of radiation. A standard approach to treat radiation exchange between surfaces is to consider the view factor between them. In a dense, randomly packed bed of spheres the computation of view factors between pebbles can be done \textit{via} a method such as that proposed by Feng and Han \cite{Feng2012}. Unfortunately, in the current implementation of DEM, ray-tracing of view factors is not accomplished and no radiation heat transfer is calculated. Radiation is one of the most important features that should be included in future iterations of DEM modeling.
+% Alternatively, as seen in the ZSB model, radiation may be incorporated into general expressions of $\keff$. Others have attempted to incorporate radiation into an effective thermal conductivity and typically it is done with a superposition of gas/solid conduction models (such as all those described above) with a separate radiation model. One common technique is to analyze a representative unit cell with a thermal radiative conductivity of a general form,
+% \begin{equation}
+%      k_e^r = 4 F_E^*\sigma d_p \bar{T}^3
+% \end{equation} 
+% where $F_E^*$ is a radiation exchange factor. Van Antwerpen\etal~describe many researchers' techniques for defining the radiation exchange factors and the simplifications that must appear to allow a closed solution to complicated equations. 
 
 \FloatBarrier
 
@@ -595,7 +630,7 @@ For Stokes-flow (and near-Stokes-flow), the drag force computed from their latti
 
 Three correlations relating a nondimensional drag force to packing fraction and Reynolds number have been presented. The first, the Kozeny-Carman equation, \Cref{eq:K-C-non-dim}, was derived assuming small Reynolds numbers with a broad range of packing fraction. The second, the Ergun equation, \Cref{eq:ergun-non-dim}, is meant to be applicable over a broad range of Reynolds number due to its origins as an empirical fit from experimental data but, by the same token, is limited to experimentally attainable packing fractions. Finally, the third correlation by Koch, Hill, \& Ladd (KHL), \Cref{eq:khl-non-dim,eq:khl-f0,eq:khl-f3} was numerically developed to provide drag correlations over a much more broad packing fraction and Reynolds numbers than is possible with physical experiments. 
 
-Here I provide a graphical comparison of the relationships that compares the three correlations: KC, Ergun, and KHL.
+A graphical comparison of the relationships that compares the three correlations: KC, Ergun, and KHL is presented here.
 \begin{figure}[!ht]
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
@@ -658,7 +693,7 @@ Here I provide a graphical comparison of the relationships that compares the thr
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Status of Ceramic Breeder Modeling and Analysis}\label{sec:modeling-state}
 
-Research efforts have been aimed at developing an understanding and characterization of thermomechanics of ceramic breeder pebble beds. Such an understanding is essential to providing confidence in performance and lifetime of ceramic breeder blanket designs. In particular, a significant effort of pebble bed thermomechanical studies is development of modeling simulation tools. In this section I will discuss the current state of modeling -- and experimental work feeding into modeling efforts -- for ceramic breeders of tritium.
+Research efforts have been aimed at developing an understanding and characterization of thermomechanics of ceramic breeder pebble beds. Such an understanding is essential to providing confidence in performance and lifetime of ceramic breeder blanket designs. In particular, a significant effort of pebble bed thermomechanical studies is development of modeling simulation tools. In this section the current state of modeling -- and experimental work feeding into modeling efforts -- for ceramic breeders of tritium is presented.
 
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -669,7 +704,7 @@ Research efforts have been aimed at developing an understanding and characteriza
 
 
 
-Many experiments have been run to measure the effective thermal conductivity of a volume of ceramic pebbles. In \Cref{fig:keff}, the effective conductivity is seen to be strongly affected by the interstitial gas but weakly affected by the mechanical loads on the bed. The main conclusions to bear in mind from \Cref{fig:keff} are that: 1) the interstitial gas is an important transporter of heat in the bed and 2) the effective thermal conductivity of the pebble bed is low and will limit the size of the ceramic pebble bed volume to satisfy the temperature window imposed on ceramic breeders.
+Many experiments have been run to measure the effective thermal conductivity of a volume of ceramic pebbles. In \Cref{fig:keff}, the effective conductivity is seen to be strongly affected by the interstitial gas but weakly affected by the mechanical loads on the bed. The main conclusions to bear in mind from \Cref{fig:keff} are that: 1) the interstitial gas, even when stagnant, is an important facilitator of heat transfer in beds and 2) the effective thermal conductivity of the pebble bed is low and will limit the size of the ceramic pebble bed volume to satisfy the temperature window imposed on ceramic breeders.
 
 \begin{figure}[ht]
         \centering
@@ -683,7 +718,7 @@ Many experiments have been run to measure the effective thermal conductivity of 
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[t]{\doubleimagewidth  }
                 \includegraphics[width=\textwidth]{figures/lit-keff-exp}
-                \caption{The effective conductivity of pebble beds is weakly dependent on external mechanical pressure.}
+                \caption{The effective conductivity of several \lit~packing structures.}
                 \label{fig:keff-lit}
         \end{subfigure}
         \caption{Effective conductivity of lithium ceramics. Results from Ref.~\cite{Abou-Sena2005}}\label{fig:keff}
@@ -732,7 +767,7 @@ A pebble bed experiencing creep compaction is both becoming more dense as well s
 
 During PIE, various microscopy preparation techniques are used to study the deformation state of the pebble beds (signs of creep compaction and sintering), formation of gas gaps between the pebble beds and structural materials, and the interaction layers between eurofer-ceramic and eurofer-beryllium. 
 
-Figure~\ref{fig:pba} shows the cross-section of \lit~pebbles (left) and \lis~pebbles (right) post irradiation. Evident in the images is sintering of the lithium titanite and significant fracturing of the lithium orthosilicate pebbles. Importantly, however, it must be noted that the pebble beds performed reliably in spite of the changes displayed in these images.\cite{Magielsen2007} 
+\Cref{fig:pba} shows the cross-section of \lit~pebbles (left) and \lis~pebbles (right) post irradiation. Evident in the images is sintering of the lithium titanite and significant fracturing of the lithium orthosilicate pebbles. Importantly, however, it must be noted that the pebble beds performed reliably in spite of the changes displayed in these images.\cite{Magielsen2007} 
 
 
 \begin{figure}[t!]
@@ -835,7 +870,7 @@ The Discrete Element Method (DEM) introduced by~\cite{Cundall1979} has been show
 
 The effect of packing factor, geometry of the assembly on the overall stress-strain response under uniaxial compression tests (UCT) has been thoroughly investigated.\cite{Gan:2010uq} Gan\etal~pebble assemblies in a cubic box with periodic boundary conditions to prevent the influence of boundaries dominating the ensemble response to loads.\cite{Gilabert2007} In the DEM uniaxial compression studies (see \Cref{fig:an-uniaxial-compression}), a non-linear stress-strain response and a characteristic residual strain after unloading (analogous to plastic strain in continuum systems) is observed akin to the experimental results.\cite{Reimann:2000tw} It was shown that the average coordination number, average normal contact force and the maximum normal contact force in the assembly has a unique functional relation (nonlinear, linear and linear, respectively) with the hydrostatic pressure or the applied pressure independent of the packing factor.\cite{Gan:2010uq,An20071393} These functional relations may be used as master curves for the micro-macro correspondence in the pebble bed Thermomechanics studies.
 
-Recently, the effect of the pebble size distribution on the overall thermomechanical behavior of the pebble assembly is studied by Annabattula\etal\cite{Annabattula2011}. They consider the pebble size distribution of ceramic breeder pebbles (\lis) with a diameter range of $0.25\ \mathrm{mm}$-$0.65\ \mathrm{mm}$. Figure~\ref{fig:pebble-assembly-potential-energy} shows a binary pebble assembly in a periodic box. The colors indicate stored elastic strain energy of the pebble (red: maximum and blue: zero). The assembly has a maximum pebble radius $\rmax=0.25$ mm with the pebble size ratio $\rstar=\rmin/\rmax=0.6$, relative volume fraction $\vstar=\vmax/V=0.7$ and a packing factor $\eta=0.643$. The average stress in a granular assembly can be deduced from the contact forces between individual grains.
+Recently, the effect of the pebble size distribution on the overall thermomechanical behavior of the pebble assembly is studied by Annabattula\etal\cite{Annabattula2011}. They consider the pebble size distribution of ceramic breeder pebbles (\lis) with a diameter range of $0.25\ \mathrm{mm}$-$0.65\ \mathrm{mm}$. \Cref{fig:pebble-assembly-potential-energy} shows a binary pebble assembly in a periodic box. The colors indicate stored elastic strain energy of the pebble (red: maximum and blue: zero). The assembly has a maximum pebble radius $\rmax=0.25$ mm with the pebble size ratio $\rstar=\rmin/\rmax=0.6$, relative volume fraction $\vstar=\vmax/V=0.7$ and a packing factor $\eta=0.643$. The average stress in a granular assembly can be deduced from the contact forces between individual grains.
 
 
 \begin{figure}[!ht]
@@ -852,7 +887,7 @@ Recently, the effect of the pebble size distribution on the overall thermomechan
 
 Another aspect of interest in the study of mechanics of pebble beds is the crush behavior of individual pebbles and their impact on the over all pebble bed response. DEM was used to study the behavior of a crushable pebble assembly with the crush load data for \lis~pebbles (for individual pebbles) measured at KIT for pebbles of diameter \SI{0.5}{\milli\meter}. 
 
-A probabilistic method for analyzing the crush events of individual pebbles and a procedure with the combination of DEM and experimental data to obtain crush load probability has been reported by~\cite{Gan:2010kc}. Figure~\ref{fig:cdf_pebbles} shows the cumulative distribution function as a function of the hydrostatic pressure placed on the bed. The probability analysis, derived from DEM calculations, provides quantitative report of pebble crushing as a function of a specific hydrostatic pressure. The results of this analysis exemplify the growing strength of DEM techniques for analyses connecting global pebble bed loads to individual pebbles.
+A probabilistic method for analyzing the crush events of individual pebbles and a procedure with the combination of DEM and experimental data to obtain crush load probability has been reported by~\cite{Gan:2010kc}. \Cref{fig:cdf_pebbles} shows the cumulative distribution function as a function of the hydrostatic pressure placed on the bed. The probability analysis, derived from DEM calculations, provides quantitative report of pebble crushing as a function of a specific hydrostatic pressure. The results of this analysis exemplify the growing strength of DEM techniques for analyses connecting global pebble bed loads to individual pebbles.
 
 \begin{figure}[!ht]
   \centering
@@ -861,9 +896,9 @@ A probabilistic method for analyzing the crush events of individual pebbles and 
  \label{fig:cdf_pebbles}
 \end{figure}
 
-However, it has been shown by Zhao\etal~that a criterion based on critical stored elastic energy is the most suitable criterion for describing the \lis~pebble failure.\cite{Zhao2010,Zhao2011} Hence, the crush load data (provided by fusion materials laboratory at KIT) has been transformed into equivalent elastic strain energy showing a Weibull distribution~\cite{Zhao2010}. Critical energy, with randomly generated distribution, is used as the criterion for failure of pebbles in their DEM simulations. First, the assembly is loaded up to 3\% strain in uniaxial compression and then unloaded to a stress-free state. The elastic modulus of the pebble is reduced, beginning from an initial value to a small value of \SI{1}{\kilo\pascal}, with increase in elastic strain energy of the pebble according to a phenomenological damage accumulation law.\cite{Annabattula2012a} The damage state is frozen at the end of loading step and hence there will be no further damage accumulation in the unloading step. 
+However, it has been shown by Zhao\etal~that a criterion based on critical stored elastic energy is a promising criterion for describing the \lis~pebble failure.\cite{Zhao2010,Zhao2011} An alternative criteria is given in \cref{sec:pebble-crush-prediction} for reference, but has not been validated experimentally and is thus not included in this discussion. Hence, the crush load data (provided by fusion materials laboratory at KIT) has been transformed into equivalent elastic strain energy showing a Weibull distribution~\cite{Zhao2010}. Critical energy, with randomly generated distribution, is used as the criterion for failure of pebbles in their DEM simulations. First, the assembly is loaded up to 3\% strain in uniaxial compression and then unloaded to a stress-free state. The elastic modulus of the pebble is reduced, beginning from an initial value to a small value of \SI{1}{\kilo\pascal}, with increase in elastic strain energy of the pebble according to a phenomenological damage accumulation law.\cite{Annabattula2012a} The damage state is frozen at the end of loading step and hence there will be no further damage accumulation in the unloading step. 
 
-Figure.~\ref{fig:stress-strain-effect} shows the results for two types of damage law each with three different realizations.\cite{ying2011isfnt} Each realization corresponds to a different random distribution of critical energies assigned to the pebbles in the assembly. The results do not show appreciable sensitivity to random distribution of energies. In the case of gradual damage law, the reduction of the elastic modulus of the pebble starts when the stored elastic energy reaches 50\% of the critical energy for that pebble and the elastic modulus reaches exponentially to its minimum value when the stored elastic energy reaches the critical energy prescribed. In the case of sudden damage this reduction starts at a much later stage when the stored elastic energy reaches 95\% of the critical energy of the pebble. Clearly, the assembly with a sudden damage accumulation shows a higher maximum strength compared to the gradual damage. In the case of the gradual damage, the pebbles start to fragment at smaller strains than in the case of sudden damage. Hence the critical number of pebbles to fail for the onset of maximum strength is reached at lower strain values in gradual damage. It turns out that a mere 0.2\% pebbles is the critical number for the onset of maximum strength, as manifest in observed stress plateaus.
+\Cref{fig:stress-strain-effect} shows the results for two types of damage law each with three different realizations.\cite{ying2011isfnt} Each realization corresponds to a different random distribution of critical energies assigned to the pebbles in the assembly. The results do not show appreciable sensitivity to random distribution of energies. In the case of gradual damage law, the reduction of the elastic modulus of the pebble starts when the stored elastic energy reaches 50\% of the critical energy for that pebble and the elastic modulus reaches exponentially to its minimum value when the stored elastic energy reaches the critical energy prescribed. In the case of sudden damage this reduction starts at a much later stage when the stored elastic energy reaches 95\% of the critical energy of the pebble. Clearly, the assembly with a sudden damage accumulation shows a higher maximum strength compared to the gradual damage. In the case of the gradual damage, the pebbles start to fragment at smaller strains than in the case of sudden damage. Hence the critical number of pebbles to fail for the onset of maximum strength is reached at lower strain values in gradual damage. It turns out that a mere 0.2\% pebbles is the critical number for the onset of maximum strength, as manifest in observed stress plateaus.
 
 \begin{figure}[!ht]
 \centering

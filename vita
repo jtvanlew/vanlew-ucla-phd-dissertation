@@ -1,12 +1,22 @@
 \vitaitem {2005} {B.S., Mechanical Engineering, Cum Laude\\ University of Arizona\\ Tucson, AZ}
+\vitaitem {2006} {Mechaical Design Engineering \\ US Monolithics \\ Chandler, AZ}
 \vitaitem {2010} {M.S., Mechanical Engineering \\ University of Arizona \\ Tucson, AZ}
-\vitaitem {2010} {Liu, H., Li, P., \& Van Lew, J. T., CFD Study On Flow Distribution Uniformity In Fuel Distributors Having Multiple Structural Bifurcations Of Flow Channels. International Journal of Hydrogen Energy}
-\vitaitem {2011} {Van Lew, J. T., Li, P., Chan, C., Karaki, W., \& Stephens, J., Analysis Of Heat Storage And Delivery Of A Thermocline Tank Having Solid Filler Material. Journal of Solar Energy Engineering}
-\vitaitem {2011} {Li, P., Van Lew, J. T., Karaki, W., Chan, C., Stephens, J., \& Wang, Q., Generalized Charts Of Energy Storage Effectiveness For Thermocline Heat Storage Tank Design And Calibration. Solar Energy}
-\vitaitem {2012} {Li, P., Van Lew, J. T., Chan, C., Karaki, W., Stephens, J., \& O’Brien, J. E., Similarity And Generalized Analysis Of Efficiencies Of Thermal Energy Storage Systems. Renewable Energy}
-\vitaitem {2012} {Liu, H., Li, P., Van Lew, J. T., \& Juarez-Robles, D., Experimental Study Of The Flow Distribution Uniformity In Flow Distributors Having Novel Flow Channel Bifurcation Structures. Experimental Thermal and Fluid Science}
-\vitaitem {2012} {Valmiki, M. M., Karaki, W., Li, P., Van Lew, J. T., Chan, C., \& Stephens, J., Experimental Investigation Of Thermal Storage Processes In A Thermocline Tank. Journal of Solar Energy Engineering}
-\vitaitem {2014} {Van Lew, J. T., Ying, A., \& Abdou, M. A., A Discrete Element Method Study On The Evolution Of Thermomechanics Of A Pebble Bed Experiencing Pebble Failure. Fusion Engineering and Design}
-\vitaitem {2015} {Van Lew, J. T., Park, Y.-H., Ying, A., \& Abdou, M., Modifying Young’s Modulus In Dem Simulations Based On Distributions Of Experimental Measurements. Fusion Engineering and Design}
-\vitaitem {2015} {Van Lew, J. T., Ying, A., \& Abdou, M., Coupling Discrete Element Models Of Ceramic Breeder Pebble Beds To Thermofluid Models Of Helium Purge Gas Using Volume-averaged Navier-Stokes And The Lattice-Boltzmann Method. Fusion Science And Technology}
-\vitaitem {2016} {Van Lew, J. T., Ying, A., \& Abdou, M., Numerical Study On Influences Of Bed Resettling, Breeding Zone Orientation, And Purge Gas On Temperatures In Solid Breeders. Fusion Engineering and Design.}
+
+
+% Conference proceedings
+%Van Lew, J. T., Li, P., Chan, C. L., Karaki, W., & Stephens, J. (2009). Transient Heat Delivery and Storage Process in a Thermocline Heat Storage System. In Volume 6: Emerging Technologies: Alternative Energy Systems; Energy Systems: Analysis, Thermodynamics and Sustainability (Vol. 6, pp. 139–148). Lake Buena Vista, Florida: ASME. http://doi.org/10.1115/IMECE2009-11701
+
+%Karaki, W., Van Lew, J. T., Li, P., Chan, C., & Stephens, J. (2010). Heat Transfer in Thermocline Storage System With Filler Materials: Analytical Model. In ASME 2010 4th International Conference on Energy Sustainability, Volume 2 (Vol. 2010, pp. 725–734). ASME. http://doi.org/10.1115/ES2010-90209
+
+%Karaki, W., Li, P., Van Lew, J. T., Valmiki, M. M., Chan, C., & Stephens, J. (2011). Experimental Investigation of Thermal Storage Processes in a Thermocline Storage Tank. In ASME 2011 5th International Conference on Energy Sustainability, Parts A, B, and C (Vol. 2011, pp. 1389–1396). ASME. http://doi.org/10.1115/ES2011-54134
+
+\vitaitem {2010} {Liu, H., Li, P., \& Van Lew, J. T., CFD Study On Flow Distribution Uniformity In Fuel Distributors Having Multiple Structural Bifurcations Of Flow Channels. International Journal of Hydrogen Energy, 35(17), 9186–9198.}
+\vitaitem {2011} {Van Lew, J. T., Li, P., Chan, C., Karaki, W., \& Stephens, J., Analysis Of Heat Storage And Delivery Of A Thermocline Tank Having Solid Filler Material. Journal of Solar Energy Engineering, 133(2), 021003.}
+\vitaitem {2011} {Li, P., Van Lew, J. T., Karaki, W., Chan, C., Stephens, J., \& Wang, Q., Generalized Charts Of Energy Storage Effectiveness For Thermocline Heat Storage Tank Design And Calibration. Solar Energy, 85(9), 2130–2143.}
+\vitaitem {2012} {Li, P., Van Lew, J. T., Chan, C., Karaki, W., Stephens, J., \& O’Brien, J. E., Similarity And Generalized Analysis Of Efficiencies Of Thermal Energy Storage Systems. Renewable Energy, 39(1), 388–402.}
+\vitaitem {2012} {Liu, H., Li, P., Van Lew, J. T., \& Juarez-Robles, D., Experimental Study Of The Flow Distribution Uniformity In Flow Distributors Having Novel Flow Channel Bifurcation Structures. Experimental Thermal and Fluid Science, 37, 142–153.}
+\vitaitem {2012} {Valmiki, M. M., Karaki, W., Li, P., Van Lew, J. T., Chan, C., \& Stephens, J., Experimental Investigation Of Thermal Storage Processes In A Thermocline Tank. Journal of Solar Energy Engineering, 134(4), 041003.}
+\vitaitem {2014} {Van Lew, J. T., Ying, A., \& Abdou, M. A., A Discrete Element Method Study On The Evolution Of Thermomechanics Of A Pebble Bed Experiencing Pebble Failure. Fusion Engineering and Design, 89(7-8), 1151–1157.}
+\vitaitem {2015} {Van Lew, J. T., Park, Y.-H., Ying, A., \& Abdou, M., Modifying Young’s Modulus In Dem Simulations Based On Distributions Of Experimental Measurements. Fusion Engineering and Design, 98-99, 1893–1897.}
+\vitaitem {2015} {Van Lew, J. T., Ying, A., \& Abdou, M., Coupling Discrete Element Models Of Ceramic Breeder Pebble Beds To Thermofluid Models Of Helium Purge Gas Using Volume-averaged Navier-Stokes And The Lattice-Boltzmann Method. Fusion Science And Technology, 68(2), 288–294.}
+\vitaitem {2016} {Van Lew, J. T., Ying, A., \& Abdou, M., Numerical Study On Influences Of Bed Resettling, Breeding Zone Orientation, And Purge Gas On Temperatures In Solid Breeders. Fusion Engineering and Design., In Press}
