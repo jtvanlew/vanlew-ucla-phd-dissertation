@@ -98,7 +98,7 @@ In mapping Lagrangian data from DEM into Eulerian CFD fields (for \textit{e.g.} 
 
 
 
-Again mid-line temperatures for the considered pebble beds are given in \Cref{fig:irrad-temps-cfd-q}.
+Again mid-line temperatures for the considered pebble beds are given in \Cref{fig:irrad-mids-cfd-q}.
 \begin{figure}[ht]
     \centering
     \includegraphics[width = 0.75\textwidth]{figures/irradiated/Tmid-plots-cfd-q.png}
@@ -173,7 +173,7 @@ Two ITER-relevant volumes are considered in this study, sketched in \Cref{fig:x-
 
 In terms of the generic coordinates, outflow of bed heat to coolant is along $\zeta$. Constant temperature boundaries, $T_w$, exist at the edges of that dimension. As sketched in \Cref{fig:domains}, gravity resettling in the $\chi$ configuration will not allow gap formation between bed and wall. However, in the $\zeta$-config it is possible for a gap to form between top coolant walls and pebbles after gravity resettling. A constant nuclear heat rate was applied to every particle in the bed which is representative of the highest source term anticipated in current ITER designs of solid breeder blankets, $q''' = \SI{8e6}{\watt\per\meter\cubed}$.
 
-The simulation consists of pebbles of diameter $d_p = \SI{1}{\milli\meter}$, in beds filled to two initial packing fractions, $\phi_{1,2} = 62, 64\%$. Mechanical properties of the pebbles are given in \Cref{tab:peb-props}. To note is the Young's modulus chosen for pebbles in this study. In a past experimental study, Van Lew \textit{et al}. found that individual pebbles behaved in a manner indicative of having a Young's modulus from 20 to 60\% of values reported in literature for sintered blocks of \lit~and \lis~\cite{VanLew2015a}. Therefore to maintain some generality to this study, we have chosen a Young's modulus at a nominal value of $E=\SI{60}{\giga\pascal}$ to generically represent either ceramic pebble.
+The simulation consists of pebbles of diameter $d_p = \SI{1}{\milli\meter}$, in beds filled to two initial packing fractions, $\phi_{1,2} = 62, 64\%$. Mechanical properties of the pebbles are given in \Cref{tab:peb-props}. To note is the Young's modulus chosen for pebbles in this study. In a past experimental study, Van Lew \textit{et al}. found that individual pebbles behaved in a manner indicative of having a Young's modulus from 20 to 60\% of values reported in literature for sintered blocks of \lit~and \lis~\cite{VanLew2015}. Therefore to maintain some generality to this study, we have chosen a Young's modulus at a nominal value of $E=\SI{60}{\giga\pascal}$ to generically represent either ceramic pebble.
 
 Pebble bed widths in $\zeta$ are \SI{20}{\milli\meter}, a size comparable to breeding volumes of many ITER TBM designs \cite{Hernandez2013,Cho2008,Feng2012a}. Bed depths (in the $z$-direction, in/out of the page in \Cref{fig:x-domain,fig:y-domain}) are \SI{5}{\milli\meter}, with periodic boundary conditions. Bed lengths in $\chi$ vary to accommodate \SI{6000} pebbles, initially, with given initial packing fractions; the length is approximately \SI{50}{\milli\meter}. Virtual walls are placed at extents of $\chi$ and $\zeta$ dimensions. Walls in $\zeta$ had constant temperature boundaries of $T_{w,s}$, all walls have mechanical and thermal properties of structural steel, given in \Cref{tab:wall-props}.
 
@@ -261,7 +261,7 @@ inlet temperature (\si{\kelvin})                    & $T_i$            & 573    
 
 
 \subsubsection{Modeling crush events}
-Models have been proposed in the past which translate experimental measurements of granular crushing into contact forces in an ensemble to predict granular crushing, \textit{e.g.} Refs.~\cite{Gan:2010kc,Russell2009,Zhao2012,VanLew2015a,Annabattula2014}, but no validation has set any model apart as yet. Here, packed beds experience artificial pebble-crushing events for which a chosen percentage, $\eta$, of initial pebbles (at randomized locations) fragment. Four pebble crush percentages are used: $\eta = 0, 1, 3, 5\%$. Numerical models of crush events themselves have received attention. Annabattula, Zhao, and Gan attempted to model a crushing event as either a reduction in radius of the crushed pebble or a reduction in Young's modulus \cite{Annabattula2011,Zhao2013,Annabattula2012a}. Van Lew \textit{et al}~made similar simplifications when they considered a crushed pebble as being removed from the force network, thus being removed from the DEM domain \cite{VanLew2014}. 
+Models have been proposed in the past which translate experimental measurements of granular crushing into contact forces in an ensemble to predict granular crushing, \textit{e.g.} Refs.~\cite{Gan:2010kc,Russell2009,Zhao2012,VanLew2015,Annabattula2014}, but no validation has set any model apart as yet. Here, packed beds experience artificial pebble-crushing events for which a chosen percentage, $\eta$, of initial pebbles (at randomized locations) fragment. Four pebble crush percentages are used: $\eta = 0, 1, 3, 5\%$. Numerical models of crush events themselves have received attention. Annabattula, Zhao, and Gan attempted to model a crushing event as either a reduction in radius of the crushed pebble or a reduction in Young's modulus \cite{Annabattula2011,Zhao2013,Annabattula2012a}. Van Lew \textit{et al}~made similar simplifications when they considered a crushed pebble as being removed from the force network, thus being removed from the DEM domain \cite{VanLew2014}. 
 
 %None of the approaches discussed above have been fully validated due to a lack of experimental results. 
 In this work, we replace a parent pebble of radius $r$ with $N_c$ smaller daughter fragments, each of equal radius, $r_c$. After a crushing event, fragments are free to resettle through interstitial gaps in the pebble bed and original pebbles respond in kind with re-arrangement into a new metastable packing structure.  To conserve volume between pre- and post-crush, we can relate the number of daughter fragments to the radius ratio between fragments and parent, $r^* = r_c/r$, as $N_c = (1/r^*)^{3}$. Conservation of energy of crush events is enforced by setting the temperature of daughter fragments equal to the parent pebble at the moment of crushing. 
@@ -292,13 +292,13 @@ Several cross-sections are created at mid-planes in $z$. Representative results 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width = \textwidth]{figures/z-64-discrete.eps}
-    \caption{Cuts at the mid-plane of $z$ for $\zeta$-config beds. (a) bed initially packed to $\phi_2$, and (b) bed with crushing of $\eta_5$ pebbles with particle size $r_2^*$. Three important zones have been identified}\label{fig:1}
+    \caption{Cuts at the mid-plane of $z$ for $\zeta$-config beds. (a) bed initially packed to $\phi_2$, and (b) bed with crushing of $\eta_5$ pebbles with particle size $r_2^*$.}\label{fig:1}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width = 0.75\textwidth]{figures/x-64-discrete.eps}
-    \caption{Cuts at the mid-plane of $z$ for $\chi$-config beds. (a) bed initially packed to $\phi_2$, and (b) bed with crushing of $\eta_5$ pebbles with particle size $r_2^*$. Three important zones have been identified}\label{fig:3}
+    \caption{Cuts at the mid-plane of $z$ for $\chi$-config beds. (a) bed initially packed to $\phi_2$, and (b) bed with crushing of $\eta_5$ pebbles with particle size $r_2^*$.}\label{fig:3}
 \end{figure}
 
 Wall offset temperatures ($T-T_w$) in beds are found in slices of width $\Delta\zeta$ along $\zeta$. Pebble-weighted mean values are found as $\langle T\rangle = \frac{1}{V_n}\sum_{j}^n (T_j-T_w) V_j$, for $n$ pebbles of temperature $T_j$ consuming a total volume $V_n$ in the slice. Demonstrative cases of $\phi_2 = 0.64$ with $r_2^* = 0.2$ are given in \Cref{fig:64-T-profile} as functions of granular crushing percentage.

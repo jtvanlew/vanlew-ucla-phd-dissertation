@@ -142,7 +142,7 @@ where $\tau$, a free parameter, is the relaxation time of the lattice, and $f_i^
 
 Inserting the operator of \Cref{eq:bgk-operator} into the evolution of the density distribution function, \Cref{eq:lbm-evolution}, we have the lattice-Boltzmann evolution equation with the BGK operator,
 \begin{equation}\label{eq:lbm-bgk}
-	f_i(\vec{x}+\vec{c}_i, t + 1) = f_i(\vec{x},t) - \frac{1}{\tau}\left[f_i^\eq(\vec{x},t) - f_i(\vec{x},t)\right]
+	f_i(\vec{x}+\vec{c}_i, t + 1) = f_i(\vec{x},t) - \frac{1}{\tau}\left[f_i(\vec{x},t) - f_i^\eq(\vec{x},t)\right]
 \end{equation}
 
 In spite of the relaxation time being a free parameter, there are limits to its value. The kinematic viscosity in a lattice is,
@@ -207,7 +207,7 @@ Thus far the lattice-Boltzmann formulation has been shown to calculate mass and 
 
 On the thermal lattice in the CLBGK method, the temperature is a passive scalar that is transported by the velocity (it is specified at each node corresponding to nodes from lattice solving the Navier-Stokes equations). Therefore, the density distribution functions on thermal lattices are in fact temperature distribution functions. The thermal lattice BGK equation is analogous to \Cref{eq:lbm-bgk} and written as,
 \begin{equation}\label{eq:lbm-thermal-bgk}
-	g_i(\vec{x}+\vec{c}_i, t + 1) = g_i(\vec{x},t) - \frac{1}{\tau_g}\left[g_i^\eq(\vec{x},t) - g_i(\vec{x},t)\right]
+	g_i(\vec{x}+\vec{c}_i, t + 1) = g_i(\vec{x},t) - \frac{1}{\tau_g}\left[g_i(\vec{x},t) - g_i^\eq(\vec{x},t)\right]
 \end{equation}
 where we have a second relaxation time for the thermal lattice, $\tau_g$. The temperature field is reconstructed via
 \begin{equation}
@@ -236,19 +236,19 @@ Thermal boundary conditions are handled \textit{via} a decomposition of the boun
 
 
 \subsection{Realizing LBM Models Computationally}
-Because of the immensely simple implementation of no-slip boundary conditions for even the most complex geometry, the lattice-Boltzmann method was immediately seen as a powerful option of fluid modeling in porous networks. Chen \& Doolen review many of the major accomplishments of implementing LBM models which verified Darcy's Law, the Cozeny-Karman equation, and Brinkmann equation, among other efforts.\cite{Chen1998a} Pan\etal~evaluated the single-relaxation time BGK operator against models with multiple relaxation times as well as models with different implementationsi of fluid-solid interface boundary conditions -- among which was the bounce-back scheme we use here.\cite{Pan2006}
+Because of the immensely simple implementation of no-slip boundary conditions for even the most complex geometry, the lattice-Boltzmann method was immediately seen as a powerful option of fluid modeling in porous networks. Chen \& Doolen review many of the major accomplishments of implementing LBM models which verified Darcy's Law, the Cozeny-Karman equation, and Brinkmann equation, among other efforts.\cite{Chen1998a} Pan\etal~evaluated the single-relaxation time BGK operator against models with multiple relaxation times as well as models with different implementationsi of fluid-solid interface boundary conditions -- among which was the bounce-back scheme we use here.\cite{Pan2006} For the conditions we will consider, single-relaxation time models are sufficient.
 
-Here we will go through the practical application of the LBM approach as it will be used  to simulate the conjugate heat transfer of the helium purge gas through ceramic pebble beds. To summarize the method, there are two main objects required to define the structure of a lattice-Boltzmann model: a collision operator, $\Omega_i$, and the constants which define the scaffolding of the lattice.
+For practical application of the LBM approach, as it will be used to simulate the conjugate heat transfer of the helium purge gas through ceramic pebble beds, there are two main objects required to define the structure of a lattice-Boltzmann model: collision operator, $\Omega_i$, and constants which define the scaffolding of the lattice.
 
 The computational domain of the fluid is discretized into a Cartesian grid with regularized spacing, $\delta_x$, in every dimension. At each node are density functions, $f_i(\vec{x},t)$, which represent the density at that node (found at $\vec{x}$), traveling in the direction of $\vec{c}_i$ at a moment in time, $t$. The density distribution function evolves according to \Cref{eq:lbm-evolution}. It is helpful to look at the equation compartmentalized in the same manner it is handled computationally, thus we see the streaming and collision parts,
-\begin{align}
+\begin{align*}
 	\underbrace{f_i(\vec{x}+\vec{c}_i, t + 1)  = f_i(\vec{x},t)}_\text{streaming}  + \underbrace{\Omega_i(\vec{x},t)}_\text{collision}
-\end{align}
+\end{align*}
 
-Conceptually the two steps of lattice evolution can be thought of as two distinct operations. First, the collision operator is calculated based only on each node's local information. Using the BGK approximation, given in \Cref{eq:bgk-operator}, the collision is calculated as
-\begin{align}
+Conceptually the two steps of lattice evolution can be thought of as two distinct operations. First, the collision operator is calculated based only on each node's local information. Using the BGK approximation, given in \Cref{eq:bgk-operator}, the collision is calculated as,
+\begin{align*}
 	\Omega_i = -\frac{1}{\tau}\left[f_i(\vec{x},t) - f_i^\eq(\vec{x},t)\right]
-\end{align}
+\end{align*}
 
 Post-collision, in the streaming step, the information is passed from every node to its neighbors along the lattice directions shown in \Cref{fig:d3q19-lattice}. While the collision operation is exactly local, the streaming operation involves only nearest neighbors. After the streaming step, the nodes that lie along the boundary have the bounce-back scheme applied wherein distributions arriving at the boundary are reflected back to their incident directions.
 
@@ -514,7 +514,7 @@ where there are $J$ total slices. For example, we see in \Cref{fig:dem-2-lbm-pac
 
 
 \subsection{Pore Size Effects on Hydrodynamics}
-To model proper hydrodynamics with the lattice-Boltzmann method there are still several measures the lattice must satisfy. Several numerical experiments by Succi\etal~have shown proper hydrodynamics of Pouiselle flow in channels requires 4 lattice sites for fluid in pores of porous media.\cite{succi2001lattice} When spherical packings are digitized onto LBM lattices, constricted pores are consistently observed when resolutions are low. Taking DEM packings from \Cref{sec:isfnt-12}, we analyze the pore size distributions of different resolutions. The important pore size for a flow in the $x$-direction is the transverse $y$-$z$-plane. Thus taking a digitized bitmap of the $\phi = 0.64$  DEM packings, we measure the pore size sweeping along the $y$- and $z$-axes to generate \Cref{fig:res-pore-sizes} for various resolutions. 
+To model proper hydrodynamics with the lattice-Boltzmann method there are still several measures the lattice must satisfy. Several numerical experiments by Succi\etal~have shown proper hydrodynamics of Pouiselle flow in channels requires 4 lattice sites for fluid in pores.\cite{succi2001lattice} When spherical packings are digitized onto LBM lattices, constricted pores are consistently observed when resolutions are low and we thus must consider if there are regions of the lattice violating Succi's rule of 4 nodes (pixels). Taking DEM packings from \Cref{sec:isfnt-12}, we analyze the pore size distributions of different resolutions. The important pore size for a flow in the $x$-direction is the transverse $y$-$z$-plane. Thus taking a digitized bitmap of the $\phi = 0.64$  DEM packings, we measure the pore size sweeping along the $y$- and $z$-axes to generate \Cref{fig:res-pore-sizes} for various resolutions. 
 
 \begin{figure}[h]
     \centering
@@ -528,7 +528,7 @@ To model proper hydrodynamics with the lattice-Boltzmann method there are still 
     \caption{For small resolutions, the number of pore openings smaller than 4 lattice nodes is 87.5\%. Increasing the resolution to 80 reduces this percentage to 26.2\%.}\label{fig:percent-pores-under-4px}
 \end{figure}
 
-\Cref{fig:percent-pores-under-4px} shows the percentage of pore openings in the lattices that are less than the 4 nodes recommended for proper hydrodynamics. Adhering to Succi's criteria of 4 pixel-wide pore opening minimums, it is obvious that the lattice resolution of 10 is unacceptable in terms of faithful reproduction of packed bed flow hydrodynamics: nearly 90\% of the pores in the lattice are less than 4 nodes wide. It is less evident if the violation of 4-node recommendation of other resolutions are allowable. 
+\Cref{fig:percent-pores-under-4px} shows the percentage of pore openings in the lattices that are less than the 4 nodes recommended for proper hydrodynamics. Adhering to Succi's criteria of 4 pixel-wide pore opening minimums, it is obvious that the lattice resolution of 10 is unacceptable in terms of faithful reproduction of packed bed flow hydrodynamics: nearly 90\% of the pores in the lattice are less than 4 nodes wide. It is less evident if the violation of 4-node recommendation of other resolutions are allowable, so we instead consider the Knudsen criteria for continuous media for these resolutions.
 
 The Knudsen number, the ratio of a gas's mean free path, $\lambda_{mfp}$, to a characteristic geometric length of the system, $L$, 
 \begin{equation}
@@ -540,7 +540,7 @@ is a key nondimensional parameter indicating when continuum assumptions, free mo
 \end{equation}
 where viscosity, $\mu$, and density, $\rho$, are temperature-dependent. $M$ is molecular mass, $k_b$ the Boltzmann constant, and $T$ absolute temperature.
 
-A classification of flow regimes dictates that must be $\Kn < 10^{-2}$ for the continuum assumption to hold.\cite{karniadakis2006microflows} The Knudsen number is calculated as a function of pore size and temperature for helium in \Cref{fig:Knudsen_limits}. To satisfy the $\Kn$ criteria for continuum modeling, pore sizes must be larger than \SI{50}{\micro\meter} for helium at \SI{400}{\celsius} and greater than \SI{100}{\micro\meter} at \SI{900}{\celsius}. In packed beds of spheres, a large range of pore sizes appears. Near the contact points of two pebbles, pore sizes can be extremely small. Simultaneously, pore sizes between some pebbles in the packing can be on the order of pebble diameters. 
+A classification of flow regimes dictates that must be $\Kn < 10^{-2}$ for the continuum assumption to hold.\cite{karniadakis2006microflows} The Knudsen number is calculated as a function of pore size and temperature for helium in \Cref{fig:Knudsen_limits}. To satisfy the $\Kn$ criteria for continuum modeling, pore sizes must be larger than \SI{50}{\micro\meter} for helium at \SI{400}{\celsius} and greater than \SI{100}{\micro\meter} at \SI{900}{\celsius}.
 
 \begin{figure}[ht]
     \centering
@@ -548,7 +548,7 @@ A classification of flow regimes dictates that must be $\Kn < 10^{-2}$ for the c
     \caption{Knudsen number for helium at \SI{400}{\celsius} and \SI{900}{\celsius} as a function of characteristic pore size.}\label{fig:Knudsen_limits}
 \end{figure}
 
-We can measure pore size distribution from a digitized DEM packing structure with an extremely fine resolution, res = \num{10000}. The pore size is converted into micro-meters from the translation between resolution and pebble diameter (resolution = pixels/mm). The result is shown in \Cref{fig:res10000-pore-size-distributions}.
+ In packed beds of spheres, a large range of pore sizes appears; near the contact points of two pebbles, pore sizes can be extremely small. Simultaneously, pore sizes between some pebbles in the packing can be on the order of pebble diameters. The distribution of pore sizes for a $\phi = 0.64$ packing can be directly measured from very high resolution, res = \num{10000}, digitalizations of DEM. Pore size is converted into micro-meters from the translation between resolution and pebble diameter (resolution = pixels/mm). The result is shown in \Cref{fig:res10000-pore-size-distributions}. Analysis of pore sizes tells us that this packed bed has 41.2\% of its pores smaller than \SI{100}{\micro\meter} and 22.5\% of the pore openings are smaller than \SI{50}{\micro\meter}. In other words, based on the Knudsen number of helium, at \SI{400}{\celsius}, nearly a quarter of the gaseous space in the pebble bed is violating the assumption necessary for continuum treatment of the fluid. As the temperature increases to \SI{900}{\celsius}, almost half of the gaseous space is in violation of the continuum assumption. 
 
 \begin{figure}[ht]
     \centering
@@ -556,16 +556,13 @@ We can measure pore size distribution from a digitized DEM packing structure wit
     \caption{Measured pore sizes from digitized DEM packings at $\phi = 0.64$, determined from a lattice with res = \num{10000}.}\label{fig:res10000-pore-size-distributions}
 \end{figure}
 
-Analysis of the pore size distribution tells us that this packed bed has 41.2\% of its pores smaller than \SI{100}{\micro\meter} and 22.5\% of the pore openings are smaller than \SI{50}{\micro\meter}. In other words, based on the Knudsen number of helium, at \SI{400}{\celsius}, nearly a quarter of the gaseous space in the pebble bed is violating the assumption necessary for continuum treatment of the fluid. As the temperature increases to \SI{900}{\celsius}, almost half of the gaseous space is in violation of the continuum assumption. 
 
-The issue of violating Knudsen criteria in heated packed beds is left for future consideration. The main conclusion to draw is that Succi criteria of 4 nodes per pore opening being the minimum to satisfy hydrodynamic fidelity in LBM may not be completely applicable to packed beds which, themselves, are not satisfying criteria for being handled by continuum models. Comparing the outcome of this Knudsen analysis with the pore sizes of \Cref{fig:percent-pores-under-4px}, and perhaps even a resolution as low as 20 may still have an acceptable level of pore size distribution in light of Knudsen criteria violation.
+We are left with two, somewhat unsatisfying, conclusions from this present consideration. First, assuming a 64\% packed bed that is digitized with a resolution of 40 voxels per mm at an average temperature of \SI{400}{\celsius}, Succi's criteria of 4 voxels per throat necessary to model continuum mechanics is violated in nearly 50\% of the packed bed. Second, in the same packed bed, Knudsen's criteria which allows treatment of the fluid as a continuum is also violated in nearly 22.\% of the bed. Thus, we cannot directly ascertain if moderate resolution lattices (\textit{i.e.} 20 to 80 voxels per mm) provide accurate hydrodynamics at high temperatures when Knudsen's criteria is violated. For the sake of this research, we must assume that these moderate resolution lattices are acceptable and leave the issue of violating Knudsen criteria in heated packed beds for future research consideration.
 
 
 
 \subsection{Parametric Study with Resolution and Packing Fractions}
-We now apply LBM models to a variety of DEM-generated pebble beds to find an optimum resolution which yields both tractable models in terms of computational time as well as faithfulness of fluid flow physics.
-
-Packing fraction and resolution of slices have a direct impact on lattice stabilities and faithful reproduction of hydrodynamics on the lattice. To study stability we consider several two-dimensional slices from a three-dimensional packing, such as the slices shown in \Cref{fig:2d-dem-lbm-mapping}. Lattices were generated with varying values of both radius reduction factor, $k$, and resolution, $\res$. Using simple boundary conditions of no-slip on the left and right walls, a Neumann boundary condition at the outlet (top) and constant velocity at the inlet (bottom), all latices were tested to find the stability of the resolutions and packings. To determine if a steady-state condition was reached, the velocity of the entire lattice was integrated. The value has units of $\psi = [m/s][lu^2]$, with dimensionless lattice spacing units. The value of $\psi$ is plotted in \Cref{fig:2d-lbm-settings-velocity}; we see a steady-state velocity is reached in all of the low-packing fraction lattices. As the packing fraction increased, following the increase of $k$, we see the system velocity slowly becomes unstable. When $k$ = 0.9, with a packing fraction of $\phi = 0.555$, the system approximately linearly increases into unstable values. Note, for the case when $k=1$, the density calculated in this system blew up to $\infty$ in less than 300 steps, so the velocity profile does not have a chance to demonstrate the unstable increase. For that bed, the packing fraction was high enough that there was not a continuous path available between inlet and outlet.
+We now apply LBM models to a variety of DEM-generated pebble beds to find an optimum resolution which yields both tractable models in terms of computational time and stability. Packing fraction and resolution of slices have a direct impact on both of computational time and lattice stabilities. We consider several two-dimensional slices from a three-dimensional packing, such as the slices shown in \Cref{fig:2d-dem-lbm-mapping}. Lattices were generated with varying values of both radius reduction factor, $k$, and resolution, $\res$. Using simple boundary conditions of no-slip on the left and right walls, a Neumann boundary condition at the outlet (top) and constant velocity at the inlet (bottom), all latices were tested to find the stability of the resolutions and packings. To determine if a steady-state condition was reached, the velocity of the entire lattice was integrated. The value has units of $\psi = [m/s][lu^2]$, with dimensionless lattice spacing units. The value of $\psi$ is plotted in \Cref{fig:2d-lbm-settings-velocity}; we see a steady-state velocity is reached in all of the low-packing fraction lattices. As the packing fraction increased, following the increase of $k$, we see the system velocity slowly becomes unstable. When $k$ = 0.9, with a packing fraction of $\phi = 0.555$, the system approximately linearly increases into unstable values. Note, for the case when $k=1$, the density calculated in this system blew up to $\infty$ in less than 300 steps, so the velocity profile does not have a chance to demonstrate the unstable increase. For that bed, the packing fraction was high enough that there was not a continuous path available between inlet and outlet.
 
 \begin{figure}[ht]
     \centering
@@ -585,13 +582,13 @@ The two-dimensional study shows settings that lead to a stable lattice but, beca
         \centering
         \begin{subfigure}[b]{0.3\textwidth}
                 \includegraphics[width=\textwidth, trim={200pt, 150pt, 200pt, 200pt},clip]{figures/lbm/k092res10}
-                \caption{Pebble bed with $k = 0.92$, $\res = 10$.}
+                \caption{$k = 0.92$, $\res = 10$.}
                 \label{fig:k092res10}
         \end{subfigure}%
         ~
         \begin{subfigure}[b]{0.3\textwidth}
                 \includegraphics[width=\textwidth, trim={200pt, 150pt, 200pt, 200pt},clip]{figures/lbm/k0947res20}
-                \caption{Pebble bed with $k = 0.947$, $\res = 20$.}
+                \caption{$k = 0.947$, $\res = 20$.}
                 \label{fig:k0947res20}
         \end{subfigure}%
         ~
@@ -599,7 +596,7 @@ The two-dimensional study shows settings that lead to a stable lattice but, beca
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.3\textwidth}
                 \includegraphics[width=\textwidth, trim={200pt, 150pt, 200pt, 200pt},clip]{figures/lbm/k097res40}
-                \caption{Pebble bed with $k = 0.97$, $\res = 40$.}
+                \caption{$k = 0.97$, $\res = 40$.}
                 \label{fig:k097res40}
         \end{subfigure}
         \caption{For a specified packing fraction, 62.4\%, different resolution lattices require different radius scaling factors. The increased resolution is seen in increasing accuracy of spherical modeling on the discretized lattice.}\label{fig:3d-dem-lbm-mapping}

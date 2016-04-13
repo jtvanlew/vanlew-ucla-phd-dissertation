@@ -64,9 +64,9 @@ for j, loadfile in enumerate(loadfiles):
 
 array = [1, .8, .6, .4, .3, .2, .1, .01]
 Tmid = np.insert(Tmid, 0, 823)
-# Tstar = (Tmid - To)
-Tstar = Tmid/Tmid[0]
-plt.scatter(array, Tstar, s=60, linewidth = 2, edgecolors = color_idx[0], facecolors='None', label= "Q = %s"%(8e6*.64))
+Tstar = (Tmid - To)/(Tmid[0]-To)
+#Tstar = Tmid/Tmid[0]
+plt.scatter(array, Tstar, s=60, linewidth = 2, edgecolors = color_idx[0], facecolors='None', label= r"Q = %s MW/m$^3$"%(8*.64))
 
 
 
@@ -157,11 +157,11 @@ for j, loadfile in enumerate(loadfiles):
 
 array = [1, .8, .6, .4, .3, .2, .1, .01]
 
-#Tstar = (Tmid - To)/((8.e6)*(0.01**2))
+Tstar = (Tmid - To)/(Tmid[0]-To)
 
-Tstar = Tmid/Tmid[0]
+#Tstar = Tmid/Tmid[0]
 
-plt.scatter(array, Tstar, s=20, marker = 's', linewidth=2, edgecolors= color_idx[1], facecolors='None', label= "Q = %s"%(8e6))
+plt.scatter(array, Tstar, s=20, marker = 's', linewidth=2, edgecolors= color_idx[1], facecolors='None', label= r"Q = %s MW/m$^3$"%(8.00))
 
 plt.xlim([0, 1.00])
 # plt.ylim([1, 1.5])
