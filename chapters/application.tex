@@ -1,6 +1,6 @@
 \chapter{Applied Modeling of Solid Breeders}\label{sec:dem-studies}
 
-
+In the preceding chapters, descriptions of the multi-scale models developed for this thesis were given. The new models were created to permit studying the internal packing structure of solid breeder pebble beds, specifically under fault conditions (\textit{i.e.} crushed pebbles, altered packing structures), and the subsequent ability to maintain heat removal of deposited nuclear energy. In this chapter we finally apply all the models toward studying heat transfer in fusion-relevant pebble bed configurations. There will be three main topics considered: (i) changes to effective conductivity due to irradiation damage of ceramic solids, (ii) the effect of pebble bed orientation, initial packing fraction, and pebble fragmentation on temperature distributions in pebble beds, and (iii) helium tortuosity effects on heat transfer after pebble fragmentation. 
 
 
 \section{Irradiation Effects on Effective Thermal Conductivity}\label{sec:irradiation}
@@ -427,33 +427,33 @@ In $\zeta$-configuration beds, pebbles traveling more than a few pebble diameter
 
 In contrast, $\chi$-config beds respond much differently to pebble fragment settling. We again see from cross-sections in \Cref{fig:3} a pebble identified in Zone (1) that breaks but remains in that zone after settling. The trend continues in other regions of the bed. When pebbles are crushed in the $\chi$-config beds, gravity causes them to fall downward but remain generally in the same isotherm, as drawn in \Cref{fig:3}. According to \Cref{fig:64-T-profile}, the effect of pebble crushing has little effect up to 3\% of damaged pebbles. But suddenly at $\eta = 5\%$, the combination of reduced overall bed pressure and fragmentation heating causes the maximum bed temperature to jump above all other $\phi = 64\%$ beds (see \Cref{fig:64-T-profile} and \Cref{fig:eta-T_max}). The temperature increase in this $\chi$-config bed is due to the accumulation of pebble fragments that remain in Zone (3), only tumbling to lower heights. Helium that enters the $\chi$-configuration bed reaches higher temperatures more quickly due to the increased heating from fragments which settled at lower heights of $y$. Helium then continues to heat from the many fragments in Zone (3) which ultimately results in the highest maximum bed temperatures (for the given packing fraction). This can also be seen with comparison between \Cref{fig:1,fig:3}: the $\chi$-config bed reaches the \SI{780}{\kelvin} contour at a much lower height than the $\zeta$-configuration. 
 
+Travel of pebble fragments also manifests in changes to local packing fraction. In \Cref{fig:x-62-r23-deltas,fig:x-62-r125-deltas,fig:x-64-r23-deltas,fig:x-64-r125-deltas}, we see the changes local packing fraction distribution, for all pebble beds of $\chi$-configuration, due to fragmentation and resettling. Similarly, in \Cref{fig:z-62-r23-deltas,fig:z-62-r125-deltas,fig:z-64-r23-deltas,fig:z-64-r125-deltas}, we see the local packing fraction distributions for all pebble beds of the $\zeta$-configuration. These figures are alternative depictions of fragmentation travel, illustrating global changes to pebble beds after pebble crushing. The images are generated from binning particles in grids of $x$ and $z$ and considering all pebbles in the depth $y$.
 
+Comparing \Cref{fig:x-62-r23-deltas} with \Cref{fig:x-64-r23-deltas}, two sets of beds with the same configuration and fragment size but different initial packing fraction, we see pebble beds with lower initial packing fractions have an amplified response to crushing than beds with higher packing fraction. Likewise, if we flip the orientation such as in \Cref{fig:z-62-r23-deltas} and \Cref{fig:z-64-r23-deltas}, there is again a more widespread change in local packing fraction for beds of smaller initial packing fractions.
 
+The effect of pebble fragment size to local packing fraction is also revealed in these images. For both configurations, and all initial packing fractions, the beds with smaller fragment size, $r_2^*$, would result in accumulation of mass (\textit{i.e.} higher packing fraction) at the base of the pebble beds and a reduction of mass near the top wall. Among this subset of pebble beds with smaller fragments, we again clearly see that lower initial packing fractions; beds of either configuration with $\phi = 0.62$ have larger regions of $\Delta \phi = 0.07$ than any of the $\phi = 0.64$ beds.
+% \begin{figure}[!t]
+%     \centering
+%     \includegraphics[width = 0.65\textwidth]{figures/x-62-r23-1.png}
+%     \caption{Distribution of local packing fraction for $\chi$-config, $\phi = 0.62$, $r^* = 0.32$}\label{fig:x-62-r23}
+% \end{figure}
 
-\subsubsection{Local Packing Fraction Redistribution}
-Travel of pebble fragments also manifests in changes to local packing fraction. In \Cref{fig:x-62-r23,fig:x-62-r125,fig:x-624-r23,fig:x-624r125}, we see the local packing fraction distribution for all pebble beds of $\chi$-configuration. 
-\begin{figure}[!t]
-    \centering
-    \includegraphics[width = 0.65\textwidth]{figures/x-62-r23-1.png}
-    \caption{Distribution of local packing fraction for $\chi$-config, $\phi = 0.62$, $r^* = 0.32$}\label{fig:x-62-r23}
-\end{figure}
+% \begin{figure}[!t]
+%     \centering
+%     \includegraphics[width = 0.65\textwidth]{figures/x-62-r125-1.png}
+%     \caption{Distribution of local packing fraction for $\chi$-config, $\phi = 0.62$, $r^* = 0.2$}\label{fig:x-62-r125}
+% \end{figure}
 
-\begin{figure}[!t]
-    \centering
-    \includegraphics[width = 0.65\textwidth]{figures/x-62-r125-1.png}
-    \caption{Distribution of local packing fraction for $\chi$-config, $\phi = 0.62$, $r^* = 0.2$}\label{fig:x-62-r125}
-\end{figure}
-
-\begin{figure}[!t]
-    \centering
-    \includegraphics[width = 0.65\textwidth]{figures/x-62-r23-1.png}
-    \caption{Distribution of local packing fraction for $\chi$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:x-624-r23}
-\end{figure}
-\begin{figure}[!t]
-    \centering
-    \includegraphics[width = 0.65\textwidth]{figures/x-62-r125-1.png}
-    \caption{Distribution of local packing fraction for $\chi$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:x-624r125}
-\end{figure}
+% \begin{figure}[!t]
+%     \centering
+%     \includegraphics[width = 0.65\textwidth]{figures/x-64-r23-1.png}
+%     \caption{Distribution of local packing fraction for $\chi$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:x-624-r23}
+% \end{figure}
+% \begin{figure}[!t]
+%     \centering
+%     \includegraphics[width = 0.65\textwidth]{figures/x-64-r125-1.png}
+%     \caption{Distribution of local packing fraction for $\chi$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:x-624r125}
+% \end{figure}
 
 
 % deltas~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -471,39 +471,39 @@ Travel of pebble fragments also manifests in changes to local packing fraction. 
 
 \begin{figure}[!t]
     \centering
-    \includegraphics[width = 0.65\textwidth]{figures/x-62-r23-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_{\eta} - \phi_i$) for $\chi$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:x-624-r23-deltas}
+    \includegraphics[width = 0.65\textwidth]{figures/x-64-r23-1-deltas.png}
+    \caption{Distribution of local changes in packing fraction ($\phi_{\eta} - \phi_i$) for $\chi$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:x-64-r23-deltas}
 \end{figure}
 
 \begin{figure}[!t]
     \centering
-    \includegraphics[width = 0.65\textwidth]{figures/x-62-r125-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_{\eta} - \phi_i$) for $\chi$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:x-624-r125-deltas}
+    \includegraphics[width = 0.65\textwidth]{figures/x-64-r125-1-deltas.png}
+    \caption{Distribution of local changes in packing fraction ($\phi_{\eta} - \phi_i$) for $\chi$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:x-64-r125-deltas}
 \end{figure}
 % deltas~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
-\begin{figure}[!t]
-    \centering
-    \includegraphics[width = 0.95\textwidth]{figures/z-62-r23-1.png}
-    \caption{Distribution of local packing fraction for $\zeta$-config, $\phi = 0.62$, $r^* = 0.32$}\label{fig:z-62-r23}
-\end{figure}
-\begin{figure}[!t]
-    \centering
-    \includegraphics[width = 0.95\textwidth]{figures/z-62-r125-1.png}
-    \caption{Distribution of local packing fraction for $\zeta$-config, $\phi = 0.62$, $r^* = 0.2$}\label{fig:z-62-r125}
-\end{figure}
-\begin{figure}[!t]
-    \centering
-    \includegraphics[width = 0.95\textwidth]{figures/z-62-r23-1.png}
-    \caption{Distribution of local packing fraction for $\zeta$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:z-624-r23}
-\end{figure}
-\begin{figure}[!t]
-    \centering
-    \includegraphics[width = 0.95\textwidth]{figures/z-62-r125-1.png}
-    \caption{Distribution of local packing fraction for $\zeta$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:z-624r125}
-\end{figure}
+% \begin{figure}[!t]
+%     \centering
+%     \includegraphics[width = 0.95\textwidth]{figures/z-62-r23-1.png}
+%     \caption{Distribution of local packing fraction for $\zeta$-config, $\phi = 0.62$, $r^* = 0.32$}\label{fig:z-62-r23}
+% \end{figure}
+% \begin{figure}[!t]
+%     \centering
+%     \includegraphics[width = 0.95\textwidth]{figures/z-62-r125-1.png}
+%     \caption{Distribution of local packing fraction for $\zeta$-config, $\phi = 0.62$, $r^* = 0.2$}\label{fig:z-62-r125}
+% \end{figure}
+% \begin{figure}[!t]
+%     \centering
+%     \includegraphics[width = 0.95\textwidth]{figures/z-64-r23-1.png}
+%     \caption{Distribution of local packing fraction for $\zeta$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:z-624-r23}
+% \end{figure}
+% \begin{figure}[!t]
+%     \centering
+%     \includegraphics[width = 0.95\textwidth]{figures/z-64-r125-1.png}
+%     \caption{Distribution of local packing fraction for $\zeta$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:z-624r125}
+% \end{figure}
 
 
 
@@ -522,14 +522,14 @@ Travel of pebble fragments also manifests in changes to local packing fraction. 
 
 \begin{figure}[!t]
     \centering
-    \includegraphics[width = 0.95\textwidth]{figures/z-62-r23-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_{\eta} - \phi_i$) for $\zeta$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:z-624-r23-deltas}
+    \includegraphics[width = 0.95\textwidth]{figures/z-64-r23-1-deltas.png}
+    \caption{Distribution of local changes in packing fraction ($\phi_{\eta} - \phi_i$) for $\zeta$-config, $\phi = 0.64$, $r^* = 0.32$}\label{fig:z-64-r23-deltas}
 \end{figure}
 
 \begin{figure}[!t]
     \centering
-    \includegraphics[width = 0.95\textwidth]{figures/z-62-r125-1-deltas.png}
-    \caption{Distribution of local changes in packing fraction ($\phi_{\eta} - \phi_i$) for $\zeta$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:z-624-r125-deltas}
+    \includegraphics[width = 0.95\textwidth]{figures/z-64-r125-1-deltas.png}
+    \caption{Distribution of local changes in packing fraction ($\phi_{\eta} - \phi_i$) for $\zeta$-config, $\phi = 0.64$, $r^* = 0.2$}\label{fig:z-64-r125-deltas}
 \end{figure}
 % deltas~~~~~~~~~~~~~~~~~~~~~~~~~~
 
