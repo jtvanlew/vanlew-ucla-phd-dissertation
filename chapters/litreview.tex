@@ -474,17 +474,17 @@ After discussing many popular correlations for Nusselt number in packed beds, co
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \subsection{Radiation in Granular Media}
 
-In order to quantify radiative heat transfer compared to conduction heat transfer, consider particle $i$ at temperature $T_i$ with material properties of $E$, $\nu$, radius $R$, emissivity $\epsilon$, and solid conductivity $k_s$ in contact with particle $j$ of the same material at temperature $T_j$, the amount of heat transfered through a single contact of these two pebbles is
+In order to quantify radiative heat transfer compared to conduction heat transfer, consider particle $i$ at temperature $T_i$ with material properties of $E$, $\nu$, radius $R$, emissivity $\epsilon$, and solid conductivity $k_s$ in contact with particle $j$ of the same material at temperature $T_j$, the amount of heat transfered through a single contact of these two pebbles can be calculated from \Cref{eq:pebble-conduction-heat-transfer}, where conductance is given by \Cref{eq:cheng-modification-batchelor}. Together, these are,
 \begin{equation}
 Q_c = 2k_s\left(\frac{3}{4}\frac{R^*}{E^*}\right)^{1/3}F_n^{1/3} (T_i - T_j)
 \end{equation}
-Assuming further that the contact force between these two particles is about \SI{10}{\newton}. Radiation exchange from particle $i$ to $j$ can be found from a grey-body radiative transfer equation,
+We will assume that the contact force between these two particles is about \SI{10}{\newton} for a first order approximation. Radiation exchange from particle $i$ to $j$ can be found from a radiative transfer equation, assuming the surfaces are grey and diffuse,
 \begin{equation}
-Q_r = \epsilon\sigma A_s\left(T_i^{1/4} - T_j^{1/4}\right)
+Q_r = \epsilon\sigma A_sF_{ij}\left(T_i^{4} - T_j^{4}\right)
 \end{equation}
-where we will assume that the surface area projected between the two particles is a half-sphere, $A_s = 2\pi R^2$.
+where we will assume that the surface area projected between the two particles is a half-sphere, $A_s = 4\pi R^2$ and the pebbles have an emissivity of $\epsilon = 0.5$. Feng and Han provide view factors between spheres of equal size in various packing structures.\cite{Feng2012} Between two pebbles, regardless of the packing structure, the view factor is approximately $F_{ij} = 0.075$. This number can be arrived at logically as it is slightly less than $1/12$, which is the number of contacts in the most dense packing of spheres, hexagonal-close packing. 
 
-The amount of energy transfered between the two particles is a function of not only the temperature differences but also the absolute temperatures. In the following figures, the temperature of $T_i$ is varied between \SIrange{300}{800}{\celsius} and $T_j$ is varied between $T_i - 100$ to $T_i$. The amount of heat transfer is normalized against the amount of heat transfer between the pebbles due to conduction at the given temperature (\textit{i.e.} $Q_c$ will always equal unity). The results, given in \Cref{fig:qc-vs-qr}, show that when average pebble temperatures are above \SI{600}{\celsius}, the amount of energy transfered between these two pebbles will be approximately half of that due to contact conductance. When pebble $i$ increases to \SI{800}{\celsius}, the heat transfer between pebbles of comparable temperature is almost equally divided between radiation and contact conductance.
+The amount of energy transfered between the two particles is a function of not only the temperature differences but also the absolute temperatures. In the following figures, the temperature of $T_i$ is varied between \SIrange{300}{800}{\celsius} and $T_j$ is varied between $T_i - \SI{100}{\celsius}$ to $T_i$. The amount of heat transfer is normalized against the amount of heat transfer between the pebbles due to conduction at the given temperature (\textit{i.e.} $Q_c$ will always equal unity). The results, given in \Cref{fig:qc-vs-qr}, show at the lower range of temperatures, $T_i < \SI{467}{\celsius}$, radiation heat transfer is always less than 7\% of contact conduction. With a pebble of temperature \SI{667}{\celsius}, the amount of energy transfered has raised to a maximum of 14\%. Then, when pebble $i$ increases to \SI{800}{\celsius}, the amount of energy radiated to pebble $j$ is around 20\% of contact conductance. 
 
 \begin{figure}[!ht]
     \centering
@@ -513,7 +513,13 @@ The amount of energy transfered between the two particles is a function of not o
 \label{fig:qc-vs-qr}
 \end{figure}
 
-Temperatures expected in the solid breeder will range between, approximately, \SI{300}{\celsius} and \SI{800}{\celsius}. And as such, there will be regions where radiation is negligible and regions where radiation is just as important to heat transfer as conduction. Radiation exchange between contacting neighbors in a packed bed becomes extremely complex due to the local and semi-local nature of radiation. A standard approach to treat radiation exchange between surfaces is to consider the view factor between them. In a dense, randomly packed bed of spheres the computation of view factors between pebbles can be done \textit{via} a method such as that proposed by Feng and Han \cite{Feng2012}. Unfortunately, in the current implementation of DEM, ray-tracing of view factors is not accomplished and no radiation heat transfer is calculated. Radiation is one of the most important features that should be included in future iterations of DEM modeling.
+Temperatures expected in the solid breeder will range between, approximately, \SI{300}{\celsius} and \SI{800}{\celsius}. If we choose a criteria that radiation heat transfer is negligible if it is less than 15\% of the value of conduction heat transfer, then any particles above \SI{550}{\celsius} would violate the assumption of negligibility of radiation. However we will maintain in this research to neglect any contribution of radiation. The challenge of incorporating radiation into DEM is due to the non-locality of radiation. In the work of Feng and Han to calculate view factors in packed beds, they found that in random packings, pebbles as far away as 5 diameters from the pebble of interest contribute to radiative transfer, as shown in \Cref{fig:packing-vf}.\cite{Feng2012} We leave it to future iterations of the DEM model to incorporate the view factor calculation and radiative heat transport in DEM.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/conduction-vs-radiation/cum-view-factors}
+    \caption{Cumulative view factors for different packing structures. Reproduced from Ref.\cite{Feng2012}}
+    \label{fig:packing-vf}
+\end{figure}
 % Alternatively, as seen in the ZSB model, radiation may be incorporated into general expressions of $\keff$. Others have attempted to incorporate radiation into an effective thermal conductivity and typically it is done with a superposition of gas/solid conduction models (such as all those described above) with a separate radiation model. One common technique is to analyze a representative unit cell with a thermal radiative conductivity of a general form,
 % \begin{equation}
 %      k_e^r = 4 F_E^*\sigma d_p \bar{T}^3
