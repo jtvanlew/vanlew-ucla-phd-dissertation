@@ -25,7 +25,7 @@ color_idx = [[0./255,107./255,164./255],
 
 T_cfd = [600]
 k_64 = [1.203]
-k_62 = [1.1047]
+k_62 = [1.047]
 
 T_dig, k_e_dig_hat = load_digitized_csv('hatano.csv')
 strain_dig, k_e_dig_tan = load_digitized_csv('tanigawa.csv')
