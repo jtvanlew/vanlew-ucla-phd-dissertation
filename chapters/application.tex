@@ -596,7 +596,7 @@ z_\text{lim} = \frac{N\pi d_p^3}{6x_\text{lim}y_\text{lim}\phi}
 \end{equation}
 where $x_\text{lim}$ and $y_\text{lim}$ are the limits given above. The result is approximately 7 pebble diameters of height ($7.16 d_p$) in the flow direction. Primitive walls are also placed at the limits of $z$.
 
-The damaged pebble bed case considers fragments of size $r^* = 0.2$ and a damage amount of $\eta = 5\%$ (following the syntax developed in \Cref{sec:isfnt-12}). A resolution of $\res = 40$ is chosen in order to properly resolve the smaller fragments of the bed with damaged pebbles. Such a resolution dictates lattices of size $N_x = 241$, $N_y = 161$, and $N_z = 368$ for a total of approximately 14.2 billion LBM nodes. The grid spacing is $\delta_x = \num{25e-3}$. A lattice velocity is chosen as $u_{0,lb} = 0.02$ which sets the lattice timestep size as $\delta_t = \num{500e-6}$. 
+The damaged pebble bed case considers fragments of size $r^* = 0.2$ and a damage amount of $\eta = 5\%$ (following the syntax developed in \Cref{sec:isfnt-12}). A resolution of $\res = 40$ is chosen in order to properly resolve the smaller fragments of the bed with damaged pebbles. Such a resolution dictates lattices of size $N_x = 241$, $N_y = 161$, and $N_z = 368$ for a total of approximately 14.2 million LBM nodes. The grid spacing is $\delta_x = \num{25e-3}$. A lattice velocity is chosen as $u_{0,lb} = 0.02$ which sets the lattice timestep size as $\delta_t = \num{500e-6}$. 
 
 The relaxation parameters, $\omega$, for the lattice solving the momentum equation ($\omega_{ns}$), the lattice nodes representing the solid in the energy equation ($\omega_{cj}$) and the lattice nodes for the fluid in the energy equation ($\omega_{ad}$) are given in \Cref{tab:lbm-relaxations}.
 

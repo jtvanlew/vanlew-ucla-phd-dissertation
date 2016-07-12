@@ -107,25 +107,25 @@ errJ = error(E2,E3)
 
 
 
-######################################################
-# PLOT JUNK
-plt.figure(1)
-plt.title('Bi = %s'%(Bi))
-plt.plot(tstar, E1, marker = 'x', label = 'LC', color='k')
-# plt.plot(tstar, E2, marker = 'o', label = 'Jeffreson', color='k')
-plt.plot(tstar, E3, label = 'Exact', color='k')
-plt.ylim([0, 1])
-plt.xlim([0, tauscale/Bi])
-plt.legend(loc='best')
+# ######################################################
+# # PLOT JUNK
+# plt.figure(1)
+# plt.title('Bi = %s'%(Bi))
+# plt.plot(tstar, E1, marker = 'x', label = 'LC', color='k')
+# # plt.plot(tstar, E2, marker = 'o', label = 'Jeffreson', color='k')
+# plt.plot(tstar, E3, label = 'Exact', color='k')
+# plt.ylim([0, 1])
+# plt.xlim([0, tauscale/Bi])
+# plt.legend(loc='best')
 
-plt.figure(2)
-plt.title('Bi = %s'%(Bi))
-plt.xlim([0, tauscale/Bi])
-plt.semilogy(tstar, err, 'k',label='LC error')
-plt.semilogy(tstar, errJ, 'k--', label='Jeffreson error')
-plt.legend(loc='best')
-######################################################
+# plt.figure(2)
+# plt.title('Bi = %s'%(Bi))
+# plt.xlim([0, tauscale/Bi])
+# plt.semilogy(tstar, err, 'k',label='LC error')
+# plt.semilogy(tstar, errJ, 'k--', label='Jeffreson error')
+# plt.legend(loc='best')
+# ######################################################
 
 
-plt.show()
+# plt.show()
 

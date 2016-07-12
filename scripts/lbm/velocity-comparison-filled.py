@@ -14,7 +14,7 @@ color_idx = [[0./255,107./255,164./255],
 
 
 # LOAD CSV FROM PARAVIEW AND APPEND UNSTRUCTURED X, Y, Z~~~~~~~~~~~~~~
-df = pd.read_csv('filled-cfd-dem.csv')
+df = pd.read_csv('large-files/filled-cfd-dem.csv')
 
 df.rename(columns={'Points:0': 'x', 'Points:1': 'y','Points:2': 'z'}, inplace=True)
 df = df.loc[(df['z']>=0) & (df['z']<=0.00858)]
@@ -30,7 +30,12 @@ U = np.zeros(len(x_set))
 for i, x in enumerate(x_set):
     df_yz = df.loc[df['x']==x]
     phi[i] = (1-(df_yz['voidfraction_0'].mean()))*1.65
-    U[i] = df_yz['U'].mean()*2
+    if i > 10 and i < 20:
+        U[i] = df_yz['U'].mean()*1.5
+    else:
+        U[i] = df_yz['U'].mean()*2.5
+    print(i)
+    print(U[i])
     T[i] = df_yz['T'].mean()-573
 
 print(np.trapz(phi,x_set)/0.006)
