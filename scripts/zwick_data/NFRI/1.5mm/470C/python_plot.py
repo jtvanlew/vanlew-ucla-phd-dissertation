@@ -53,5 +53,5 @@ plt.annotate('F = 7.73 N\nEnsemble-average\ncrush limit', xy=(7.73, 0.15), xytex
             )
 plt.xlabel('Force (N)')
 plt.ylabel('Normalized probability')
-#plt.legend(('With elasticity reduction factor',"Standard Young's Modulus"))
+#plt.legend(('With elasticity reduction factor',"Standard Young Modulus"))
 plt.show()

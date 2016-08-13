@@ -170,7 +170,7 @@ plt.hist(data, histtype='stepfilled', alpha=0.6, color='c')
 plt.ylabel('Count')
 
 # label for youngs modulus
-# plt.xlabel("Young's modulus (GPa)")
+# plt.xlabel("Young modulus (GPa)")
 
 # label for strain energy
 plt.xlabel('Strain energy (mJ)')

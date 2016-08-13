@@ -110,7 +110,7 @@ for loadname in filenames:
 
 plt.plot(np.sort(kpeb*Epebbulk)/10.**9, 'o')
 plt.xlabel('Sorted pebble number')
-plt.ylabel("Modified Young's modulus (GPa)")
+plt.ylabel("Modified Young modulus (GPa)")
 
 import scipy
 R = scipy.stats.pearsonr(dp, kpeb)
