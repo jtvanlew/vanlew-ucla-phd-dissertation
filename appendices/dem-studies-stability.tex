@@ -109,9 +109,9 @@ We allow for the particles in the system to have varying density, elastic modulu
 % \caption{Curves showing the rate of response to time step on the various normal-contact parameters.}\label{fig:stability-curves}
 % \end{figure}
 
-% It is apparent that simulations become less stable primarily as the pebble diameter decreases and then slightly less so for decreasing density and increasing the effective Young modulus. It takes a rather large increase in the maximum contact force to cause the stable time step to decrease. This is a fortunate result as it is primarily material properties which dictate stability of a DEM simulation. If external pressures increase and cause increases in the maximum normal contact force in the ensemble, it is unlikely to cause instabilities in the model. The result also provides insight into scaling of physical parameters to allow larger time steps and thereby shorter overall duration of simulations.
+% It is apparent that simulations become less stable primarily as the pebble diameter decreases and then slightly less so for decreasing density and increasing the effective elastic modulus. It takes a rather large increase in the maximum contact force to cause the stable time step to decrease. This is a fortunate result as it is primarily material properties which dictate stability of a DEM simulation. If external pressures increase and cause increases in the maximum normal contact force in the ensemble, it is unlikely to cause instabilities in the model. The result also provides insight into scaling of physical parameters to allow larger time steps and thereby shorter overall duration of simulations.
 
-The ceramic materials identified for breeders have relatively high Young moduli, on the order of \SI{10e10}{\pascal}. The smallest radius will be on the order of \SI{10e-4}{\meter}. The ceramic density is approximately on the scale of \SI{10e4}{\kilogram\per\cubic\meter}. These values lead to a necessary time step of
+The ceramic materials identified for breeders have relatively high elastic moduli, on the order of \SI{10e10}{\pascal}. The smallest radius will be on the order of \SI{10e-4}{\meter}. The ceramic density is approximately on the scale of \SI{10e4}{\kilogram\per\cubic\meter}. These values lead to a necessary time step of
 
 \begin{equation}
 	\delta t_c \propto \SI{10e-7}{s}
