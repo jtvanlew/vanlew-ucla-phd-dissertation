@@ -1,6 +1,5 @@
 % UCLA THESIS TITLE PAGE STYLE (format for preliminary pages)
-% (C) Copyright 2012 by Jose Hales-Garcia
-% derived from (C) Copyright 1995 by John Heidemann,
+% (C) Copyright 1995 by John Heidemann,
 % derived from work (C) Copyright 1988 Richard B. Wales,
 % taken in turn from material Copyright (C) 1985 by Leslie Lamport.
 
@@ -8,8 +7,8 @@
 % Version checking.
 %%%
 \NeedsTeXFormat{LaTeX2e}
-\def\uclathtiversion{2.0}
-\def\uclathtidate{2012/05/03}
+\def\uclathtiversion{1.0 beta}
+\def\uclathtidate{1995/05/11}
 \ProvidesFile{uclathti}[\uclathtidate, \uclathtiversion]
 
 %
@@ -24,7 +23,7 @@
   % Spacing was not set, set it here as if we were uclathes.cls.
   % \typeout{Spacing not set.}
   \def\@singlespacing{1.0}
-  \def\@doublespacing{1.544}    % see above for explanation of value
+  \def\@doublespacing{1.544}	  % see above for explanation of value
   \let\@spacing=\@singlespacing
 \fi
 
@@ -55,9 +54,9 @@
 \newcommand{\ColumnRestore}{\if@ColumnSaveValue\twocolumn\fi}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                      %
-%           TITLE PAGE             %
-%                      %
+%								       %
+%			      TITLE PAGE			       %
+%								       %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand\@maketitlepage{
@@ -70,7 +69,7 @@
          \textbf{\@titlesize \@title} \\
          \vskip 48pt plus0pt minus18pt
          \normalsize A \@thesisname\
-   submitted in partial satisfaction \\
+	 submitted in partial satisfaction \\
          of the requirements for the degree \\
          \@degreename\if@department\ in \@department \fi\\
          \vskip 24pt plus0pt minus6pt
@@ -85,9 +84,9 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                      %
-%         COPYRIGHT PAGE             %
-%                      %
+%								       %
+%			    COPYRIGHT PAGE			       %
+%								       %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newif\if@copyright
@@ -108,17 +107,17 @@
          %\ifx\@copyrightyear\@degreeyear\else , \@degreeyear \fi
          %\ by \@author \\
          %\@copyrightinfo
-   \normalsize \normalfont \copyright\ Copyright by \\
-   \@author \\ \@copyrightyear
+	 \normalsize \normalfont \copyright\ Copyright by \\
+	 \@author \\ \@copyrightyear
       \end{center}
    \fi
    \ColumnRestore
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                      %
-%         SIGNATURE PAGE             %
-%                      %
+%								       %
+%			    SIGNATURE PAGE			       %
+%								       %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % The following definitions for "\chair" and "\member" allow for one or
@@ -152,18 +151,17 @@
 % changed, it may be desirable to change the "\vskip" before the name.
 
 \newcommand\@signatureline[1]{
-   \vskip-10pt{#1} \\
-   \vskip 24pt plus0pt minus15pt%
+   #1
+   
 }
 
 \newcommand\@makesignaturepage{
    \ColumnSave
-%   \setcounter{page}{4}
    \noindent
    \renewcommand\baselinestretch{\@doublespacing}\@normalsize
    \normalsize \normalfont The \@thesisname\ of \@author\ is approved.
-   \vskip 12pt plus0pt minus24pt
-   \begin {center}
+   
+   {\centering
       \ifnum\c@members>5 \@signatureline{\@memberF}\fi
       \ifnum\c@members>4 \@signatureline{\@memberE}\fi
       \ifnum\c@members>3 \@signatureline{\@memberD}\fi
@@ -182,19 +180,20 @@
          \@signatureline{\@chairA, Committee Chair}
       \else\typeout{No committee chair.}
       \fi\fi\fi
-   \end {center}
-   \vskip 36pt
-   \begin {center}
-      University of California, Los Angeles \\ \@degreeyear
-   \end {center}
+      \vskip 72pt
+      University of California, Los Angeles
+      
+      \@degreeyear
+      
+   }
    \ColumnRestore
    \renewcommand\baselinestretch{\@spacing}\@normalsize
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                      %
-%        DEDICATION PAGE             %
-%                      %
+%								       %
+%			   DEDICATION PAGE			       %
+%								       %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newif\if@dedication
@@ -206,10 +205,10 @@
       \ColumnSave
       \par\pagestyle{plain}
       \renewcommand\baselinestretch{\@spacing}\@normalsize\normalfont
-      \vspace*{0pt}   % force spacing at top of page
+      \vspace*{0pt}		% force spacing at top of page
       \vfill
       \begin{center}
-   \@dedication
+	 \@dedication
       \end{center}
       \vfill
       \ColumnRestore
@@ -217,9 +216,9 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                      %
-%      ACKNOWLEDGMENTS PAGE            %
-%                      %
+%								       %
+%			 ACKNOWLEDGMENTS PAGE			       %
+%								       %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newif\if@acks
@@ -247,9 +246,9 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                      %
-%           VITA PAGE              %
-%                      %
+%								       %
+%			      VITA PAGE				       %
+%								       %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % This definition for the "\vitaitem" command allows for up to 26 vita
@@ -260,7 +259,7 @@
 \newcounter{vitaitems}
 \setcounter{vitaitems}{0}
 \newcommand\@vitadate[1]{{\parbox[t]{1.25in}{\normalfont{#1}}}}
-\newcommand\@vitatext[1]{{\parbox[t]{4.45in}{\normalfont{#1}}}}
+\newcommand\@vitatext[1]{{\parbox[t]{5.25in}{\normalfont{#1}}}}
 \newcommand\vitaitem[2]{
    \ifcase\value{vitaitems}
       \def\@vitaA{\@vitadate{#1} & \@vitatext{#2}} \or
@@ -341,7 +340,7 @@
 
 \newcommand\@printvitaitem[1]{
    \noindent
-   \begin {tabular} {@{}p{1.25in}@{}p{4.45in}}
+   \begin {tabular} {@{}p{1.25in}@{}p{5.25in}@{}}
       #1
    \end {tabular}
 }
@@ -388,20 +387,20 @@
       \ifnum\c@vitaitems>25 \@printvitaitem{\@vitaZ} \fi
       \ifnum\c@publications>0{
          \ifx\@spacing\@doublespacing\parskip 24pt plus 4pt
-   \else                       \parskip 12pt plus 2pt
-   \fi
-   \vskip 42pt
-   \begin{center}
-      \large \scshape
-      \if@pubs
-         \if@pres Publications and Presentations
-         \else    Publications
-         \fi
-      \else       Presentations
-      \fi
-      \\
-   \end{center}
-   \nobreak \vskip 12pt
+	 \else                       \parskip 12pt plus 2pt
+	 \fi
+	 \vskip 36pt
+	 \begin{center}
+	    \large \scshape
+	    \if@pubs
+	       \if@pres Publications and Presentations
+	       \else    Publications
+	       \fi
+	    \else       Presentations
+	    \fi
+	    \\
+	 \end{center}
+	 \nobreak \vskip 12pt
          \ifnum\c@publications>0  \@printpubitem{\@pubA} \fi
          \ifnum\c@publications>1  \@printpubitem{\@pubB} \fi
          \ifnum\c@publications>2  \@printpubitem{\@pubC} \fi
@@ -435,9 +434,9 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                      %
-%         ABSTRACT PAGE            %
-%                      %
+%								       %
+%			    ABSTRACT PAGE			       %
+%								       %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newif\if@abstract
@@ -461,7 +460,7 @@
          \normalsize \normalfont by\\[12pt]
          \textbf{\large \@author} \\
          \normalsize \normalfont
-   \@degreename\if@department\ in \@department \fi\\
+	 \@degreename\if@department\ in \@department \fi\\
          University of California, Los Angeles, \@degreeyear \\
          \ifnum\c@chairs>2
             Professor \@chairA, Co-chair \\
@@ -485,14 +484,14 @@
       % as well use the whole \textwidth.
       %
       \ifthenelse{\equal{#1}{\@stdsinglespacing}}{
-  \begin{center}
-  \begin{minipage}{4.75in}
-  \setlength{\parindent}{1.5em}
-  \@abstract
+	\begin{center}
+	\begin{minipage}{4.75in}
+	\setlength{\parindent}{1.5em}
+	\@abstract
         \end{minipage}
-  \end{center}
+	\end{center}
       }{
-  \@abstract
+	\@abstract
       }
 
       \renewcommand\baselinestretch{\@spacing}\@normalsize
@@ -503,9 +502,9 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                      %
-%         PRINT ALL PRELIMINARY PAGES          %
-%                      %
+%								       %
+%		      PRINT ALL PRELIMINARY PAGES		       %
+%								       %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand\makeintropages{

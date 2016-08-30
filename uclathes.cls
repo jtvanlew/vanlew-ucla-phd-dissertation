@@ -169,7 +169,7 @@
 \DeclareOption{MA}{\thesis{Master of Arts}}
 \DeclareOption{MS}{\thesis{Master of Science}}
 \DeclareOption{EdD}{\dissertation{Doctor of Education}\@departmentfalse}
-\DeclareOption{prospectus}{\prospectus{Doctor of Philosophy}}
+
 
 % The following commands will process the "single" or "double" option.
 % (The default is "double".)  This controls inter-line spacing.  Note
@@ -718,7 +718,7 @@
 % the right mark is changed by a \section command.  However, it does
 % produce somewhat anomalous results if two \bothmark's occur on the same page.
 % 
-\setlength{\paperheight}{11in}
+
 \mark{{}{}}   % Initializes TeX's marks
 
 % \def\ps@empty{\def\@oddhead{}
